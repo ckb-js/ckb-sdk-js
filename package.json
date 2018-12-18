@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "publish": "lerna run tsc && lerna publish"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.15",
+    "lerna": "^3.6.0",
+    "typescript": "^3.2.2"
+  },
+  "name": "ckb-sdk.js"
+}
