@@ -1,5 +1,5 @@
 {
-  "name": "@ckb-sdk/core",
+  "name": "@ckb-sdk/rpc",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
@@ -28,8 +28,5 @@
   },
   "bugs": {
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
-  },
-  "dependencies": {
-    "@ckb-sdk/rpc": "^0.0.0"
   }
 }

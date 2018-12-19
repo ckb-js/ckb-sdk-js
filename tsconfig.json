@@ -13,7 +13,7 @@
     "declaration": true,
     /* Generates corresponding '.d.ts' file. */
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    "sourceMap": true,
+    // "sourceMap": true,
     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     // "outDir": "./",                        /* Redirect output structure to the directory. */
@@ -42,9 +42,9 @@
     /* Parse in strict mode and emit "use strict" for each source file. */
 
     /* Additional Checks */
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     /* Report errors on unused locals. */
-    "noUnusedParameters": true,
+    // "noUnusedParameters": true,
     /* Report errors on unused parameters. */
     "noImplicitReturns": true,
     /* Report error when not all code paths in function return a value. */
@@ -75,5 +75,5 @@
     "emitDecoratorMetadata": true
     /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "*/**/debug.ts"]
 }
