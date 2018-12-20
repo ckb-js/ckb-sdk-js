@@ -3,4 +3,5 @@ node_modules/
 *.log
 packages/*/lib
 .idea
-package-lock.json
+*/**/package-lock.json
+*/**/debug.ts
