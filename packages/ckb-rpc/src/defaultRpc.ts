@@ -28,8 +28,8 @@ const defaultRpc: IMethod[] = [
     resultFormatters: [resultFmts.toHeader],
   },
   {
-    name: 'getCallByTypeHash',
-    method: 'get_call_by_type_hash',
+    name: 'getCellByTypeHash',
+    method: 'get_cell_by_type_hash',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: [resultFmts.toCellOutputWithOutput],
   },
@@ -46,4 +46,24 @@ const defaultRpc: IMethod[] = [
     resultFormatters: [resultFmts.toNumber],
   },
 ]
-export default defaultRpc
+export class DefaultPrc {
+  protected defaultMethods = defaultRpc
+
+  /* eslint-disable */
+  public getBlock(hash: string): any {}
+
+  public getTransaction(hash: string): any {}
+
+  public getBlockHash(number: number): any {}
+
+  public getTipHeader(): any {}
+
+  public getCellByTypeHash(hash: string): any {}
+
+  public getCurrentCell(): any {}
+
+  public getTipBlockNumber(): any {}
+  /* eslint-enable */
+}
+
+export default DefaultPrc

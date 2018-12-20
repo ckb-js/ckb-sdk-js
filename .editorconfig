@@ -37,3 +37,4 @@ trim_trailing_whitespace = false
 
 [*.ts]
 semi = false
+trailing_comma = true

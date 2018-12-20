@@ -1,17 +1,23 @@
-import defaultRpc from './defaultRpc'
+import DefaultRpc from './defaultRpc'
 import { INode, IMethod } from '../typings'
+import { DEBUG_LEVEL } from './enum'
 import Method from './method'
 
-class CKBRpc {
+class CKBRpc extends DefaultRpc {
   private _node: INode
 
   private _methods: Method[] = []
 
+  public setDebugLevel = (level: DEBUG_LEVEL) => {
+    Method.debugLevel = level
+  }
+
   constructor(nodeUrl: string) {
+    super()
     this._node = {
       url: nodeUrl,
     }
-    defaultRpc.map(this.addMethod)
+    this.defaultMethods.map(this.addMethod)
   }
 
   public get node() {
