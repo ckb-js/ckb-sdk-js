@@ -28,8 +28,8 @@ const defaultRpc: IMethod[] = [
     resultFormatters: [resultFmts.toHeader],
   },
   {
-    name: 'getCellByTypeHash',
-    method: 'get_cell_by_type_hash',
+    name: 'getCellsByTypeHash',
+    method: 'get_cells_by_type_hash',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: [resultFmts.toCellOutputWithOutput],
   },
@@ -58,7 +58,7 @@ export class DefaultPrc {
 
   public getTipHeader(): any {}
 
-  public getCellByTypeHash(hash: string): any {}
+  public getCellsByTypeHash(hash: string): any {}
 
   public getCurrentCell(): any {}
 
