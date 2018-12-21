@@ -25,5 +25,9 @@
   },
   "bugs": {
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
+  },
+  "dependencies": {
+    "@ckb-sdk/types": "^0.0.0",
+    "@ckb-sdk/utils": "^0.0.0"
   }
 }

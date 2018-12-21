@@ -45,6 +45,12 @@ const defaultRpc: IMethod[] = [
     paramsFormatters: [],
     resultFormatters: [resultFmts.toNumber],
   },
+  {
+    name: 'sendTransaction',
+    method: 'send_transaction',
+    paramsFormatters: [paramsFmts.toTx],
+    resultFormatters: [resultFmts.toTxRes],
+  },
 ]
 export class DefaultPrc {
   protected defaultMethods = defaultRpc

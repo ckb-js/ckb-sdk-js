@@ -8,5 +8,6 @@ const formatter = {
   toCellOutputWithOutput: (cell: any) => cell,
   toCellWithStatus: (cell: any) => cell,
   toBlockWithHash: (block: any) => block,
+  toTxRes: (txRes: any) => txRes,
 }
 export default formatter
