@@ -17,7 +17,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^10.12.15",
+    "@types/node": "^10.12.18",
     "commitizen": "^3.0.5",
     "cz-conventional-changelog": "2.1.0",
     "dotenv": "^6.2.0",

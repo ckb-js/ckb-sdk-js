@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "es6",
     "outDir": "./lib",
-    "types": ["@ckb-sdk/types"]
+    "typeRoots": ["./node_modules/@types"],
+    // "types": ["@ckb-sdk/types", "node", "tiny-secp256k1"]
   },
   "include": ["./src"]
 }
