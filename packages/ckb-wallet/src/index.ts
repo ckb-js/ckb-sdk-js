@@ -1,17 +1,17 @@
+import Account from './account'
+
 class Wallet {
-  // constructor() {
-  //   // TODO:
-  // }
+  static accountFromPrivateKey = (pk: Buffer) => new Account(pk)
 
   public newAccount = () => {
     // TODO:
   }
 
-  public generateTx = (toAddr: string, capacity: number) => {
+  public generateTx = (toAddr: Buffer, capacity: number) => {
     // TODO:
   }
 
-  public sendCapacity = (toAddr: string, capacity: number) => {
+  public sendCapacity = (toAddr: Buffer, capacity: number) => {
     // TODO:
   }
 
@@ -49,9 +49,9 @@ class Wallet {
 
   public getUnspentCells = () => []
 
-  public verifyScriptJsonObject = () => {
-    // TODO:
-  }
+  // public verifyScriptJsonObject = () => {
+  //   // TODO:
+  // }
 
   // public verifyScriptJsonObject = () => {
   //   return {

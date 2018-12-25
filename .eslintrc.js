@@ -21,7 +21,8 @@ module.exports = {
     "import/no-extraneous-dependencies": ['./'],
     "indent": ["error", 2],
     "no-mixed-operators": [0],
-    "implicit-arrow-linebreak": [0]
+    "implicit-arrow-linebreak": [0],
+    "no-unused-expression": [0]
 
   },
   "env": {
