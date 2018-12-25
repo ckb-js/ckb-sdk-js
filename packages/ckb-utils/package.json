@@ -20,9 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
   },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
+  "scripts": {},
   "bugs": {
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
   },

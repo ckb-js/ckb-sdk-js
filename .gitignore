@@ -5,3 +5,5 @@ packages/*/lib
 .idea
 */**/package-lock.json
 */**/debug.ts
+*/**/config.js
+*/**/.env

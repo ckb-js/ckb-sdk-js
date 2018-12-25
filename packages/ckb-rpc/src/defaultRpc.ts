@@ -1,8 +1,7 @@
-import { IMethod } from '../typings'
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-const defaultRpc: IMethod[] = [
+const defaultRpc: CkbComponents.IMethod[] = [
   {
     name: 'getBlock',
     method: 'get_block',
@@ -56,19 +55,13 @@ export class DefaultPrc {
   protected defaultMethods = defaultRpc
 
   /* eslint-disable */
-  public getBlock(hash: string): any {}
-
-  public getTransaction(hash: string): any {}
-
-  public getBlockHash(number: number): any {}
-
-  public getTipHeader(): any {}
-
-  public getCellsByTypeHash(hash: string): any {}
-
-  public getCurrentCell(): any {}
-
-  public getTipBlockNumber(): any {}
+  public getBlock!: (hash: CkbComponents.Hash) => Promise<CkbComponents.IBlock>
+  public getTransaction!: (hash: CkbComponents.Hash) => Promise<CkbComponents.ITransaction>
+  public getBlockHash!: (number: CkbComponents.BlockNumber) => Promise<CkbComponents.Hash>
+  public getTipHeader!: () => Promise<CkbComponents.IHeader>
+  public getCellsByTypeHash!: (hash: string) => Promise<CkbComponents.ICell>
+  public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
+  public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
   /* eslint-enable */
 }
 

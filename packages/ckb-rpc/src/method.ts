@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { INode, IMethod } from '../typings'
 import { DEBUG_LEVEL, LOG_COLOR } from './enum'
 
 class Method {
-  private _options: IMethod = {
+  private _options: CkbComponents.IMethod = {
     name: '',
     method: '',
     paramsFormatters: [],
@@ -12,11 +11,11 @@ class Method {
 
   static debugLevel = DEBUG_LEVEL.OFF
 
-  private _node: INode = {
+  private _node: CkbComponents.INode = {
     url: '',
   }
 
-  constructor(options: IMethod, node: INode) {
+  constructor(options: CkbComponents.IMethod, node: CkbComponents.INode) {
     this._options = options
     this._node = node
   }
@@ -40,6 +39,7 @@ class Method {
         throw new Error('JSONRPC id not match')
       }
       if (Method.debugLevel === DEBUG_LEVEL.ON) {
+        /* eslint-disabled */
         console.group()
         console.group()
         console.info(
@@ -58,8 +58,12 @@ class Method {
         console.info(res.data)
         console.groupEnd()
         console.groupEnd()
+        /* eslint-enabled */
       }
-      return res.data
+      if (res.data.result === undefined) {
+        throw new Error('No Result')
+      }
+      return res.data.result
     })
   }
 }

@@ -1,7 +1,7 @@
 module.exports = {
   "extends": "airbnb-base",
   "parser": "typescript-eslint-parser",
-  "plugins": ["prettier", "typescript"],
+  "plugins": ["prettier", "typescript", "jest"],
   "rules": {
     "prettier/prettier": ["warn", {
       "semi": false,
@@ -17,6 +17,11 @@ module.exports = {
     "semi": [2, "never"],
     "no-console": [0],
     "no-unused-vars": [0],
-    "arrow-parens": [0]
+    "arrow-parens": [0],
+    "import/no-extraneous-dependencies": ['./']
+  },
+  "env": {
+    "node": true,
+    "jest": true
   }
 }
