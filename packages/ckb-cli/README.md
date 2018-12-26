@@ -1,11 +1,11 @@
-# `add-cli`
+# `ckb-cli`
 
 > TODO: description
 
 ## Usage
 
 ```
-const addCli = require('add-cli');
+const ckbCli = require('ckb-cli');
 
 // TODO: DEMONSTRATE API
 ```

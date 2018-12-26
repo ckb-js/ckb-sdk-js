@@ -26,6 +26,7 @@
   },
   "scripts": {
     "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

@@ -16,8 +16,8 @@ export enum RPC_METHODS {
   SEND_TRANSACTION = 'sendTransaction',
 }
 const choices = Object.keys(RPC_METHODS)
-  .filter(k => typeof RPC_METHODS[k] === 'number')
-  .map(k => RPC_METHODS[k])
+  .filter(k => typeof RPC_METHODS[k as any] === 'number')
+  .map(k => RPC_METHODS[k as any])
 
 const questions: Question[] = [
   {
