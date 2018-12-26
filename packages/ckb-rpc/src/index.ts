@@ -19,6 +19,11 @@ class CKBRpc extends DefaultRpc {
     this.defaultMethods.map(this.addMethod)
   }
 
+  public setNode(node: CkbComponents.INode): CkbComponents.INode {
+    this._node = node
+    return this._node
+  }
+
   public get node() {
     return this._node
   }
