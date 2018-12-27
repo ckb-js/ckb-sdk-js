@@ -1,15 +1,19 @@
-import CKBRpc from '@ckb-sdk/rpc'
+import Rpc from '@ckb-sdk/rpc'
+import Wallet from '@ckb-sdk/wallet'
 
-class CKBCore {
-  private _rpc: CKBRpc
+class Core {
+  private _rpc: Rpc
 
   private _node: CkbComponents.INode
+
+  private _wallet: Wallet
 
   constructor(nodeUrl: string) {
     this._node = {
       url: nodeUrl,
     }
-    this._rpc = new CKBRpc(nodeUrl)
+    this._rpc = new Rpc(nodeUrl)
+    this._wallet = new Wallet(this._rpc)
   }
 
   public setNode(node: string | CkbComponents.INode): CkbComponents.INode {
@@ -20,6 +24,7 @@ class CKBCore {
     }
 
     this._rpc.setNode(this._node)
+    this._wallet.setRpc(this._rpc)
 
     return this._node
   }
@@ -28,9 +33,9 @@ class CKBCore {
     return this._node
   }
 
-  public get rpc(): CKBRpc {
+  public get rpc(): Rpc {
     return this._rpc
   }
 }
 
-export default CKBCore
+export default Core

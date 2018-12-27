@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@ckb-sdk/rpc": "^0.0.0",
-    "@ckb-sdk/types": "^0.0.0"
+    "@ckb-sdk/types": "^0.0.0",
+    "@ckb-sdk/wallet": "^0.0.0"
   }
 }

@@ -20,12 +20,19 @@
     "type": "git",
     "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
   },
-  "scripts": {},
+  "scripts": {
+    "tsc": "tsc",
+    "test": "../../node_modules/.bin/jest",
+    "test:watch": "../../node_modules/.bin/jest --watch"
+  },
   "bugs": {
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
   },
   "dependencies": {
     "@ckb-sdk/types": "^0.0.0",
     "@ckb-sdk/utils": "^0.0.0"
+  },
+  "devDependencies": {
+    "@ckb-sdk/rpc": "^0.0.0"
   }
 }
