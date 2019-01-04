@@ -1,8 +1,7 @@
-import { IMethod } from '../typings'
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-const defaultRpc: IMethod[] = [
+const defaultRpc: CkbComponents.IMethod[] = [
   {
     name: 'getBlock',
     method: 'get_block',
@@ -12,7 +11,11 @@ const defaultRpc: IMethod[] = [
   {
     name: 'getTransaction',
     method: 'get_transaction',
-    paramsFormatters: [paramsFmts.toHash],
+    paramsFormatters: [
+      paramsFmts.toHash,
+      paramsFmts.toNumber,
+      paramsFmts.toNumber,
+    ],
     resultFormatters: [resultFmts.toTransactionWithHash],
   },
   {
@@ -30,7 +33,11 @@ const defaultRpc: IMethod[] = [
   {
     name: 'getCellsByTypeHash',
     method: 'get_cells_by_type_hash',
-    paramsFormatters: [paramsFmts.toHash],
+    paramsFormatters: [
+      paramsFmts.toHash,
+      paramsFmts.toNumber,
+      paramsFmts.toNumber,
+    ],
     resultFormatters: [resultFmts.toCellOutputWithOutput],
   },
   {
@@ -40,29 +47,46 @@ const defaultRpc: IMethod[] = [
     resultFormatters: [resultFmts.toCellWithStatus],
   },
   {
+    name: 'getLiveCell',
+    method: 'get_live_cell',
+    paramsFormatters: [paramsFmts.toOutPoint],
+    resultFormatters: [resultFmts.toCellWithStatus],
+  },
+  {
     name: 'getTipBlockNumber',
     method: 'get_tip_block_number',
     paramsFormatters: [],
     resultFormatters: [resultFmts.toNumber],
   },
+  {
+    name: 'sendTransaction',
+    method: 'send_transaction',
+    paramsFormatters: [paramsFmts.toTx],
+    resultFormatters: [resultFmts.toTxRes],
+  },
 ]
+
+// export interface T {
+//   id: number
+//   result: T
+// }
 export class DefaultPrc {
   protected defaultMethods = defaultRpc
 
   /* eslint-disable */
-  public getBlock(hash: string): any {}
-
-  public getTransaction(hash: string): any {}
-
-  public getBlockHash(number: number): any {}
-
-  public getTipHeader(): any {}
-
-  public getCellsByTypeHash(hash: string): any {}
-
-  public getCurrentCell(): any {}
-
-  public getTipBlockNumber(): any {}
+  public getBlock!: (hash: CkbComponents.Hash) => Promise<CkbComponents.IBlock>
+  public getTransaction!: (hash: CkbComponents.Hash) => Promise<CkbComponents.ITransaction>
+  public getBlockHash!: (number: CkbComponents.BlockNumber) => Promise<CkbComponents.Hash>
+  public getTipHeader!: () => Promise<CkbComponents.IHeader>
+  public getCellsByTypeHash!: (
+    hash: string,
+    from: CkbComponents.BlockNumber,
+    to: CkbComponents.BlockNumber,
+  ) => Promise<CkbComponents.ICell[]>
+  public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
+  public getLiveCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
+  public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
+  // public sendTransaction!:()
   /* eslint-enable */
 }
 

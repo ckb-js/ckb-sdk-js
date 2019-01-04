@@ -1,36 +1,23 @@
 {
-  "name": "@ckb-sdk/core",
+  "name": "@ckb-sdk/types",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
   "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
   "license": "ISC",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "index.d.ts",
+  "types": "index.d.ts",
   "directories": {
-    "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "publishConfig": {
-    "registry": "http://registry.npmjs.org/",
-    "access": "public"
+    "registry": "http://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
   },
-  "scripts": {
-    "tsc": "tsc"
-  },
   "bugs": {
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
-  },
-  "dependencies": {
-    "@ckb-sdk/rpc": "^0.0.0",
-    "@ckb-sdk/types": "^0.0.0",
-    "@ckb-sdk/wallet": "^0.0.0"
   }
 }

@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "dom"],
     "outDir": "./lib",
+    "types": ["@ckb-sdk/types"]
   },
-  "include": ["./src", "./typings"]
+  "include": ["./src"],
 }

@@ -1,12 +1,11 @@
 {
-  "name": "@ckb-sdk/core",
+  "name": "@ckb-sdk/utils",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
   "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
   "license": "ISC",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -15,8 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://registry.npmjs.org/",
-    "access": "public"
+    "registry": "http://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
@@ -29,8 +27,20 @@
     "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
   },
   "dependencies": {
-    "@ckb-sdk/rpc": "^0.0.0",
     "@ckb-sdk/types": "^0.0.0",
-    "@ckb-sdk/wallet": "^0.0.0"
+    "bech32": "^1.1.3",
+    "bs58check": "^2.1.2",
+    "create-hash": "^1.2.0",
+    "randombytes": "^2.0.6",
+    "safe-buffer": "^5.1.2",
+    "tiny-secp256k1": "^1.0.1",
+    "typeforce": "^1.18.0",
+    "utf8": "^3.0.0",
+    "wif": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/bitcoinjs-lib": "^4.0.0",
+    "@types/tiny-secp256k1": "^1.0.0",
+    "@types/utf8": "^2.1.6"
   }
 }

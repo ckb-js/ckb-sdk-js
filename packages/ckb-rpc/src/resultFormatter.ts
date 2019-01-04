@@ -1,6 +1,12 @@
-// import { Hash } from '../typings/index.d.ts';
+// declare namespace CkbRpc {
+//   export namespace Results {
+//     export interface ITransaction extends CkbComponents.ITransaction {
+//       version: number
+//     }
+//   }
+// }
 
-const formatter = {
+const formatters = {
   toNumber: (number: string | number) => +number,
   toHash: (hash: string) => hash,
   toHeader: (header: any) => header,
@@ -8,5 +14,6 @@ const formatter = {
   toCellOutputWithOutput: (cell: any) => cell,
   toCellWithStatus: (cell: any) => cell,
   toBlockWithHash: (block: any) => block,
+  toTxRes: (txRes: any) => txRes,
 }
-export default formatter
+export default formatters
