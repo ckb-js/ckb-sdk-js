@@ -2,11 +2,13 @@ import Rpc from '@ckb-sdk/rpc'
 import Account from './account'
 
 class Wallet {
-  static accountFromPrivateKey = (pk: Buffer) => new Account(pk, null, null)
+  static accountFromPrivateKey = (sk: Buffer) => new Account(sk, {})
 
   private _rpc: Rpc
 
   private _accounts: Account[] = []
+
+  public deps: CkbComponents.IOutPoint[] = []
 
   public constructor(rpc: Rpc) {
     this._rpc = rpc
@@ -23,25 +25,47 @@ class Wallet {
     this._rpc = rpc
   }
 
-  public newAccount = (sk: Buffer, pk: Buffer | null, opt: any) => {
+  public get rpc() {
+    return this._rpc
+  }
+
+  public newAccount = (sk: Buffer, opt: any) => {
     // TODO:
-    const acc = new Account(sk, pk, opt)
+    const acc = new Account(sk, opt)
     this._accounts.push(acc)
     return acc
   }
 
-  public generateTx = (
-    toAddr: Buffer = Buffer.from([]),
+  public getCells = (idx?: number): CkbComponents.ICell[] => []
+
+  public getCellsByTypeHash = (
+    typeHash: string,
+    from: number = 0,
+    to: number = Number.MAX_SAFE_INTEGER,
+  ) => this._rpc.getCellsByTypeHash(typeHash, from, to)
+
+  public getBalanceByTypeHash = (
+    typeHash: string,
+    from: number = 0,
+    to: number = Number.MAX_SAFE_INTEGER,
+  ) =>
+    this.getCellsByTypeHash(typeHash, from, to).then(cells => {
+      cells.reduce((acc, cell) => acc + cell.capacity, 0)
+    })
+
+  public genTxByTypeHash = async (
+    toAdd: Buffer = Buffer.from([]),
     capacity: number = 0,
+    typeHash: string = '',
   ) => {
+    const blockNumber = await this.rpc.getTipBlockNumber()
+    const cells = await this.getCellsByTypeHash(
+      typeHash,
+      blockNumber,
+      blockNumber,
+    )
     // TODO:
-    const deps = [
-      {
-        hash:
-          '0x15c809f08c7bca63d2b661e1dbc26c74551a6f982f7631c718dc43bd2bb5c90e',
-        index: 0,
-      },
-    ]
+    const deps = [...this.deps]
     const inputs = [
       {
         previous_output: {
@@ -86,7 +110,7 @@ class Wallet {
     toAddr: Buffer = Buffer.from([]),
     capacity: number = 0,
   ) => {
-    this.generateTx()
+    // this.generateTx()
     // this._rpc.
     // TODO:
   }
@@ -97,7 +121,7 @@ class Wallet {
     }
 
     let inputCapacities = 0
-    const inputs = []
+    const inputs: any[] = []
     const unspentCells = await this.getUnspentCells()
     unspentCells.every((cell: any) => {
       const input = {

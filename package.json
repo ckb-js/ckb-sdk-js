@@ -2,6 +2,7 @@
   "name": "ckb-sdk.js",
   "scripts": {
     "cm": "git-cz",
+    "cli": "./packages/ckb-cli/lib/index.js i",
     "publish": "lerna run tsc && lerna publish",
     "test": "jest"
   },

@@ -21,7 +21,12 @@ class Method {
   }
 
   public call = (...params: (string | number)[]) => {
-    const data = params.map((p, i) => this._options.paramsFormatters[i](p))
+    const data = params.map(
+      (p, i) =>
+        (this._options.paramsFormatters[i]
+          && this._options.paramsFormatters[i](p))
+        || p,
+    )
     const id = Math.round(Math.random() * 10000)
     const payload = {
       id,

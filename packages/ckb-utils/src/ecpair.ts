@@ -15,9 +15,9 @@ const isOptions = typeforce.maybe(
   }),
 )
 
-interface Options {
-  compressed: any
-  network: any
+export interface Options {
+  compressed?: boolean
+  network?: any
 }
 
 // function ECPair(d: string, Q:string, options = {}) {
@@ -32,16 +32,17 @@ class ECPair {
 
   public network: any
 
-  constructor(sk: Buffer | null, pk: Buffer | null, options: Options) {
-    this._sk = sk || this._sk
+  constructor(
+    sk: Buffer,
+    options: Options = { compressed: true, network: null },
+  ) {
+    this._sk = sk
     this._compressed = options.compressed || true
-    this.network = options.network || ''
-    if (pk) {
-      this._pk = ecc.pointCompress(pk, this._compressed)
-    }
+    this.network = options.network || {}
+    this._pk = ecc.pointFromScalar(this._sk, this._compressed) || this._pk
   }
 
-  get privateKey() {
+  get privateKey(): Buffer {
     return this._sk
   }
 
@@ -71,14 +72,14 @@ const fromPrivateKey = (buffer: Buffer, options: Options) => {
   typeforce(types.Buffer256bit, buffer)
   if (!ecc.isPrivate(buffer)) throw new TypeError('Private key not in range [1, n)')
   // typeforce(isOptions, options)
-  return new ECPair(buffer, null, options)
+  return new ECPair(buffer, options)
 }
 
-const fromPublicKey = (buffer: Buffer, options: Options) => {
-  typeforce(ecc.isPoint, buffer)
-  // typeforce()
-  return new ECPair(null, buffer, options)
-}
+// const fromPublicKey = (buffer: Buffer, options: Options) => {
+//   typeforce(ecc.isPoint, buffer)
+//   // typeforce()
+//   return new ECPair(null, buffer, options)
+// }
 
 const fromWIF = (string: string, network: any) => {
   const decoded = wif.decode(string)
@@ -86,7 +87,7 @@ const fromWIF = (string: string, network: any) => {
   // TODO:
 }
 
-const makeRandom = (options: any = {}) => {
+export const makeRandom = (options: any = {}) => {
   const { rng = randomBytes } = options
   let d
   do {

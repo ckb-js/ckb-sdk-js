@@ -11,7 +11,11 @@ const defaultRpc: CkbComponents.IMethod[] = [
   {
     name: 'getTransaction',
     method: 'get_transaction',
-    paramsFormatters: [paramsFmts.toHash],
+    paramsFormatters: [
+      paramsFmts.toHash,
+      paramsFmts.toNumber,
+      paramsFmts.toNumber,
+    ],
     resultFormatters: [resultFmts.toTransactionWithHash],
   },
   {
@@ -29,12 +33,22 @@ const defaultRpc: CkbComponents.IMethod[] = [
   {
     name: 'getCellsByTypeHash',
     method: 'get_cells_by_type_hash',
-    paramsFormatters: [paramsFmts.toHash],
+    paramsFormatters: [
+      paramsFmts.toHash,
+      paramsFmts.toNumber,
+      paramsFmts.toNumber,
+    ],
     resultFormatters: [resultFmts.toCellOutputWithOutput],
   },
   {
     name: 'getCurrentCell',
     method: 'get_current_cell',
+    paramsFormatters: [paramsFmts.toOutPoint],
+    resultFormatters: [resultFmts.toCellWithStatus],
+  },
+  {
+    name: 'getLiveCell',
+    method: 'get_live_cell',
     paramsFormatters: [paramsFmts.toOutPoint],
     resultFormatters: [resultFmts.toCellWithStatus],
   },
@@ -51,6 +65,11 @@ const defaultRpc: CkbComponents.IMethod[] = [
     resultFormatters: [resultFmts.toTxRes],
   },
 ]
+
+// export interface T {
+//   id: number
+//   result: T
+// }
 export class DefaultPrc {
   protected defaultMethods = defaultRpc
 
@@ -59,9 +78,15 @@ export class DefaultPrc {
   public getTransaction!: (hash: CkbComponents.Hash) => Promise<CkbComponents.ITransaction>
   public getBlockHash!: (number: CkbComponents.BlockNumber) => Promise<CkbComponents.Hash>
   public getTipHeader!: () => Promise<CkbComponents.IHeader>
-  public getCellsByTypeHash!: (hash: string) => Promise<CkbComponents.ICell>
+  public getCellsByTypeHash!: (
+    hash: string,
+    from: CkbComponents.BlockNumber,
+    to: CkbComponents.BlockNumber,
+  ) => Promise<CkbComponents.ICell[]>
   public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
+  public getLiveCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
   public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
+  // public sendTransaction!:()
   /* eslint-enable */
 }
 

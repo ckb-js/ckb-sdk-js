@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
+    "types": ["@ckb-sdk/types"]
   },
-  "include": ["./src", "./typings", "node_modules/@ckb-sdk/types"]
+  "include": ["./src"]
 }
