@@ -1,6 +1,6 @@
 # `ckb-rpc`
 
-> TODO: description
+This is **ckb-sdk** rpc module.
 
 ## Usage
 

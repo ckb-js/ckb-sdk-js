@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 declare namespace CkbComponents {
+  export type LocalNodeId = string
   export type Hash = string
   export type BlockNumber = number
   export interface INode {
@@ -12,9 +13,6 @@ declare namespace CkbComponents {
     resultFormatters: Function[]
   }
 
-  export interface IBlock {}
-
-  export interface IBlockWithHash extends IBlock {}
   export interface IInput {
     previous_output: {
       hash: Hash
@@ -69,11 +67,18 @@ declare namespace CkbComponents {
     raw: IRawHeader
     seal: ISealHeader
   }
+  export interface IBlock {
+    hash: Hash
+    header: IHeader
+    transactions: ITransactionWithHash[]
+  }
+
   export interface ICell {
     capacity: number
+    lock: Hash
     contract?: any
     data?: Uint8Array[]
-    lock: Hash
+    type?: string
     out_point?: {
       hash: Hash
       index: number

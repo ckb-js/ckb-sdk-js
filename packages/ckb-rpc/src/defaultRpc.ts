@@ -64,6 +64,12 @@ const defaultRpc: CkbComponents.IMethod[] = [
     paramsFormatters: [paramsFmts.toTx],
     resultFormatters: [resultFmts.toTxRes],
   },
+  {
+    name: 'localNodeId',
+    method: 'local_node_id',
+    paramsFormatters: [],
+    resultFormatters: [],
+  },
 ]
 
 // export interface T {
@@ -87,6 +93,7 @@ export class DefaultPrc {
   public getLiveCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
   public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
   // public sendTransaction!:()
+  public localNodeId!: () => Promise<CkbComponents.LocalNodeId>
   /* eslint-enable */
 }
 

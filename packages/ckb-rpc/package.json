@@ -1,9 +1,9 @@
 {
   "name": "@ckb-sdk/rpc",
   "version": "0.0.0",
-  "description": "> TODO: description",
+  "description": "@ckb-sdk rpc module",
   "author": "Keith <keithwhisper@gmail.com>",
-  "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
+  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
