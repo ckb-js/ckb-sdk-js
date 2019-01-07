@@ -76,7 +76,7 @@ const defaultRpc: CkbComponents.IMethod[] = [
 //   id: number
 //   result: T
 // }
-export class DefaultPrc {
+export class DefaultRpc {
   protected defaultMethods = defaultRpc
 
   /* eslint-disable */
@@ -97,4 +97,4 @@ export class DefaultPrc {
   /* eslint-enable */
 }
 
-export default DefaultPrc
+export default DefaultRpc
