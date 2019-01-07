@@ -69,7 +69,7 @@ export const hexToUtf8 = (hex: string) => {
   _hex = _hex.replace(/^(?:00)*/, '')
   const charCodes = [..._hex].reverse()
   _hex = charCodes.join('')
-  charCodes.forEach((charCode, i) => {
+  charCodes.forEach((_, i) => {
     const code = parseInt(_hex.substr(i, 2), 16)
     str += String.fromCharCode(code)
   })

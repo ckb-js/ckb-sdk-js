@@ -1,4 +1,7 @@
-import ECPair, { Options, makeRandom } from '@ckb-sdk/utils/lib/ecpair'
+import ECPair, {
+  Options,
+  // makeRandom
+} from '@ckb-sdk/utils/lib/ecpair'
 
 // interface IScriptObject {
 //   version: number
@@ -21,11 +24,12 @@ import ECPair, { Options, makeRandom } from '@ckb-sdk/utils/lib/ecpair'
 //   return ''
 // }
 class Account extends ECPair {
-  private _verifyTypeHash: string = ''
+  // private _verifyTypeHash: string = ''
 
-  // public constructor(sk: Buffer, options?: Options) {
-  //   super(sk, options)
-  // }
+  public constructor(sk: Buffer, options?: Options) {
+    super(sk, options)
+    console.log('sk')
+  }
 
   // public verifyTypeHash = () => {
   //   if (!this._verifyTypeHash) {
