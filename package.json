@@ -3,6 +3,7 @@
   "scripts": {
     "cm": "git-cz",
     "cli": "./packages/ckb-cli/lib/index.js i",
+    "doc": "typedoc --out docs --mode modules --includes packages --name CKB-SDK.js --includeDeclarations --exclude node_modules --ignoreCompilerErrors --theme default --readme README.md",
     "publish": "lerna run tsc && lerna publish",
     "test": "jest"
   },

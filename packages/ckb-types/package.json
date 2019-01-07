@@ -18,5 +18,8 @@
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+  },
+  "scripts": {
+    "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   }
 }
