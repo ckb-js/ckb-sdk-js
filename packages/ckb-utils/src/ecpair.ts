@@ -8,12 +8,12 @@ const wif = require('wif')
 // const skRequired = (target: object, key: string, descriptor: any) => {
 //   if (!target.privateKey)
 // }
-const isOptions = typeforce.maybe(
-  typeforce.compile({
-    compressed: typeforce.maybe(typeforce.Boolean),
-    // network: typeforce.maybe(typeforce.Network),
-  }),
-)
+// const isOptions = typeforce.maybe(
+//   typeforce.compile({
+//     compressed: typeforce.maybe(typeforce.Boolean),
+//     // network: typeforce.maybe(typeforce.Network),
+//   }),
+// )
 
 export interface Options {
   compressed?: boolean
@@ -81,11 +81,11 @@ const fromPrivateKey = (buffer: Buffer, options: Options) => {
 //   return new ECPair(null, buffer, options)
 // }
 
-const fromWIF = (string: string, network: any) => {
-  const decoded = wif.decode(string)
-  const { version } = decoded
-  // TODO:
-}
+// const fromWIF = (string: string, network: any) => {
+//   const decoded = wif.decode(string)
+//   const { version } = decoded
+//   // TODO:
+// }
 
 export const makeRandom = (options: any = {}) => {
   const { rng = randomBytes } = options

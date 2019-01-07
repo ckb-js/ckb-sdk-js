@@ -36,7 +36,10 @@ class Wallet {
     return acc
   }
 
-  public getCells = (idx?: number): CkbComponents.ICell[] => []
+  public getCells = (idx?: number): CkbComponents.ICell[] => {
+    console.log(idx)
+    return []
+  }
 
   public getCellsByTypeHash = (
     typeHash: string,
@@ -64,6 +67,7 @@ class Wallet {
       blockNumber,
       blockNumber,
     )
+    console.log(toAdd, capacity, cells)
     // TODO:
     const deps = [...this.deps]
     const inputs = [
@@ -113,6 +117,7 @@ class Wallet {
     // this.generateTx()
     // this._rpc.
     // TODO:
+    console.log(toAddr, capacity)
   }
 
   public gatherInputs = async (capacity: number, minCapacity: number) => {

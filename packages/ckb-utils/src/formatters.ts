@@ -2,7 +2,8 @@ export default {
   toHash: (hash: string): string => hash,
   toOutPoint: (outPoint: string): any => outPoint,
   toNumber: (number: string | number): number => +number,
-  toTx: (tx: CkbComponents.ITransaction): any => ({
+  toTx: (): // tx: CkbComponents.ITransaction
+  any => ({
     version: 1,
     deps: [],
     inputs: [

@@ -5,7 +5,6 @@
   "author": "Keith <keithwhisper@gmail.com>",
   "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
   "license": "ISC",
-  "main": "index.d.ts",
   "types": "index.d.ts",
   "directories": {
     "test": "__tests__"
