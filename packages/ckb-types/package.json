@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
-  "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
+  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "ISC",
   "types": "index.d.ts",
   "directories": {
@@ -14,9 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
+    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "bugs": {
-    "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
+    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+  },
+  "scripts": {
+    "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   }
 }

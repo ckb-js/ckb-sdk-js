@@ -1,8 +1,9 @@
 {
-  "name": "ckb-sdk.js",
+  "name": "ckb-sdk-js",
   "scripts": {
     "cm": "git-cz",
     "cli": "./packages/ckb-cli/lib/index.js i",
+    "doc": "typedoc --out docs --mode modules --includes packages --name CKB-SDK.js --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md",
     "publish": "lerna run tsc && lerna publish",
     "test": "jest"
   },
@@ -34,6 +35,7 @@
     "lerna": "^3.6.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.3",
+    "typedoc": "^0.14.0",
     "typescript": "^3.2.2",
     "typescript-eslint-parser": "^21.0.2"
   },
