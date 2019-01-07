@@ -20,18 +20,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
+    "url": "git+https://github.com/nervosnetwork/ckb-sdk.js.git"
   },
   "scripts": {
     "tsc": "tsc",
     "test": "../../node_modules/.bin/jest",
+    "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --ignoreCompilerErrors --theme default",
     "test:watch": "../../node_modules/.bin/jest --watch"
   },
   "bugs": {
-    "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
+    "url": "https://github.com/nervosnetwork/ckb-sdk.js/issues"
   },
   "dependencies": {
-    "@ckb-sdk/types": "^0.0.0",
     "axios": "^0.18.0"
   },
   "devDependencies": {
