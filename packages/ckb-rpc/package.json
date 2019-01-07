@@ -25,7 +25,7 @@
   "scripts": {
     "tsc": "tsc",
     "test": "../../node_modules/.bin/jest",
-    "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --ignoreCompilerErrors --theme default",
+    "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --includeDeclarations --exclude node_modules --ignoreCompilerErrors --theme default",
     "test:watch": "../../node_modules/.bin/jest --watch"
   },
   "bugs": {
