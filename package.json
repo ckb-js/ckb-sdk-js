@@ -1,5 +1,5 @@
 {
-  "name": "ckb-sdk.js",
+  "name": "ckb-sdk-js",
   "scripts": {
     "cm": "git-cz",
     "cli": "./packages/ckb-cli/lib/index.js i",

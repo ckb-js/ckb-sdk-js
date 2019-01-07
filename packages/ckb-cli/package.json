@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
-  "homepage": "https://github.com/Keith-CY/ckb-sdk.js#readme",
+  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "preferGlobal": true,
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Keith-CY/ckb-sdk.js.git"
+    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
     "tsc": "tsc",
@@ -30,7 +30,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/Keith-CY/ckb-sdk.js/issues"
+    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
     "@ckb-sdk/core": "^0.0.0",
