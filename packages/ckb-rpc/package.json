@@ -4,7 +4,7 @@
   "description": "@ckb-sdk rpc module",
   "author": "Keith <keithwhisper@gmail.com>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "directories": {

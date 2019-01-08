@@ -4,7 +4,7 @@
   "description": "> TODO: description",
   "author": "Keith <keithwhisper@gmail.com>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
