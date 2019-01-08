@@ -40,12 +40,12 @@ const defaultRpc: CkbComponents.IMethod[] = [
     ],
     resultFormatters: [resultFmts.toCellOutputWithOutput],
   },
-  {
-    name: 'getCurrentCell',
-    method: 'get_current_cell',
-    paramsFormatters: [paramsFmts.toOutPoint],
-    resultFormatters: [resultFmts.toCellWithStatus],
-  },
+  // {
+  //   name: 'getCurrentCell',
+  //   method: 'get_current_cell',
+  //   paramsFormatters: [paramsFmts.toOutPoint],
+  //   resultFormatters: [resultFmts.toCellWithStatus],
+  // },
   {
     name: 'getLiveCell',
     method: 'get_live_cell',
@@ -89,7 +89,7 @@ export class DefaultRpc {
     from: CkbComponents.BlockNumber,
     to: CkbComponents.BlockNumber,
   ) => Promise<CkbComponents.ICell[]>
-  public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
+  // public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
   public getLiveCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
   public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
   // public sendTransaction!:()
