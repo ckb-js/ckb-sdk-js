@@ -1,0 +1,38 @@
+{
+  "name": "@ckb-sdk/wallet",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Nervos <dev@nervos.org>",
+  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "../../node_modules/.bin/jest",
+    "test:watch": "../../node_modules/.bin/jest --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+  },
+  "dependencies": {
+    "@ckb-sdk/rpc": "^0.0.0",
+    "@ckb-sdk/utils": "^0.0.0"
+  },
+  "devDependencies": {
+    "@ckb-sdk/types": "^0.0.0"
+  }
+}

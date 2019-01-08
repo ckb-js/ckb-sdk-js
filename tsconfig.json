@@ -1,0 +1,10 @@
+{
+  "extends": "@cryptape/sdk-ts-config/tsconfig.json",
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules", "**/*.spec.ts", "*/**/debug.ts"]
+}

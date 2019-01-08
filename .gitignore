@@ -1,0 +1,9 @@
+.vscode/
+node_modules/
+*.log
+packages/*/lib
+.idea
+*/**/package-lock.json
+*/**/debug.ts
+*/**/config.js
+*/**/.env

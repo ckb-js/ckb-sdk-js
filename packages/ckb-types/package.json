@@ -1,0 +1,25 @@
+{
+  "name": "@ckb-sdk/types",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Nervos <dev@nervos.org>",
+  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
+  "license": "MIT",
+  "types": "index.d.ts",
+  "directories": {
+    "test": "__tests__"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+  },
+  "scripts": {
+    "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
+  }
+}
