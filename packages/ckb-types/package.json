@@ -2,9 +2,9 @@
   "name": "@ckb-sdk/types",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "Keith <keithwhisper@gmail.com>",
+  "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
-  "license": "ISC",
+  "license": "MIT",
   "types": "index.d.ts",
   "directories": {
     "test": "__tests__"
