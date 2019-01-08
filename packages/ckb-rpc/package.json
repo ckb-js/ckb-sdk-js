@@ -2,7 +2,7 @@
   "name": "@ckb-sdk/rpc",
   "version": "0.0.0",
   "description": "@ckb-sdk rpc module",
-  "author": "Keith <keithwhisper@gmail.com>",
+  "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",
   "main": "lib/index.js",

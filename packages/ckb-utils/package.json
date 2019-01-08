@@ -2,7 +2,7 @@
   "name": "@ckb-sdk/utils",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "Keith <keithwhisper@gmail.com>",
+  "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
