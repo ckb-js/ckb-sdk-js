@@ -1,7 +1,7 @@
-'use strict';
-
-const ckbUtils = require('..');
+const ckbUtils = require('..')
 
 describe('ckb-utils', () => {
-    it('needs tests');
-});
+  'use strict'
+
+  it('needs tests')
+})

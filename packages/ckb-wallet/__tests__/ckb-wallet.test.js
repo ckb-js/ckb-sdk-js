@@ -1,7 +1,7 @@
-'use strict';
-
-const ckbWallet = require('..');
+const ckbWallet = require('..')
 
 describe('ckb-wallet', () => {
-    it('needs tests');
-});
+  'use strict'
+
+  it('needs tests')
+})
