@@ -86,7 +86,6 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="wallet.html#_accounts" class="tsd-kind-icon">_accounts</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="wallet.html#_rpc" class="tsd-kind-icon">_rpc</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.html#deps" class="tsd-kind-icon">deps</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.html#rpc" class="tsd-kind-icon">rpc</a></li>
 							</ul>
@@ -94,6 +93,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#accountfromprivatekey" class="tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#gatherinputs" class="tsd-kind-icon">gather<wbr>Inputs</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#gentxbytypehash" class="tsd-kind-icon">gen<wbr>TxBy<wbr>Type<wbr>Hash</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#getaccounts" class="tsd-kind-icon">get<wbr>Accounts</a></li>
@@ -101,10 +101,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#getcells" class="tsd-kind-icon">get<wbr>Cells</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#getcellsbytypehash" class="tsd-kind-icon">get<wbr>Cells<wbr>ByType<wbr>Hash</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#getunspentcells" class="tsd-kind-icon">get<wbr>Unspent<wbr>Cells</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#newasw" class="tsd-kind-icon">newASW</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#newaccount" class="tsd-kind-icon">new<wbr>Account</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#sendcapacity" class="tsd-kind-icon">send<wbr>Capacity</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.html#setrpc" class="tsd-kind-icon">set<wbr>Rpc</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="wallet.html#accountfromprivatekey" class="tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key</a></li>
 							</ul>
 						</section>
 					</div>
@@ -116,19 +115,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Wallet<span class="tsd-signature-symbol">(</span>rpc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Rpc</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="wallet.html" class="tsd-signature-type">Wallet</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Wallet<span class="tsd-signature-symbol">(</span>rpc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RPC</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="wallet.html" class="tsd-signature-type">Wallet</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ckb-wallet/lib/index.d.ts:9</li>
+									<li>Defined in packages/ckb-wallet/lib/index.d.ts:10</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>rpc: <span class="tsd-signature-type">Rpc</span></h5>
+									<h5>rpc: <span class="tsd-signature-type">RPC</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="wallet.html" class="tsd-signature-type">Wallet</a></h4>
@@ -141,22 +140,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_accounts" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _accounts</h3>
-					<div class="tsd-signature tsd-kind-icon">_accounts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">_accounts<span class="tsd-signature-symbol">:</span> <a href="account.html" class="tsd-signature-type">Account</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-wallet/lib/index.d.ts:8</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L9">ckb-wallet/src/index.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_rpc" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _rpc</h3>
-					<div class="tsd-signature tsd-kind-icon">_rpc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Rpc</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in ckb-wallet/lib/index.d.ts:7</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L7">ckb-wallet/src/index.ts:7</a></li>
+							<li>Defined in packages/ckb-wallet/lib/index.d.ts:9</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L13">packages/ckb-wallet/src/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,31 +154,48 @@
 					<div class="tsd-signature tsd-kind-icon">deps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutPoint</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-wallet/lib/index.d.ts:9</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L11">ckb-wallet/src/index.ts:11</a></li>
+							<li>Defined in packages/ckb-wallet/lib/index.d.ts:10</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L15">packages/ckb-wallet/src/index.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="rpc" class="tsd-anchor"></a>
 					<h3>rpc</h3>
-					<ul class="tsd-signatures tsd-kind-property tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> rpc<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CKBRpc</span></li>
+					<div class="tsd-signature tsd-kind-icon">rpc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RPC</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/ckb-wallet/lib/index.d.ts:8</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L11">packages/ckb-wallet/src/index.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="accountfromprivatekey" class="tsd-anchor"></a>
+					<h3>account<wbr>From<wbr>Private<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L28">ckb-wallet/src/index.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L9">packages/ckb-wallet/src/index.ts:9</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">CKBRpc</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sk: <span class="tsd-signature-type">Buffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="account.html" class="tsd-signature-type">Account</a></h4>
 						</li>
 					</ul>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="gatherinputs" class="tsd-anchor"></a>
 					<h3>gather<wbr>Inputs</h3>
@@ -201,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L123">ckb-wallet/src/index.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L121">packages/ckb-wallet/src/index.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,7 +232,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L59">ckb-wallet/src/index.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L57">packages/ckb-wallet/src/index.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -250,13 +255,13 @@
 					<a name="getaccounts" class="tsd-anchor"></a>
 					<h3>get<wbr>Accounts</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Accounts<span class="tsd-signature-symbol">(</span>idx<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="account.html" class="tsd-signature-type">Account</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Accounts<span class="tsd-signature-symbol">(</span>idx<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ckb-wallet/lib/index.d.ts:11</li>
+									<li>Defined in packages/ckb-wallet/lib/index.d.ts:12</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -265,9 +270,9 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> idx: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="account.html" class="tsd-signature-type">Account</a><span class="tsd-signature-symbol">[]</span>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">[]</span>
 								<span class="tsd-signature-symbol"> | </span>
-								<a href="account.html" class="tsd-signature-type">Account</a>
+								<span class="tsd-signature-type">Account</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
@@ -284,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L50">ckb-wallet/src/index.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L48">packages/ckb-wallet/src/index.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -313,7 +318,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L39">ckb-wallet/src/index.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L37">packages/ckb-wallet/src/index.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -330,13 +335,13 @@
 					<a name="getcellsbytypehash" class="tsd-anchor"></a>
 					<h3>get<wbr>Cells<wbr>ByType<wbr>Hash</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Cells<wbr>ByType<wbr>Hash<span class="tsd-signature-symbol">(</span>typeHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, from<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, to<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cells<wbr>ByType<wbr>Hash<span class="tsd-signature-symbol">(</span>typeHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, from<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, to<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L44">ckb-wallet/src/index.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L42">packages/ckb-wallet/src/index.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -351,7 +356,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> to: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;Number.MAX_SAFE_INTEGER</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -365,7 +370,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L155">ckb-wallet/src/index.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L153">packages/ckb-wallet/src/index.ts:153</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -373,16 +378,33 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="newaccount" class="tsd-anchor"></a>
-					<h3>new<wbr>Account</h3>
+					<a name="newasw" class="tsd-anchor"></a>
+					<h3>newASW</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Account<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, opt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Account</span></li>
+						<li class="tsd-signature tsd-kind-icon">newASW<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="alwayssuccessaccount.html" class="tsd-signature-type">AlwaysSuccessAccount</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L32">ckb-wallet/src/index.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L35">packages/ckb-wallet/src/index.ts:35</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="alwayssuccessaccount.html" class="tsd-signature-type">AlwaysSuccessAccount</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="newaccount" class="tsd-anchor"></a>
+					<h3>new<wbr>Account</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Account<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, opt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L28">packages/ckb-wallet/src/index.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -394,7 +416,7 @@
 									<h5>opt: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Account</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="account.html" class="tsd-signature-type">Account</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -408,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L113">ckb-wallet/src/index.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/index.ts#L111">packages/ckb-wallet/src/index.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -421,52 +443,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setrpc" class="tsd-anchor"></a>
-					<h3>set<wbr>Rpc</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Rpc<span class="tsd-signature-symbol">(</span>rpc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Rpc</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in ckb-wallet/lib/index.d.ts:12</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rpc: <span class="tsd-signature-type">Rpc</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="accountfromprivatekey" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> account<wbr>From<wbr>Private<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Account</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-wallet/src/index.ts#L5">ckb-wallet/src/index.ts:5</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>sk: <span class="tsd-signature-type">Buffer</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Account</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -493,14 +469,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="wallet.html#_accounts" class="tsd-kind-icon">_accounts</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="wallet.html#_rpc" class="tsd-kind-icon">_rpc</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="wallet.html#deps" class="tsd-kind-icon">deps</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="wallet.html#rpc" class="tsd-kind-icon">rpc</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="wallet.html#accountfromprivatekey" class="tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="wallet.html#gatherinputs" class="tsd-kind-icon">gather<wbr>Inputs</a>
@@ -524,16 +500,13 @@
 								<a href="wallet.html#getunspentcells" class="tsd-kind-icon">get<wbr>Unspent<wbr>Cells</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="wallet.html#newasw" class="tsd-kind-icon">newASW</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="wallet.html#newaccount" class="tsd-kind-icon">new<wbr>Account</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="wallet.html#sendcapacity" class="tsd-kind-icon">send<wbr>Capacity</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="wallet.html#setrpc" class="tsd-kind-icon">set<wbr>Rpc</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="wallet.html#accountfromprivatekey" class="tsd-kind-icon">account<wbr>From<wbr>Private<wbr>Key</a>
 							</li>
 						</ul>
 					</li>

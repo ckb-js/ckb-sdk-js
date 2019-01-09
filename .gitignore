@@ -7,3 +7,6 @@ packages/*/lib
 */**/debug.ts
 */**/config.js
 */**/.env
+
+# playground
+playground.ts

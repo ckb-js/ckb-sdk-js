@@ -2,7 +2,7 @@
  * @see https://github.com/nervosnetwork/ckb/blob/develop/rpc/src/types/blockchain.rs for more infomation
  */
 
-declare namespace CkbComponents {
+declare namespace CKBComponents {
   export type LocalNodeId = string
   export type Hash = string
   export type BlockNumber = number
@@ -15,7 +15,7 @@ declare namespace CkbComponents {
     name: string
     method: string
     paramsFormatters: Function[]
-    resultFormatters: Function[]
+    resultFormatters?: Function
   }
   /**
    * RPC Units
@@ -88,7 +88,7 @@ declare namespace CkbComponents {
     deps: IOutPoint[]
     inputs: ICellInput[]
     outputs: ICellOutput[]
-    hash: Hash
+    hash?: Hash
   }
 
   /**
@@ -162,14 +162,27 @@ declare namespace CkbComponents {
    * @typedef ICell, cell object
    * @property capacty, cell capacity
    * @property lock, lock hash
+   */
+  export interface ICell extends ICellOutput {}
+
+  /**
+   * @typedef ICell, cell object
+   * @property capacty, cell capacity
+   * @property lock, lock hash
    * @property outPoint
    */
-  export interface ICell {
-    capacity: number
+
+  export interface ICellWithOutPoint extends ICell {
+    outPoint: IOutPoint
+  }
+
+  export interface ICellByTypeHash {
+    capacity: Capacity
     lock: Hash
-    contract?: any
-    data?: Uint8Array[]
-    type?: string
-    outPoint?: IOutPoint
+    outPoint: IOutPoint
+  }
+
+  export enum CellStatus {
+    LIVE = 'live',
   }
 }

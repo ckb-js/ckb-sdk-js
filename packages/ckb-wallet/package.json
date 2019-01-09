@@ -33,6 +33,7 @@
     "@ckb-sdk/utils": "^0.0.0"
   },
   "devDependencies": {
-    "@ckb-sdk/types": "^0.0.0"
+    "@ckb-sdk/types": "^0.0.0",
+    "@types/crypto-js": "^3.1.43"
   }
 }

@@ -6,7 +6,17 @@ module.exports = {
     "prettier/prettier": ["warn", {
       "semi": false,
       "singleQuote": true,
-      "trailingComma": "all"
+      "trailingComma": "es5"
+    }],
+    "comma-dangle": [2, {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "import/no-extraneous-dependencies": [2, {
+      "devDependencies": true
     }],
     "typescript/no-unused-vars": "warn",
     // "comma-dangle": [2, "always"],
@@ -23,10 +33,10 @@ module.exports = {
     "no-mixed-operators": [0],
     "implicit-arrow-linebreak": [0],
     "no-unused-expression": [0],
-    "no-underscore-dangle": [0],
     "no-plusplus": [0],
     "no-bitwise": [0],
-    "no-control-regex": [0]
+    "no-control-regex": [0],
+    "operator-linebreak": [2, "after"]
   },
   "env": {
     "node": true,

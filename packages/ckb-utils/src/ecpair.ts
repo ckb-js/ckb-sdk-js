@@ -5,50 +5,39 @@ const randomBytes = require('randombytes')
 const typeforce = require('typeforce')
 const wif = require('wif')
 
-// const skRequired = (target: object, key: string, descriptor: any) => {
-//   if (!target.privateKey)
-// }
-// const isOptions = typeforce.maybe(
-//   typeforce.compile({
-//     compressed: typeforce.maybe(typeforce.Boolean),
-//     // network: typeforce.maybe(typeforce.Network),
-//   }),
-// )
-
 export interface Options {
   compressed?: boolean
   network?: any
 }
 
-// function ECPair(d: string, Q:string, options = {}) {
-//   this.compressed = options.compressed
-// }
 class ECPair {
-  private _sk: Buffer = Buffer.from([])
+  private _sk: Uint8Array = Buffer.from([])
 
-  public _pk: Buffer = Buffer.from([])
+  public _pk: Uint8Array = Buffer.from([])
 
   public _compressed: boolean = false
 
   public network: any
 
   constructor(
-    sk: Buffer,
-    options: Options = { compressed: true, network: null },
+    sk: Uint8Array,
+    options: Options = { compressed: true, network: null }
   ) {
     this._sk = sk
     this._compressed = options.compressed || true
     this.network = options.network || {}
-    this._pk = ecc.pointFromScalar(this._sk, this._compressed) || this._pk
+    this._pk =
+      ecc.pointFromScalar(this._sk as Buffer, this._compressed) || this._pk
   }
 
-  get privateKey(): Buffer {
+  get privateKey(): Uint8Array {
     return this._sk
   }
 
   get publicKey() {
     if (!this._pk) {
-      this._pk = ecc.pointFromScalar(this._sk, this._compressed) || this._pk
+      this._pk =
+        ecc.pointFromScalar(this._sk as Buffer, this._compressed) || this._pk
     }
     return this._pk
   }
@@ -61,31 +50,20 @@ class ECPair {
 
   public sign = (hash: Buffer) => {
     if (!this._sk) throw new Error('Missing private key')
-    return ecc.sign(hash, this._sk)
+    return ecc.sign(hash, this._sk as Buffer)
   }
 
   public verify = (hash: Buffer, signature: Buffer) =>
-    ecc.verify(hash, this.publicKey, signature)
+    ecc.verify(hash, this.publicKey as Buffer, signature)
 }
 
 const fromPrivateKey = (buffer: Buffer, options: Options) => {
   typeforce(types.Buffer256bit, buffer)
-  if (!ecc.isPrivate(buffer)) throw new TypeError('Private key not in range [1, n)')
-  // typeforce(isOptions, options)
+  if (!ecc.isPrivate(buffer)) {
+    throw new TypeError('Private key not in range [1, n)')
+  }
   return new ECPair(buffer, options)
 }
-
-// const fromPublicKey = (buffer: Buffer, options: Options) => {
-//   typeforce(ecc.isPoint, buffer)
-//   // typeforce()
-//   return new ECPair(null, buffer, options)
-// }
-
-// const fromWIF = (string: string, network: any) => {
-//   const decoded = wif.decode(string)
-//   const { version } = decoded
-//   // TODO:
-// }
 
 export const makeRandom = (options: any = {}) => {
   const { rng = randomBytes } = options

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>INode | CKB-SDK.js</title>
+	<title>ICellWithOutPoint | CKB-SDK.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,21 +57,44 @@
 					<a href="../modules/ckbcomponents.html">CKBComponents</a>
 				</li>
 				<li>
-					<a href="ckbcomponents.inode.html">INode</a>
+					<a href="ckbcomponents.icellwithoutpoint.html">ICellWithOutPoint</a>
 				</li>
 			</ul>
-			<h1>Interface INode</h1>
+			<h1>Interface ICellWithOutPoint</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>typedef</dt>
+						<dd><p>ICell, cell object</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>capacty, cell capacity</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>lock, lock hash</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>outPoint</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">INode</span>
+						<span class="tsd-signature-type">ICell</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ICellWithOutPoint</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -82,7 +105,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.inode.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icellwithoutpoint.html#capacity" class="tsd-kind-icon">capacity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icellwithoutpoint.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icellwithoutpoint.html#lock" class="tsd-kind-icon">lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icellwithoutpoint.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icellwithoutpoint.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -90,13 +117,61 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+					<a name="capacity" class="tsd-anchor"></a>
+					<h3>capacity</h3>
+					<div class="tsd-signature tsd-kind-icon">capacity<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.capacity</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#capacity">capacity</a></p>
+						<ul>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:62</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.data</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#data">data</a></p>
+						<ul>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:63</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+					<a name="lock" class="tsd-anchor"></a>
+					<h3>lock</h3>
+					<div class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.lock</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#lock">lock</a></p>
+						<ul>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:64</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="url" class="tsd-anchor"></a>
-					<h3>url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="outpoint" class="tsd-anchor"></a>
+					<h3>out<wbr>Point</h3>
+					<div class="tsd-signature tsd-kind-icon">out<wbr>Point<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutPoint</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L12">packages/ckb-types/index.d.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L176">packages/ckb-types/index.d.ts:176</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+					<a name="type" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="ckbcomponents.iscript.html" class="tsd-signature-type">IScript</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.type</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#type">type</a></p>
+						<ul>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:65</li>
 						</ul>
 					</aside>
 				</section>
@@ -145,24 +220,36 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icelloutput.html" class="tsd-kind-icon">ICell<wbr>Output</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.icellwithoutpoint.html" class="tsd-kind-icon">ICell<wbr>With<wbr>Out<wbr>Point</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.inode.html" class="tsd-kind-icon">INode</a>
+						<a href="ckbcomponents.icellwithoutpoint.html" class="tsd-kind-icon">ICell<wbr>With<wbr>Out<wbr>Point</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+								<a href="ckbcomponents.icellwithoutpoint.html#capacity" class="tsd-kind-icon">capacity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+								<a href="ckbcomponents.icellwithoutpoint.html#data" class="tsd-kind-icon">data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+								<a href="ckbcomponents.icellwithoutpoint.html#lock" class="tsd-kind-icon">lock</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.inode.html#url" class="tsd-kind-icon">url</a>
+								<a href="ckbcomponents.icellwithoutpoint.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+								<a href="ckbcomponents.icellwithoutpoint.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ckbcomponents.inode.html" class="tsd-kind-icon">INode</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.ioutpoint.html" class="tsd-kind-icon">IOut<wbr>Point</a>
 					</li>

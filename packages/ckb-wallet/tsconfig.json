@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "types": ["node", "@ckb-sdk/rpc"]
+    "types": ["node", "@ckb-sdk/rpc", "@ckb-sdk/utils"]
   },
   "include": ["./src"]
 }
