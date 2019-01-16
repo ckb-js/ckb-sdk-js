@@ -72,25 +72,27 @@
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iblock.html" class="tsd-kind-icon">IBlock</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iblockheader.html" class="tsd-kind-icon">IBlock<wbr>Header</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.icell.html" class="tsd-kind-icon">ICell</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iheader.html" class="tsd-kind-icon">IHeader</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iinput.html" class="tsd-kind-icon">IInput</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.icellinput.html" class="tsd-kind-icon">ICell<wbr>Input</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.icelloutput.html" class="tsd-kind-icon">ICell<wbr>Output</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.inode.html" class="tsd-kind-icon">INode</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.ioutpoint.html" class="tsd-kind-icon">IOut<wbr>Point</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.ioutput.html" class="tsd-kind-icon">IOutput</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.irawheader.html" class="tsd-kind-icon">IRaw<wbr>Header</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.isealheader.html" class="tsd-kind-icon">ISeal<wbr>Header</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iscript.html" class="tsd-kind-icon">IScript</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.iseal.html" class="tsd-kind-icon">ISeal</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.itransaction.html" class="tsd-kind-icon">ITransaction</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ckbcomponents.itransactionwithhash.html" class="tsd-kind-icon">ITransaction<wbr>With<wbr>Hash</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported"><a href="../interfaces/ckbcomponents.iuncleblock.html" class="tsd-kind-icon">IUncle<wbr>Block</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="ckbcomponents.html#blocknumber" class="tsd-kind-icon">Block<wbr>Number</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="ckbcomponents.html#capacity" class="tsd-kind-icon">Capacity</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="ckbcomponents.html#hash" class="tsd-kind-icon">Hash</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="ckbcomponents.html#localnodeid" class="tsd-kind-icon">Local<wbr>Node<wbr>Id</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="ckbcomponents.html#proposalshortid" class="tsd-kind-icon">Proposal<wbr>Short<wbr>Id</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,7 +106,17 @@
 					<div class="tsd-signature tsd-kind-icon">Block<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-types/index.d.ts#L5">ckb-types/index.d.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L7">ckb-types/index.d.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="capacity" class="tsd-anchor"></a>
+					<h3>Capacity</h3>
+					<div class="tsd-signature tsd-kind-icon">Capacity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L8">ckb-types/index.d.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -114,7 +126,7 @@
 					<div class="tsd-signature tsd-kind-icon">Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-types/index.d.ts#L4">ckb-types/index.d.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L6">ckb-types/index.d.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,7 +136,17 @@
 					<div class="tsd-signature tsd-kind-icon">Local<wbr>Node<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-types/index.d.ts#L3">ckb-types/index.d.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L5">ckb-types/index.d.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="proposalshortid" class="tsd-anchor"></a>
+					<h3>Proposal<wbr>Short<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">Proposal<wbr>Short<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L9">ckb-types/index.d.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,13 +175,16 @@
 						<a href="../interfaces/ckbcomponents.iblock.html" class="tsd-kind-icon">IBlock</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/ckbcomponents.iblockheader.html" class="tsd-kind-icon">IBlock<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="../interfaces/ckbcomponents.icell.html" class="tsd-kind-icon">ICell</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.iheader.html" class="tsd-kind-icon">IHeader</a>
+						<a href="../interfaces/ckbcomponents.icellinput.html" class="tsd-kind-icon">ICell<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.iinput.html" class="tsd-kind-icon">IInput</a>
+						<a href="../interfaces/ckbcomponents.icelloutput.html" class="tsd-kind-icon">ICell<wbr>Output</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="../interfaces/ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>
@@ -171,28 +196,31 @@
 						<a href="../interfaces/ckbcomponents.ioutpoint.html" class="tsd-kind-icon">IOut<wbr>Point</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.ioutput.html" class="tsd-kind-icon">IOutput</a>
+						<a href="../interfaces/ckbcomponents.iscript.html" class="tsd-kind-icon">IScript</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.irawheader.html" class="tsd-kind-icon">IRaw<wbr>Header</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.isealheader.html" class="tsd-kind-icon">ISeal<wbr>Header</a>
+						<a href="../interfaces/ckbcomponents.iseal.html" class="tsd-kind-icon">ISeal</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="../interfaces/ckbcomponents.itransaction.html" class="tsd-kind-icon">ITransaction</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/ckbcomponents.itransactionwithhash.html" class="tsd-kind-icon">ITransaction<wbr>With<wbr>Hash</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../interfaces/ckbcomponents.iuncleblock.html" class="tsd-kind-icon">IUncle<wbr>Block</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="ckbcomponents.html#blocknumber" class="tsd-kind-icon">Block<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="ckbcomponents.html#capacity" class="tsd-kind-icon">Capacity</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="ckbcomponents.html#hash" class="tsd-kind-icon">Hash</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="ckbcomponents.html#localnodeid" class="tsd-kind-icon">Local<wbr>Node<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="ckbcomponents.html#proposalshortid" class="tsd-kind-icon">Proposal<wbr>Short<wbr>Id</a>
 					</li>
 				</ul>
 			</nav>

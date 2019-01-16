@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ITransactionWithHash | CKB-SDK.js</title>
+	<title>IUncleBlock | CKB-SDK.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,21 +57,39 @@
 					<a href="../modules/ckbcomponents.html">CkbComponents</a>
 				</li>
 				<li>
-					<a href="ckbcomponents.itransactionwithhash.html">ITransactionWithHash</a>
+					<a href="ckbcomponents.iuncleblock.html">IUncleBlock</a>
 				</li>
 			</ul>
-			<h1>Interface ITransactionWithHash</h1>
+			<h1>Interface IUncleBlock</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>typedef</dt>
+						<dd><p>IUncleBlock, uncle block object</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>header, block header</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>cellbase, transaction</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>proposalTransactions</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ITransactionWithHash</span>
+						<span class="target">IUncleBlock</span>
 					</li>
 				</ul>
 			</section>
@@ -79,35 +97,46 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.itransactionwithhash.html#hash" class="tsd-kind-icon">hash</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.itransactionwithhash.html#transaction" class="tsd-kind-icon">transaction</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="ckbcomponents.iuncleblock.html#cellbase" class="tsd-kind-icon">cellbase</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="ckbcomponents.iuncleblock.html#header" class="tsd-kind-icon">header</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="ckbcomponents.iuncleblock.html#proposaltransactions" class="tsd-kind-icon">proposal<wbr>Transactions</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="hash" class="tsd-anchor"></a>
-					<h3>hash</h3>
-					<div class="tsd-signature tsd-kind-icon">hash<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="cellbase" class="tsd-anchor"></a>
+					<h3>cellbase</h3>
+					<div class="tsd-signature tsd-kind-icon">cellbase<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ITransaction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-types/index.d.ts#L42">ckb-types/index.d.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L139">ckb-types/index.d.ts:139</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="transaction" class="tsd-anchor"></a>
-					<h3>transaction</h3>
-					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ITransaction</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="header" class="tsd-anchor"></a>
+					<h3>header</h3>
+					<div class="tsd-signature tsd-kind-icon">header<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IBlockHeader</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-types/index.d.ts#L43">ckb-types/index.d.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L138">ckb-types/index.d.ts:138</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="proposaltransactions" class="tsd-anchor"></a>
+					<h3>proposal<wbr>Transactions</h3>
+					<div class="tsd-signature tsd-kind-icon">proposal<wbr>Transactions<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#proposalshortid" class="tsd-signature-type">ProposalShortId</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L140">ckb-types/index.d.ts:140</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,13 +165,16 @@
 						<a href="ckbcomponents.iblock.html" class="tsd-kind-icon">IBlock</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ckbcomponents.iblockheader.html" class="tsd-kind-icon">IBlock<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icell.html" class="tsd-kind-icon">ICell</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.iheader.html" class="tsd-kind-icon">IHeader</a>
+						<a href="ckbcomponents.icellinput.html" class="tsd-kind-icon">ICell<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.iinput.html" class="tsd-kind-icon">IInput</a>
+						<a href="ckbcomponents.icelloutput.html" class="tsd-kind-icon">ICell<wbr>Output</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>
@@ -154,27 +186,27 @@
 						<a href="ckbcomponents.ioutpoint.html" class="tsd-kind-icon">IOut<wbr>Point</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.ioutput.html" class="tsd-kind-icon">IOutput</a>
+						<a href="ckbcomponents.iscript.html" class="tsd-kind-icon">IScript</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.irawheader.html" class="tsd-kind-icon">IRaw<wbr>Header</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.isealheader.html" class="tsd-kind-icon">ISeal<wbr>Header</a>
+						<a href="ckbcomponents.iseal.html" class="tsd-kind-icon">ISeal</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.itransaction.html" class="tsd-kind-icon">ITransaction</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="ckbcomponents.itransactionwithhash.html" class="tsd-kind-icon">ITransaction<wbr>With<wbr>Hash</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+						<a href="ckbcomponents.iuncleblock.html" class="tsd-kind-icon">IUncle<wbr>Block</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.itransactionwithhash.html#hash" class="tsd-kind-icon">hash</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="ckbcomponents.iuncleblock.html#cellbase" class="tsd-kind-icon">cellbase</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.itransactionwithhash.html#transaction" class="tsd-kind-icon">transaction</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="ckbcomponents.iuncleblock.html#header" class="tsd-kind-icon">header</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="ckbcomponents.iuncleblock.html#proposaltransactions" class="tsd-kind-icon">proposal<wbr>Transactions</a>
 							</li>
 						</ul>
 					</li>
@@ -184,10 +216,16 @@
 						<a href="../modules/ckbcomponents.html#blocknumber" class="tsd-kind-icon">Block<wbr>Number</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/ckbcomponents.html#capacity" class="tsd-kind-icon">Capacity</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/ckbcomponents.html#hash" class="tsd-kind-icon">Hash</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/ckbcomponents.html#localnodeid" class="tsd-kind-icon">Local<wbr>Node<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/ckbcomponents.html#proposalshortid" class="tsd-kind-icon">Proposal<wbr>Short<wbr>Id</a>
 					</li>
 				</ul>
 			</nav>

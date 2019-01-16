@@ -83,7 +83,7 @@ export class DefaultRpc {
   public getBlock!: (hash: CkbComponents.Hash) => Promise<CkbComponents.IBlock>
   public getTransaction!: (hash: CkbComponents.Hash) => Promise<CkbComponents.ITransaction>
   public getBlockHash!: (number: CkbComponents.BlockNumber) => Promise<CkbComponents.Hash>
-  public getTipHeader!: () => Promise<CkbComponents.IHeader>
+  public getTipHeader!: () => Promise<CkbComponents.IBlockHeader>
   public getCellsByTypeHash!: (
     hash: string,
     from: CkbComponents.BlockNumber,
