@@ -33,12 +33,14 @@ const formatters = {
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({
+    hash = '',
     version = 0,
     deps = [],
     inputs = [],
     outputs = [],
   }): CkbRpc.Params.ITransaction => {
     const tx = {
+      hash,
       version,
       deps,
       inputs,
