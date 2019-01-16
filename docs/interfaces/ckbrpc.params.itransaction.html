@@ -94,6 +94,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported"><a href="ckbrpc.params.itransaction.html#deps" class="tsd-kind-icon">deps</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported"><a href="ckbrpc.params.itransaction.html#hash" class="tsd-kind-icon">hash</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported"><a href="ckbrpc.params.itransaction.html#inputs" class="tsd-kind-icon">inputs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported"><a href="ckbrpc.params.itransaction.html#outputs" class="tsd-kind-icon">outputs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-not-exported"><a href="ckbrpc.params.itransaction.html#version" class="tsd-kind-icon">version</a></li>
@@ -107,36 +108,48 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
 					<a name="deps" class="tsd-anchor"></a>
 					<h3>deps</h3>
-					<div class="tsd-signature tsd-kind-icon">deps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">deps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutPoint</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ITransaction.deps</p>
 						<p>Overrides <a href="ckbcomponents.itransaction.html">ITransaction</a>.<a href="ckbcomponents.itransaction.html#deps">deps</a></p>
 						<ul>
-							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:36</li>
+							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:84</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
+					<a name="hash" class="tsd-anchor"></a>
+					<h3>hash</h3>
+					<div class="tsd-signature tsd-kind-icon">hash<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ITransaction.hash</p>
+						<p>Overrides <a href="ckbcomponents.itransaction.html">ITransaction</a>.<a href="ckbcomponents.itransaction.html#hash">hash</a></p>
+						<ul>
+							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:87</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
 					<a name="inputs" class="tsd-anchor"></a>
 					<h3>inputs</h3>
-					<div class="tsd-signature tsd-kind-icon">inputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IInput</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">inputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ICellInput</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ITransaction.inputs</p>
 						<p>Overrides <a href="ckbcomponents.itransaction.html">ITransaction</a>.<a href="ckbcomponents.itransaction.html#inputs">inputs</a></p>
 						<ul>
-							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:37</li>
+							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:85</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
 					<a name="outputs" class="tsd-anchor"></a>
 					<h3>outputs</h3>
-					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutput</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ICellOutput</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ITransaction.outputs</p>
 						<p>Overrides <a href="ckbcomponents.itransaction.html">ITransaction</a>.<a href="ckbcomponents.itransaction.html#outputs">outputs</a></p>
 						<ul>
-							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:38</li>
+							<li>Defined in ckb-cli/node_modules/@ckb-sdk/core/node_modules/@ckb-sdk/types/index.d.ts:86</li>
 						</ul>
 					</aside>
 				</section>
@@ -148,7 +161,7 @@
 						<p>Overrides ITransaction.version</p>
 						<ul>
 							<li>Defined in ckb-rpc/lib/paramsFormatter.d.ts:5</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/11a0486/packages/ckb-rpc/src/paramsFormatter.ts#L4">ckb-rpc/src/paramsFormatter.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/paramsFormatter.ts#L4">ckb-rpc/src/paramsFormatter.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,6 +193,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
 								<a href="ckbrpc.params.itransaction.html#deps" class="tsd-kind-icon">deps</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
+								<a href="ckbrpc.params.itransaction.html#hash" class="tsd-kind-icon">hash</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-not-exported">
 								<a href="ckbrpc.params.itransaction.html#inputs" class="tsd-kind-icon">inputs</a>
