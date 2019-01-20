@@ -37,7 +37,7 @@
     "prettier": "^1.15.3",
     "typedoc": "^0.14.0",
     "typescript": "^3.2.2",
-    "typescript-eslint-parser": "^21.0.2"
+    "typescript-eslint-parser": "^22.0.0"
   },
   "config": {
     "commitizen": {
