@@ -10,3 +10,6 @@ packages/*/lib
 
 # playground
 playground.ts
+
+#docs
+docs
