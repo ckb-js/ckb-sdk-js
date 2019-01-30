@@ -1,4 +1,4 @@
-import { hexToBytes, SHA3, jsonScriptToTypeHash } from '@ckb-sdk/utils'
+import { hexToBytes, SHA3 } from '@ckb-sdk/utils'
 import RPC from '@ckb-sdk/rpc'
 import { Options } from '@ckb-sdk/utils/lib/ecpair'
 import Account from './account'
@@ -48,35 +48,21 @@ class AlwaysSuccessAccount extends Account {
             index: alwaysSuccessScriptOutPoint.index,
           },
         }
-        this._unlockScriptJsonObject = {
-          version: 0,
-          reference: `0x${this.alwaysSuccess.cellHash}`,
-          args: [],
-          signedArgs: [],
-        }
-        this.unlockTypeHash = jsonScriptToTypeHash(this._unlockScriptJsonObject)
         this.deps = [this.alwaysSuccess.scriptOutPoint]
         console.log('ready')
       })
   }
 
-  // TODO: install
-  get address() {
-    return this.unlockTypeHash
-  }
-
-  public _verifyScriptJSON = {
-    version: 0,
-    reference: 'mruby_cell_hash',
-    signedArgs: [],
-  }
-
-  verifyTypeHash = () => {
-    if (!this._verifyTypeHash) {
-      this._verifyTypeHash = jsonScriptToTypeHash(this._verifyScriptJSON)
+  get unlockScriptJsonObject() {
+    return {
+      version: 0,
+      reference: `0x${this.alwaysSuccess.cellHash}`,
+      args: [],
+      signedArgs: [],
     }
-    return this._verifyTypeHash
   }
+
+  // TODO: install
 }
 
 export default AlwaysSuccessAccount

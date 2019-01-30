@@ -1,0 +1,3 @@
+[submodule "packages/ckb-wallet/udtScripts"]
+	path = packages/ckb-wallet/udtScripts
+	url = https://github.com/nervosnetwork/ckb-ruby-scripts/
