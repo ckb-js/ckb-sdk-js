@@ -2,6 +2,7 @@ import RPC from '@ckb-sdk/rpc'
 import { hexToBytes } from '@ckb-sdk/utils'
 import Account from './account'
 import AWS from './alwaysSuccessAccount'
+import UDTAccount from './UDTAccount'
 
 const aswSkStr =
   'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
@@ -26,14 +27,17 @@ class Wallet {
     return this._accounts
   }
 
-  public newAccount = (sk: Buffer, opt: any) => {
+  public newAccount = (sk: Uint8Array, opt: any) => {
     // TODO:
-    const acc = new Account(sk, opt)
+    const acc = new Account(sk, this.rpc, opt)
     this._accounts.push(acc)
     return acc
   }
 
   public newASW = () => new AWS(aswSkBytes, this.rpc)
+
+  public newUDTAccount = (sk: string | Uint8Array, opt: any) =>
+    new UDTAccount(sk, this.rpc, opt)
 
   public getCells = (idx?: number): CKBComponents.ICell[] => {
     console.info(idx)
