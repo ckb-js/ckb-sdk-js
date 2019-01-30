@@ -1,9 +1,9 @@
-import DefaultRpc from './defaultRpc'
+import DefaultRPC from './defaultRPC'
 import { DEBUG_LEVEL } from './enum'
 import Method from './method'
 
-class CKBRpc extends DefaultRpc {
-  private _node: CkbComponents.INode
+class CKBRPC extends DefaultRPC {
+  private _node: CKBComponents.INode
 
   private _methods: Method[] = []
 
@@ -19,7 +19,7 @@ class CKBRpc extends DefaultRpc {
     this.defaultMethods.map(this.addMethod)
   }
 
-  public setNode(node: CkbComponents.INode): CkbComponents.INode {
+  public setNode(node: CKBComponents.INode): CKBComponents.INode {
     this._node = node
     return this._node
   }
@@ -32,7 +32,7 @@ class CKBRpc extends DefaultRpc {
     return this._methods
   }
 
-  public addMethod = (options: CkbComponents.IMethod) => {
+  public addMethod = (options: CKBComponents.IMethod) => {
     const method = new Method(options, this._node)
     this._methods.push(method)
 
@@ -43,4 +43,4 @@ class CKBRpc extends DefaultRpc {
   }
 }
 
-export default CKBRpc
+export default CKBRPC

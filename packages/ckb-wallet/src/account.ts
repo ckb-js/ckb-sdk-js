@@ -1,48 +1,148 @@
-import ECPair, {
-  Options,
-  // makeRandom
-} from '@ckb-sdk/utils/lib/ecpair'
+import ECPair, { Options } from '@ckb-sdk/utils/lib/ecpair'
+import RPC from '@ckb-sdk/rpc'
+import { hexToBytes } from '@ckb-sdk/utils'
 
-// interface IScriptObject {
-//   version: number
-//   reference?: string
-//   signedArgs: any[]
-//   binary?: (0 | 1)[]
-// }
-
-// const scriptToTypeHash = (script: IScriptObject) => {
-//   const buf: any[] = []
-//   if (script.reference) {
-//     // s.push(hex2bin(script.reference))
-//   }
-//   buf.push('|')
-//   if (script.binary) {
-//     buf.push(script.binary)
-//   }
-//   script.signedArgs.forEach(signedArg => buf.push(signedArg))
-//   // return bin2PrefixHex(sha256(buf))
-//   return ''
-// }
 class Account extends ECPair {
-  // private _verifyTypeHash: string = ''
+  public VERIFY_SCRIPT: string = ''
 
-  public constructor(sk: Buffer, options?: Options) {
-    super(sk, options)
-    console.log('sk')
+  public static MIN_CELL_CAPACITY = 10
+
+  public rpc: RPC
+
+  public unlockTypeHash: string = ''
+
+  public deps: CKBComponents.IOutPoint[] = []
+
+  public _unlockScriptJsonObject: CKBComponents.IScript = {
+    version: 0,
+    args: [],
+    signedArgs: [],
   }
 
-  // public verifyTypeHash = () => {
-  //   if (!this._verifyTypeHash) {
-  //     this._verifyTypeHash = scriptToTypeHash(this.verifyScript())
-  //   }
-  //   return this._verifyTypeHash
-  // }
+  public constructor(sk: Uint8Array | string, rpc: RPC, options?: Options) {
+    super(typeof sk === 'string' ? hexToBytes(sk) : sk, options)
+    this.rpc = rpc
+  }
 
-  // public verifyScript = (): IScriptObject => ({
-  //   version: 0,
-  //   reference: 'api.mruby_cell_hash',
-  //   signedArgs: ['VERIFY_SCRIPT', 'hexPubKey'],
-  // })
+  public get hexPubKey(): string {
+    return Buffer.from(this.publicKey).toString('hex')
+  }
+
+  // =========================
+
+  getUnspentCells = async () => {
+    // TODO: in the ruby sdk demo,
+    // it iterates all block to gather cells,
+    // however only P1CS needs to be covered, TBD
+    const to = await this.rpc.getTipBlockNumber()
+    const cells = await this.rpc.getCellsByTypeHash(
+      `0x${this.unlockTypeHash}`,
+      0,
+      to
+    )
+    return cells
+  }
+
+  getBalance = async (): Promise<string> =>
+    this.getUnspentCells().then(cells =>
+      cells.reduce((a, c) => a + c.capacity, 0).toString())
+
+  // ========================================
+
+  gatherInputs = async (
+    capacity: CKBComponents.Capacity,
+    minCapacity: CKBComponents.Capacity
+  ) => {
+    if (capacity < minCapacity) {
+      throw new Error(`Capacity cannot less than ${minCapacity}`)
+    }
+    let inputCapacities = 0
+    const inputs: CKBComponents.ICellInput[] = []
+    await this.getUnspentCells().then(cells =>
+      cells.every(cell => {
+        const input: CKBComponents.ICellInput = {
+          prevOutput: cell.outPoint,
+          unlock: this._unlockScriptJsonObject,
+        }
+        inputs.push(input)
+        inputCapacities += cell.capacity
+        if (
+          inputCapacities >= capacity &&
+          inputCapacities - capacity >= minCapacity
+        ) {
+          return false
+        }
+        return true
+      }))
+
+    if (inputCapacities < capacity) {
+      throw new Error(
+        `Not enough capacity, required: ${capacity}, available: ${inputCapacities}`
+      )
+    }
+    return {
+      inputs,
+      capacity: inputCapacities,
+    }
+  }
+
+  generateTx = async (
+    targetAddr: CKBComponents.Hash,
+    targetCapacity: CKBComponents.Capacity
+  ): Promise<CKBComponents.ITransaction> => {
+    const { inputs, capacity } = await this.gatherInputs(
+      targetCapacity,
+      Account.MIN_CELL_CAPACITY
+    )
+    const outputs: CKBComponents.ICellOutput[] = [
+      {
+        capacity: targetCapacity,
+        data: new Uint8Array(0),
+        lock: targetAddr,
+      },
+    ]
+    if (capacity > targetCapacity) {
+      outputs.push({
+        capacity: capacity - targetCapacity,
+        data: new Uint8Array(0),
+        lock: `0x${this.unlockTypeHash}`,
+      })
+    }
+    const tx = {
+      version: 0,
+      deps: this.deps,
+      inputs,
+      outputs,
+    }
+    return tx
+  }
+
+  sendCapacity = async (
+    targetAddr: CKBComponents.Hash,
+    capacity: CKBComponents.Capacity
+  ) => {
+    const tx = await this.generateTx(targetAddr, capacity)
+    return this.rpc.sendTransaction(tx)
+  }
+
+  // ================================
+
+  public verifyScript = ({
+    version = 0,
+    binary,
+    reference,
+    signedArgs,
+  }: {
+    version: number
+    binary?: Uint8Array
+    reference?: string
+    signedArgs?: Uint8Array[]
+  }) => ({
+    version,
+    reference,
+    binary,
+    signedArgs: signedArgs || [this.VERIFY_SCRIPT, this.hexPubKey],
+  })
 }
 
 export default Account

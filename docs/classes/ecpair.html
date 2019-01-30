@@ -110,19 +110,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new ECPair<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ecpair.html" class="tsd-signature-type">ECPair</a></li>
+						<li class="tsd-signature tsd-kind-icon">new ECPair<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ecpair.html" class="tsd-signature-type">ECPair</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ckb-utils/lib/ecpair.d.ts:10</li>
+									<li>Defined in packages/ckb-utils/lib/ecpair.d.ts:10</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>sk: <span class="tsd-signature-type">Buffer</span></h5>
+									<h5>sk: <span class="tsd-signature-type">Uint8Array</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/options.html" class="tsd-signature-type">Options</a></h5>
@@ -141,30 +141,30 @@
 					<div class="tsd-signature tsd-kind-icon">_compressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-utils/lib/ecpair.d.ts:9</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L31">ckb-utils/src/ecpair.ts:31</a></li>
+							<li>Defined in packages/ckb-utils/lib/ecpair.d.ts:9</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L18">packages/ckb-utils/src/ecpair.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="_pk" class="tsd-anchor"></a>
 					<h3>_pk</h3>
-					<div class="tsd-signature tsd-kind-icon">_pk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">_pk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from([])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-utils/lib/ecpair.d.ts:8</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L29">ckb-utils/src/ecpair.ts:29</a></li>
+							<li>Defined in packages/ckb-utils/lib/ecpair.d.ts:8</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L16">packages/ckb-utils/src/ecpair.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_sk" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _sk</h3>
-					<div class="tsd-signature tsd-kind-icon">_sk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">_sk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from([])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-utils/lib/ecpair.d.ts:7</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L27">ckb-utils/src/ecpair.ts:27</a></li>
+							<li>Defined in packages/ckb-utils/lib/ecpair.d.ts:7</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L14">packages/ckb-utils/src/ecpair.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,8 +174,8 @@
 					<div class="tsd-signature tsd-kind-icon">network<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-utils/lib/ecpair.d.ts:10</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L33">ckb-utils/src/ecpair.ts:33</a></li>
+							<li>Defined in packages/ckb-utils/lib/ecpair.d.ts:10</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L20">packages/ckb-utils/src/ecpair.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,16 +183,16 @@
 					<a name="privatekey" class="tsd-anchor"></a>
 					<h3>private<wbr>Key</h3>
 					<ul class="tsd-signatures tsd-kind-property tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> privateKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> privateKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L45">ckb-utils/src/ecpair.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L32">packages/ckb-utils/src/ecpair.ts:32</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -200,16 +200,16 @@
 					<a name="publickey" class="tsd-anchor"></a>
 					<h3>public<wbr>Key</h3>
 					<ul class="tsd-signatures tsd-kind-property tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> publicKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> publicKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L49">ckb-utils/src/ecpair.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L36">packages/ckb-utils/src/ecpair.ts:36</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -226,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L62">ckb-utils/src/ecpair.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L49">packages/ckb-utils/src/ecpair.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -249,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L56">ckb-utils/src/ecpair.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L43">packages/ckb-utils/src/ecpair.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -266,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-utils/src/ecpair.ts#L67">ckb-utils/src/ecpair.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-utils/src/ecpair.ts#L54">packages/ckb-utils/src/ecpair.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

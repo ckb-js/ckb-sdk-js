@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CKBRpc | CKB-SDK.js</title>
+	<title>CKBRPC | CKB-SDK.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="ckbrpc.html">CKBRpc</a>
+					<a href="ckbrpc.html">CKBRPC</a>
 				</li>
 			</ul>
-			<h1>Class CKBRpc</h1>
+			<h1>Class CKBRPC</h1>
 		</div>
 	</div>
 </header>
@@ -68,13 +68,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="defaultrpc.html" class="tsd-signature-type">DefaultRpc</a>
+						<span class="tsd-signature-type">DefaultRPC</span>
 					</li>
 					<li>
-						<span class="tsd-signature-type">DefaultRpc</span>
+						<a href="defaultrpc.html" class="tsd-signature-type">DefaultRPC</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">CKBRpc</span>
+								<span class="target">CKBRPC</span>
 							</li>
 						</ul>
 					</li>
@@ -106,6 +106,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="ckbrpc.html#localnodeid" class="tsd-kind-icon">local<wbr>Node<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="ckbrpc.html#methods" class="tsd-kind-icon">methods</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="ckbrpc.html#node" class="tsd-kind-icon">node</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="ckbrpc.html#sendtransaction" class="tsd-kind-icon">send<wbr>Transaction</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -125,13 +126,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new CKBRpc<span class="tsd-signature-symbol">(</span>nodeUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ckbrpc.html" class="tsd-signature-type">CKBRpc</a></li>
+						<li class="tsd-signature tsd-kind-icon">new CKBRPC<span class="tsd-signature-symbol">(</span>nodeUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ckbrpc.html" class="tsd-signature-type">CKBRPC</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ckb-rpc/lib/index.d.ts:8</li>
+									<li>Defined in packages/ckb-rpc/lib/index.d.ts:8</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -140,7 +141,7 @@
 									<h5>nodeUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="ckbrpc.html" class="tsd-signature-type">CKBRpc</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="ckbrpc.html" class="tsd-signature-type">CKBRPC</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -153,8 +154,8 @@
 					<div class="tsd-signature tsd-kind-icon">_methods<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Method</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-rpc/lib/index.d.ts:7</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L8">ckb-rpc/src/index.ts:8</a></li>
+							<li>Defined in packages/ckb-rpc/lib/index.d.ts:7</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L8">packages/ckb-rpc/src/index.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,8 +165,8 @@
 					<div class="tsd-signature tsd-kind-icon">_node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">INode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in ckb-rpc/lib/index.d.ts:6</li>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L6">ckb-rpc/src/index.ts:6</a></li>
+							<li>Defined in packages/ckb-rpc/lib/index.d.ts:6</li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L6">packages/ckb-rpc/src/index.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,10 +175,10 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> default<wbr>Methods</h3>
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Methods<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IMethod</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#defaultmethods">defaultMethods</a></p>
-						<p>Overrides DefaultRpc.defaultMethods</p>
+						<p>Inherited from DefaultRPC.defaultMethods</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#defaultmethods">defaultMethods</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:3</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:3</li>
 						</ul>
 					</aside>
 				</section>
@@ -186,10 +187,10 @@
 					<h3>get<wbr>Block</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Block<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#getblock">getBlock</a></p>
-						<p>Overrides DefaultRpc.getBlock</p>
+						<p>Inherited from DefaultRPC.getBlock</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#getblock">getBlock</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:4</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:4</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -219,10 +220,10 @@
 					<h3>get<wbr>Block<wbr>Hash</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Block<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#getblockhash">getBlockHash</a></p>
-						<p>Overrides DefaultRpc.getBlockHash</p>
+						<p>Inherited from DefaultRPC.getBlockHash</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#getblockhash">getBlockHash</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:6</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:6</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -252,10 +253,10 @@
 					<h3>get<wbr>Cells<wbr>ByType<wbr>Hash</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Cells<wbr>ByType<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#getcellsbytypehash">getCellsByTypeHash</a></p>
-						<p>Overrides DefaultRpc.getCellsByTypeHash</p>
+						<p>Inherited from DefaultRPC.getCellsByTypeHash</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#getcellsbytypehash">getCellsByTypeHash</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:8</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:8</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -263,7 +264,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, from<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#blocknumber" class="tsd-signature-type">BlockNumber</a>, to<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#blocknumber" class="tsd-signature-type">BlockNumber</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, from<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#blocknumber" class="tsd-signature-type">BlockNumber</a>, to<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#blocknumber" class="tsd-signature-type">BlockNumber</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -279,7 +280,7 @@
 												<h5>to: <a href="../modules/ckbcomponents.html#blocknumber" class="tsd-signature-type">BlockNumber</a></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -291,10 +292,10 @@
 					<h3>get<wbr>Live<wbr>Cell</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Live<wbr>Cell<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#getlivecell">getLiveCell</a></p>
-						<p>Overrides DefaultRpc.getLiveCell</p>
+						<p>Inherited from DefaultRPC.getLiveCell</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#getlivecell">getLiveCell</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:9</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:9</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -302,7 +303,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>outPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IOutPoint</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">&gt;</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>outPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IOutPoint</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -312,7 +313,7 @@
 												<h5>outPoint: <span class="tsd-signature-type">IOutPoint</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICell</span><span class="tsd-signature-symbol">&gt;</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -324,10 +325,10 @@
 					<h3>get<wbr>Tip<wbr>Block<wbr>Number</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Tip<wbr>Block<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#gettipblocknumber">getTipBlockNumber</a></p>
-						<p>Overrides DefaultRpc.getTipBlockNumber</p>
+						<p>Inherited from DefaultRPC.getTipBlockNumber</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#gettipblocknumber">getTipBlockNumber</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:10</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:13</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -351,10 +352,10 @@
 					<h3>get<wbr>Tip<wbr>Header</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Tip<wbr>Header<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#gettipheader">getTipHeader</a></p>
-						<p>Overrides DefaultRpc.getTipHeader</p>
+						<p>Inherited from DefaultRPC.getTipHeader</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#gettipheader">getTipHeader</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:7</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:7</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -378,10 +379,10 @@
 					<h3>get<wbr>Transaction</h3>
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#gettransaction">getTransaction</a></p>
-						<p>Overrides DefaultRpc.getTransaction</p>
+						<p>Inherited from DefaultRPC.getTransaction</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#gettransaction">getTransaction</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:5</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:5</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -411,10 +412,10 @@
 					<h3>local<wbr>Node<wbr>Id</h3>
 					<div class="tsd-signature tsd-kind-icon">local<wbr>Node<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="defaultrpc.html">DefaultRpc</a>.<a href="defaultrpc.html#localnodeid">localNodeId</a></p>
-						<p>Overrides DefaultRpc.localNodeId</p>
+						<p>Inherited from DefaultRPC.localNodeId</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#localnodeid">localNodeId</a></p>
 						<ul>
-							<li>Defined in ckb-rpc/lib/defaultRpc.d.ts:11</li>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:15</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -443,7 +444,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L31">ckb-rpc/src/index.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L31">packages/ckb-rpc/src/index.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Method</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -460,12 +461,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L27">ckb-rpc/src/index.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L27">packages/ckb-rpc/src/index.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">INode</span></h4>
 						</li>
 					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<a name="sendtransaction" class="tsd-anchor"></a>
+					<h3>send<wbr>Transaction</h3>
+					<div class="tsd-signature tsd-kind-icon">send<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from DefaultRPC.sendTransaction</p>
+						<p>Overrides <a href="defaultrpc.html">DefaultRPC</a>.<a href="defaultrpc.html#sendtransaction">sendTransaction</a></p>
+						<ul>
+							<li>Defined in packages/ckb-rpc/lib/defaultRPC.d.ts:14</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>tx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ITransaction</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>tx: <span class="tsd-signature-type">ITransaction</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -480,7 +514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L35">ckb-rpc/src/index.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L35">packages/ckb-rpc/src/index.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -503,7 +537,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-rpc/src/index.ts#L10">ckb-rpc/src/index.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-rpc/src/index.ts#L10">packages/ckb-rpc/src/index.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -526,7 +560,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in ckb-rpc/lib/index.d.ts:10</li>
+									<li>Defined in packages/ckb-rpc/lib/index.d.ts:10</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -554,7 +588,7 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="ckbrpc.html" class="tsd-kind-icon">CKBRpc</a>
+						<a href="ckbrpc.html" class="tsd-kind-icon">CKBRPC</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="ckbrpc.html#constructor" class="tsd-kind-icon">constructor</a>
@@ -597,6 +631,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="ckbrpc.html#node" class="tsd-kind-icon">node</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="ckbrpc.html#sendtransaction" class="tsd-kind-icon">send<wbr>Transaction</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ckbrpc.html#addmethod" class="tsd-kind-icon">add<wbr>Method</a>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>INode | CKB-SDK.js</title>
+	<title>ICellByTypeHash | CKB-SDK.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,10 +57,10 @@
 					<a href="../modules/ckbcomponents.html">CKBComponents</a>
 				</li>
 				<li>
-					<a href="ckbcomponents.inode.html">INode</a>
+					<a href="ckbcomponents.icellbytypehash.html">ICellByTypeHash</a>
 				</li>
 			</ul>
-			<h1>Interface INode</h1>
+			<h1>Interface ICellByTypeHash</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">INode</span>
+						<span class="target">ICellByTypeHash</span>
 					</li>
 				</ul>
 			</section>
@@ -82,7 +82,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.inode.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icellbytypehash.html#capacity" class="tsd-kind-icon">capacity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icellbytypehash.html#lock" class="tsd-kind-icon">lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icellbytypehash.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,12 +93,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="url" class="tsd-anchor"></a>
-					<h3>url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="capacity" class="tsd-anchor"></a>
+					<h3>capacity</h3>
+					<div class="tsd-signature tsd-kind-icon">capacity<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L12">packages/ckb-types/index.d.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L180">packages/ckb-types/index.d.ts:180</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lock" class="tsd-anchor"></a>
+					<h3>lock</h3>
+					<div class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L181">packages/ckb-types/index.d.ts:181</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="outpoint" class="tsd-anchor"></a>
+					<h3>out<wbr>Point</h3>
+					<div class="tsd-signature tsd-kind-icon">out<wbr>Point<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutPoint</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-types/index.d.ts#L182">packages/ckb-types/index.d.ts:182</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,9 +158,24 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icell.html" class="tsd-kind-icon">ICell</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icellbytypehash.html" class="tsd-kind-icon">ICell<wbr>ByType<wbr>Hash</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ckbcomponents.icellbytypehash.html#capacity" class="tsd-kind-icon">capacity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ckbcomponents.icellbytypehash.html#lock" class="tsd-kind-icon">lock</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ckbcomponents.icellbytypehash.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icellinput.html" class="tsd-kind-icon">ICell<wbr>Input</a>
 					</li>
@@ -151,18 +188,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.inode.html" class="tsd-kind-icon">INode</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.inode.html#url" class="tsd-kind-icon">url</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.ioutpoint.html" class="tsd-kind-icon">IOut<wbr>Point</a>
 					</li>

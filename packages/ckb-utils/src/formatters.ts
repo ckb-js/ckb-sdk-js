@@ -2,7 +2,7 @@ export default {
   toHash: (hash: string): string => hash,
   toOutPoint: (outPoint: string): any => outPoint,
   toNumber: (number: string | number): number => +number,
-  toTx: (): // tx: CkbComponents.ITransaction
+  toTx: (): // tx: CKBComponents.ITransaction
   any => ({
     version: 1,
     deps: [],
@@ -29,4 +29,38 @@ export default {
       },
     ],
   }),
+
+  /* eslint-disable camelcase */
+  toBlock: ({
+    header,
+    uncles,
+    commit_transactions,
+    proposal_transactions,
+  }: any) => {
+    const h: CKBComponents.IBlockHeader = {
+      version: header.version,
+      parentHash: header.parent_hash,
+      timestamp: header.timestamp,
+      number: header.number,
+      txsCommit: header.txs_commit,
+      txsProposal: header.txs_proposal,
+      difficulty: header.difficulty,
+      cellbaseId: header.cellbase_id,
+      unclesHash: header.uncle_hash,
+      unclesCount: header.uncle_count,
+      seal: header.seal,
+      hash: header.hash,
+    }
+    const u = uncles
+    const c = commit_transactions
+    const p = proposal_transactions
+    const b: CKBComponents.IBlock = {
+      header: h,
+      uncles: u,
+      commitTransactions: c,
+      proposalTransactions: p,
+    }
+    return b
+  },
 }
+/* eslint-enable camelcase */

@@ -54,7 +54,7 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/ckbcomponents.html">CkbComponents</a>
+					<a href="../modules/ckbcomponents.html">CKBComponents</a>
 				</li>
 				<li>
 					<a href="ckbcomponents.icell.html">ICell</a>
@@ -79,9 +79,6 @@
 						<dt>property</dt>
 						<dd><p>lock, lock hash</p>
 						</dd>
-						<dt>property</dt>
-						<dd><p>outPoint</p>
-						</dd>
 					</dl>
 				</div>
 			</section>
@@ -89,7 +86,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ICell</span>
+						<span class="tsd-signature-type">ICellOutput</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ICell</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -97,79 +99,65 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#capacity" class="tsd-kind-icon">capacity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#contract" class="tsd-kind-icon">contract</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#lock" class="tsd-kind-icon">lock</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ckbcomponents.icell.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icell.html#capacity" class="tsd-kind-icon">capacity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icell.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icell.html#lock" class="tsd-kind-icon">lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="ckbcomponents.icell.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="capacity" class="tsd-anchor"></a>
 					<h3>capacity</h3>
-					<div class="tsd-signature tsd-kind-icon">capacity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">capacity<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.capacity</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#capacity">capacity</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L164">ckb-types/index.d.ts:164</a></li>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:62</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="contract" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> contract</h3>
-					<div class="tsd-signature tsd-kind-icon">contract<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L166">ckb-types/index.d.ts:166</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="data" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span></div>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.data</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#data">data</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L167">ckb-types/index.d.ts:167</a></li>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:63</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="lock" class="tsd-anchor"></a>
 					<h3>lock</h3>
 					<div class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">:</span> <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.lock</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#lock">lock</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L165">ckb-types/index.d.ts:165</a></li>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:64</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="outpoint" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> out<wbr>Point</h3>
-					<div class="tsd-signature tsd-kind-icon">out<wbr>Point<span class="tsd-signature-symbol">:</span> <a href="ckbcomponents.ioutpoint.html" class="tsd-signature-type">IOutPoint</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L169">ckb-types/index.d.ts:169</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="type" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="ckbcomponents.iscript.html" class="tsd-signature-type">IScript</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from ICellOutput.type</p>
+						<p>Overrides <a href="ckbcomponents.icelloutput.html">ICellOutput</a>.<a href="ckbcomponents.icelloutput.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/93cfbb0/packages/ckb-types/index.d.ts#L168">ckb-types/index.d.ts:168</a></li>
+							<li>Defined in packages/ckb-rpc/node_modules/@ckb-sdk/types/index.d.ts:65</li>
 						</ul>
 					</aside>
 				</section>
@@ -181,19 +169,25 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class=" tsd-kind-module tsd-is-not-exported">
+						<a href="../modules/_sha3_.html">"sha3"</a>
+					</li>
 					<li class="current tsd-kind-module tsd-is-not-exported">
-						<a href="../modules/ckbcomponents.html">Ckb<wbr>Components</a>
+						<a href="../modules/ckbcomponents.html">CKBComponents</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="../modules/ckbrpc.html">Ckb<wbr>Rpc</a>
+						<a href="../modules/ckbrpc.html">CkbRPC</a>
 					</li>
 					<li class=" tsd-kind-module tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/ckbrpc.params.html">Ckb<wbr>Rpc.<wbr>Params</a>
+						<a href="../modules/ckbrpc.params.html">CkbRPC.<wbr>Params</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/ckbcomponents.cellstatus.html" class="tsd-kind-icon">Cell<wbr>Status</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.iblock.html" class="tsd-kind-icon">IBlock</a>
 					</li>
@@ -205,22 +199,16 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icell.html" class="tsd-kind-icon">ICell</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 								<a href="ckbcomponents.icell.html#capacity" class="tsd-kind-icon">capacity</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.icell.html#contract" class="tsd-kind-icon">contract</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 								<a href="ckbcomponents.icell.html#data" class="tsd-kind-icon">data</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 								<a href="ckbcomponents.icell.html#lock" class="tsd-kind-icon">lock</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ckbcomponents.icell.html#outpoint" class="tsd-kind-icon">out<wbr>Point</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 								<a href="ckbcomponents.icell.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
@@ -228,10 +216,16 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ckbcomponents.icellbytypehash.html" class="tsd-kind-icon">ICell<wbr>ByType<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icellinput.html" class="tsd-kind-icon">ICell<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.icelloutput.html" class="tsd-kind-icon">ICell<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ckbcomponents.icellwithoutpoint.html" class="tsd-kind-icon">ICell<wbr>With<wbr>Out<wbr>Point</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ckbcomponents.imethod.html" class="tsd-kind-icon">IMethod</a>

@@ -75,6 +75,11 @@
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Account</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="alwayssuccessaccount.html" class="tsd-signature-type">AlwaysSuccessAccount</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -90,17 +95,45 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="account.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="account.html#verify_script" class="tsd-kind-icon">VERIFY_<wbr>SCRIPT</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#_compressed" class="tsd-kind-icon">_compressed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#_pk" class="tsd-kind-icon">_pk</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="account.html#deps" class="tsd-kind-icon">deps</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#network" class="tsd-kind-icon">network</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="account.html#rpc" class="tsd-kind-icon">rpc</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#sign" class="tsd-kind-icon">sign</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#towif" class="tsd-kind-icon">toWIF</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="account.html#unlocktypehash" class="tsd-kind-icon">unlock<wbr>Type<wbr>Hash</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="account.html#verify" class="tsd-kind-icon">verify</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="account.html#min_cell_capacity" class="tsd-kind-icon">MIN_<wbr>CELL_<wbr>CAPACITY</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="account.html#hexpubkey" class="tsd-kind-icon">hex<wbr>Pub<wbr>Key</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#gatherinputs" class="tsd-kind-icon">gather<wbr>Inputs</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#generatetx" class="tsd-kind-icon">generate<wbr>Tx</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#getbalance" class="tsd-kind-icon">get<wbr>Balance</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#getunspentcells" class="tsd-kind-icon">get<wbr>Unspent<wbr>Cells</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#sendcapacity" class="tsd-kind-icon">send<wbr>Capacity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="account.html#verifyscript" class="tsd-kind-icon">verify<wbr>Script</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class"><a href="account.html#_unlockscriptjsonobject" class="tsd-kind-icon">_unlock<wbr>Script<wbr>Json<wbr>Object</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,20 +145,44 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Account<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Account<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, rpc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RPC</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Account<span class="tsd-signature-symbol">(</span>sk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, rpc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RPC</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="account.html" class="tsd-signature-type">Account</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides ECPair.__constructor</p>
 								<ul>
-									<li>Defined in ckb-wallet/lib/account.d.ts:3</li>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L20">packages/ckb-wallet/src/account.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>sk: <span class="tsd-signature-type">Buffer</span></h5>
+									<h5>sk: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>rpc: <span class="tsd-signature-type">RPC</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/options.html" class="tsd-signature-type">Options</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="account.html" class="tsd-signature-type">Account</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in packages/ckb-wallet/lib/account.d.ts:10</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sk: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>rpc: <span class="tsd-signature-type">RPC</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/options.html" class="tsd-signature-type">Options</a></h5>
@@ -136,8 +193,19 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="verify_script" class="tsd-anchor"></a>
+					<h3>VERIFY_<wbr>SCRIPT</h3>
+					<div class="tsd-signature tsd-kind-icon">VERIFY_<wbr>SCRIPT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L6">packages/ckb-wallet/src/account.ts:6</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:5</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="_compressed" class="tsd-anchor"></a>
 					<h3>_compressed</h3>
@@ -146,19 +214,30 @@
 						<p>Inherited from ECPair._compressed</p>
 						<p>Overrides ECPair._compressed</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:9</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:9</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="_pk" class="tsd-anchor"></a>
 					<h3>_pk</h3>
-					<div class="tsd-signature tsd-kind-icon">_pk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
+					<div class="tsd-signature tsd-kind-icon">_pk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ECPair._pk</p>
 						<p>Overrides ECPair._pk</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:8</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:8</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="deps" class="tsd-anchor"></a>
+					<h3>deps</h3>
+					<div class="tsd-signature tsd-kind-icon">deps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IOutPoint</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L14">packages/ckb-wallet/src/account.ts:14</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:9</li>
 						</ul>
 					</aside>
 				</section>
@@ -170,31 +249,42 @@
 						<p>Inherited from ECPair.network</p>
 						<p>Overrides ECPair.network</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:10</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:10</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="privatekey" class="tsd-anchor"></a>
 					<h3>private<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
+					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ECPair.privateKey</p>
 						<p>Overrides ECPair.privateKey</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:12</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:12</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="publickey" class="tsd-anchor"></a>
 					<h3>public<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from ECPair.publicKey</p>
 						<p>Overrides ECPair.publicKey</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:13</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:13</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="rpc" class="tsd-anchor"></a>
+					<h3>rpc</h3>
+					<div class="tsd-signature tsd-kind-icon">rpc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RPC</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L10">packages/ckb-wallet/src/account.ts:10</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:7</li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +296,7 @@
 						<p>Inherited from ECPair.sign</p>
 						<p>Overrides ECPair.sign</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:15</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:15</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -239,7 +329,7 @@
 						<p>Inherited from ECPair.toWIF</p>
 						<p>Overrides ECPair.toWIF</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:14</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:14</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -258,6 +348,17 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="unlocktypehash" class="tsd-anchor"></a>
+					<h3>unlock<wbr>Type<wbr>Hash</h3>
+					<div class="tsd-signature tsd-kind-icon">unlock<wbr>Type<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L12">packages/ckb-wallet/src/account.ts:12</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:8</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="verify" class="tsd-anchor"></a>
 					<h3>verify</h3>
@@ -266,7 +367,7 @@
 						<p>Inherited from ECPair.verify</p>
 						<p>Overrides ECPair.verify</p>
 						<ul>
-							<li>Defined in ckb-core/node_modules/@ckb-sdk/wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:16</li>
+							<li>Defined in packages/ckb-wallet/node_modules/@ckb-sdk/utils/lib/ecpair.d.ts:16</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -294,6 +395,247 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="min_cell_capacity" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MIN_<wbr>CELL_<wbr>CAPACITY</h3>
+					<div class="tsd-signature tsd-kind-icon">MIN_<wbr>CELL_<wbr>CAPACITY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L8">packages/ckb-wallet/src/account.ts:8</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:6</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="hexpubkey" class="tsd-anchor"></a>
+					<h3>hex<wbr>Pub<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hexPubKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L27">packages/ckb-wallet/src/account.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gatherinputs" class="tsd-anchor"></a>
+					<h3>gather<wbr>Inputs</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">gather<wbr>Inputs<span class="tsd-signature-symbol">(</span>capacity<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a>, minCapacity<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L52">packages/ckb-wallet/src/account.ts:52</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>capacity: <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></h5>
+								</li>
+								<li>
+									<h5>minCapacity: <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="generatetx" class="tsd-anchor"></a>
+					<h3>generate<wbr>Tx</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Tx<span class="tsd-signature-symbol">(</span>targetAddr<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a>, targetCapacity<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITransaction</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L89">packages/ckb-wallet/src/account.ts:89</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>targetAddr: <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></h5>
+								</li>
+								<li>
+									<h5>targetCapacity: <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITransaction</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getbalance" class="tsd-anchor"></a>
+					<h3>get<wbr>Balance</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Balance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L46">packages/ckb-wallet/src/account.ts:46</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getunspentcells" class="tsd-anchor"></a>
+					<h3>get<wbr>Unspent<wbr>Cells</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Unspent<wbr>Cells<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L33">packages/ckb-wallet/src/account.ts:33</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ICellByTypeHash</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendcapacity" class="tsd-anchor"></a>
+					<h3>send<wbr>Capacity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Capacity<span class="tsd-signature-symbol">(</span>targetAddr<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a>, capacity<span class="tsd-signature-symbol">: </span><a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L120">packages/ckb-wallet/src/account.ts:120</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>targetAddr: <a href="../modules/ckbcomponents.html#hash" class="tsd-signature-type">Hash</a></h5>
+								</li>
+								<li>
+									<h5>capacity: <a href="../modules/ckbcomponents.html#capacity" class="tsd-signature-type">Capacity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="verifyscript" class="tsd-anchor"></a>
+					<h3>verify<wbr>Script</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">verify<wbr>Script<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L130">packages/ckb-wallet/src/account.ts:130</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>binary<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>reference<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>signed<wbr>Args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>binary<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>reference<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>signed<wbr>Args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class">
+					<a name="_unlockscriptjsonobject" class="tsd-anchor"></a>
+					<h3>_unlock<wbr>Script<wbr>Json<wbr>Object</h3>
+					<div class="tsd-signature tsd-kind-icon">_unlock<wbr>Script<wbr>Json<wbr>Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L16">packages/ckb-wallet/src/account.ts:16</a></li>
+							<li>Defined in packages/ckb-wallet/lib/account.d.ts:10</li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_unlockscriptjsonobject.args" class="tsd-anchor"></a>
+						<h3>args</h3>
+						<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L18">packages/ckb-wallet/src/account.ts:18</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_unlockscriptjsonobject.signedargs" class="tsd-anchor"></a>
+						<h3>signed<wbr>Args</h3>
+						<div class="tsd-signature tsd-kind-icon">signed<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L19">packages/ckb-wallet/src/account.ts:19</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_unlockscriptjsonobject.version" class="tsd-anchor"></a>
+						<h3>version</h3>
+						<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/8a1bbac/packages/ckb-wallet/src/account.ts#L17">packages/ckb-wallet/src/account.ts:17</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -314,11 +656,17 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="account.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="account.html#verify_script" class="tsd-kind-icon">VERIFY_<wbr>SCRIPT</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#_compressed" class="tsd-kind-icon">_compressed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#_pk" class="tsd-kind-icon">_pk</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="account.html#deps" class="tsd-kind-icon">deps</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#network" class="tsd-kind-icon">network</a>
@@ -329,14 +677,47 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#publickey" class="tsd-kind-icon">public<wbr>Key</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="account.html#rpc" class="tsd-kind-icon">rpc</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#sign" class="tsd-kind-icon">sign</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#towif" class="tsd-kind-icon">toWIF</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="account.html#unlocktypehash" class="tsd-kind-icon">unlock<wbr>Type<wbr>Hash</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="account.html#verify" class="tsd-kind-icon">verify</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="account.html#min_cell_capacity" class="tsd-kind-icon">MIN_<wbr>CELL_<wbr>CAPACITY</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="account.html#hexpubkey" class="tsd-kind-icon">hex<wbr>Pub<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#gatherinputs" class="tsd-kind-icon">gather<wbr>Inputs</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#generatetx" class="tsd-kind-icon">generate<wbr>Tx</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#getbalance" class="tsd-kind-icon">get<wbr>Balance</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#getunspentcells" class="tsd-kind-icon">get<wbr>Unspent<wbr>Cells</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#sendcapacity" class="tsd-kind-icon">send<wbr>Capacity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="account.html#verifyscript" class="tsd-kind-icon">verify<wbr>Script</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class">
+								<a href="account.html#_unlockscriptjsonobject" class="tsd-kind-icon">_unlock<wbr>Script<wbr>Json<wbr>Object</a>
 							</li>
 						</ul>
 					</li>

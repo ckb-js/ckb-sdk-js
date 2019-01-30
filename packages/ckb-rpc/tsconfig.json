@@ -4,7 +4,7 @@
     "target": "es6",
     "lib": ["es6", "dom"],
     "outDir": "./lib",
-    "types": ["@ckb-sdk/types"]
+    "types": ["@ckb-sdk/types", "@ckb-sdk/utils"]
   },
   "include": ["./src"],
 }

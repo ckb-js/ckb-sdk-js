@@ -32,9 +32,11 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
+    "@ckb-sdk/utils": "^0.0.0",
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@ckb-sdk/types": "^0.0.0"
+    "@ckb-sdk/types": "^0.0.0",
+    "@types/crypto-js": "^3.1.43"
   }
 }

@@ -1,17 +1,22 @@
-import Rpc from '@ckb-sdk/rpc'
+import RPC from '@ckb-sdk/rpc'
+import { hexToBytes } from '@ckb-sdk/utils'
 import Account from './account'
+import AWS from './alwaysSuccessAccount'
 
+const aswSkStr =
+  'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
+const aswSkBytes = Buffer.from(hexToBytes(aswSkStr))
 class Wallet {
-  static accountFromPrivateKey = (sk: Buffer) => new Account(sk, {})
+  public accountFromPrivateKey = (sk: Buffer) => new Account(sk, this.rpc, {})
 
-  private _rpc: Rpc
+  public rpc: RPC
 
   private _accounts: Account[] = []
 
-  public deps: CkbComponents.IOutPoint[] = []
+  public deps: CKBComponents.IOutPoint[] = []
 
-  public constructor(rpc: Rpc) {
-    this._rpc = rpc
+  public constructor(rpc: RPC) {
+    this.rpc = rpc
   }
 
   public getAccounts(idx?: number): Account[] | Account | null {
@@ -21,14 +26,6 @@ class Wallet {
     return this._accounts
   }
 
-  public setRpc(rpc: Rpc) {
-    this._rpc = rpc
-  }
-
-  public get rpc() {
-    return this._rpc
-  }
-
   public newAccount = (sk: Buffer, opt: any) => {
     // TODO:
     const acc = new Account(sk, opt)
@@ -36,21 +33,23 @@ class Wallet {
     return acc
   }
 
-  public getCells = (idx?: number): CkbComponents.ICell[] => {
-    console.log(idx)
+  public newASW = () => new AWS(aswSkBytes, this.rpc)
+
+  public getCells = (idx?: number): CKBComponents.ICell[] => {
+    console.info(idx)
     return []
   }
 
   public getCellsByTypeHash = (
     typeHash: string,
     from: number = 0,
-    to: number = Number.MAX_SAFE_INTEGER,
-  ) => this._rpc.getCellsByTypeHash(typeHash, from, to)
+    to: number = Number.MAX_SAFE_INTEGER
+  ) => this.rpc.getCellsByTypeHash(typeHash, from, to)
 
   public getBalanceByTypeHash = (
     typeHash: string,
     from: number = 0,
-    to: number = Number.MAX_SAFE_INTEGER,
+    to: number = Number.MAX_SAFE_INTEGER
   ) =>
     this.getCellsByTypeHash(typeHash, from, to).then(cells => {
       cells.reduce((acc, cell) => acc + cell.capacity, 0)
@@ -59,13 +58,13 @@ class Wallet {
   public genTxByTypeHash = async (
     toAdd: Buffer = Buffer.from([]),
     capacity: number = 0,
-    typeHash: string = '',
+    typeHash: string = ''
   ) => {
     const blockNumber = await this.rpc.getTipBlockNumber()
     const cells = await this.getCellsByTypeHash(
       typeHash,
       blockNumber,
-      blockNumber,
+      blockNumber
     )
     console.log(toAdd, capacity, cells)
     // TODO:
@@ -112,7 +111,7 @@ class Wallet {
 
   public sendCapacity = (
     toAddr: Buffer = Buffer.from([]),
-    capacity: number = 0,
+    capacity: number = 0
   ) => {
     // this.generateTx()
     // this._rpc.
@@ -139,8 +138,8 @@ class Wallet {
       inputs.push(input)
       inputCapacities += cell.capacity
       if (
-        inputCapacities >= capacity
-        && inputCapacities >= minCapacity + capacity
+        inputCapacities >= capacity &&
+        inputCapacities >= minCapacity + capacity
       ) {
         return false
       }
