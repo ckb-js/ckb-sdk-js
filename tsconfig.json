@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@cryptape/sdk-ts-config/tsconfig.json",
+  "extends": "@cryptape/sdk-ts-config/tsconfig.json",
   "compilerOptions": {
     "target": "es6",
     "lib": ["es6", "dom"],
