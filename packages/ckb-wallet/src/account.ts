@@ -1,6 +1,6 @@
 import ECPair, { Options } from '@ckb-sdk/utils/lib/ecpair'
 import RPC from '@ckb-sdk/rpc'
-import { hexToBytes } from '@ckb-sdk/utils'
+import { hexToBytes, jsonScriptToTypeHash } from '@ckb-sdk/utils'
 
 class Account extends ECPair {
   public VERIFY_SCRIPT: string = ''
@@ -9,7 +9,31 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockTypeHash: string = ''
+  public unlockScript: CKBComponents.IScript = {
+    version: 0,
+    reference: '',
+    signedArgs: [],
+    args: [],
+  }
+
+  public contractScript: CKBComponents.IScript = {
+    version: 0,
+    reference: '',
+    signedArgs: [],
+    args: [],
+  }
+
+  get unlockTypeHash(): string {
+    return jsonScriptToTypeHash(this.unlockScript)
+  }
+
+  get contractTypeHash(): string {
+    return jsonScriptToTypeHash(this.contractScript)
+  }
+
+  get address() {
+    return this.unlockTypeHash
+  }
 
   public deps: CKBComponents.IOutPoint[] = []
 
