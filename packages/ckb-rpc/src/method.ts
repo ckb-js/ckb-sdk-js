@@ -2,20 +2,20 @@ import axios from 'axios'
 import { DEBUG_LEVEL, LOG_COLOR } from './enum'
 
 class Method {
-  private _options: CkbComponents.IMethod = {
+  private _options: CKBComponents.IMethod = {
     name: '',
     method: '',
     paramsFormatters: [],
-    resultFormatters: [],
+    resultFormatters: undefined,
   }
 
   static debugLevel = DEBUG_LEVEL.OFF
 
-  private _node: CkbComponents.INode = {
+  private _node: CKBComponents.INode = {
     url: '',
   }
 
-  constructor(options: CkbComponents.IMethod, node: CkbComponents.INode) {
+  constructor(options: CKBComponents.IMethod, node: CKBComponents.INode) {
     this._options = options
     this._node = node
   }
@@ -52,7 +52,7 @@ class Method {
           `\n----- ${this._options.name} request -----`,
           LOG_COLOR.RESET,
         )
-        console.info(payload)
+        console.info(JSON.stringify(payload, null, 2))
         console.groupEnd()
         console.group()
         console.info(
@@ -60,7 +60,7 @@ class Method {
           `----- ${this._options.name} response -----`,
           LOG_COLOR.RESET,
         )
-        console.info(res.data)
+        console.info(JSON.stringify(res.data, null, 2))
         console.groupEnd()
         console.groupEnd()
         /* eslint-enabled */
@@ -68,7 +68,9 @@ class Method {
       if (res.data.result === undefined) {
         throw new Error('No Result')
       }
-      return res.data.result
+      return this._options.resultFormatters
+        ? this._options.resultFormatters(res.data.result)
+        : res.data.result
     })
   }
 }

@@ -4,8 +4,9 @@
     "moduleResolution": "node",
     "target": "es6",
     "outDir": "./lib",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["@ckb-sdk/types", "node", "tiny-secp256k1"]
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["@ckb-sdk/types", "node", "@types/tiny-secp256k1", "sha3"]
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["node_modules", "typings", "./types"]
 }

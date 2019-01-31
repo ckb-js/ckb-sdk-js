@@ -19,13 +19,13 @@ commander
   .description('Start a link to the remote address')
   .action(async (remote = RPC_URL) => {
     const core = new Core(remote)
-    console.log(`connected to ${remote}`)
+    console.info(`connected to ${remote}`)
     const { action } = await prompt({
       type: 'rawlist',
       name: 'action',
       choices: ['rpc', 'watch'],
     })
-    console.log(action)
+    console.info(action)
     if (action === 'rpc') {
       const { rpcMethod } = await prompt({
         type: 'rawlist',
@@ -42,12 +42,12 @@ commander
           'sendTransaction',
         ],
       })
-      console.log(rpcMethod)
+      console.info(rpcMethod)
       /* eslint-disable indent */
       switch (rpcMethod) {
         case 'getTipHeader':
         case 'getTipBlockNumber': {
-          return (core.rpc as any)[rpcMethod]().then(console.log)
+          return (core.rpc as any)[rpcMethod]().then(console.info)
         }
         default: {
           return null
@@ -66,7 +66,7 @@ commander
     const replServer = repl.start({
       prompt: 'ckb => ',
     })
-    console.log(`connected to ${remote}`)
+    console.info(`connected to ${remote}`)
     const core = new Core(remote)
     replServer.context.core = core
     replServer.context.rpc = {}

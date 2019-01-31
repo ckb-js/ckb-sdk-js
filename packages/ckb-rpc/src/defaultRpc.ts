@@ -1,12 +1,12 @@
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-const defaultRpc: CkbComponents.IMethod[] = [
+const defaultRPC: CKBComponents.IMethod[] = [
   {
     name: 'getBlock',
     method: 'get_block',
     paramsFormatters: [paramsFmts.toHash],
-    resultFormatters: [resultFmts.toBlockWithHash],
+    resultFormatters: resultFmts.toBlock,
   },
   {
     name: 'getTransaction',
@@ -16,19 +16,19 @@ const defaultRpc: CkbComponents.IMethod[] = [
       paramsFmts.toNumber,
       paramsFmts.toNumber,
     ],
-    resultFormatters: [resultFmts.toTransactionWithHash],
+    // resultFormatters: resultFmts.toTransactionWithHash,
   },
   {
     name: 'getBlockHash',
     method: 'get_block_hash',
     paramsFormatters: [paramsFmts.toNumber],
-    resultFormatters: [resultFmts.toHash],
+    // resultFormatters: resultFmts.toHash,
   },
   {
     name: 'getTipHeader',
     method: 'get_tip_header',
     paramsFormatters: [],
-    resultFormatters: [resultFmts.toHeader],
+    resultFormatters: resultFmts.toHeader,
   },
   {
     name: 'getCellsByTypeHash',
@@ -38,7 +38,7 @@ const defaultRpc: CkbComponents.IMethod[] = [
       paramsFmts.toNumber,
       paramsFmts.toNumber,
     ],
-    resultFormatters: [resultFmts.toCellOutputWithOutput],
+    resultFormatters: resultFmts.toCells,
   },
   // {
   //   name: 'getCurrentCell',
@@ -50,25 +50,25 @@ const defaultRpc: CkbComponents.IMethod[] = [
     name: 'getLiveCell',
     method: 'get_live_cell',
     paramsFormatters: [paramsFmts.toOutPoint],
-    resultFormatters: [resultFmts.toCellWithStatus],
+    resultFormatters: resultFmts.toCellWithStatus,
   },
   {
     name: 'getTipBlockNumber',
     method: 'get_tip_block_number',
     paramsFormatters: [],
-    resultFormatters: [resultFmts.toNumber],
+    resultFormatters: resultFmts.toNumber,
   },
   {
     name: 'sendTransaction',
     method: 'send_transaction',
     paramsFormatters: [paramsFmts.toTx],
-    resultFormatters: [resultFmts.toTxRes],
+    resultFormatters: resultFmts.toTxRes,
   },
   {
     name: 'localNodeId',
     method: 'local_node_id',
     paramsFormatters: [],
-    resultFormatters: [],
+    // resultFormatters: null,
   },
 ]
 
@@ -76,25 +76,29 @@ const defaultRpc: CkbComponents.IMethod[] = [
 //   id: number
 //   result: T
 // }
-export class DefaultRpc {
-  protected defaultMethods = defaultRpc
+export class DefaultRPC {
+  protected defaultMethods = defaultRPC
 
   /* eslint-disable */
-  public getBlock!: (hash: CkbComponents.Hash) => Promise<CkbComponents.IBlock>
-  public getTransaction!: (hash: CkbComponents.Hash) => Promise<CkbComponents.ITransaction>
-  public getBlockHash!: (number: CkbComponents.BlockNumber) => Promise<CkbComponents.Hash>
-  public getTipHeader!: () => Promise<CkbComponents.IBlockHeader>
+  public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.IBlock>
+  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.ITransaction>
+  public getBlockHash!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Hash>
+  public getTipHeader!: () => Promise<CKBComponents.IBlockHeader>
   public getCellsByTypeHash!: (
     hash: string,
-    from: CkbComponents.BlockNumber,
-    to: CkbComponents.BlockNumber,
-  ) => Promise<CkbComponents.ICell[]>
-  // public getCurrentCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
-  public getLiveCell!: (outPoint: CkbComponents.IOutPoint) => Promise<CkbComponents.ICell>
-  public getTipBlockNumber!: () => Promise<CkbComponents.BlockNumber>
-  // public sendTransaction!:()
-  public localNodeId!: () => Promise<CkbComponents.LocalNodeId>
+    from: CKBComponents.BlockNumber,
+    to: CKBComponents.BlockNumber,
+  ) => Promise<CKBComponents.ICellByTypeHash[]>
+  public getLiveCell!: (
+    outPoint: CKBComponents.IOutPoint,
+  ) => Promise<{
+    cell: CKBComponents.ICell
+    status: CKBComponents.CellStatus
+  }>
+  public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
+  public sendTransaction!: (tx: CKBComponents.ITransaction) => Promise<CKBComponents.Hash>
+  public localNodeId!: () => Promise<CKBComponents.LocalNodeId>
   /* eslint-enable */
 }
 
-export default DefaultRpc
+export default DefaultRPC

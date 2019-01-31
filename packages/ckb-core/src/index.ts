@@ -1,40 +1,47 @@
-import Rpc from '@ckb-sdk/rpc'
+import RPC from '@ckb-sdk/rpc'
 import Wallet from '@ckb-sdk/wallet'
+import * as utils from '@ckb-sdk/utils'
 
 class Core {
-  private _rpc: Rpc
+  public rpc: RPC
 
-  private _node: CkbComponents.INode
+  private _node: CKBComponents.INode
 
   private _wallet: Wallet
+
+  public _utils = utils
 
   constructor(nodeUrl: string) {
     this._node = {
       url: nodeUrl,
     }
-    this._rpc = new Rpc(nodeUrl)
-    this._wallet = new Wallet(this._rpc)
+    this.rpc = new RPC(nodeUrl)
+    this._wallet = new Wallet(this.rpc)
   }
 
-  public setNode(node: string | CkbComponents.INode): CkbComponents.INode {
+  public setNode(node: string | CKBComponents.INode): CKBComponents.INode {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
       this._node = node
     }
 
-    this._rpc.setNode(this._node)
-    this._wallet.setRpc(this._rpc)
+    this.rpc.setNode(this._node)
+    this._wallet.rpc = this.rpc
 
     return this._node
   }
 
-  public get node(): CkbComponents.INode {
+  public get node(): CKBComponents.INode {
     return this._node
   }
 
-  public get rpc(): Rpc {
-    return this._rpc
+  public get utils() {
+    return this._utils
+  }
+
+  public get wallet() {
+    return this._wallet
   }
 }
 
