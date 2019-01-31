@@ -1,6 +1,8 @@
 {
   "name": "ckb-sdk-js",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "tsc": "lerna run tsc",
     "cm": "git-cz",
     "cli": "./packages/ckb-cli/lib/index.js i",
     "doc": "typedoc --out docs --mode file --includes packages --name CKB-SDK.js --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md",
@@ -13,7 +15,7 @@
     }
   },
   "lint-staged": {
-    "*/**/*.ts": [
+    "*/**/*.{ts,js}": [
       "eslint --fix",
       "git add"
     ]

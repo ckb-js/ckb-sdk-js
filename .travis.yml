@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - '11.9'
+  - '10.15'
+
+cache:
+  - npm
+  - yarn
+
+install:
+  - travis_retry yarn install
+  - travis_retry yarn run bootstrap
+
+script:
+  - yarn run tsc
+  - yarn run test
