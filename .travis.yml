@@ -17,4 +17,4 @@ install:
 
 script:
   - yarn run tsc
-  - yarn run test
+  # - yarn run test
