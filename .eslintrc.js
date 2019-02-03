@@ -1,12 +1,13 @@
 module.exports = {
   "extends": "airbnb-base",
-  "parser": "typescript-eslint-parser",
-  "plugins": ["prettier", "typescript", "jest"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier", "@typescript-eslint", "jest"],
   "rules": {
     "prettier/prettier": ["warn", {
       "semi": false,
       "singleQuote": true,
-      "trailingComma": "es5"
+      "trailingComma": "es5",
+      "printWidth": 120
     }],
     "comma-dangle": [2, {
       "arrays": "always-multiline",
@@ -18,8 +19,11 @@ module.exports = {
     "import/no-extraneous-dependencies": [2, {
       "devDependencies": true
     }],
-    "typescript/no-unused-vars": "warn",
-    // "comma-dangle": [2, "always"],
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "vars": "local",
+      "args": "after-used",
+      "ignoreRestSiblings": false
+    }],
     "no-underscore-dangle": ["error", {
       "allowAfterThis": true
     }],

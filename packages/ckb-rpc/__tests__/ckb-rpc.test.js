@@ -1,5 +1,14 @@
-const config = require('../../../node_modules/dotenv').config().parsed
+const path = require('path')
+
+const env = path.join(__dirname, '../.env')
+
+const config = require('dotenv').config({
+  path: env,
+}).parsed
+
 const CkbRpc = require('../lib').default
+
+console.log(config)
 
 const rpc = new CkbRpc(config.RPC_URL)
 
@@ -22,7 +31,7 @@ describe('ckb-rpc', () => {
     const hash = await rpc.getBlockHash(0)
     expect(hash.length).toBe(66)
     const block = await rpc.getBlock(hash)
-    expect(block.hash).toBe(hash)
+    expect(block.header.hash).toBe(hash)
   })
 
   // getTipBlockNumber
@@ -34,15 +43,14 @@ describe('ckb-rpc', () => {
   // get tip header
   it('get tip header', async () => {
     const header = await rpc.getTipHeader()
-    expect(typeof header.raw).toBe('object')
-    expect(typeof header.seal).toBe('object')
+    expect(typeof header.hash).toBe('string')
   })
 
   // get transaction
   it('get transaction', async () => {
     const hash = await rpc.getBlockHash(0)
     const block = await rpc.getBlock(hash)
-    const txs = block.transactions
+    const txs = block.commitTransactions
     if (txs.length) {
       const txHash = txs[0].hash
       const tx = await rpc.getTransaction(txHash)
@@ -54,7 +62,7 @@ describe('ckb-rpc', () => {
   it('get live cell', async () => {
     const hash = await rpc.getBlockHash(0)
     const block = await rpc.getBlock(hash)
-    const txs = block.transactions
+    const txs = block.commitTransactions
     if (txs.length) {
       const txHash = txs[0].hash
       const outPoint = {
