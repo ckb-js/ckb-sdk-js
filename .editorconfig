@@ -14,7 +14,7 @@ spaces_around_operators = true
 # Use 4 spaces for the Python files
 [*.py]
 indent_size = 4
-max_line_length = 80
+max_line_length = 120
 
 # The JSON files contain newlines inconsistently
 [*.json]

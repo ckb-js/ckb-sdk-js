@@ -11,18 +11,12 @@ const defaultRPC: CKBComponents.IMethod[] = [
   {
     name: 'getTransaction',
     method: 'get_transaction',
-    paramsFormatters: [
-      paramsFmts.toHash,
-      paramsFmts.toNumber,
-      paramsFmts.toNumber,
-    ],
-    // resultFormatters: resultFmts.toTransactionWithHash,
+    paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
   },
   {
     name: 'getBlockHash',
     method: 'get_block_hash',
     paramsFormatters: [paramsFmts.toNumber],
-    // resultFormatters: resultFmts.toHash,
   },
   {
     name: 'getTipHeader',
@@ -33,19 +27,9 @@ const defaultRPC: CKBComponents.IMethod[] = [
   {
     name: 'getCellsByTypeHash',
     method: 'get_cells_by_type_hash',
-    paramsFormatters: [
-      paramsFmts.toHash,
-      paramsFmts.toNumber,
-      paramsFmts.toNumber,
-    ],
+    paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
     resultFormatters: resultFmts.toCells,
   },
-  // {
-  //   name: 'getCurrentCell',
-  //   method: 'get_current_cell',
-  //   paramsFormatters: [paramsFmts.toOutPoint],
-  //   resultFormatters: [resultFmts.toCellWithStatus],
-  // },
   {
     name: 'getLiveCell',
     method: 'get_live_cell',
@@ -68,37 +52,38 @@ const defaultRPC: CKBComponents.IMethod[] = [
     name: 'localNodeId',
     method: 'local_node_id',
     paramsFormatters: [],
-    // resultFormatters: null,
   },
 ]
 
-// export interface T {
-//   id: number
-//   result: T
-// }
 export class DefaultRPC {
   protected defaultMethods = defaultRPC
 
-  /* eslint-disable */
   public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.IBlock>
+
   public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.ITransaction>
+
   public getBlockHash!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Hash>
+
   public getTipHeader!: () => Promise<CKBComponents.IBlockHeader>
+
   public getCellsByTypeHash!: (
     hash: string,
     from: CKBComponents.BlockNumber,
-    to: CKBComponents.BlockNumber,
+    to: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.ICellByTypeHash[]>
+
   public getLiveCell!: (
-    outPoint: CKBComponents.IOutPoint,
+    outPoint: CKBComponents.IOutPoint
   ) => Promise<{
     cell: CKBComponents.ICell
     status: CKBComponents.CellStatus
   }>
+
   public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
+
   public sendTransaction!: (tx: CKBComponents.ITransaction) => Promise<CKBComponents.Hash>
+
   public localNodeId!: () => Promise<CKBComponents.LocalNodeId>
-  /* eslint-enable */
 }
 
 export default DefaultRPC
