@@ -6,5 +6,5 @@
     "outDir": "./lib",
     "types": ["@ckb-sdk/types", "@ckb-sdk/utils"]
   },
-  "include": ["./src"],
+  "include": ["./src"]
 }

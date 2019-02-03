@@ -11,10 +11,10 @@ cache:
 
 before_install:
   - git submodule update --init --remote --recursive
+  - npm install -g lerna
 
 install:
   - travis_retry make ci-install
 
 script:
-  - yarn run tsc
-  # - yarn run test
+  - lerna run tsc
