@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DEBUG_LEVEL, LOG_COLOR } from './enum'
+import { DebugLevel, LogColor } from './enum'
 
 class Method {
   private _options: CKBComponents.Method = {
@@ -9,7 +9,7 @@ class Method {
     resultFormatters: undefined,
   }
 
-  static debugLevel = DEBUG_LEVEL.OFF
+  static debugLevel = DebugLevel.Off
 
   private _node: CKBComponents.Node = {
     url: '',
@@ -40,15 +40,15 @@ class Method {
       if (res.data.id !== id) {
         throw new Error('JSONRPC id not match')
       }
-      if (Method.debugLevel === DEBUG_LEVEL.ON) {
+      if (Method.debugLevel === DebugLevel.On) {
         /* eslint-disabled */
         console.group()
         console.group()
-        console.info(LOG_COLOR.CYAN, `\n----- ${this._options.name} request -----`, LOG_COLOR.RESET)
+        console.info(LogColor.Cyan, `\n----- ${this._options.name} request -----`, LogColor.Reset)
         console.info(JSON.stringify(payload, null, 2))
         console.groupEnd()
         console.group()
-        console.info(LOG_COLOR.CYAN, `----- ${this._options.name} response -----`, LOG_COLOR.RESET)
+        console.info(LogColor.Cyan, `----- ${this._options.name} response -----`, LogColor.Reset)
         console.info(JSON.stringify(res.data, null, 2))
         console.groupEnd()
         console.groupEnd()

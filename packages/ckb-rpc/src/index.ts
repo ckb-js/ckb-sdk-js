@@ -1,5 +1,5 @@
 import DefaultRPC from './defaultRPC'
-import { DEBUG_LEVEL } from './enum'
+import { DebugLevel } from './enum'
 import Method from './method'
 
 class CKBRPC extends DefaultRPC {
@@ -7,7 +7,7 @@ class CKBRPC extends DefaultRPC {
 
   private _methods: Method[] = []
 
-  public setDebugLevel = (level: DEBUG_LEVEL) => {
+  public setDebugLevel = (level: DebugLevel) => {
     Method.debugLevel = level
   }
 
