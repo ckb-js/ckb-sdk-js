@@ -1,7 +1,7 @@
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-const defaultRPC: CKBComponents.IMethod[] = [
+const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'getBlock',
     method: 'get_block',
@@ -58,30 +58,30 @@ const defaultRPC: CKBComponents.IMethod[] = [
 export class DefaultRPC {
   protected defaultMethods = defaultRPC
 
-  public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.IBlock>
+  public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
 
-  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.ITransaction>
+  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Transaction>
 
   public getBlockHash!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Hash>
 
-  public getTipHeader!: () => Promise<CKBComponents.IBlockHeader>
+  public getTipHeader!: () => Promise<CKBComponents.BlockHeader>
 
   public getCellsByTypeHash!: (
     hash: string,
     from: CKBComponents.BlockNumber,
     to: CKBComponents.BlockNumber
-  ) => Promise<CKBComponents.ICellByTypeHash[]>
+  ) => Promise<CKBComponents.CellByTypeHash[]>
 
   public getLiveCell!: (
-    outPoint: CKBComponents.IOutPoint
+    outPoint: CKBComponents.OutPoint
   ) => Promise<{
-    cell: CKBComponents.ICell
+    cell: CKBComponents.Cell
     status: CKBComponents.CellStatus
   }>
 
   public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
 
-  public sendTransaction!: (tx: CKBComponents.ITransaction) => Promise<CKBComponents.Hash>
+  public sendTransaction!: (tx: CKBComponents.Transaction) => Promise<CKBComponents.Hash>
 
   public localNodeId!: () => Promise<CKBComponents.LocalNodeId>
 }

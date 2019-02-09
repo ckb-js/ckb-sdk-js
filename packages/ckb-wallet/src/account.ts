@@ -9,14 +9,14 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockScript: CKBComponents.IScript = {
+  public unlockScript: CKBComponents.Script = {
     version: 0,
     reference: '',
     signedArgs: [],
     args: [],
   }
 
-  public contractScript: CKBComponents.IScript = {
+  public contractScript: CKBComponents.Script = {
     version: 0,
     reference: '',
     signedArgs: [],
@@ -35,9 +35,9 @@ class Account extends ECPair {
     return this.unlockTypeHash
   }
 
-  public deps: CKBComponents.IOutPoint[] = []
+  public deps: CKBComponents.OutPoint[] = []
 
-  public _unlockScriptJsonObject: CKBComponents.IScript = {
+  public _unlockScriptJsonObject: CKBComponents.Script = {
     version: 0,
     args: [],
     signedArgs: [],
@@ -59,50 +59,37 @@ class Account extends ECPair {
     // it iterates all block to gather cells,
     // however only P1CS needs to be covered, TBD
     const to = await this.rpc.getTipBlockNumber()
-    const cells = await this.rpc.getCellsByTypeHash(
-      `0x${this.unlockTypeHash}`,
-      0,
-      to
-    )
+    const cells = await this.rpc.getCellsByTypeHash(`0x${this.unlockTypeHash}`, 0, to)
     return cells
   }
 
   getBalance = async (): Promise<string> =>
-    this.getUnspentCells().then(cells =>
-      cells.reduce((a, c) => a + c.capacity, 0).toString())
+    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + c.capacity, 0).toString())
 
   // ========================================
 
-  gatherInputs = async (
-    capacity: CKBComponents.Capacity,
-    minCapacity: CKBComponents.Capacity
-  ) => {
+  gatherInputs = async (capacity: CKBComponents.Capacity, minCapacity: CKBComponents.Capacity) => {
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
     }
     let inputCapacities = 0
-    const inputs: CKBComponents.ICellInput[] = []
+    const inputs: CKBComponents.CellInput[] = []
     await this.getUnspentCells().then(cells =>
       cells.every(cell => {
-        const input: CKBComponents.ICellInput = {
+        const input: CKBComponents.CellInput = {
           prevOutput: cell.outPoint,
           unlock: this._unlockScriptJsonObject,
         }
         inputs.push(input)
         inputCapacities += cell.capacity
-        if (
-          inputCapacities >= capacity &&
-          inputCapacities - capacity >= minCapacity
-        ) {
+        if (inputCapacities >= capacity && inputCapacities - capacity >= minCapacity) {
           return false
         }
         return true
       }))
 
     if (inputCapacities < capacity) {
-      throw new Error(
-        `Not enough capacity, required: ${capacity}, available: ${inputCapacities}`
-      )
+      throw new Error(`Not enough capacity, required: ${capacity}, available: ${inputCapacities}`)
     }
     return {
       inputs,
@@ -113,12 +100,9 @@ class Account extends ECPair {
   generateTx = async (
     targetAddr: CKBComponents.Hash,
     targetCapacity: CKBComponents.Capacity
-  ): Promise<CKBComponents.ITransaction> => {
-    const { inputs, capacity } = await this.gatherInputs(
-      targetCapacity,
-      Account.MIN_CELL_CAPACITY
-    )
-    const outputs: CKBComponents.ICellOutput[] = [
+  ): Promise<CKBComponents.Transaction> => {
+    const { inputs, capacity } = await this.gatherInputs(targetCapacity, Account.MIN_CELL_CAPACITY)
+    const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
         data: new Uint8Array(0),
@@ -141,10 +125,7 @@ class Account extends ECPair {
     return tx
   }
 
-  sendCapacity = async (
-    targetAddr: CKBComponents.Hash,
-    capacity: CKBComponents.Capacity
-  ) => {
+  sendCapacity = async (targetAddr: CKBComponents.Hash, capacity: CKBComponents.Capacity) => {
     const tx = await this.generateTx(targetAddr, capacity)
     return this.rpc.sendTransaction(tx)
   }

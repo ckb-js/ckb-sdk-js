@@ -5,7 +5,7 @@ import * as utils from '@ckb-sdk/utils'
 class Core {
   public rpc: RPC
 
-  private _node: CKBComponents.INode
+  private _node: CKBComponents.Node
 
   private _wallet: Wallet
 
@@ -19,7 +19,7 @@ class Core {
     this._wallet = new Wallet(this.rpc)
   }
 
-  public setNode(node: string | CKBComponents.INode): CKBComponents.INode {
+  public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -32,7 +32,7 @@ class Core {
     return this._node
   }
 
-  public get node(): CKBComponents.INode {
+  public get node(): CKBComponents.Node {
     return this._node
   }
 
