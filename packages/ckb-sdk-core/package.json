@@ -1,26 +1,38 @@
 {
-  "name": "@nervosnetwork/ckb-types",
+  "name": "@nervosnetwork/ckb-sdk-core",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "directories": {
+    "lib": "lib",
     "test": "__tests__"
   },
+  "files": [
+    "lib"
+  ],
   "publishConfig": {
-    "registry": "http://registry.npmjs.org/"
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
+  "scripts": {
+    "tsc": "tsc"
+  },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
-  "scripts": {
-    "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
+  "dependencies": {
+    "@nervosnetwork/ckb-sdk-rpc": "^0.0.0",
+    "@nervosnetwork/ckb-types": "^0.0.0",
+    "@nervosnetwork/ckb-sdk-utils": "^0.0.0",
+    "@nervosnetwork/ckb-sdk-wallet": "^0.0.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43"

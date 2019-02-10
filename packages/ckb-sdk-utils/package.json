@@ -1,15 +1,12 @@
 {
-  "name": "@nervosnetwork/ckb-cli",
+  "name": "@nervosnetwork/ckb-sdk-utils",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
-  "preferGlobal": true,
-  "bin": {
-    "ckb-cli": "./lib"
-  },
+  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -25,20 +22,27 @@
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc",
-    "tsc:watch": "tsc --watch",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "tsc": "tsc"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-core": "^0.0.0",
-    "commander": "^2.19.0",
-    "inquirer": "^6.2.1"
+    "@nervosnetwork/ckb-types": "^0.0.0",
+    "bech32": "^1.1.3",
+    "bs58check": "^2.1.2",
+    "eth-lib": "^0.2.8",
+    "randombytes": "^2.0.6",
+    "safe-buffer": "^5.1.2",
+    "sha3": "^2.0.0",
+    "tiny-secp256k1": "^1.0.1",
+    "typeforce": "^1.18.0",
+    "utf8": "^3.0.0",
+    "wif": "^2.0.6"
   },
   "devDependencies": {
-    "@types/crypto-js": "^3.1.43",
-    "@types/inquirer": "^0.0.43"
+    "@types/bitcoinjs-lib": "^4.0.0",
+    "@types/tiny-secp256k1": "^1.0.0",
+    "@types/utf8": "^2.1.6"
   }
 }

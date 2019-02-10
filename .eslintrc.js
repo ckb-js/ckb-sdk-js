@@ -43,7 +43,10 @@ module.exports = {
     "operator-linebreak": [2, "after"],
     "max-len": [2, 120],
     "object-curly-newline": ["error", {
-      "ObjectExpression": "always",
+      "ObjectExpression": {
+        "minProperties": 1,
+        "multiline": true
+      },
       "ObjectPattern": {
         "multiline": true
       },

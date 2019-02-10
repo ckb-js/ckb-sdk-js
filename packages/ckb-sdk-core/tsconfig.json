@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "types": ["@nervosnetwork/ckb-types", "@nervosnetwork/ckb-sdk-utils"]
+  },
+  "include": ["./src"]
+}
