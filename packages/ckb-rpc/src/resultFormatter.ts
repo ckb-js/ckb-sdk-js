@@ -44,7 +44,7 @@ const formatters = {
         hash: string
         index: number
       }
-    }[],
+    }[]
   ) =>
     cells.map(({ capacity, lock, out_point }) => ({
       capacity,
@@ -55,13 +55,8 @@ const formatters = {
   toCellWithStatus: (cell: any) => cell,
   toBlockWithHash: (block: any) => block,
   toTxRes: (txRes: any) => txRes,
-  toBlock: ({
-    header,
-    uncles,
-    commit_transactions,
-    proposal_transactions,
-  }: any) => {
-    const h: CKBComponents.IBlockHeader = {
+  toBlock: ({ header, uncles, commit_transactions, proposal_transactions }: any) => {
+    const h: CKBComponents.BlockHeader = {
       version: header.version,
       parentHash: header.parent_hash,
       timestamp: header.timestamp,
@@ -78,7 +73,7 @@ const formatters = {
     const u = uncles
     const c = commit_transactions
     const p = proposal_transactions
-    const b: CKBComponents.IBlock = {
+    const b: CKBComponents.Block = {
       header: h,
       uncles: u,
       commitTransactions: c,

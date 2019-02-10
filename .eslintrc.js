@@ -40,7 +40,19 @@ module.exports = {
     "no-plusplus": [0],
     "no-bitwise": [0],
     "no-control-regex": [0],
-    "operator-linebreak": [2, "after"]
+    "operator-linebreak": [2, "after"],
+    "max-len": [2, 120],
+    "object-curly-newline": ["error", {
+      "ObjectExpression": "always",
+      "ObjectPattern": {
+        "multiline": true
+      },
+      "ImportDeclaration": "never",
+      "ExportDeclaration": {
+        "multiline": true,
+        "minProperties": 3
+      }
+    }]
   },
   "env": {
     "node": true,

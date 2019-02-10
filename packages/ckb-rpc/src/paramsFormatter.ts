@@ -2,7 +2,7 @@ import { bytesToHex } from '@ckb-sdk/utils'
 
 declare module CkbRPC {
   export module Params {
-    export interface ITransaction {
+    export interface Transaction {
       hash: CKBComponents.Hash
       version: number
       deps: CKBComponents.Hash[]
@@ -23,7 +23,7 @@ const formatters = {
     }
     return hash
   },
-  toOutPoint: (outPoint: any): CKBComponents.IOutPoint => {
+  toOutPoint: (outPoint: any): CKBComponents.OutPoint => {
     if (typeof outPoint !== 'object') {
       throw new Error('Invalid OutPoint')
     }
@@ -39,32 +39,22 @@ const formatters = {
     }
   },
   toNumber: (number: string | number): number => +number,
-  toTx: ({
-    hash = '',
-    version = 0,
-    deps = [],
-    inputs = [],
-    outputs = [],
-  }): CkbRPC.Params.ITransaction => {
-    const fmtInputs = inputs.map(
-      ({ prevOutput, unlock }: CKBComponents.ICellInput) => ({
-        previous_output: prevOutput,
-        unlock: {
-          version: unlock.version,
-          reference: unlock.reference,
-          binary: unlock.binary,
-          args: unlock.args,
-          signed_args: unlock.signedArgs,
-        },
-      }),
-    )
-    const fmtOutputs = outputs.map(
-      ({ capacity, data, lock }: CKBComponents.ICellOutput) => ({
-        capacity,
-        data: `0x${bytesToHex(data)}`,
-        lock,
-      }),
-    )
+  toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
+    const fmtInputs = inputs.map(({ prevOutput, unlock }: CKBComponents.CellInput) => ({
+      previous_output: prevOutput,
+      unlock: {
+        version: unlock.version,
+        reference: unlock.reference,
+        binary: unlock.binary,
+        args: unlock.args,
+        signed_args: unlock.signedArgs,
+      },
+    }))
+    const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
+      capacity,
+      data: `0x${bytesToHex(data)}`,
+      lock,
+    }))
     const tx = {
       hash,
       version,

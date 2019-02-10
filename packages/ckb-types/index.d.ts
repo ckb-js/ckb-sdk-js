@@ -8,10 +8,11 @@ declare namespace CKBComponents {
   export type BlockNumber = number
   export type Capacity = number
   export type ProposalShortId = string
-  export interface INode {
+  export type TimeStamp = number
+  export interface Node {
     url: string
   }
-  export interface IMethod {
+  export interface Method {
     name: string
     method: string
     paramsFormatters: Function[]
@@ -23,8 +24,8 @@ declare namespace CKBComponents {
 
   /* eslint-disable max-len */
   /**
-   * @typedef IScript, lock or unlock script
-   * @description IScript, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
+   * @typedef Script, lock or unlock script
+   * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
    * @property version, script version, used to resolve incompatible upgrade.
    * @property args, normal arguments.
    * @property reference, point to its dependency, if your script already exists on CKB, you can use this field to reference the script instead of including it again. You can just put the script hash in this reference field, then list the cell containing the script as an outpoint in deps field in the current transaction. CKB will automatically locate cell and load the binary from there and use it as script `binary` part. Notice this only works when you don't provide a `binary` field value, otherwise the value in the `binary` field always take precedence.
@@ -33,7 +34,7 @@ declare namespace CKBComponents {
    * @tutorial Each script has a `type_hash` which uniquely identifies the script, for example, the `type_hash` of unlock script, is exactly the corresponding `lock` script field value in the referenced cell, when calculating type hash for a script, `version`, `bianry`, `reference` and `signed_args` will all be used.
    */
   /* eslint-enable max-len */
-  export interface IScript {
+  export interface Script {
     version: number
     args: Uint8Array[]
     reference?: Hash
@@ -42,67 +43,67 @@ declare namespace CKBComponents {
   }
 
   /**
-   * @typedef ICellInput, cell input in a transaction
+   * @typedef CellInput, cell input in a transaction
    * @property previousOutput, point to its P1 cell
    * @property unlock, unlock script
    */
-  export interface ICellInput {
-    prevOutput: IOutPoint
-    unlock: IScript
+  export interface CellInput {
+    prevOutput: OutPoint
+    unlock: Script
   }
 
   /**
-   * @typedef ICellOutput, cell output in a transaction
+   * @typedef CellOutput, cell output in a transaction
    * @property capacity, the capacity of the genereated P1 cell
    * @property data, cell data
    * @property lock, lock hash
    * @property contract, lock script
    */
-  export interface ICellOutput {
+  export interface CellOutput {
     capacity: Capacity
     data: Uint8Array
     lock: Hash
-    type?: IScript
+    type?: Script
   }
 
   /**
-   * @typedef IOutPoint, used to refer a generated cell by transaction hash and output index
+   * @typedef OutPoint, used to refer a generated cell by transaction hash and output index
    * @property hash, transaction hash
    * @property index, index of cell output
    */
-  export interface IOutPoint {
+  export interface OutPoint {
     hash: Hash
     index: number
   }
 
   /**
-   * @typedef ITransaction, transaction object
+   * @typedef Transaction, transaction object
    * @property version, transaction version
    * @property deps, transaction deps
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
    * @property hash, transaction hash
    */
-  export interface ITransaction {
+  export interface Transaction {
     version: number
-    deps: IOutPoint[]
-    inputs: ICellInput[]
-    outputs: ICellOutput[]
+    deps: OutPoint[]
+    inputs: CellInput[]
+    outputs: CellOutput[]
     hash?: Hash
   }
 
   /**
-   * @typedef @ISeal
+   * @typedef @Seal
    * @property nonce
    * @property proof
    */
-  export interface ISeal {
+  export interface Seal {
     nonce: number // u64
     proof: Uint8Array
   }
 
   /**
-   * @typedef IBlockHeader, header of a block
+   * @typedef BlockHeader, header of a block
    * @property version
    * @property parentHash
    * @property timestamp
@@ -116,7 +117,7 @@ declare namespace CKBComponents {
    * @property seal
    * @property hash
    */
-  export interface IBlockHeader {
+  export interface BlockHeader {
     version: number
     parentHash: Hash
     timestamp: TimeStamp
@@ -127,59 +128,59 @@ declare namespace CKBComponents {
     cellbaseId: Hash
     unclesHash: Hash
     unclesCount: number
-    seal: ISeal
+    seal: Seal
     hash: Hash
   }
 
   /**
-   * @typedef IUncleBlock, uncle block object
+   * @typedef UncleBlock, uncle block object
    * @property header, block header
    * @property cellbase, transaction
    * @property proposalTransactions
    */
 
-  interface IUncleBlock {
-    header: IBlockHeader
-    cellbase: ITransaction
+  interface UncleBlock {
+    header: BlockHeader
+    cellbase: Transaction
     proposalTransactions: ProposalShortId[]
   }
 
   /**
-   * @typedef IBlock, block object
+   * @typedef Block, block object
    * @property header, block header
    * @property uncles, uncle blocks
    * @property commitTransactions
    * @property proposalTransactions
    */
-  export interface IBlock {
-    header: IBlockHeader
-    uncles: IUncleBlock[]
-    commitTransactions: ITransaction[]
+  export interface Block {
+    header: BlockHeader
+    uncles: UncleBlock[]
+    commitTransactions: Transaction[]
     proposalTransactions: ProposalShortId[]
   }
 
   /**
-   * @typedef ICell, cell object
+   * @typedef Cell, cell object
    * @property capacty, cell capacity
    * @property lock, lock hash
    */
-  export interface ICell extends ICellOutput {}
+  export interface Cell extends CellOutput {}
 
   /**
-   * @typedef ICell, cell object
+   * @typedef Cell, cell object
    * @property capacty, cell capacity
    * @property lock, lock hash
    * @property outPoint
    */
 
-  export interface ICellWithOutPoint extends ICell {
-    outPoint: IOutPoint
+  export interface CellWithOutPoint extends Cell {
+    outPoint: OutPoint
   }
 
-  export interface ICellByTypeHash {
+  export interface CellByTypeHash {
     capacity: Capacity
     lock: Hash
-    outPoint: IOutPoint
+    outPoint: OutPoint
   }
 
   export enum CellStatus {
