@@ -1,7 +1,7 @@
 #!/usr/bin/env node --experimental-repl-await
 
 import repl from 'repl'
-import Core from '@ckb-sdk/core'
+import Core from '@nervosnetwork/ckb-sdk-core'
 import commander from 'commander'
 import { prompt } from 'inquirer'
 // import questions from './rpc' // { rpcMethods }
