@@ -36,5 +36,6 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43"
-  }
+  },
+  "gitHead": "8a3686f34230159900aa9e7bb34fcc2ce9fa2cae"
 }
