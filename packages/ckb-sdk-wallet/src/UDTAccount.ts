@@ -4,7 +4,7 @@ import { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import Account from './account'
 
-const UDT_SCRIPTS_PATH = path.join(__dirname, '../udtScripts/')
+const UDT_SCRIPTS_PATH = path.join(__dirname, './udtScripts/')
 const UNLOCK_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/unlock.rb'))
 const UNLOCK_SINGLE_CELL_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/unlock_single_cell.rb'))
 const CONTRACT_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/contract.rb'))

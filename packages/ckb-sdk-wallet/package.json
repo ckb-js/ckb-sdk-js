@@ -22,7 +22,7 @@
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc && cp -r ./src/udtScripts ./lib/udtScripts",
     "test": "../../node_modules/.bin/jest",
     "test:watch": "../../node_modules/.bin/jest --watch"
   },
@@ -37,5 +37,5 @@
     "@nervosnetwork/ckb-types": "^0.0.1-alpha.0",
     "@types/crypto-js": "^3.1.43"
   },
-  "gitHead": "8a3686f34230159900aa9e7bb34fcc2ce9fa2cae"
+  "gitHead": "bcc0b9a67587076162790ef6d248110f5e95b05f"
 }
