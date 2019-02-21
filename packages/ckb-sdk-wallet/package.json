@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-wallet",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.1",
   "description": "> TODO: description",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -14,14 +14,15 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://registry.npmjs.org/"
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc && cp -r ./src/udtScripts ./lib/udtScripts",
     "test": "../../node_modules/.bin/jest",
     "test:watch": "../../node_modules/.bin/jest --watch"
   },
@@ -29,11 +30,12 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-rpc": "^0.0.0",
-    "@nervosnetwork/ckb-sdk-utils": "^0.0.0"
+    "@nervosnetwork/ckb-sdk-rpc": "^0.0.1-alpha.1",
+    "@nervosnetwork/ckb-sdk-utils": "^0.0.1-alpha.1"
   },
   "devDependencies": {
-    "@nervosnetwork/ckb-types": "^0.0.0",
+    "@nervosnetwork/ckb-types": "^0.0.1-alpha.1",
     "@types/crypto-js": "^3.1.43"
-  }
+  },
+  "gitHead": "dac0a379c1f01f221ef0b6919e8d0518073db73c"
 }
