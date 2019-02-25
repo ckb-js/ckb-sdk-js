@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es6",
+    "outDir": "./lib",
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["@nervosnetwork/ckb-types", "node", "@types/tiny-secp256k1", "sha3"]
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "typings", "./types"]
+}
