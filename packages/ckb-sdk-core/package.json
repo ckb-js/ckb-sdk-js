@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-core",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "> TODO: description",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -29,10 +29,10 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-rpc": "^0.0.1-alpha.1",
-    "@nervosnetwork/ckb-sdk-utils": "^0.0.1-alpha.1",
-    "@nervosnetwork/ckb-sdk-wallet": "^0.0.1-alpha.1",
-    "@nervosnetwork/ckb-types": "^0.0.1-alpha.1"
+    "@nervosnetwork/ckb-sdk-rpc": "^0.0.1-alpha.2",
+    "@nervosnetwork/ckb-sdk-utils": "^0.0.1-alpha.2",
+    "@nervosnetwork/ckb-sdk-wallet": "^0.0.1-alpha.2",
+    "@nervosnetwork/ckb-types": "^0.0.1-alpha.2"
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43"
