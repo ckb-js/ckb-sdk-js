@@ -46,18 +46,19 @@ class AlwaysSuccessAccount extends Account {
           },
         }
         this.deps = [this.alwaysSuccess.scriptOutPoint]
+        this.unlockScript.reference = `0x${this.alwaysSuccess.cellHash}`
         console.log('ready')
       })
   }
 
-  get unlockScriptJsonObject() {
-    return {
-      version: 0,
-      reference: `0x${this.alwaysSuccess.cellHash}`,
-      args: [],
-      signedArgs: [],
-    }
-  }
+  // get unlockScript() {
+  //   return {
+  //     version: 0,
+  //     reference: `0x${this.alwaysSuccess.cellHash}`,
+  //     args: [],
+  //     signedArgs: [],
+  //   }
+  // }
 
   // TODO: install
 }
