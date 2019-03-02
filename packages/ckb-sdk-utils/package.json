@@ -46,5 +46,5 @@
     "@types/tiny-secp256k1": "^1.0.0",
     "@types/utf8": "^2.1.6"
   },
-  "gitHead": "dac0a379c1f01f221ef0b6919e8d0518073db73c"
+  "gitHead": "8d396481778e0b9fa188cd91db97f44cbc9abcd2"
 }
