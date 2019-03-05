@@ -8,15 +8,12 @@ const config = require('dotenv').config({
 
 const CkbRpc = require('../lib').default
 
-console.log(config)
-
 const rpc = new CkbRpc(config.RPC_URL)
 
 describe('ckb-rpc', () => {
-  // get_local_node_id
-  it('local node id', async () => {
-    const id = await rpc.localNodeId()
-    expect(typeof id).toBe('string')
+  it('local node info', async () => {
+    const info = await rpc.localNodeInfo()
+    expect(typeof info.nodeId).toBe('string')
   })
 
   it('get tip block number', async () => {
@@ -24,7 +21,6 @@ describe('ckb-rpc', () => {
     expect(typeof tipBlockNumber).toBe('number')
   })
 
-  // get_block_hash
   it('get block hash and get block of genesis block', async () => {
     const hash = await rpc.getBlockHash(0)
     expect(hash.length).toBe(66)
@@ -32,19 +28,26 @@ describe('ckb-rpc', () => {
     expect(block.header.hash).toBe(hash)
   })
 
-  // getTipBlockNumber
   it('get tip block number', async () => {
     const blockNumber = await rpc.getTipBlockNumber()
     expect(typeof blockNumber).toBe('number')
   })
 
-  // get tip header
+  it('send transaction', async () => {
+    const hash = await rpc.sendTransaction({
+      version: 0,
+      deps: [],
+      inputs: [],
+      outputs: [],
+    })
+    expect(typeof hash).toBe('string')
+  })
+
   it('get tip header', async () => {
     const header = await rpc.getTipHeader()
     expect(typeof header.hash).toBe('string')
   })
 
-  // get transaction
   it('get transaction', async () => {
     const hash = await rpc.getBlockHash(0)
     const block = await rpc.getBlock(hash)
@@ -57,6 +60,7 @@ describe('ckb-rpc', () => {
       throw new Error('No transaction found')
     }
   })
+
   it('get live cell', async () => {
     const hash = await rpc.getBlockHash(0)
     const block = await rpc.getBlock(hash)
@@ -74,7 +78,21 @@ describe('ckb-rpc', () => {
     }
   })
 
-  it.skip('get cells by type hash', async () => {
-    // TODO:
+  it('get cells by type hash', async () => {
+    const typeHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
+    const cells = await rpc.getCellsByTypeHash(typeHash, 0, 100)
+    expect(Array.isArray(cells)).toBeTruthy()
+  })
+
+  it('trace a transaction', async () => {
+    const traceHash = await rpc.traceTransaction({
+      version: 0,
+      deps: [],
+      inputs: [],
+      outputs: [],
+    })
+    expect(typeof traceHash).toBe('string')
+    const traces = await rpc.getTransactionTrace(traceHash)
+    expect(Array.isArray(traces)).toBeTruthy()
   })
 })

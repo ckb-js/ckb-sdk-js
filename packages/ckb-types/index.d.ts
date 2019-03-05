@@ -1,9 +1,14 @@
 /**
- * @see https://github.com/nervosnetwork/ckb/blob/develop/rpc/src/types/blockchain.rs for more infomation
+ * @see https://github.com/nervosnetwork/ckb/blob/develop/rpc/src/types/blockchain.rs for more infGomation
  */
 
 declare namespace CKBComponents {
-  export type LocalNodeId = string
+  export type Version = number
+  export type LocalNodeInfo = {
+    addresses: { address: string; score: number }[]
+    nodeId: string
+    version: string
+  }
   export type Hash = string
   export type BlockNumber = number
   export type Capacity = number
@@ -183,7 +188,14 @@ declare namespace CKBComponents {
     outPoint: OutPoint
   }
 
+  export type TransactionTrace = { action: string; info: string; time: TimeStamp }[]
+
   export enum CellStatus {
     LIVE = 'live',
+  }
+  export interface NodeInfo {
+    version: string
+    nodeId: string
+    addresses: { address: string; score: number }[]
   }
 }
