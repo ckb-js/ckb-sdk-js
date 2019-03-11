@@ -5,7 +5,7 @@ import utf8 from 'utf8'
 export const blake2b = require('./crypto')
 /* eslint-enable */
 
-export const PERSONAL = '90u64'
+export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
 
 export const hexToBytes = (rawhex: any) => {
   let hex = rawhex.toString(16)
