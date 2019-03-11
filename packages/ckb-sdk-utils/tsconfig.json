@@ -4,8 +4,9 @@
     "moduleResolution": "node",
     "target": "es6",
     "outDir": "./lib",
+    "lib": ["es2017"],
     "typeRoots": ["./types", "./node_modules/@types"],
-    "types": ["@nervosnetwork/ckb-types", "node", "@types/tiny-secp256k1", "sha3"]
+    "types": ["@nervosnetwork/ckb-types", "node", "@types/tiny-secp256k1", "blake2b-wasm"]
   },
   "include": ["./src"],
   "exclude": ["node_modules", "typings", "./types"]

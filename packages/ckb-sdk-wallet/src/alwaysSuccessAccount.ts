@@ -1,4 +1,4 @@
-import { hexToBytes, SHA3 } from '@nervosnetwork/ckb-sdk-utils'
+import { hexToBytes, blake2b, PERSONAL } from '@nervosnetwork/ckb-sdk-utils'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import Account from './account'
@@ -35,8 +35,8 @@ class AlwaysSuccessAccount extends Account {
           hash: block.commitTransactions[0].hash,
           index: 0,
         }
-        const s = new SHA3(256)
-        s.update(Buffer.from(hexToBytes(block.commitTransactions[0].outputs[0].data)), 'binary')
+        const s = blake2b(32, null, null, PERSONAL)
+        s.update(Buffer.from(hexToBytes(block.commitTransactions[0].outputs[0].data)))
         const alwaysSuccessCellHash = s.digest('hex')
         this.alwaysSuccess = {
           cellHash: alwaysSuccessCellHash,
@@ -50,17 +50,6 @@ class AlwaysSuccessAccount extends Account {
         console.log('ready')
       })
   }
-
-  // get unlockScript() {
-  //   return {
-  //     version: 0,
-  //     reference: `0x${this.alwaysSuccess.cellHash}`,
-  //     args: [],
-  //     signedArgs: [],
-  //   }
-  // }
-
-  // TODO: install
 }
 
 export default AlwaysSuccessAccount
