@@ -49,9 +49,22 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toTxRes,
   },
   {
-    name: 'localNodeId',
-    method: 'local_node_id',
+    name: 'localNodeInfo',
+    method: 'local_node_info',
     paramsFormatters: [],
+    resultFormatters: resultFmts.toLocalNodeInfo,
+  },
+  {
+    name: 'traceTransaction',
+    method: 'trace_transaction',
+    paramsFormatters: [paramsFmts.toTx],
+    resultFormatters: resultFmts.toHash,
+  },
+  {
+    name: 'getTransactionTrace',
+    method: 'get_transaction_trace',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toTrace,
   },
 ]
 
@@ -83,7 +96,16 @@ export class DefaultRPC {
 
   public sendTransaction!: (tx: CKBComponents.Transaction) => Promise<CKBComponents.Hash>
 
-  public localNodeId!: () => Promise<CKBComponents.LocalNodeId>
+  public localNodeInfo!: () => Promise<CKBComponents.LocalNodeInfo>
+
+  public traceTransaction!: (transaction: {
+    version: CKBComponents.Version
+    deps: CKBComponents.OutPoint[]
+    inputs: CKBComponents.CellInput[]
+    outputs: CKBComponents.CellOutput[]
+  }) => Promise<CKBComponents.Hash>
+
+  public getTransactionTrace!: (transactionHash: CKBComponents.Hash) => Promise<CKBComponents.TransactionTrace>
 }
 
 export default DefaultRPC

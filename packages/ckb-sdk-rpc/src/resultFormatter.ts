@@ -81,6 +81,16 @@ const formatters = {
     }
     return b
   },
+  toTrace: (trace: CKBComponents.TransactionTrace) => trace,
+  toLocalNodeInfo: (info: {
+    version: string
+    node_id: string
+    addresses: { address: string; score: number }[]
+  }): CKBComponents.NodeInfo => ({
+    version: info.version,
+    nodeId: info.node_id,
+    addresses: info.addresses,
+  }),
 
   /* eslint-enable camelcase */
 }
