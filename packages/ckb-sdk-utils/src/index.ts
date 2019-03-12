@@ -1,9 +1,7 @@
 import utf8 from 'utf8'
+import crypto from './crypto'
 
-/* eslint-disable */
-// TODO: implement blake2b type definition
-export const blake2b = require('./crypto')
-/* eslint-enable */
+export const { blake2b } = crypto
 
 export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
 

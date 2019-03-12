@@ -24,11 +24,11 @@ class Account extends ECPair {
   }
 
   get unlockTypeHash(): string {
-    return jsonScriptToTypeHash(this.unlockScript)
+    return jsonScriptToTypeHash(this.unlockScript) as string
   }
 
   get contractTypeHash(): string {
-    return jsonScriptToTypeHash(this.contractScript)
+    return jsonScriptToTypeHash(this.contractScript) as string
   }
 
   get address() {

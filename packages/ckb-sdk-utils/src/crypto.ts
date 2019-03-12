@@ -1,8 +1,4 @@
-/* eslint-disable */
-// TODO: implement blake2b type definition
-export const blake2b = require('blake2b-wasm')
-/* eslint-enable */
-module.exports = blake2b
+import blake2b from 'blake2b-wasm'
 
 export default {
   blake2b,
