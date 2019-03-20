@@ -5,15 +5,7 @@ import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import Account from './account'
 
 const UDT_SCRIPTS_PATH = path.join(__dirname, './udtScripts/')
-const UNLOCK_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/unlock.rb'))
-const UNLOCK_SINGLE_CELL_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/unlock_single_cell.rb'))
 const CONTRACT_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/contract.rb'))
-// const FIXED_AMOUNT_GENESIS_UNLOCK_SCRIPT = fs.readFileSync(
-//   path.join(UDT_SCRIPTS_PATH, 'fixed_amount_udt/genesis_unlock.rb'),
-// )
-// const FIXED_AMOUNT_CONTRACT_SCRIPT = fs.readFileSync(
-//   path.join(UDT_SCRIPTS_PATH, 'fixed_amount_udt/contract.rb'),
-// )
 
 export class TokenInfo {
   public rpc: RPC
@@ -45,11 +37,7 @@ export class TokenInfo {
   unlockScript = (publicKey: Uint8Array): CKBComponents.Script => ({
     version: 0,
     reference: this.mrubyCell.hash,
-    signedArgs: [
-      this.accountWallet ? UNLOCK_SINGLE_CELL_SCRIPT : UNLOCK_SCRIPT,
-      Buffer.from(this.name, 'utf8'),
-      publicKey,
-    ],
+    signedArgs: [publicKey],
     args: [],
   })
 
