@@ -1,11 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
 import { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import Account from './account'
-
-const UDT_SCRIPTS_PATH = path.join(__dirname, './udtScripts/')
-const CONTRACT_SCRIPT = fs.readFileSync(path.join(UDT_SCRIPTS_PATH, 'udt/contract.rb'))
 
 export class TokenInfo {
   public rpc: RPC
@@ -16,7 +11,7 @@ export class TokenInfo {
 
   public accountWallet: boolean
 
-  public mrubyCell: {
+  public tokenCell: {
     hash: CKBComponents.Hash
     outPoint: CKBComponents.OutPoint
   } = {
@@ -36,7 +31,7 @@ export class TokenInfo {
 
   unlockScript = (publicKey: Uint8Array): CKBComponents.Script => ({
     version: 0,
-    reference: this.mrubyCell.hash,
+    reference: this.tokenCell.hash,
     signedArgs: [publicKey],
     args: [],
   })
@@ -44,8 +39,8 @@ export class TokenInfo {
   get contractScript(): CKBComponents.Script {
     return {
       version: 0,
-      reference: this.mrubyCell.hash,
-      signedArgs: [CONTRACT_SCRIPT, Buffer.from(this.name, 'utf8'), this.publicKey],
+      reference: this.tokenCell.hash,
+      signedArgs: [this.publicKey],
       args: [],
     }
   }
@@ -56,7 +51,7 @@ class UDTBaseAccount extends Account {
 
   public tokenInfo: TokenInfo
 
-  public mrubyCell: {
+  public tokenCell: {
     hash: CKBComponents.Hash
     outPoint: CKBComponents.OutPoint
   } = {
