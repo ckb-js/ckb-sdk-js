@@ -42,5 +42,5 @@
     "@types/crypto-js": "^3.1.43",
     "@types/inquirer": "^0.0.44"
   },
-  "gitHead": "dd3db31d8af7e503c7e8d24caf0dc7631f2929cb"
+  "gitHead": "28221b4f28be9b2b166d63bd797e2e801250b699"
 }
