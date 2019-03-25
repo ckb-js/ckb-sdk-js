@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-utils",
-  "version": "0.0.1-alpha.1",
+  "version": "0.7.0",
   "description": "> TODO: description",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -23,19 +23,20 @@
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "test": "../../node_modules/.bin/jest"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-types": "^0.0.1-alpha.1",
+    "@nervosnetwork/ckb-types": "^0.7.0",
     "bech32": "^1.1.3",
+    "blake2b-wasm": "^1.1.7",
     "bs58check": "^2.1.2",
     "eth-lib": "^0.2.8",
     "randombytes": "^2.0.6",
     "safe-buffer": "^5.1.2",
-    "sha3": "^2.0.0",
     "tiny-secp256k1": "^1.0.1",
     "typeforce": "^1.18.0",
     "utf8": "^3.0.0",
@@ -46,5 +47,5 @@
     "@types/tiny-secp256k1": "^1.0.0",
     "@types/utf8": "^2.1.6"
   },
-  "gitHead": "dac0a379c1f01f221ef0b6919e8d0518073db73c"
+  "gitHead": "dd3db31d8af7e503c7e8d24caf0dc7631f2929cb"
 }

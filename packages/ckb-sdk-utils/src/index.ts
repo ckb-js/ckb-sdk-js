@@ -1,7 +1,9 @@
 import utf8 from 'utf8'
-import { SHA3 } from './crypto'
+import crypto from './crypto'
 
-export * from './crypto'
+export const { blake2b } = crypto
+
+export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
 
 export const hexToBytes = (rawhex: any) => {
   let hex = rawhex.toString(16)
@@ -70,19 +72,18 @@ export const jsonScriptToTypeHash = ({
   binary?: Uint8Array
   signedArgs?: Uint8Array[]
 }) => {
-  const s = new SHA3(256)
+  const s = blake2b(32, null, null, PERSONAL)
   if (reference) {
-    s.update(Buffer.from(reference.replace(/^0x/, ''), 'hex'), 'binary')
+    s.update(Buffer.from(reference.replace(/^0x/, ''), 'hex'))
   }
-  s.update('|')
-  if (binary && !binary.length) {
-    s.update(binary, 'binary')
-  }
-  if (signedArgs && !signedArgs.length) {
+  s.update(Buffer.from('|'))
+  if (binary && binary.length) s.update(binary)
+  if (signedArgs && signedArgs.length) {
     signedArgs.forEach(signedArg => {
-      s.update(signedArg, 'binary')
+      s.update(signedArg)
     })
   }
+
   const digest = s.digest('hex')
   return digest
 }

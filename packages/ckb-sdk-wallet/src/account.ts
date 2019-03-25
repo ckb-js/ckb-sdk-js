@@ -24,11 +24,11 @@ class Account extends ECPair {
   }
 
   get unlockTypeHash(): string {
-    return jsonScriptToTypeHash(this.unlockScript)
+    return jsonScriptToTypeHash(this.unlockScript) as string
   }
 
   get contractTypeHash(): string {
-    return jsonScriptToTypeHash(this.contractScript)
+    return jsonScriptToTypeHash(this.contractScript) as string
   }
 
   get address() {
@@ -36,12 +36,6 @@ class Account extends ECPair {
   }
 
   public deps: CKBComponents.OutPoint[] = []
-
-  public _unlockScriptJsonObject: CKBComponents.Script = {
-    version: 0,
-    args: [],
-    signedArgs: [],
-  }
 
   public constructor(sk: Uint8Array | string, rpc: RPC, options?: Options) {
     super(typeof sk === 'string' ? hexToBytes(sk) : sk, options)
@@ -78,7 +72,7 @@ class Account extends ECPair {
       cells.every(cell => {
         const input: CKBComponents.CellInput = {
           prevOutput: cell.outPoint,
-          unlock: this._unlockScriptJsonObject,
+          unlock: this.unlockScript,
         }
         inputs.push(input)
         inputCapacities += cell.capacity
