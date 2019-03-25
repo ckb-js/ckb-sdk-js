@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43",
-    "@types/inquirer": "^0.0.44"
+    "@types/inquirer": "^6.0.0"
   },
   "gitHead": "dd3db31d8af7e503c7e8d24caf0dc7631f2929cb"
 }
