@@ -39,5 +39,5 @@
     "@nervosnetwork/ckb-types": "^0.8.0",
     "@types/crypto-js": "^3.1.43"
   },
-  "gitHead": "dd3db31d8af7e503c7e8d24caf0dc7631f2929cb"
+  "gitHead": "28221b4f28be9b2b166d63bd797e2e801250b699"
 }
