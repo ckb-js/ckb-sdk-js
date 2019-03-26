@@ -2,7 +2,6 @@ import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import Account from './account'
 import ASW from './alwaysSuccessAccount'
-import UDTAccount, { TokenInfo } from './UDTAccount'
 
 const aswSkStr = 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
 const aswSkBytes = Buffer.from(hexToBytes(aswSkStr))
@@ -34,9 +33,6 @@ class Wallet {
   }
 
   public newASW = () => new ASW(aswSkBytes, this.rpc)
-
-  public newUDTAccount = (sk: string | Uint8Array, tokenInfo: TokenInfo, opt: any) =>
-    new UDTAccount(sk, this.rpc, tokenInfo, opt)
 
   public getCells = (idx?: number): CKBComponents.Cell[] => {
     console.info(idx)
