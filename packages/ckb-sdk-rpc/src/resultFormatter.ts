@@ -9,6 +9,7 @@ const formatters = {
     number,
     txs_commit,
     txs_proposal,
+    witnesses_root,
     difficulty,
     cellbase_id,
     uncles_hash,
@@ -22,6 +23,7 @@ const formatters = {
     timestamp,
     txsCommit: txs_commit,
     txsProposal: txs_proposal,
+    witnessRoot: witnesses_root,
     difficulty,
     cellbaseId: cellbase_id,
     unclesHash: uncles_hash,
@@ -29,12 +31,6 @@ const formatters = {
     seal,
     hash,
   }),
-  // toTransaction: ({ version, deps, inputs, hash }: any) => ({
-  //   version,
-  //   deps,
-  //   inputs,
-  //   hash,
-  // }),
   toTransactionWithHash: (txn: any) => txn,
   toCells: (
     cells: {
@@ -63,6 +59,7 @@ const formatters = {
       number: header.number,
       txsCommit: header.txs_commit,
       txsProposal: header.txs_proposal,
+      witnessesRoot: header.witnesses_root,
       difficulty: header.difficulty,
       cellbaseId: header.cellbase_id,
       unclesHash: header.uncle_hash,

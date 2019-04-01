@@ -77,20 +77,36 @@ declare namespace CKBComponents {
     index: number
   }
 
+  export interface Witness {
+    data: string[]
+  }
+
+  /**
+   * @typedef RawTransaction, raw transaction object
+   * @property version, transaction version
+   * @property deps, transaction deps
+   * @property inputs, cell inputs in the transaction
+   * @property outputs, cell outputs in the transaction
+   */
+  export interface RawTransaction {
+    version: number
+    deps: OutPoint[]
+    inputs: CellInput[]
+    outputs: CellOutput[]
+  }
+
   /**
    * @typedef Transaction, transaction object
    * @property version, transaction version
    * @property deps, transaction deps
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
+   * @property witnesses, segrated witnesses
    * @property hash, transaction hash
    */
-  export interface Transaction {
-    version: number
-    deps: OutPoint[]
-    inputs: CellInput[]
-    outputs: CellOutput[]
-    hash?: Hash
+  export interface Transaction extends RawTransaction {
+    witnesses: Witness[]
+    hash: Hash
   }
 
   /**
@@ -125,6 +141,7 @@ declare namespace CKBComponents {
     number: number
     txsCommit: Hash
     txsProposal: Hash
+    witnessesRoot: Hash
     difficulty: Hash
     cellbaseId: Hash
     unclesHash: Hash

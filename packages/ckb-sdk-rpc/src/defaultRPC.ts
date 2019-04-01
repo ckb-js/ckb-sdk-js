@@ -94,7 +94,7 @@ export class DefaultRPC {
 
   public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
 
-  public sendTransaction!: (tx: CKBComponents.Transaction) => Promise<CKBComponents.Hash>
+  public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
   public localNodeInfo!: () => Promise<CKBComponents.LocalNodeInfo>
 
