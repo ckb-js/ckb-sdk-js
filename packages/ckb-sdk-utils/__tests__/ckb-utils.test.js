@@ -23,19 +23,17 @@ describe('blake2b', () => {
     expect(digest).toBe(fixture.digest)
   })
 })
-describe('jsonScriptToTypeHash', () => {
-  it('jsonScriptToTypeHash(basic script', () => {
+describe('scriptToHash', () => {
+  it('scriptToHash(basic script', () => {
     const fixture = {
       script: {
         version: 0,
-        binary: [1],
-        reference: '0x0000000000000000000000000000000000000000000000000000000000000000',
-        signedArgs: [[1]],
+        binaryHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         args: [[1]],
       },
-      typeHash: 'afb140d0673571ed5710d220d6146d41bd8bc18a3a4ff723dad4331da5af5bb6',
+      lockHash: 'dade0e507e27e2a5995cf39c8cf454b6e70fa80d03c1187db7a4cb2c9eab79da',
     }
-    const typeHash = ckbUtils.jsonScriptToTypeHash(fixture.script)
-    expect(typeHash).toBe(fixture.typeHash)
+    const lockHash = ckbUtils.lockScriptToHash(fixture.script)
+    expect(lockHash).toBe(fixture.lockHash)
   })
 })
