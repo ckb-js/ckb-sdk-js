@@ -63,27 +63,17 @@ export const hexToUtf8 = (hex: string) => {
   return utf8.decode(str)
 }
 
-export const jsonScriptToTypeHash = ({
-  reference,
-  binary,
-  signedArgs,
-}: {
-  reference?: string
-  binary?: Uint8Array
-  signedArgs?: Uint8Array[]
-}) => {
+export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: Uint8Array[] }) => {
   const s = blake2b(32, null, null, PERSONAL)
-  if (reference) {
-    s.update(Buffer.from(reference.replace(/^0x/, ''), 'hex'))
+  if (binaryHash) {
+    s.update(Buffer.from(binaryHash.replace(/^0x/, ''), 'hex'))
   }
-  s.update(Buffer.from('|'))
-  if (binary && binary.length) s.update(binary)
-  if (signedArgs && signedArgs.length) {
-    signedArgs.forEach(signedArg => {
-      s.update(signedArg)
+  if (args && args.length) {
+    args.forEach(arg => {
+      s.update(arg)
     })
   }
 
   const digest = s.digest('hex')
-  return digest
+  return digest as string
 }

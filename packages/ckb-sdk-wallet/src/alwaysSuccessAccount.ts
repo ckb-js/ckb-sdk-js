@@ -4,9 +4,7 @@ import { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import Account from './account'
 
 class AlwaysSuccessAccount extends Account {
-  public _verifyTypeHash: string | undefined
-
-  public _rpc: RPC
+  public rpc: RPC
 
   public alwaysSuccess = {
     cellHash: '',
@@ -20,15 +18,15 @@ class AlwaysSuccessAccount extends Account {
 
   constructor(sk: Uint8Array | string, rpc: RPC, options?: Options) {
     super(sk, rpc, options)
-    this._rpc = rpc
+    this.rpc = rpc
     // load genesis block and set always_success_script_out_point, always_success_cell_hash
     this.loadGenesisBlock()
   }
 
   loadGenesisBlock = () => {
-    this._rpc
+    this.rpc
       .getBlockHash(0)
-      .then(hash => this._rpc.getBlock(hash))
+      .then(hash => this.rpc.getBlock(hash))
       .then(block => {
         this.genesisBlock = block
         const alwaysSuccessScriptOutPoint = {
@@ -46,7 +44,7 @@ class AlwaysSuccessAccount extends Account {
           },
         }
         this.deps = [this.alwaysSuccess.scriptOutPoint]
-        this.unlockScript.reference = `0x${this.alwaysSuccess.cellHash}`
+        this.lockScript.binaryHash = `0x${this.alwaysSuccess.cellHash}`
         console.log('ready')
       })
   }

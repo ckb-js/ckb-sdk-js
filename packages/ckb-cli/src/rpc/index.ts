@@ -10,7 +10,7 @@ export enum RPCMethods {
   GetTransaction = 'getTransaction',
   GetBlockHash = 'getBlockHash',
   GetTipHeader = 'getTipHeader',
-  GetCellsByTypeHash = 'getCellsByTypeHash',
+  GetCellsByLockHash = 'getCellsByLockHash',
   GetCurrentCell = 'getCurrentCell',
   GetTipBlockNumber = 'getTipBlockNumber',
   SendTransaction = 'sendTransaction',
