@@ -97,10 +97,7 @@ declare namespace CKBComponents {
 
   /**
    * @typedef Transaction, transaction object
-   * @property version, transaction version
-   * @property deps, transaction deps
-   * @property inputs, cell inputs in the transaction
-   * @property outputs, cell outputs in the transaction
+   * @extends RawTransaction
    * @property witnesses, segrated witnesses
    * @property hash, transaction hash
    */
