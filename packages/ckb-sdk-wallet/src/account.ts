@@ -92,7 +92,7 @@ class Account extends ECPair {
   generateTx = async (
     targetLock: CKBComponents.Script,
     targetCapacity: CKBComponents.Capacity
-  ): Promise<CKBComponents.Transaction> => {
+  ): Promise<CKBComponents.RawTransaction> => {
     const { inputs, capacity } = await this.gatherInputs(targetCapacity, Account.MIN_CELL_CAPACITY)
     const outputs: CKBComponents.CellOutput[] = [
       {
