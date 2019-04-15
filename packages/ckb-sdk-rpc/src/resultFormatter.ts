@@ -11,7 +11,6 @@ const formatters = {
     txs_proposal,
     witnesses_root,
     difficulty,
-    cellbase_id,
     uncles_hash,
     uncles_count,
     seal,
@@ -23,9 +22,8 @@ const formatters = {
     timestamp,
     txsCommit: txs_commit,
     txsProposal: txs_proposal,
-    witnessRoot: witnesses_root,
+    witnessesRoot: witnesses_root,
     difficulty,
-    cellbaseId: cellbase_id,
     unclesHash: uncles_hash,
     unclesCount: uncles_count,
     seal,
@@ -52,21 +50,7 @@ const formatters = {
   toBlockWithHash: (block: any) => block,
   toTxRes: (txRes: any) => txRes,
   toBlock: ({ header, uncles, commit_transactions, proposal_transactions }: any) => {
-    const h: CKBComponents.BlockHeader = {
-      version: header.version,
-      parentHash: header.parent_hash,
-      timestamp: header.timestamp,
-      number: header.number,
-      txsCommit: header.txs_commit,
-      txsProposal: header.txs_proposal,
-      witnessesRoot: header.witnesses_root,
-      difficulty: header.difficulty,
-      cellbaseId: header.cellbase_id,
-      unclesHash: header.uncle_hash,
-      unclesCount: header.uncle_count,
-      seal: header.seal,
-      hash: header.hash,
-    }
+    const h: CKBComponents.BlockHeader = formatters.toHeader(header)
     const u = uncles
     const c = commit_transactions
     const p = proposal_transactions
