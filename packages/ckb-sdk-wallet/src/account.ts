@@ -60,7 +60,11 @@ class Account extends ECPair {
 
   // ========================================
 
-  gatherInputs = async (capacity: CKBComponents.Capacity, minCapacity: CKBComponents.Capacity) => {
+  gatherInputs = async (
+    capacity: CKBComponents.Capacity,
+    minCapacity: CKBComponents.Capacity,
+    validSince: number = 0
+  ) => {
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
     }
@@ -71,6 +75,7 @@ class Account extends ECPair {
         const input: CKBComponents.CellInput = {
           prevOutput: cell.outPoint,
           args: this.unlockArgs,
+          validSince,
         }
         inputs.push(input)
         inputCapacities += cell.capacity
