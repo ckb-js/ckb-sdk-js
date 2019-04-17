@@ -96,7 +96,7 @@ export class DefaultRPC {
 
   public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
-  public localNodeInfo!: () => Promise<CKBComponents.LocalNodeInfo>
+  public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
 
   public traceTransaction!: (transaction: {
     version: CKBComponents.Version

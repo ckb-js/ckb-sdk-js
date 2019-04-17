@@ -10,13 +10,11 @@ class Account extends ECPair {
   public unlockArgs: Uint8Array[] = []
 
   public lockScript: CKBComponents.Script = {
-    version: 0,
     binaryHash: '',
     args: [],
   }
 
   public contractScript: CKBComponents.Script = {
-    version: 0,
     binaryHash: '',
     args: [],
   }
@@ -51,12 +49,12 @@ class Account extends ECPair {
     // it iterates all block to gather cells,
     // however only P1CS needs to be covered, TBD
     const to = await this.rpc.getTipBlockNumber()
-    const cells = await this.rpc.getCellsByLockHash(`0x${this.lockHash}`, 0, to)
+    const cells = await this.rpc.getCellsByLockHash(`0x${this.lockHash}`, '0', to)
     return cells
   }
 
   getBalance = async (): Promise<string> =>
-    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + c.capacity, 0).toString())
+    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + +c.capacity, 0).toString())
 
   // ========================================
 
@@ -73,14 +71,14 @@ class Account extends ECPair {
           args: this.unlockArgs,
         }
         inputs.push(input)
-        inputCapacities += cell.capacity
-        if (inputCapacities >= capacity && inputCapacities - capacity >= minCapacity) {
+        inputCapacities += +cell.capacity
+        if (inputCapacities >= +capacity && inputCapacities - +capacity >= +minCapacity) {
           return false
         }
         return true
       }))
 
-    if (inputCapacities < capacity) {
+    if (inputCapacities < +capacity) {
       throw new Error(`Not enough capacity, required: ${capacity}, available: ${inputCapacities}`)
     }
     return {
@@ -93,7 +91,7 @@ class Account extends ECPair {
     targetLock: CKBComponents.Script,
     targetCapacity: CKBComponents.Capacity
   ): Promise<CKBComponents.RawTransaction> => {
-    const { inputs, capacity } = await this.gatherInputs(targetCapacity, Account.MIN_CELL_CAPACITY)
+    const { inputs, capacity } = await this.gatherInputs(targetCapacity, `${Account.MIN_CELL_CAPACITY}`)
     const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
@@ -101,9 +99,9 @@ class Account extends ECPair {
         lock: targetLock,
       },
     ]
-    if (capacity > targetCapacity) {
+    if (capacity > +targetCapacity) {
       outputs.push({
-        capacity: capacity - targetCapacity,
+        capacity: `${capacity - +targetCapacity}`,
         data: new Uint8Array(0),
         lock: this.lockScript,
       })
