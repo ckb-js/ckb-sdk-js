@@ -3,17 +3,17 @@
  */
 
 declare namespace CKBComponents {
-  export type Version = number
-  export type LocalNodeInfo = {
-    addresses: { address: string; score: number }[]
-    nodeId: string
-    version: string
-  }
   export type Hash = string
-  export type BlockNumber = number
-  export type Capacity = number
+  export type Hash256 = string
+  export type UInt32 = number
+  export type Index = number
+  export type Version = UInt32
+  export type Difficulty = bigint
+  export type BlockNumber = string
+  export type Capacity = string
   export type ProposalShortId = string
-  export type TimeStamp = number
+  export type Timestamp = string
+  export type Nonce = string
   export interface Node {
     url: string
   }
@@ -31,14 +31,12 @@ declare namespace CKBComponents {
   /**
    * @typedef Script, lock or unlock script
    * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
-   * @property version, script version, used to resolve incompatible upgrade.
    * @property args, arguments.
    * @property binaryHash, point to its dependency, if your script already exists on CKB, you can use this field to reference the script instead of including it again. You can just put the script hash in this binaryHash field, then list the cell containing the script as an outpoint in deps field in the current transaction. CKB will automatically locate cell and load the binary from there and use it as script `binary` part. Notice this only works when you don't provide a `binary` field value, otherwise the value in the `binary` field always take precedence.
    * @tutorial Each script has a `lock_hash` which uniquely identifies the script, for example, the `lock_hash` of lock script, is exactly the corresponding `lock` script field value in the referenced cell, when calculating hash for a script, `bianryHash`, and `args` will all be used.
    */
   /* eslint-enable max-len */
   export interface Script {
-    version: number
     args: Uint8Array[]
     binaryHash?: Hash
   }
@@ -76,12 +74,12 @@ declare namespace CKBComponents {
    * @property index, index of cell output
    */
   export interface OutPoint {
-    hash: Hash
-    index: number
+    hash: Hash256
+    index: Index
   }
 
   export interface Witness {
-    data: string[]
+    data: Hash[]
   }
 
   /**
@@ -92,7 +90,7 @@ declare namespace CKBComponents {
    * @property outputs, cell outputs in the transaction
    */
   export interface RawTransaction {
-    version: number
+    version: Version
     deps: OutPoint[]
     inputs: CellInput[]
     outputs: CellOutput[]
@@ -106,7 +104,7 @@ declare namespace CKBComponents {
    */
   export interface Transaction extends RawTransaction {
     witnesses: Witness[]
-    hash: Hash
+    hash: Hash256
   }
 
   /**
@@ -115,7 +113,7 @@ declare namespace CKBComponents {
    * @property proof
    */
   export interface Seal {
-    nonce: number // u64
+    nonce: Nonce
     proof: Uint8Array
   }
 
@@ -134,18 +132,18 @@ declare namespace CKBComponents {
    * @property hash
    */
   export interface BlockHeader {
-    version: number
-    parentHash: Hash
-    timestamp: TimeStamp
-    number: number
-    txsCommit: Hash
-    txsProposal: Hash
-    witnessesRoot: Hash
-    difficulty: Hash
-    unclesHash: Hash
-    unclesCount: number
+    version: Version
+    parentHash: Hash256
+    timestamp: Timestamp
+    number: BlockNumber
+    txsCommit: Hash256
+    txsProposal: Hash256
+    witnessesRoot: Hash256
+    difficulty: Difficulty
+    unclesHash: Hash256
+    unclesCount: UInt32
     seal: Seal
-    hash: Hash
+    hash: Hash256
   }
 
   /**
@@ -193,11 +191,11 @@ declare namespace CKBComponents {
 
   export interface CellByLockHash {
     capacity: Capacity
-    lock: Hash
+    lock: Hash256
     outPoint: OutPoint
   }
 
-  export type TransactionTrace = { action: string; info: string; time: TimeStamp }[]
+  export type TransactionTrace = { action: string; info: string; time: Timestamp }[]
 
   export enum CellStatus {
     LIVE = 'live',

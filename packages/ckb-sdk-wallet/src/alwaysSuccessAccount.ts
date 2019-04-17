@@ -25,7 +25,7 @@ class AlwaysSuccessAccount extends Account {
 
   loadGenesisBlock = () => {
     this.rpc
-      .getBlockHash(0)
+      .getBlockHash('0')
       .then(hash => this.rpc.getBlock(hash))
       .then(block => {
         this.genesisBlock = block
