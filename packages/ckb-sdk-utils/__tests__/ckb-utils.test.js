@@ -5,7 +5,7 @@ const {
   blake2b,
   blake160,
   bech32,
-  blake160PubkeyToAddress,
+  bech32Address,
   pubkeyToAddress,
   parseAddress,
   hexToBytes,
@@ -122,7 +122,7 @@ describe('address', () => {
       prefix: 'ckt',
       address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
-    const address = blake160PubkeyToAddress(fixture.str, {
+    const address = bech32Address(fixture.str, {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
