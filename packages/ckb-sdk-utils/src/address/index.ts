@@ -1,4 +1,4 @@
-import { bech32, blake160, hexToBytes } from '..'
+import { bech32, blake160, hexToBytes, bytesToHex } from '..'
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -66,10 +66,15 @@ export const pubkeyToAddress = (
   })
 }
 
-export const parseAddress = (address: string, prefix: AddressPrefix = AddressPrefix.Mainnet) => {
+export const parseAddress = (
+  address: string,
+  prefix: AddressPrefix = AddressPrefix.Mainnet,
+  encode: 'binary' | 'hex' = 'binary'
+) => {
   const decoded = bech32.decode(address)
   if (decoded.prefix !== prefix) {
     throw new Error('Prefix not matched')
   }
-  return decoded.words
+  const data = bech32.fromWords(new Uint8Array(decoded.words))
+  return encode === 'binary' ? data : bytesToHex(data)
 }
