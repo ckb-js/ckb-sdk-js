@@ -7,6 +7,7 @@ const {
   bech32,
   blake160PubkeyToAddress,
   pubkeyToAddress,
+  parseAddress,
   hexToBytes,
   bytesToHex,
   lockScriptToHash,
@@ -137,5 +138,18 @@ describe('address', () => {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
+  })
+
+  it('parse address', () => {
+    const fixture = {
+      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      prefix: 'ckt',
+      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
+    }
+    const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
+    expect(parsedHex).toBe(fixture.hrp + fixture.blake160Pubkey)
+    const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
+    expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)
   })
 })
