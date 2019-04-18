@@ -1,8 +1,9 @@
 import utf8 from 'utf8'
 import crypto from './crypto'
 
-export const { blake2b } = crypto
+export * from './address'
 
+export const { blake2b, bech32, blake160 } = crypto
 export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
 
 export const hexToBytes = (rawhex: any) => {
