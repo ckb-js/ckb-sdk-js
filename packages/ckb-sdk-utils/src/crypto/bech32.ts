@@ -1,19 +1,25 @@
 const ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 
-const ALPHABET_MAP = new Map()
+const LIMIT = 90
+
+const SEPERATOR = '1'
+
+const alphabetMap = new Map<string, number>()
 
 for (let i = 0; i < ALPHABET.length; i++) {
   const char = ALPHABET.charAt(i)
-  if (ALPHABET_MAP.get(char) !== undefined) {
+
+  if (alphabetMap.get(char) !== undefined) {
     throw new TypeError(`${char} is ambiguous`)
   }
-  ALPHABET_MAP.set(char, i)
+
+  alphabetMap.set(char, i)
 }
 
-const polymodStep = (pre: any) => {
-  const b = pre >> 25
+const polymodStep = (values: any) => {
+  const b = values >> 25
   return (
-    ((pre & 0x1ffffff) << 5) ^
+    ((values & 0x1ffffff) << 5) ^
     (-((b >> 0) & 1) & 0x3b6a57b2) ^
     (-((b >> 1) & 1) & 0x26508e6d) ^
     (-((b >> 2) & 1) & 0x1ea119fa) ^
@@ -22,93 +28,105 @@ const polymodStep = (pre: any) => {
   )
 }
 
-const prefixChk = (prefix: string) => {
-  let chk = 1
+const prefixChecksum = (prefix: string) => {
+  let checksum = 1
+
   for (let i = 0; i < prefix.length; ++i) {
     const c = prefix.charCodeAt(i)
     if (c < 33 || c > 126) throw new Error(`Invalid prefix (${prefix})`)
-
-    chk = polymodStep(chk) ^ (c >> 5)
+    checksum = polymodStep(checksum) ^ (c >> 5)
   }
-  chk = polymodStep(chk)
+
+  checksum = polymodStep(checksum)
 
   for (let i = 0; i < prefix.length; ++i) {
     const v = prefix.charCodeAt(i)
-    chk = polymodStep(chk) ^ (v & 0x1f)
+    checksum = polymodStep(checksum) ^ (v & 0x1f)
   }
-  return chk
+
+  return checksum
 }
 
-export const encode = (_prefix: string, words: Uint8Array, LIMIT: number = 90) => {
-  const prefix = _prefix.toLowerCase()
+export const encode = (prefix: string, words: Uint8Array, limit: number = LIMIT) => {
+  const formattedPrefix = prefix.toLowerCase()
 
-  if (prefix.length + 7 + words.length > LIMIT) throw new TypeError('Exceeds length limit')
+  if (formattedPrefix.length + 7 + words.length > limit) throw new TypeError('Exceeds length limit')
 
-  // determine chk mod
-  let chk = prefixChk(prefix)
-  let result = `${prefix}1`
+  // determine checksum mod
+  let checksum = prefixChecksum(formattedPrefix)
+
+  let result = `${formattedPrefix}${SEPERATOR}`
+
   for (let i = 0; i < words.length; ++i) {
     const x = words[i]
     if (x >> 5 !== 0) throw new Error('Non 5-bit word')
 
-    chk = polymodStep(chk) ^ x
+    checksum = polymodStep(checksum) ^ x
+
     result += ALPHABET.charAt(x)
   }
 
   for (let i = 0; i < 6; ++i) {
-    chk = polymodStep(chk)
+    checksum = polymodStep(checksum)
   }
-  chk ^= 1
+
+  checksum ^= 1
 
   for (let i = 0; i < 6; ++i) {
-    const v = (chk >> ((5 - i) * 5)) & 0x1f
+    const v = (checksum >> ((5 - i) * 5)) & 0x1f
     result += ALPHABET.charAt(v)
   }
 
   return result
 }
 
-/* eslint-disable no-continue */
-export const decode = (_str: string, LIMIT: number = 90) => {
-  // don't allow mixed case
-  const lowered = _str.toLowerCase()
-  const uppered = _str.toUpperCase()
-  if (_str !== lowered && _str !== uppered) throw new Error(`Mixed-case string ${_str}`)
+export const decode = (encoded: string, limit: number = LIMIT) => {
+  const lowered = encoded.toLowerCase()
+
+  const uppered = encoded.toUpperCase()
+
+  if (encoded !== lowered && encoded !== uppered) throw new Error(`Mixed-case string ${encoded}`)
+
   const str = lowered
 
   if (str.length < 8) throw new TypeError(`${str} too short`)
-  if (str.length > LIMIT) throw new TypeError('Exceeds length limit')
 
-  const split = str.lastIndexOf('1')
+  if (str.length > limit) throw new TypeError('Exceeds length limit')
+
+  const split = str.lastIndexOf(SEPERATOR)
+
   if (split === -1) throw new Error(`No separator character for ${str}`)
+
   if (split === 0) throw new Error(`Missing prefix for ${str}`)
 
   const prefix = str.slice(0, split)
+
   const wordChars = str.slice(split + 1)
+
   if (wordChars.length < 6) throw new Error('Data too short')
 
-  let chk = prefixChk(prefix)
-  const words = []
-  for (let i = 0; i < wordChars.length; ++i) {
+  let checksum = prefixChecksum(prefix)
+
+  const words: number[] = []
+
+  wordChars.split('').forEach((_, i) => {
     const c = wordChars.charAt(i)
-    const v = ALPHABET_MAP.get(c)
+    const v = alphabetMap.get(c)
     if (v === undefined) throw new Error(`Unknown character ${c}`)
-    chk = polymodStep(chk) ^ v
+    checksum = polymodStep(checksum) ^ v
+    if (i + 6 < wordChars.length) {
+      words.push(v)
+    }
+  })
 
-    // not in the checksum?
-    if (i + 6 >= wordChars.length) continue
-    words.push(v)
-  }
-  /* eslint-enable no-continue */
-
-  if (chk !== 1) throw new Error(`Invalid checksum for ${str}`)
+  if (checksum !== 1) throw new Error(`Invalid checksum for ${str}`)
   return {
     prefix,
     words,
   }
 }
 
-const convert = (data: Uint8Array, inBits: any, outBits: any, pad: any): Uint8Array => {
+const convert = (data: Uint8Array, inBits: number, outBits: number, pad: boolean): Uint8Array => {
   let value = 0
   let bits = 0
   const maxV = (1 << outBits) - 1
