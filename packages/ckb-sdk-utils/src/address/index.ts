@@ -41,14 +41,14 @@ export const toAddressPayload = (
   return new Uint8Array([...hexToBytes(type), ...Buffer.from(params), ...blake160Pubkey])
 }
 
-export const blake160PubkeyToAddress = (
-  blake160Pubkey: Uint8Array | string,
+export const bech32Address = (
+  data: Uint8Array | string,
   {
     prefix = AddressPrefix.Mainnet,
     type = AddressType.BinIdx,
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(blake160Pubkey, type, binIdx)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(data, type, binIdx)))
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
@@ -59,7 +59,7 @@ export const pubkeyToAddress = (
   }: AddressOptions = defaultAddressOptions
 ) => {
   const blake160Pubkey = blake160(pubkey)
-  return blake160PubkeyToAddress(blake160Pubkey, {
+  return bech32Address(blake160Pubkey, {
     prefix,
     type,
     binIdx,
