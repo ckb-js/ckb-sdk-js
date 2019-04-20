@@ -44,11 +44,14 @@ declare namespace CKBComponents {
   /**
    * @typedef CellInput, cell input in a transaction
    * @property previousOutput, point to its P1 cell
-   * @property unlock, unlock script
+   * @property args, args to unlock cell
+   * @property validSince, a parameter to prevent a cell to be spent before a centain block timestamp or a block number,
+   *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
    */
   export interface CellInput {
     prevOutput: OutPoint
     args: Uint8Array[]
+    validSince: number
   }
 
   /**

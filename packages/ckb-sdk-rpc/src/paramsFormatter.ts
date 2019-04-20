@@ -40,9 +40,10 @@ const formatters = {
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
-    const fmtInputs = inputs.map(({ prevOutput, args }: CKBComponents.CellInput) => ({
+    const fmtInputs = inputs.map(({ prevOutput, args, validSince }: CKBComponents.CellInput) => ({
       previous_output: prevOutput,
       args,
+      valid_since: validSince,
     }))
     const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
       capacity,
