@@ -2,7 +2,7 @@ const ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 
 const LIMIT = 90
 
-const SEPERATOR = '1'
+const SEPARATOR = '1'
 
 const alphabetMap = new Map<string, number>()
 
@@ -55,7 +55,7 @@ export const encode = (prefix: string, words: Uint8Array, limit: number = LIMIT)
   // determine checksum mod
   let checksum = prefixChecksum(formattedPrefix)
 
-  let result = `${formattedPrefix}${SEPERATOR}`
+  let result = `${formattedPrefix}${SEPARATOR}`
 
   for (let i = 0; i < words.length; ++i) {
     const x = words[i]
@@ -93,7 +93,7 @@ export const decode = (encoded: string, limit: number = LIMIT) => {
 
   if (str.length > limit) throw new TypeError('Exceeds length limit')
 
-  const split = str.lastIndexOf(SEPERATOR)
+  const split = str.lastIndexOf(SEPARATOR)
 
   if (split === -1) throw new Error(`No separator character for ${str}`)
 
