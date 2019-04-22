@@ -6,14 +6,21 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [0.9.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.8.0...v0.9.0) (2019-04-22)
 
 
+### Bug Fixes
+
+* **utils:** fix typo of seperator to separator ([fd2616c](https://github.com/nervosnetwork/ckb-sdk-js/commit/fd2616c))
+
+
 ### Features
 
-* **type:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
+* **types:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
+* **utils:** add blake160, bech32, blake160PubkeyToAddress, pubkeyToAddress ([79cb24f](https://github.com/nervosnetwork/ckb-sdk-js/commit/79cb24f))
+* **utils:** parseAddress returns bytes or hex string instead of words ([2028a6c](https://github.com/nervosnetwork/ckb-sdk-js/commit/2028a6c))
 
 
 ### BREAKING CHANGES
 
-* **type:** script model updated
+* **types:** script model updated
 
 
 
