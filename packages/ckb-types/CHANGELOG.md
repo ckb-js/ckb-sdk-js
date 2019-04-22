@@ -1,4 +1,4 @@
-# Changelog
+# Changeog
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
@@ -9,12 +9,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **rpc:** add segrated witnesses ([bc8339f](https://github.com/nervosnetwork/ckb-sdk-js/commit/bc8339f))
-* **type:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
+* **types:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
+* **types:** remove cellbase id from block header, remove cellbase from uncle block ([de9f50d](https://github.com/nervosnetwork/ckb-sdk-js/commit/de9f50d))
+* **types:** update ckb-types ([9eeb640](https://github.com/nervosnetwork/ckb-sdk-js/commit/9eeb640))
 
 
 ### BREAKING CHANGES
 
-* **type:** script model updated
+* **types:** replace type of u64 with type of string in ckb-types, remove version field from script interface
+* **types:** block header and uncle block in rpc updated
+* **types:** script model updated
 
 
 
