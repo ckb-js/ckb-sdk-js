@@ -9,13 +9,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **rpc:** add segrated witnesses ([bc8339f](https://github.com/nervosnetwork/ckb-sdk-js/commit/bc8339f))
-* **type:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
+* **types:** update types of script, cell input, cell output ([ee405bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/ee405bb))
 * **wallet:** remove udt account ([7e3cf6d](https://github.com/nervosnetwork/ckb-sdk-js/commit/7e3cf6d))
 
 
 ### BREAKING CHANGES
 
-* **type:** script model updated
+* **types:** script model updated
 
 
 

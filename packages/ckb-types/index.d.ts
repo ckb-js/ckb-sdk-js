@@ -125,7 +125,6 @@ declare namespace CKBComponents {
    * @property txsCommit
    * @property txsProposal
    * @property difficulty
-   * @property cellbaseId
    * @property unclesHash
    * @property unclesCount
    * @property seal
@@ -140,7 +139,6 @@ declare namespace CKBComponents {
     txsProposal: Hash
     witnessesRoot: Hash
     difficulty: Hash
-    cellbaseId: Hash
     unclesHash: Hash
     unclesCount: number
     seal: Seal
@@ -150,13 +148,11 @@ declare namespace CKBComponents {
   /**
    * @typedef UncleBlock, uncle block object
    * @property header, block header
-   * @property cellbase, transaction
    * @property proposalTransactions
    */
 
   interface UncleBlock {
     header: BlockHeader
-    cellbase: Transaction
     proposalTransactions: ProposalShortId[]
   }
 
