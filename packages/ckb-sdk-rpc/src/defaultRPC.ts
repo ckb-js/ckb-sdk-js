@@ -25,8 +25,8 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toHeader,
   },
   {
-    name: 'getCellsByTypeHash',
-    method: 'get_cells_by_type_hash',
+    name: 'getCellsByLockHash',
+    method: 'get_cells_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
     resultFormatters: resultFmts.toCells,
   },
@@ -79,11 +79,11 @@ export class DefaultRPC {
 
   public getTipHeader!: () => Promise<CKBComponents.BlockHeader>
 
-  public getCellsByTypeHash!: (
+  public getCellsByLockHash!: (
     hash: string,
     from: CKBComponents.BlockNumber,
     to: CKBComponents.BlockNumber
-  ) => Promise<CKBComponents.CellByTypeHash[]>
+  ) => Promise<CKBComponents.CellByLockHash[]>
 
   public getLiveCell!: (
     outPoint: CKBComponents.OutPoint
@@ -94,7 +94,7 @@ export class DefaultRPC {
 
   public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
 
-  public sendTransaction!: (tx: CKBComponents.Transaction) => Promise<CKBComponents.Hash>
+  public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
   public localNodeInfo!: () => Promise<CKBComponents.LocalNodeInfo>
 

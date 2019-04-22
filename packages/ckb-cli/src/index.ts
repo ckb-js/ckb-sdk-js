@@ -36,7 +36,7 @@ commander
           'getTransaction',
           'getBlockHash',
           'getTipHeader',
-          'getCellsByTypeHash',
+          'getCellsByLockHash',
           'getCurrentCell',
           'getTipBlockNumber',
           'sendTransaction',

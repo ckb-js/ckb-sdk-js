@@ -78,9 +78,9 @@ describe('ckb-rpc', () => {
     }
   })
 
-  it('get cells by type hash', async () => {
-    const typeHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
-    const cells = await rpc.getCellsByTypeHash(typeHash, 0, 100)
+  it('get cells by lock hash', async () => {
+    const lockHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
+    const cells = await rpc.getCellsByLockHash(lockHash, 0, 100)
     expect(Array.isArray(cells)).toBeTruthy()
   })
 

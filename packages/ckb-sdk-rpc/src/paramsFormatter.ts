@@ -8,7 +8,7 @@ declare module CkbRPC {
       deps: CKBComponents.Hash[]
       inputs: any
 
-      outputs: { lock: string; data: string; capacity: number }[]
+      outputs: { lock: CKBComponents.Script; data: string; capacity: number }[]
     }
   }
 }
@@ -40,20 +40,18 @@ const formatters = {
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
-    const fmtInputs = inputs.map(({ prevOutput, unlock }: CKBComponents.CellInput) => ({
+    const fmtInputs = inputs.map(({ prevOutput, args }: CKBComponents.CellInput) => ({
       previous_output: prevOutput,
-      unlock: {
-        version: unlock.version,
-        reference: unlock.reference,
-        binary: unlock.binary,
-        args: unlock.args,
-        signed_args: unlock.signedArgs,
-      },
+      args,
     }))
     const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
       capacity,
       data: `0x${bytesToHex(data)}`,
-      lock,
+      lock: {
+        version: lock.version,
+        binary_hash: lock.binaryHash || [],
+        args: lock.args || [],
+      },
     }))
     const tx = {
       hash,

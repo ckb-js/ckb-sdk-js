@@ -1,38 +1,36 @@
 import ECPair, { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { hexToBytes, jsonScriptToTypeHash } from '@nervosnetwork/ckb-sdk-utils'
+import { hexToBytes, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 
 class Account extends ECPair {
-  public VERIFY_SCRIPT: string = ''
-
   public static MIN_CELL_CAPACITY = 10
 
   public rpc: RPC
 
-  public unlockScript: CKBComponents.Script = {
+  public unlockArgs: Uint8Array[] = []
+
+  public lockScript: CKBComponents.Script = {
     version: 0,
-    reference: '',
-    signedArgs: [],
+    binaryHash: '',
     args: [],
   }
 
   public contractScript: CKBComponents.Script = {
     version: 0,
-    reference: '',
-    signedArgs: [],
+    binaryHash: '',
     args: [],
   }
 
-  get unlockTypeHash(): string {
-    return jsonScriptToTypeHash(this.unlockScript) as string
+  get lockHash(): string {
+    return lockScriptToHash(this.lockScript)
   }
 
-  get contractTypeHash(): string {
-    return jsonScriptToTypeHash(this.contractScript) as string
+  get contractHash(): string {
+    return lockScriptToHash(this.contractScript)
   }
 
   get address() {
-    return this.unlockTypeHash
+    return this.lockHash
   }
 
   public deps: CKBComponents.OutPoint[] = []
@@ -53,7 +51,7 @@ class Account extends ECPair {
     // it iterates all block to gather cells,
     // however only P1CS needs to be covered, TBD
     const to = await this.rpc.getTipBlockNumber()
-    const cells = await this.rpc.getCellsByTypeHash(`0x${this.unlockTypeHash}`, 0, to)
+    const cells = await this.rpc.getCellsByLockHash(`0x${this.lockHash}`, 0, to)
     return cells
   }
 
@@ -72,7 +70,7 @@ class Account extends ECPair {
       cells.every(cell => {
         const input: CKBComponents.CellInput = {
           prevOutput: cell.outPoint,
-          unlock: this.unlockScript,
+          args: this.unlockArgs,
         }
         inputs.push(input)
         inputCapacities += cell.capacity
@@ -92,22 +90,22 @@ class Account extends ECPair {
   }
 
   generateTx = async (
-    targetAddr: CKBComponents.Hash,
+    targetLock: CKBComponents.Script,
     targetCapacity: CKBComponents.Capacity
-  ): Promise<CKBComponents.Transaction> => {
+  ): Promise<CKBComponents.RawTransaction> => {
     const { inputs, capacity } = await this.gatherInputs(targetCapacity, Account.MIN_CELL_CAPACITY)
     const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
         data: new Uint8Array(0),
-        lock: targetAddr,
+        lock: targetLock,
       },
     ]
     if (capacity > targetCapacity) {
       outputs.push({
         capacity: capacity - targetCapacity,
         data: new Uint8Array(0),
-        lock: `0x${this.unlockTypeHash}`,
+        lock: this.lockScript,
       })
     }
     const tx = {
@@ -119,29 +117,10 @@ class Account extends ECPair {
     return tx
   }
 
-  sendCapacity = async (targetAddr: CKBComponents.Hash, capacity: CKBComponents.Capacity) => {
-    const tx = await this.generateTx(targetAddr, capacity)
+  sendCapacity = async (targetLock: CKBComponents.Script, capacity: CKBComponents.Capacity) => {
+    const tx = await this.generateTx(targetLock, capacity)
     return this.rpc.sendTransaction(tx)
   }
-
-  // ================================
-
-  public verifyScript = ({
-    version = 0,
-    binary,
-    reference,
-    signedArgs,
-  }: {
-    version: number
-    binary?: Uint8Array
-    reference?: string
-    signedArgs?: Uint8Array[]
-  }) => ({
-    version,
-    reference,
-    binary,
-    signedArgs: signedArgs || [this.VERIFY_SCRIPT, this.hexPubKey],
-  })
 }
 
 export default Account
