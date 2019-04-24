@@ -64,15 +64,13 @@ export const hexToUtf8 = (hex: string) => {
   return utf8.decode(str)
 }
 
-export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: Uint8Array[] }) => {
+export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: (Uint8Array | string)[] }) => {
   const s = blake2b(32, null, null, PERSONAL)
   if (binaryHash) {
     s.update(Buffer.from(binaryHash.replace(/^0x/, ''), 'hex'))
   }
   if (args && args.length) {
-    args.forEach(arg => {
-      s.update(arg)
-    })
+    args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))
   }
 
   const digest = s.digest('hex')
