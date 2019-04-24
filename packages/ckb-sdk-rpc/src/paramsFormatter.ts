@@ -1,5 +1,3 @@
-import { bytesToHex } from '@nervosnetwork/ckb-sdk-utils'
-
 declare module CkbRPC {
   export module Params {
     export interface Transaction {
@@ -47,7 +45,7 @@ const formatters = {
     }))
     const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
       capacity,
-      data: `0x${bytesToHex(data)}`,
+      data,
       lock: {
         code_hash: lock.codeHash || [],
         args: lock.args || [],

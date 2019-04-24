@@ -7,7 +7,7 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockArgs: Uint8Array[] = []
+  public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
     codeHash: '',
@@ -100,14 +100,14 @@ class Account extends ECPair {
     const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
-        data: new Uint8Array(0),
+        data: '',
         lock: targetLock,
       },
     ]
     if (capacity > +targetCapacity) {
       outputs.push({
         capacity: `${capacity - +targetCapacity}`,
-        data: new Uint8Array(0),
+        data: '',
         lock: this.lockScript,
       })
     }

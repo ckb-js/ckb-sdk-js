@@ -14,7 +14,12 @@ declare namespace CKBComponents {
   export type ProposalShortId = string
   export type Timestamp = string
   export type Nonce = string
-  export type Bytes = Uint8Array
+  /**
+   * @typedef Bytes, keep consistent with CKB
+   * @description Bytes will be serialized to string
+   * @see https://github.com/nervosnetwork/ckb/blob/develop/util/jsonrpc-types/src/blockchain.rs#L19
+   */
+  export type Bytes = string
   export type Since = string
   export interface Node {
     url: string
