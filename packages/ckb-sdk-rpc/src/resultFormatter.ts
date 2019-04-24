@@ -7,8 +7,8 @@ const formatters = {
     parent_hash,
     timestamp,
     number,
-    txs_commit,
-    txs_proposal,
+    transactions_root,
+    proposals_root,
     witnesses_root,
     difficulty,
     uncles_hash,
@@ -20,8 +20,8 @@ const formatters = {
     number,
     parentHash: parent_hash,
     timestamp,
-    txsCommit: txs_commit,
-    txsProposal: txs_proposal,
+    transactionsRoot: transactions_root,
+    proposalsRoot: proposals_root,
     witnessesRoot: witnesses_root,
     difficulty,
     unclesHash: uncles_hash,
@@ -49,16 +49,13 @@ const formatters = {
   toCellWithStatus: (cell: any) => cell,
   toBlockWithHash: (block: any) => block,
   toTxRes: (txRes: any) => txRes,
-  toBlock: ({ header, uncles, commit_transactions, proposal_transactions }: any) => {
-    const h: CKBComponents.BlockHeader = formatters.toHeader(header)
-    const u = uncles
-    const c = commit_transactions
-    const p = proposal_transactions
+  toBlock: ({ header, uncles, transactions, proposals }: any) => {
+    const formattedHeader: CKBComponents.BlockHeader = formatters.toHeader(header)
     const b: CKBComponents.Block = {
-      header: h,
-      uncles: u,
-      commitTransactions: c,
-      proposalTransactions: p,
+      header: formattedHeader,
+      uncles,
+      transactions,
+      proposals,
     }
     return b
   },

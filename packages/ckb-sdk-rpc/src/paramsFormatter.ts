@@ -40,16 +40,16 @@ const formatters = {
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
-    const fmtInputs = inputs.map(({ previousOutput, args, validSince }: CKBComponents.CellInput) => ({
+    const fmtInputs = inputs.map(({ previousOutput, args, since }: CKBComponents.CellInput) => ({
       previous_output: previousOutput,
       args,
-      valid_since: validSince,
+      since,
     }))
     const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
       capacity,
       data: `0x${bytesToHex(data)}`,
       lock: {
-        binary_hash: lock.binaryHash || [],
+        code_hash: lock.codeHash || [],
         args: lock.args || [],
       },
     }))
