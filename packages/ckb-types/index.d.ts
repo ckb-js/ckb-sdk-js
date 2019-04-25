@@ -216,6 +216,6 @@ declare namespace CKBComponents {
 
   export enum CapacityUnit {
     Shannon = 1,
-    CKBytes = 10 ** 8,
+    CKBytes = 100000000,
   }
 }
