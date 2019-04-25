@@ -213,4 +213,9 @@ declare namespace CKBComponents {
     nodeId: string
     addresses: { address: string; score: number }[]
   }
+
+  export enum CapacityUnit {
+    Shannon = 1,
+    CKBytes = 10 ** 8,
+  }
 }
