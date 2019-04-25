@@ -5,6 +5,10 @@ declare module CKBRPC {
       args: CKBComponents.Bytes[]
       code_hash: CKBComponents.Hash256
     }
+    export interface OutPoint {
+      tx_hash: CKBComponents.Hash256
+      index: CKBComponents.Index
+    }
     export interface Output {
       capacity: CKBComponents.Capacity
       data: CKBComponents.Bytes
@@ -12,7 +16,7 @@ declare module CKBRPC {
       type?: Script
     }
     export interface Input {
-      previous_output: CKBComponents.OutPoint
+      previous_output: OutPoint
       since: CKBComponents.Since
       args: CKBComponents.Bytes[]
     }
@@ -38,7 +42,7 @@ const formatters = {
     }
     return hash
   },
-  toOutPoint: (outPoint: any): CKBComponents.OutPoint => {
+  toOutPoint: (outPoint: any): CKBRPC.Params.OutPoint => {
     if (typeof outPoint !== 'object') {
       throw new Error('Invalid OutPoint')
     }
@@ -49,14 +53,14 @@ const formatters = {
       throw new Error('Invalid Index in OutPoint')
     }
     return {
-      hash: outPoint.hash,
+      tx_hash: outPoint.txHash,
       index: outPoint.index,
     }
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CKBRPC.Params.Transaction => {
     const fmtInputs = inputs.map(({ previousOutput, args, since }: CKBComponents.CellInput) => ({
-      previous_output: previousOutput,
+      previous_output: formatters.toOutPoint(previousOutput),
       args,
       since,
     }))

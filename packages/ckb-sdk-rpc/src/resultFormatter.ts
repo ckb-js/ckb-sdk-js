@@ -29,13 +29,17 @@ const formatters = {
     seal,
     hash,
   }),
+  toOutPoint: ({ tx_hash: txHash, index }: { tx_hash: string; index: number }) => ({
+    txHash,
+    index,
+  }),
   toTransactionWithHash: (txn: any) => txn,
   toCells: (
     cells: {
       capacity: number
       lock: string
       out_point: {
-        hash: string
+        tx_hash: string
         index: number
       }
     }[]
@@ -43,7 +47,7 @@ const formatters = {
     cells.map(({ capacity, lock, out_point }) => ({
       capacity,
       lock,
-      outPoint: out_point,
+      outPoint: formatters.toOutPoint(out_point),
     })),
   toCellOutputWithOutput: (cell: any) => cell,
   toCellWithStatus: (cell: any) => cell,
