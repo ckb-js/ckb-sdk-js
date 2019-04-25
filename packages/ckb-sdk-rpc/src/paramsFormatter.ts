@@ -1,15 +1,32 @@
-declare module CkbRPC {
+/* eslint-disable camelcase */
+declare module CKBRPC {
   export module Params {
+    export interface Script {
+      args: CKBComponents.Bytes[]
+      code_hash: CKBComponents.Hash256
+    }
+    export interface Output {
+      capacity: CKBComponents.Capacity
+      data: CKBComponents.Bytes
+      lock: Script
+      type?: Script
+    }
+    export interface Input {
+      previous_output: CKBComponents.OutPoint
+      since: CKBComponents.Since
+      args: CKBComponents.Bytes[]
+    }
     export interface Transaction {
       hash: CKBComponents.Hash256
       version: CKBComponents.Version
-      deps: CKBComponents.Hash[]
-      inputs: any
+      deps: CKBComponents.OutPoint[]
+      inputs: Input[]
 
-      outputs: { lock: CKBComponents.Script; data: string; capacity: CKBComponents.Capacity }[]
+      outputs: Output[]
     }
   }
 }
+/* eslint-enable camelcase */
 
 const formatters = {
   toHash: (hash: any, length?: number): CKBComponents.Hash => {
@@ -37,7 +54,7 @@ const formatters = {
     }
   },
   toNumber: (number: string | number): number => +number,
-  toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
+  toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CKBRPC.Params.Transaction => {
     const fmtInputs = inputs.map(({ previousOutput, args, since }: CKBComponents.CellInput) => ({
       previous_output: previousOutput,
       args,
@@ -47,7 +64,7 @@ const formatters = {
       capacity,
       data,
       lock: {
-        code_hash: lock.codeHash || [],
+        code_hash: lock.codeHash || '',
         args: lock.args || [],
       },
     }))
