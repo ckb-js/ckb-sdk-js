@@ -9,7 +9,7 @@ class AlwaysSuccessAccount extends Account {
   public alwaysSuccess = {
     cellHash: '',
     scriptOutPoint: {
-      hash: '',
+      txHash: '',
       index: 0,
     },
   }
@@ -30,7 +30,7 @@ class AlwaysSuccessAccount extends Account {
       .then(block => {
         this.genesisBlock = block
         const alwaysSuccessScriptOutPoint = {
-          hash: block.transactions[0].hash,
+          txHash: block.transactions[0].hash,
           index: 0,
         }
         const s = blake2b(32, null, null, PERSONAL)
@@ -39,7 +39,7 @@ class AlwaysSuccessAccount extends Account {
         this.alwaysSuccess = {
           cellHash: alwaysSuccessCellHash,
           scriptOutPoint: {
-            hash: alwaysSuccessScriptOutPoint.hash || '',
+            txHash: alwaysSuccessScriptOutPoint.txHash || '',
             index: alwaysSuccessScriptOutPoint.index,
           },
         }

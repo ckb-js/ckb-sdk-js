@@ -82,7 +82,7 @@ declare namespace CKBComponents {
    * @property index, index of cell output
    */
   export interface OutPoint {
-    hash: Hash256
+    txHash: Hash256
     index: Index
   }
 
