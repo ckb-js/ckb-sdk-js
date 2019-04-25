@@ -50,7 +50,7 @@ declare namespace CKBComponents {
    */
   export interface CellInput {
     prevOutput: OutPoint
-    args: Uint8Array[]
+    args: Hash[]
   }
 
   /**

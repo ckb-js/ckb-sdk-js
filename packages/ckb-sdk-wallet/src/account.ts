@@ -7,7 +7,7 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockArgs: Uint8Array[] = []
+  public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
     version: 0,
