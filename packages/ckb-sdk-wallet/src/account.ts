@@ -7,15 +7,15 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockArgs: Uint8Array[] = []
+  public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
-    binaryHash: '',
+    codeHash: '',
     args: [],
   }
 
   public contractScript: CKBComponents.Script = {
-    binaryHash: '',
+    codeHash: '',
     args: [],
   }
 
@@ -61,7 +61,7 @@ class Account extends ECPair {
   gatherInputs = async (
     capacity: CKBComponents.Capacity,
     minCapacity: CKBComponents.Capacity,
-    validSince: string = '0'
+    since: CKBComponents.Since = '0'
   ) => {
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
@@ -73,7 +73,7 @@ class Account extends ECPair {
         const input: CKBComponents.CellInput = {
           previousOutput: cell.outPoint,
           args: this.unlockArgs,
-          validSince,
+          since,
         }
         inputs.push(input)
         inputCapacities += +cell.capacity
@@ -100,14 +100,14 @@ class Account extends ECPair {
     const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
-        data: new Uint8Array(0),
+        data: '',
         lock: targetLock,
       },
     ]
     if (capacity > +targetCapacity) {
       outputs.push({
         capacity: `${capacity - +targetCapacity}`,
-        data: new Uint8Array(0),
+        data: '',
         lock: this.lockScript,
       })
     }

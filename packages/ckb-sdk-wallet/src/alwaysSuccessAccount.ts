@@ -30,11 +30,11 @@ class AlwaysSuccessAccount extends Account {
       .then(block => {
         this.genesisBlock = block
         const alwaysSuccessScriptOutPoint = {
-          hash: block.commitTransactions[0].hash,
+          hash: block.transactions[0].hash,
           index: 0,
         }
         const s = blake2b(32, null, null, PERSONAL)
-        s.update(Buffer.from(hexToBytes(block.commitTransactions[0].outputs[0].data)))
+        s.update(Buffer.from(hexToBytes(block.transactions[0].outputs[0].data)))
         const alwaysSuccessCellHash = s.digest('hex')
         this.alwaysSuccess = {
           cellHash: alwaysSuccessCellHash,
@@ -44,7 +44,7 @@ class AlwaysSuccessAccount extends Account {
           },
         }
         this.deps = [this.alwaysSuccess.scriptOutPoint]
-        this.lockScript.binaryHash = `0x${this.alwaysSuccess.cellHash}`
+        this.lockScript.codeHash = `0x${this.alwaysSuccess.cellHash}`
         console.log('ready')
       })
   }

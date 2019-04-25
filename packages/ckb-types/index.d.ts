@@ -14,6 +14,13 @@ declare namespace CKBComponents {
   export type ProposalShortId = string
   export type Timestamp = string
   export type Nonce = string
+  /**
+   * @typedef Bytes, keep consistent with CKB
+   * @description Bytes will be serialized to string
+   * @see https://github.com/nervosnetwork/ckb/blob/develop/util/jsonrpc-types/src/blockchain.rs#L19
+   */
+  export type Bytes = string
+  export type Since = string
   export interface Node {
     url: string
   }
@@ -32,38 +39,39 @@ declare namespace CKBComponents {
    * @typedef Script, lock or unlock script
    * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
    * @property args, arguments.
-   * @property binaryHash, point to its dependency, if your script already exists on CKB, you can use this field to reference the script instead of including it again. You can just put the script hash in this binaryHash field, then list the cell containing the script as an outpoint in deps field in the current transaction. CKB will automatically locate cell and load the binary from there and use it as script `binary` part. Notice this only works when you don't provide a `binary` field value, otherwise the value in the `binary` field always take precedence.
+   * @property codeHash, point to its dependency, if the referred dependency is listed in the deps field in a transaction, the codeHash means the hash of the referred cell's data.
+   * @see https://github.com/nervosnetwork/ckb/blob/develop/core/src/script.rs#L16
    * @tutorial Each script has a `lock_hash` which uniquely identifies the script, for example, the `lock_hash` of lock script, is exactly the corresponding `lock` script field value in the referenced cell, when calculating hash for a script, `bianryHash`, and `args` will all be used.
    */
   /* eslint-enable max-len */
   export interface Script {
-    args: Uint8Array[]
-    binaryHash?: Hash
+    args: Bytes[]
+    codeHash: Hash256
   }
 
   /**
    * @typedef CellInput, cell input in a transaction
    * @property previousOutput, point to its P1 cell
-   * @property args, args to unlock cell
-   * @property validSince, a parameter to prevent a cell to be spent before a centain block timestamp or a block number,
+   * @property since, a parameter to prevent a cell to be spent before a centain block timestamp or a block number,
    *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
+   * @property args, args to unlock cell
    */
   export interface CellInput {
     previousOutput: OutPoint
-    args: Uint8Array[]
-    validSince: string
+    since: Since
+    args: Bytes[]
   }
 
   /**
    * @typedef CellOutput, cell output in a transaction
    * @property capacity, the capacity of the genereated P1 cell
    * @property data, cell data
-   * @property lock, lock hash
-   * @property contract, lock script
+   * @property lock, lock script
+   * @property type, type script
    */
   export interface CellOutput {
     capacity: Capacity
-    data: Uint8Array
+    data: Bytes
     lock: Script
     type?: Script
   }
@@ -79,7 +87,7 @@ declare namespace CKBComponents {
   }
 
   export interface Witness {
-    data: Hash[]
+    data: Bytes[]
   }
 
   /**
@@ -123,8 +131,8 @@ declare namespace CKBComponents {
    * @property parentHash
    * @property timestamp
    * @property number
-   * @property txsCommit
-   * @property txsProposal
+   * @property transactionsRoot
+   * @property proposalsRoot
    * @property difficulty
    * @property unclesHash
    * @property unclesCount
@@ -136,8 +144,8 @@ declare namespace CKBComponents {
     parentHash: Hash256
     timestamp: Timestamp
     number: BlockNumber
-    txsCommit: Hash256
-    txsProposal: Hash256
+    transactionsRoot: Hash256
+    proposalsRoot: Hash256
     witnessesRoot: Hash256
     difficulty: Difficulty
     unclesHash: Hash256
@@ -149,26 +157,26 @@ declare namespace CKBComponents {
   /**
    * @typedef UncleBlock, uncle block object
    * @property header, block header
-   * @property proposalTransactions
+   * @property proposals
    */
 
   interface UncleBlock {
     header: BlockHeader
-    proposalTransactions: ProposalShortId[]
+    proposals: ProposalShortId[]
   }
 
   /**
    * @typedef Block, block object
    * @property header, block header
    * @property uncles, uncle blocks
-   * @property commitTransactions
-   * @property proposalTransactions
+   * @property transactions
+   * @property proposals
    */
   export interface Block {
     header: BlockHeader
     uncles: UncleBlock[]
-    commitTransactions: Transaction[]
-    proposalTransactions: ProposalShortId[]
+    transactions: Transaction[]
+    proposals: ProposalShortId[]
   }
 
   /**
