@@ -2,8 +2,10 @@ import ECPair, { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { hexToBytes, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 
+const BasicCapacityUnit: CKBComponents.CapacityUnit.Byte = 10 ** 8
+
 class Account extends ECPair {
-  public static MIN_CELL_CAPACITY = 10
+  public static MIN_CELL_CAPACITY = 10 * BasicCapacityUnit
 
   public rpc: RPC
 
