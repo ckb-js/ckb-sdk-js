@@ -45,19 +45,19 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'sendTransaction',
     method: 'send_transaction',
-    paramsFormatters: [paramsFmts.toTx],
-    resultFormatters: resultFmts.toTxRes,
+    paramsFormatters: [paramsFmts.toRawTransaction],
+    resultFormatters: resultFmts.toSendTransactionResponse,
   },
   {
     name: 'localNodeInfo',
     method: 'local_node_info',
     paramsFormatters: [],
-    resultFormatters: resultFmts.toLocalNodeInfo,
+    resultFormatters: resultFmts.toNodeInfo,
   },
   {
     name: 'traceTransaction',
     method: 'trace_transaction',
-    paramsFormatters: [paramsFmts.toTx],
+    paramsFormatters: [paramsFmts.toRawTransaction],
     resultFormatters: resultFmts.toHash,
   },
   {

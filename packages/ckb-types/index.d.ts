@@ -6,7 +6,7 @@ declare namespace CKBComponents {
   export type Hash = string
   export type Hash256 = string
   export type UInt32 = number
-  export type Index = number
+  export type Index = UInt32
   export type Version = UInt32
   export type Difficulty = bigint
   export type BlockNumber = string
@@ -73,7 +73,7 @@ declare namespace CKBComponents {
     capacity: Capacity
     data: Bytes
     lock: Script
-    type?: Script
+    type?: Script | null
   }
 
   /**

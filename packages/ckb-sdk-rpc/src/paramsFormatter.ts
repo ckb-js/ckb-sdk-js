@@ -1,85 +1,38 @@
 /* eslint-disable camelcase */
-declare module CKBRPC {
-  export module Params {
-    export interface Script {
-      args: CKBComponents.Bytes[]
-      code_hash: CKBComponents.Hash256
-    }
-    export interface OutPoint {
-      tx_hash: CKBComponents.Hash256
-      index: CKBComponents.Index
-    }
-    export interface Output {
-      capacity: CKBComponents.Capacity
-      data: CKBComponents.Bytes
-      lock: Script
-      type?: Script
-    }
-    export interface Input {
-      previous_output: OutPoint
-      since: CKBComponents.Since
-      args: CKBComponents.Bytes[]
-    }
-    export interface Transaction {
-      hash: CKBComponents.Hash256
-      version: CKBComponents.Version
-      deps: CKBComponents.OutPoint[]
-      inputs: Input[]
-
-      outputs: Output[]
-    }
-  }
-}
-/* eslint-enable camelcase */
-
-const formatters = {
-  toHash: (hash: any, length?: number): CKBComponents.Hash => {
-    if (typeof hash !== 'string') {
-      throw new Error('Hash String Required')
-    }
-    if (length !== undefined && hash.length !== length) {
-      throw new Error('Hash of wrong length')
-    }
-    return hash
-  },
-  toOutPoint: (outPoint: any): CKBRPC.Params.OutPoint => {
-    if (typeof outPoint !== 'object') {
-      throw new Error('Invalid OutPoint')
-    }
-    if (!outPoint.hash) {
-      throw new Error('Invalid Hash in OutPoint')
-    }
-    if (outPoint.index === undefined) {
-      throw new Error('Invalid Index in OutPoint')
-    }
-    return {
-      tx_hash: outPoint.txHash,
-      index: outPoint.index,
-    }
-  },
-  toNumber: (number: string | number): number => +number,
-  toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CKBRPC.Params.Transaction => {
-    const fmtInputs = inputs.map(({ previousOutput, args, since }: CKBComponents.CellInput) => ({
-      previous_output: formatters.toOutPoint(previousOutput),
-      args,
-      since,
-    }))
-    const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
-      capacity,
-      data,
-      lock: {
-        code_hash: lock.codeHash || '',
-        args: lock.args || [],
-      },
-    }))
+const formatter = {
+  toScript: ({ args, codeHash: code_hash }: CKBComponents.Script): CKB_RPC.Script => ({
+    args,
+    code_hash,
+  }),
+  toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
+  toOutPoint: ({ txHash: tx_hash, index }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
+    tx_hash: formatter.toHash(tx_hash),
+    index,
+  }),
+  toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
+  toInput: ({ previousOutput, since, args }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
+    previous_output: formatter.toOutPoint(previousOutput),
+    since,
+    args,
+  }),
+  toOutput: ({ capacity, data, lock, type }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
+    capacity,
+    data,
+    lock: formatter.toScript(lock),
+    type: type ? formatter.toScript(type) : null,
+  }),
+  toRawTransaction: ({ version, deps, inputs, outputs }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+    const formattedInputs = inputs.map(input => formatter.toInput(input))
+    const formattedOutputs = outputs.map(output => formatter.toOutput(output))
+    const formattedDeps = deps.map(dep => formatter.toOutPoint(dep))
     const tx = {
-      hash,
       version,
-      deps,
-      inputs: fmtInputs,
-      outputs: fmtOutputs,
+      deps: formattedDeps,
+      inputs: formattedInputs,
+      outputs: formattedOutputs,
     }
     return tx
   },
 }
-export default formatters
+export default formatter
+/* eslint-enable camelcase */
