@@ -18,3 +18,4 @@ install:
 
 script:
   - lerna run tsc
+  - yarn run test utils formatters
