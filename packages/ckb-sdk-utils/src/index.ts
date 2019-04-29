@@ -1,10 +1,12 @@
 import utf8 from 'utf8'
+import { TextEncoder } from 'util'
 import crypto from './crypto'
 
 export * from './address'
 
 export const { blake2b, bech32, blake160 } = crypto
-export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
+const textEncoder = new TextEncoder()
+export const PERSONAL = textEncoder.encode('ckb-default-hash')
 
 export const hexToBytes = (rawhex: any) => {
   let hex = rawhex.toString(16)
@@ -64,10 +66,12 @@ export const hexToUtf8 = (hex: string) => {
   return utf8.decode(str)
 }
 
+export const utf8ToBytes = (str: string) => textEncoder.encode(str)
+
 export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: (Uint8Array | string)[] }) => {
   const s = blake2b(32, null, null, PERSONAL)
   if (binaryHash) {
-    s.update(Buffer.from(binaryHash.replace(/^0x/, ''), 'hex'))
+    s.update(hexToBytes(binaryHash.replace(/^0x/, '')))
   }
   if (args && args.length) {
     args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))

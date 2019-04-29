@@ -11,9 +11,9 @@ export interface Options {
 }
 
 class ECPair {
-  private _sk: Uint8Array = Buffer.from([])
+  private _sk: Uint8Array = new Uint8Array(0)
 
-  public _pk: Uint8Array = Buffer.from([])
+  public _pk: Uint8Array = new Uint8Array(0)
 
   public _compressed: boolean = false
 
