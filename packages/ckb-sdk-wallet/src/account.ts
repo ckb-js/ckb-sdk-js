@@ -1,6 +1,6 @@
 import ECPair, { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { hexToBytes, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
+import { hexToBytes, bytesToHex, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 
 const BasicCapacityUnit: CKBComponents.CapacityUnit.Byte = 10 ** 8
 
@@ -41,7 +41,7 @@ class Account extends ECPair {
   }
 
   public get hexPubKey(): string {
-    return Buffer.from(this.publicKey).toString('hex')
+    return bytesToHex(this.publicKey)
   }
 
   // =========================

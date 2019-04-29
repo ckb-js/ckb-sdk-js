@@ -1,4 +1,4 @@
-import { bech32, blake160, hexToBytes, bytesToHex } from '..'
+import { bech32, blake160, hexToBytes, bytesToHex, utf8ToBytes } from '..'
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -36,9 +36,9 @@ export const toAddressPayload = (
   params: AddressBinIdx = AddressBinIdx.P2PH
 ): Uint8Array => {
   if (typeof blake160Pubkey === 'string') {
-    return new Uint8Array([...hexToBytes(type), ...Buffer.from(params), ...hexToBytes(blake160Pubkey)])
+    return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...hexToBytes(blake160Pubkey)])
   }
-  return new Uint8Array([...hexToBytes(type), ...Buffer.from(params), ...blake160Pubkey])
+  return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...blake160Pubkey])
 }
 
 export const bech32Address = (
