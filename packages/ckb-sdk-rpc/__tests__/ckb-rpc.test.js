@@ -48,27 +48,31 @@ describe('ckb-rpc', () => {
     expect(typeof header.hash).toBe('string')
   })
 
-  it.skip('get transaction', async () => {
+  it('get transaction', async () => {
     const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
     const { transactions } = block
     if (transactions.length) {
       const txHash = transactions[0].hash
-      const tx = await rpc.getTransaction(txHash)
-      expect(tx.hash).toBe(txHash)
+      const { transaction, txStatus } = await rpc.getTransaction(txHash)
+      expect(transaction.hash).toBe(txHash)
+      expect(txStatus).toEqual({
+        blockHash: hash,
+        status: 'committed',
+      })
     } else {
       throw new Error('No transaction found')
     }
   })
 
-  it.skip('get live cell', async () => {
+  it('get live cell', async () => {
     const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
     const { transactions } = block
     if (transactions.length) {
       const txHash = transactions[0].hash
       const outPoint = {
-        hash: txHash,
+        txHash,
         index: 0,
       }
       const cellRes = await rpc.getLiveCell(outPoint)

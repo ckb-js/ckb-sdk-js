@@ -94,6 +94,16 @@ const formatter = {
   toCells: (cells: CKB_RPC.Cell[]): CKBComponents.Cell[] => cells.map(formatter.toCell),
   // TODO: implement
   toSendTransactionResponse: (res: any) => res,
+  toTransactionWithStatus: ({
+    transaction,
+    tx_status: { block_hash: blockHash, status },
+  }: CKB_RPC.TransactionWithStatus) => ({
+    transaction: formatter.toTransaction(transaction),
+    txStatus: {
+      blockHash,
+      status,
+    },
+  }),
 }
 export default formatter
 /* eslint-enable camelcase */
