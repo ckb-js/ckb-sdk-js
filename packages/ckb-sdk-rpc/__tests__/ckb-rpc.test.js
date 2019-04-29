@@ -6,9 +6,9 @@ const config = require('dotenv').config({
   path: env,
 }).parsed
 
-const CkbRpc = require('../lib').default
+const CKBRPC = require('../lib').default
 
-const rpc = new CkbRpc(config.RPC_URL)
+const rpc = new CKBRPC(config.RPC_URL)
 
 describe('ckb-rpc', () => {
   it('local node info', async () => {
@@ -18,11 +18,11 @@ describe('ckb-rpc', () => {
 
   it('get tip block number', async () => {
     const tipBlockNumber = await rpc.getTipBlockNumber()
-    expect(typeof tipBlockNumber).toBe('number')
+    expect(typeof tipBlockNumber).toBe('string')
   })
 
   it('get block hash and get block of genesis block', async () => {
-    const hash = await rpc.getBlockHash(0)
+    const hash = await rpc.getBlockHash('0')
     expect(hash.length).toBe(66)
     const block = await rpc.getBlock(hash)
     expect(block.header.hash).toBe(hash)
@@ -30,10 +30,10 @@ describe('ckb-rpc', () => {
 
   it('get tip block number', async () => {
     const blockNumber = await rpc.getTipBlockNumber()
-    expect(typeof blockNumber).toBe('number')
+    expect(typeof blockNumber).toBe('string')
   })
 
-  it('send transaction', async () => {
+  it.skip('send transaction', async () => {
     const hash = await rpc.sendTransaction({
       version: 0,
       deps: [],
@@ -48,12 +48,12 @@ describe('ckb-rpc', () => {
     expect(typeof header.hash).toBe('string')
   })
 
-  it('get transaction', async () => {
-    const hash = await rpc.getBlockHash(0)
+  it.skip('get transaction', async () => {
+    const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
-    const txs = block.commitTransactions
-    if (txs.length) {
-      const txHash = txs[0].hash
+    const { transactions } = block
+    if (transactions.length) {
+      const txHash = transactions[0].hash
       const tx = await rpc.getTransaction(txHash)
       expect(tx.hash).toBe(txHash)
     } else {
@@ -61,12 +61,12 @@ describe('ckb-rpc', () => {
     }
   })
 
-  it('get live cell', async () => {
-    const hash = await rpc.getBlockHash(0)
+  it.skip('get live cell', async () => {
+    const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
-    const txs = block.commitTransactions
-    if (txs.length) {
-      const txHash = txs[0].hash
+    const { transactions } = block
+    if (transactions.length) {
+      const txHash = transactions[0].hash
       const outPoint = {
         hash: txHash,
         index: 0,
@@ -80,11 +80,11 @@ describe('ckb-rpc', () => {
 
   it('get cells by lock hash', async () => {
     const lockHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
-    const cells = await rpc.getCellsByLockHash(lockHash, 0, 100)
+    const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
     expect(Array.isArray(cells)).toBeTruthy()
   })
 
-  it('trace a transaction', async () => {
+  it.skip('trace a transaction', async () => {
     const traceHash = await rpc.traceTransaction({
       version: 0,
       deps: [],
