@@ -54,6 +54,9 @@ class Method {
         console.groupEnd()
         /* eslint-enabled */
       }
+      if (res.data.error) {
+        throw new Error(JSON.stringify(res.data.error))
+      }
       if (res.data.result === undefined) {
         throw new Error('No Result')
       }
