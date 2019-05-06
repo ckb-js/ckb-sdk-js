@@ -57,6 +57,9 @@ module.exports = {
       }
     }]
   },
+  "globals": {
+    "BigInt": "readonly"
+  },
   "env": {
     "node": true,
     "jest": true

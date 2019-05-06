@@ -56,19 +56,21 @@ class Account extends ECPair {
   }
 
   getBalance = async (): Promise<string> =>
-    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + +c.capacity, 0).toString())
+    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + BigInt(c.capacity), BigInt(0)).toString())
 
   // ========================================
 
   gatherInputs = async (
-    capacity: CKBComponents.Capacity,
-    minCapacity: CKBComponents.Capacity,
+    capacityStr: CKBComponents.Capacity,
+    minCapacityStr: CKBComponents.Capacity,
     since: CKBComponents.Since = '0'
   ) => {
+    const capacity = BigInt(capacityStr)
+    const minCapacity = BigInt(minCapacityStr)
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
     }
-    let inputCapacities = 0
+    let inputCapacities = BigInt(0)
     const inputs: CKBComponents.CellInput[] = []
     await this.getUnspentCells().then(cells =>
       cells.every(cell => {
@@ -78,37 +80,39 @@ class Account extends ECPair {
           since,
         }
         inputs.push(input)
-        inputCapacities += +cell.capacity
-        if (inputCapacities >= +capacity && inputCapacities - +capacity >= +minCapacity) {
+        inputCapacities += BigInt(cell.capacity)
+        if (inputCapacities >= capacity && inputCapacities - capacity >= minCapacity) {
           return false
         }
         return true
       }))
 
-    if (inputCapacities < +capacity) {
+    if (inputCapacities < capacity) {
       throw new Error(`Not enough capacity, required: ${capacity}, available: ${inputCapacities}`)
     }
     return {
       inputs,
-      capacity: inputCapacities,
+      capacity: inputCapacities.toString(),
     }
   }
 
   generateTx = async (
     targetLock: CKBComponents.Script,
-    targetCapacity: CKBComponents.Capacity
+    targetCapacityStr: CKBComponents.Capacity
   ): Promise<CKBComponents.RawTransaction> => {
-    const { inputs, capacity } = await this.gatherInputs(targetCapacity, `${Account.MIN_CELL_CAPACITY}`)
+    const { inputs, capacity: capacityStr } = await this.gatherInputs(targetCapacityStr, `${Account.MIN_CELL_CAPACITY}`)
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: targetCapacity,
+        capacity: targetCapacityStr,
         data: '',
         lock: targetLock,
       },
     ]
-    if (capacity > +targetCapacity) {
+    const capacity = BigInt(capacityStr)
+    const targetCapacity = BigInt(targetCapacityStr)
+    if (capacity > targetCapacity) {
       outputs.push({
-        capacity: `${capacity - +targetCapacity}`,
+        capacity: (capacity - targetCapacity).toString(),
         data: '',
         lock: this.lockScript,
       })
