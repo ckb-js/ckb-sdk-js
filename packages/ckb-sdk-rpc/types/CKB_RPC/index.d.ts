@@ -17,6 +17,12 @@ declare module CKB_RPC {
   export type BlockNumber = CKBComponents.BlockNumber
   export type Difficulty = CKBComponents.Difficulty
 
+  export enum TransactionStatus {
+    Pending = 'pending',
+    Proposed = 'proposed',
+    Committed = 'committed',
+  }
+
   export interface Script {
     args: Bytes[]
     code_hash: Hash256
@@ -52,6 +58,14 @@ declare module CKB_RPC {
   export interface Transaction extends RawTransaction {
     witnesses: Witness[]
     hash: Hash256
+  }
+
+  export interface TransactionWithStatus {
+    transaction: Transaction
+    tx_status: {
+      block_hash: Hash256 | null
+      status: TransactionStatus
+    }
   }
 
   export type Seal = CKBComponents.Seal

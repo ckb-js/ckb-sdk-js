@@ -12,6 +12,7 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'getTransaction',
     method: 'get_transaction',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
+    resultFormatters: resultFmts.toTransactionWithStatus,
   },
   {
     name: 'getBlockHash',
