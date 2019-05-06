@@ -3,12 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.9.1](https://github.com/keith-cy/ckb-sdk-js/compare/v0.9.0...v0.9.1) (2019-04-24)
+# [0.10.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.9.0...v0.10.0) (2019-05-06)
 
 
 ### Bug Fixes
 
-* **types:** set the type of arg in script to string ([7ea3ad2](https://github.com/keith-cy/ckb-sdk-js/commit/7ea3ad2))
+* **utils:** fix typo of seperator to separator ([b336968](https://github.com/nervosnetwork/ckb-sdk-js/commit/b336968))
+
+
+### Features
+
+* **types:** add field of validSince in cell input of a transaction ([54770fc](https://github.com/nervosnetwork/ckb-sdk-js/commit/54770fc))
+* **types:** remove cellbase id from block header, remove cellbase from uncle block ([96a1f53](https://github.com/nervosnetwork/ckb-sdk-js/commit/96a1f53))
+* **types:** update ckb-types ([e6af3b5](https://github.com/nervosnetwork/ckb-sdk-js/commit/e6af3b5))
+* **utils:** add blake160, bech32, blake160PubkeyToAddress, pubkeyToAddress ([82121b3](https://github.com/nervosnetwork/ckb-sdk-js/commit/82121b3))
+* **utils:** parseAddress returns bytes or hex string instead of words ([aaad9c9](https://github.com/nervosnetwork/ckb-sdk-js/commit/aaad9c9))
+
+
+### BREAKING CHANGES
+
+* **types:** replace type of u64 with type of string in ckb-types, remove version field from script interface
+* **types:** rpc interface updated, add field of validSince in cell input of a transaction
+* **types:** block header and uncle block in rpc updated
+
+
+
+
+
+## [0.9.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.9.0...v0.9.1) (2019-04-24)
+
+
+### Bug Fixes
+
+* **types:** set the type of arg in script to string ([7ea3ad2](https://github.com/nervosnetwork/ckb-sdk-js/commit/7ea3ad2))
 
 
 
