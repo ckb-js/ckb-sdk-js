@@ -7,7 +7,7 @@ class Account extends ECPair {
 
   public rpc: RPC
 
-  public unlockArgs: Uint8Array[] = []
+  public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
     binaryHash: '',
@@ -108,7 +108,7 @@ class Account extends ECPair {
     ]
     if (capacity > +targetCapacity) {
       outputs.push({
-        capacity: `${capacity - +targetCapacity}`,
+        capacity: `${capacity - BigInt(targetCapacity)}`,
         data: new Uint8Array(0),
         lock: this.lockScript,
       })

@@ -37,7 +37,7 @@ declare namespace CKBComponents {
    */
   /* eslint-enable max-len */
   export interface Script {
-    args: Uint8Array[]
+    args: string[]
     binaryHash?: Hash
   }
 
@@ -50,7 +50,7 @@ declare namespace CKBComponents {
    */
   export interface CellInput {
     previousOutput: OutPoint
-    args: Uint8Array[]
+    args: string[]
     validSince: string
   }
 
