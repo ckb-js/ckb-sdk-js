@@ -3,12 +3,12 @@ import { bytesToHex } from '@nervosnetwork/ckb-sdk-utils'
 declare module CkbRPC {
   export module Params {
     export interface Transaction {
-      hash: CKBComponents.Hash
-      version: number
+      hash: CKBComponents.Hash256
+      version: CKBComponents.Version
       deps: CKBComponents.Hash[]
       inputs: any
 
-      outputs: { lock: CKBComponents.Script; data: string; capacity: number }[]
+      outputs: { lock: CKBComponents.Script; data: string; capacity: CKBComponents.Capacity }[]
     }
   }
 }
@@ -40,15 +40,15 @@ const formatters = {
   },
   toNumber: (number: string | number): number => +number,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
-    const fmtInputs = inputs.map(({ prevOutput, args }: CKBComponents.CellInput) => ({
-      previous_output: prevOutput,
+    const fmtInputs = inputs.map(({ previousOutput, args, validSince }: CKBComponents.CellInput) => ({
+      previous_output: previousOutput,
       args,
+      valid_since: validSince,
     }))
     const fmtOutputs = outputs.map(({ capacity, data, lock }: CKBComponents.CellOutput) => ({
       capacity,
       data: `0x${bytesToHex(data)}`,
       lock: {
-        version: lock.version,
         binary_hash: lock.binaryHash || [],
         args: lock.args || [],
       },

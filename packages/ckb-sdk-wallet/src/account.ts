@@ -10,13 +10,11 @@ class Account extends ECPair {
   public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
-    version: 0,
     binaryHash: '',
     args: [],
   }
 
   public contractScript: CKBComponents.Script = {
-    version: 0,
     binaryHash: '',
     args: [],
   }
@@ -51,29 +49,36 @@ class Account extends ECPair {
     // it iterates all block to gather cells,
     // however only P1CS needs to be covered, TBD
     const to = await this.rpc.getTipBlockNumber()
-    const cells = await this.rpc.getCellsByLockHash(`0x${this.lockHash}`, 0, to)
+    const cells = await this.rpc.getCellsByLockHash(`0x${this.lockHash}`, '0', to)
     return cells
   }
 
   getBalance = async (): Promise<string> =>
-    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + c.capacity, 0).toString())
+    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + BigInt(c.capacity), BigInt(0)).toString())
 
   // ========================================
 
-  gatherInputs = async (capacity: CKBComponents.Capacity, minCapacity: CKBComponents.Capacity) => {
+  gatherInputs = async (
+    capacityStr: CKBComponents.Capacity,
+    minCapacityStr: CKBComponents.Capacity,
+    validSince: string = '0'
+  ) => {
+    const capacity = BigInt(capacityStr)
+    const minCapacity = BigInt(minCapacityStr)
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
     }
-    let inputCapacities = 0
+    let inputCapacities = BigInt(0)
     const inputs: CKBComponents.CellInput[] = []
     await this.getUnspentCells().then(cells =>
       cells.every(cell => {
         const input: CKBComponents.CellInput = {
-          prevOutput: cell.outPoint,
+          previousOutput: cell.outPoint,
           args: this.unlockArgs,
+          validSince,
         }
         inputs.push(input)
-        inputCapacities += cell.capacity
+        inputCapacities += BigInt(cell.capacity)
         if (inputCapacities >= capacity && inputCapacities - capacity >= minCapacity) {
           return false
         }
@@ -93,7 +98,7 @@ class Account extends ECPair {
     targetLock: CKBComponents.Script,
     targetCapacity: CKBComponents.Capacity
   ): Promise<CKBComponents.RawTransaction> => {
-    const { inputs, capacity } = await this.gatherInputs(targetCapacity, Account.MIN_CELL_CAPACITY)
+    const { inputs, capacity } = await this.gatherInputs(targetCapacity, `${Account.MIN_CELL_CAPACITY}`)
     const outputs: CKBComponents.CellOutput[] = [
       {
         capacity: targetCapacity,
@@ -101,9 +106,9 @@ class Account extends ECPair {
         lock: targetLock,
       },
     ]
-    if (capacity > targetCapacity) {
+    if (capacity > BigInt(targetCapacity)) {
       outputs.push({
-        capacity: capacity - targetCapacity,
+        capacity: `${capacity - BigInt(targetCapacity)}`,
         data: new Uint8Array(0),
         lock: this.lockScript,
       })
