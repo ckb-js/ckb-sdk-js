@@ -106,7 +106,7 @@ class Account extends ECPair {
         lock: targetLock,
       },
     ]
-    if (capacity > +targetCapacity) {
+    if (capacity > BigInt(targetCapacity)) {
       outputs.push({
         capacity: `${capacity - BigInt(targetCapacity)}`,
         data: new Uint8Array(0),
