@@ -54,19 +54,21 @@ class Account extends ECPair {
   }
 
   getBalance = async (): Promise<string> =>
-    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + +c.capacity, 0).toString())
+    this.getUnspentCells().then(cells => cells.reduce((a, c) => a + BigInt(c.capacity), BigInt(0)).toString())
 
   // ========================================
 
   gatherInputs = async (
-    capacity: CKBComponents.Capacity,
-    minCapacity: CKBComponents.Capacity,
+    capacityStr: CKBComponents.Capacity,
+    minCapacityStr: CKBComponents.Capacity,
     validSince: string = '0'
   ) => {
+    const capacity = BigInt(capacityStr)
+    const minCapacity = BigInt(minCapacityStr)
     if (capacity < minCapacity) {
       throw new Error(`Capacity cannot less than ${minCapacity}`)
     }
-    let inputCapacities = 0
+    let inputCapacities = BigInt(0)
     const inputs: CKBComponents.CellInput[] = []
     await this.getUnspentCells().then(cells =>
       cells.every(cell => {
@@ -76,14 +78,14 @@ class Account extends ECPair {
           validSince,
         }
         inputs.push(input)
-        inputCapacities += +cell.capacity
-        if (inputCapacities >= +capacity && inputCapacities - +capacity >= +minCapacity) {
+        inputCapacities += BigInt(cell.capacity)
+        if (inputCapacities >= capacity && inputCapacities - capacity >= minCapacity) {
           return false
         }
         return true
       }))
 
-    if (inputCapacities < +capacity) {
+    if (inputCapacities < capacity) {
       throw new Error(`Not enough capacity, required: ${capacity}, available: ${inputCapacities}`)
     }
     return {
