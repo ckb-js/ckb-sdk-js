@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
+    "lib": ["esnext"],
     "types": ["node", "@nervosnetwork/ckb-sdk-rpc", "@nervosnetwork/ckb-sdk-utils"]
   },
   "include": ["./src"]
