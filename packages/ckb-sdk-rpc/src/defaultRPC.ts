@@ -73,6 +73,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toTrace,
   },
+  {
+    name: 'getCurrentEpoch',
+    method: 'get_current_epoch',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toEpoch,
+  },
 ]
 
 export class DefaultRPC {
@@ -115,6 +121,8 @@ export class DefaultRPC {
   }) => Promise<CKBComponents.Hash>
 
   public getTransactionTrace!: (transactionHash: CKBComponents.Hash) => Promise<CKBComponents.TransactionTrace>
+
+  public getCurrentEpoch!: () => Promise<CKBComponents.Epoch>
 }
 
 export default DefaultRPC

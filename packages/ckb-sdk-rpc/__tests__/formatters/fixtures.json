@@ -227,6 +227,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -248,6 +249,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -271,6 +273,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -317,6 +320,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -449,11 +453,12 @@
         "type": null
       }]
     }],
-    "toHeader": {
+    "toHeader": [{
       "source": {
         "difficulty": "0x100",
         "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
         "number": "2",
+        "epoch": "0",
         "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
         "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "seal": {
@@ -471,6 +476,7 @@
         "difficulty": "0x100",
         "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
         "number": "2",
+        "epoch": "0",
         "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
         "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "seal": {
@@ -484,7 +490,7 @@
         "version": 0,
         "witnessesRoot": "0x0000000000000000000000000000000000000000000000000000000000000000"
       }
-    },
+    }],
     "toTrace": [{
       "source": [{
           "action": "AddPending",
@@ -602,6 +608,26 @@
           "status": "committed",
           "blockHash": "0xef285e5da29247ce39385cbd8dc36535f7ea1b5b0379db26e9d459a8b47d0d71"
         }
+      }
+    }],
+    "toEpoch": [{
+      "source": {
+        "block_reward": "5000000000000",
+        "difficulty": "0x100",
+        "last_block_hash_in_previous_epoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "length": "1000",
+        "number": "0",
+        "remainder_reward": "5000000000000",
+        "start_number": "0"
+      },
+      "target": {
+        "blockReward": "5000000000000",
+        "difficulty": "0x100",
+        "lastBlockHashInPreviousEpoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "length": "1000",
+        "number": "0",
+        "remainderReward": "5000000000000",
+        "startNumber": "0"
       }
     }]
   }

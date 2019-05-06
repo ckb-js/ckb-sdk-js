@@ -7,6 +7,7 @@ const formatter = {
     parent_hash,
     timestamp,
     number,
+    epoch,
     transactions_root,
     proposals_root,
     witnesses_root,
@@ -18,6 +19,7 @@ const formatter = {
   }: CKB_RPC.Header): CKBComponents.BlockHeader => ({
     version,
     number,
+    epoch,
     parentHash: parent_hash,
     timestamp,
     transactionsRoot: transactions_root,
@@ -100,6 +102,23 @@ const formatter = {
       blockHash,
       status,
     },
+  }),
+  toEpoch: ({
+    block_reward: blockReward,
+    difficulty,
+    last_block_hash_in_previous_epoch: lastBlockHashInPreviousEpoch,
+    length,
+    number,
+    remainder_reward: remainderReward,
+    start_number: startNumber,
+  }: CKB_RPC.Epoch): CKBComponents.Epoch => ({
+    blockReward,
+    difficulty,
+    lastBlockHashInPreviousEpoch,
+    length,
+    number,
+    remainderReward,
+    startNumber,
   }),
 }
 export default formatter

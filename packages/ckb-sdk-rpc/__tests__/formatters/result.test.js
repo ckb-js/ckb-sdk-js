@@ -1,5 +1,5 @@
 const resultFmt = require('../../lib/resultFormatter').default
-const { result } = require('./fixtures.json')
+const {result,} = require('./fixtures.json')
 
 describe('result formatter', () => {
   it('toNumber', () => {
@@ -98,6 +98,20 @@ describe('result formatter', () => {
   it('toTrace', () => {
     result.toTrace.forEach(fixture => {
       const formatted = resultFmt.toTrace(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toHeader', () => {
+    result.toHeader.forEach(fixture => {
+      const formatted = resultFmt.toHeader(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toEpoch', () => {
+    result.toEpoch.forEach(fixture => {
+      const formatted = resultFmt.toEpoch(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })

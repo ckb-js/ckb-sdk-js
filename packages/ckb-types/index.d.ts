@@ -10,6 +10,7 @@ declare namespace CKBComponents {
   export type Version = UInt32
   export type Difficulty = bigint
   export type BlockNumber = string
+  export type EpochInHeader = string
   export type Capacity = string
   export type ProposalShortId = string
   export type Timestamp = string
@@ -131,6 +132,7 @@ declare namespace CKBComponents {
    * @property parentHash
    * @property timestamp
    * @property number
+   * @property epoch
    * @property transactionsRoot
    * @property proposalsRoot
    * @property difficulty
@@ -144,6 +146,7 @@ declare namespace CKBComponents {
     parentHash: Hash256
     timestamp: Timestamp
     number: BlockNumber
+    epoch: EpochInHeader
     transactionsRoot: Hash256
     proposalsRoot: Hash256
     witnessesRoot: Hash256
@@ -217,5 +220,15 @@ declare namespace CKBComponents {
   export enum CapacityUnit {
     Shannon = 1,
     Byte = 100000000,
+  }
+
+  export interface Epoch {
+    blockReward: String
+    difficulty: String
+    lastBlockHashInPreviousEpoch: String
+    length: String
+    number: String
+    remainderReward: String
+    startNumber: String
   }
 }
