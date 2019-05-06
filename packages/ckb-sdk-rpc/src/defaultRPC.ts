@@ -78,6 +78,8 @@ const defaultRPC: CKBComponents.Method[] = [
 export class DefaultRPC {
   protected defaultMethods = defaultRPC
 
+  public getBlockByNumber!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Block>
+
   public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
 
   public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Transaction>
