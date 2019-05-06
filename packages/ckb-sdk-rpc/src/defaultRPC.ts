@@ -3,6 +3,12 @@ import resultFmts from './resultFormatter'
 
 const defaultRPC: CKBComponents.Method[] = [
   {
+    name: 'getBlockByNumber',
+    method: 'get_block_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toBlock,
+  },
+  {
     name: 'getBlock',
     method: 'get_block',
     paramsFormatters: [paramsFmts.toHash],
