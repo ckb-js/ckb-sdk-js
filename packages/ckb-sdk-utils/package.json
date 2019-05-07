@@ -35,8 +35,7 @@
     "bs58check": "2.1.2",
     "eth-lib": "0.2.8",
     "safe-buffer": "5.1.2",
-    "tiny-secp256k1": "1.0.1",
-    "utf8": "3.0.0"
+    "tiny-secp256k1": "1.0.1"
   },
   "devDependencies": {
     "@types/bitcoinjs-lib": "4.0.0",

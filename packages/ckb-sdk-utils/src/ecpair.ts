@@ -1,25 +1,25 @@
-import * as ecc from 'tiny-secp256k1'
+import { pointFromScalar } from 'tiny-secp256k1'
 
 export interface Options {
   compressed?: boolean
 }
 
 class ECPair {
-  private sk: Uint8Array = new Uint8Array(0)
+  protected sk: Uint8Array = new Uint8Array(0)
 
-  public pk: Uint8Array = new Uint8Array(0)
+  protected pk: Uint8Array = new Uint8Array(0)
 
   public compressed: boolean = false
 
   constructor(
     sk: Uint8Array,
-    options: Options = {
+    { compressed = true }: Options = {
       compressed: true,
     }
   ) {
     this.sk = sk
-    this.compressed = options.compressed || true
-    this.pk = ecc.pointFromScalar(this.sk as Buffer, this.compressed) || this.pk
+    this.compressed = compressed
+    this.pk = pointFromScalar(sk as Buffer, this.compressed) || this.pk
   }
 
   get privateKey(): Uint8Array {
@@ -27,9 +27,6 @@ class ECPair {
   }
 
   get publicKey() {
-    if (!this.pk) {
-      this.pk = ecc.pointFromScalar(this.sk as Buffer, this.compressed) || this.pk
-    }
     return this.pk
   }
 }
