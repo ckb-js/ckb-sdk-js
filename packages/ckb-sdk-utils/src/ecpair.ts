@@ -34,22 +34,4 @@ class ECPair {
   }
 }
 
-// const fromPrivateKey = (buffer: Buffer, options: Options) => {
-//   typeforce(types.Buffer256bit, buffer)
-//   if (!ecc.isPrivate(buffer)) {
-//     throw new TypeError('Private key not in range [1, n)')
-//   }
-//   return new ECPair(buffer, options)
-// }
-
-// export const makeRandom = (options: any = {}) => {
-//   const { rng = randomBytes } = options
-//   let d
-//   do {
-//     d = rng(32)
-//     typeforce(types.Buffer256bit, d)
-//   } while (!ecc.isPrivate(d))
-//   return fromPrivateKey(d, options)
-// }
-
 export default ECPair
