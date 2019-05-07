@@ -34,12 +34,9 @@
     "blake2b-wasm": "^1.1.7",
     "bs58check": "^2.1.2",
     "eth-lib": "^0.2.8",
-    "randombytes": "^2.0.6",
     "safe-buffer": "^5.1.2",
     "tiny-secp256k1": "^1.0.1",
-    "typeforce": "^1.18.0",
-    "utf8": "^3.0.0",
-    "wif": "^2.0.6"
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "@types/bitcoinjs-lib": "^4.0.0",

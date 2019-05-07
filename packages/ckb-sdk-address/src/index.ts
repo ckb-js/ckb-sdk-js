@@ -21,7 +21,7 @@ class Address extends ECPair {
     super(typeof sk === 'string' ? hexToBytes(sk) : sk, {
       compressed,
     })
-    this.value = addressAlgorithm(this._pk, addressOptions)
+    this.value = addressAlgorithm(this.pk, addressOptions)
   }
 }
 
