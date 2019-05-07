@@ -7,7 +7,7 @@
     "cli": "./packages/ckb-cli/lib/index.js i",
     "doc": "typedoc --out docs --mode file --includes packages --name CKB-SDK.js --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md",
     "publish": "lerna run tsc && lerna publish",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "husky": {
     "hooks": {
