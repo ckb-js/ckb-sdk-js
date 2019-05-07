@@ -38,7 +38,7 @@ const formatters = {
       index: outPoint.index,
     }
   },
-  toNumber: (number: string | number): number => +number,
+  toNumber: (number: string | number): string => `${number}`,
   toTx: ({ hash = '', version = 0, deps = [], inputs = [], outputs = [] }): CkbRPC.Params.Transaction => {
     const fmtInputs = inputs.map(({ previousOutput, args, validSince }: CKBComponents.CellInput) => ({
       previous_output: previousOutput,
