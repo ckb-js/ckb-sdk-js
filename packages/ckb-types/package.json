@@ -24,7 +24,7 @@
     "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   },
   "devDependencies": {
-    "@types/crypto-js": "^3.1.43"
+    "@types/crypto-js": "3.1.43"
   },
   "gitHead": "7b8b74a4501ce3999090f610dd4a371da6c8ceaa"
 }
