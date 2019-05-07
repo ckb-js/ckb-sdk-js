@@ -31,20 +31,20 @@
   },
   "dependencies": {
     "@nervosnetwork/ckb-types": "^0.10.0",
-    "blake2b-wasm": "^1.1.7",
-    "bs58check": "^2.1.2",
-    "eth-lib": "^0.2.8",
-    "randombytes": "^2.0.6",
-    "safe-buffer": "^5.1.2",
-    "tiny-secp256k1": "^1.0.1",
-    "typeforce": "^1.18.0",
-    "utf8": "^3.0.0",
-    "wif": "^2.0.6"
+    "blake2b-wasm": "1.1.7",
+    "bs58check": "2.1.2",
+    "eth-lib": "0.2.8",
+    "randombytes": "2.0.6",
+    "safe-buffer": "5.1.2",
+    "tiny-secp256k1": "1.0.1",
+    "typeforce": "1.18.0",
+    "utf8": "3.0.0",
+    "wif": "2.0.6"
   },
   "devDependencies": {
-    "@types/bitcoinjs-lib": "^4.0.0",
-    "@types/tiny-secp256k1": "^1.0.0",
-    "@types/utf8": "^2.1.6"
+    "@types/bitcoinjs-lib": "4.0.0",
+    "@types/tiny-secp256k1": "1.0.0",
+    "@types/utf8": "2.1.6"
   },
   "gitHead": "7b8b74a4501ce3999090f610dd4a371da6c8ceaa"
 }

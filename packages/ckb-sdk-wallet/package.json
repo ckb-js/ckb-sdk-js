@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@nervosnetwork/ckb-types": "^0.10.0",
-    "@types/crypto-js": "^3.1.43"
+    "@types/crypto-js": "3.1.43"
   },
   "gitHead": "7b8b74a4501ce3999090f610dd4a371da6c8ceaa"
 }
