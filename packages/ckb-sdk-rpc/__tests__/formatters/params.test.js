@@ -22,6 +22,7 @@ describe('params formatter', () => {
       expect(formatted).toBe(fixture.target)
     })
   })
+
   it('toRawTransaction', () => {
     params.toRawTransaction.forEach(fixture => {
       const formatted = paramsFmt.toRawTransaction(fixture.source)
