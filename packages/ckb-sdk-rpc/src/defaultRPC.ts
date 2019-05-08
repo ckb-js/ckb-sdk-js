@@ -62,6 +62,12 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toNodeInfo,
   },
   {
+    name: 'txPoolInfo',
+    method: 'tx_pool_info',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toTxPoolInfo,
+  },
+  {
     name: 'getPeers',
     method: 'get_peers',
     paramsFormatters: [],
@@ -124,6 +130,8 @@ export class DefaultRPC {
   public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
   public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
+
+  public txPoolInfo!: () => Promise<CKBComponents.TxPoolInfo>
 
   public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
 

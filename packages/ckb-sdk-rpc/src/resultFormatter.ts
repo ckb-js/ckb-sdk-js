@@ -82,6 +82,10 @@ const formatter = {
     nodeId,
     version,
   }),
+  toTxPoolInfo: ({ last_txs_updated_at: lastTxsUpdatedAt, ...rest }: CKB_RPC.TxPoolInfo): CKBComponents.TxPoolInfo => ({
+    lastTxsUpdatedAt,
+    ...rest,
+  }),
   toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
   toCell: ({ capacity, data, lock, type }: CKB_RPC.Cell): CKBComponents.Cell => ({
     capacity,

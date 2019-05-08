@@ -6,6 +6,7 @@
 declare module CKB_RPC {
   export type ProposalShortId = CKBComponents.ProposalShortId
   export type UInt32 = CKBComponents.UInt32
+  export type Count = CKBComponents.Count
   export type Hash256 = CKBComponents.Hash256
   export type Version = CKBComponents.Version
   export type Capacity = CKBComponents.Capacity
@@ -103,6 +104,13 @@ declare module CKB_RPC {
     addresses: { address: string; score: number }[]
     node_id: string
     version: string
+  }
+
+  export interface TxPoolInfo {
+    pending: Count
+    staging: Count
+    orphan: Count
+    last_txs_updated_at: Timestamp
   }
 
   export interface Epoch {

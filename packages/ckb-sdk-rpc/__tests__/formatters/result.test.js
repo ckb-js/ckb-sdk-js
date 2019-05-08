@@ -1,5 +1,5 @@
 const resultFmt = require('../../lib/resultFormatter').default
-const {result,} = require('./fixtures.json')
+const { result } = require('./fixtures.json')
 
 describe('result formatter', () => {
   it('toNumber', () => {
@@ -70,6 +70,13 @@ describe('result formatter', () => {
   it('toNodeInfo', () => {
     result.toNodeInfo.forEach(fixture => {
       const formatted = resultFmt.toNodeInfo(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toTxPoolInfo', () => {
+    result.toTxPoolInfo.forEach(fixture => {
+      const formatted = resultFmt.toTxPoolInfo(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })

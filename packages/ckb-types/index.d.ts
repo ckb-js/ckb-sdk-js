@@ -8,6 +8,7 @@ declare namespace CKBComponents {
   export type UInt32 = number
   export type Index = UInt32
   export type Version = UInt32
+  export type Count = UInt32
   export type Difficulty = bigint
   export type BlockNumber = string
   export type EpochInHeader = string
@@ -215,6 +216,13 @@ declare namespace CKBComponents {
     version: string
     nodeId: string
     addresses: { address: string; score: number }[]
+  }
+
+  export interface TxPoolInfo {
+    pending: Count
+    staging: Count
+    orphan: Count
+    lastTxsUpdatedAt: Timestamp
   }
 
   export enum CapacityUnit {

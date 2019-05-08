@@ -381,6 +381,20 @@
         "version": "0.11.0"
       }
     }],
+    "toTxPoolInfo": [{
+      "source": {
+        "pending": 34,
+        "staging": 22,
+        "orphan": 33,
+        "last_txs_updated_at": "1555507787683"
+      },
+      "target": {
+        "pending": 34,
+        "staging": 22,
+        "orphan": 33,
+        "lastTxsUpdatedAt": "1555507787683"
+      }
+    }],
     "toPeers": [{
       "source": [{
         "addresses": [{
