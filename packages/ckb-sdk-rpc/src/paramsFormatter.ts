@@ -10,16 +10,14 @@ const formatter = {
     index,
   }),
   toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
-  toInput: ({ previousOutput, since, args }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
+  toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
     previous_output: formatter.toOutPoint(previousOutput),
-    since,
-    args,
+    ...rest,
   }),
-  toOutput: ({ capacity, data, lock, type }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
-    capacity,
-    data,
+  toOutput: ({ lock, type, ...rest }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,
+    ...rest,
   }),
   toRawTransaction: ({ version, deps, inputs, outputs }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
     const formattedInputs = inputs.map(input => formatter.toInput(input))

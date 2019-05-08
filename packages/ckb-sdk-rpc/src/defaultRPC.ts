@@ -62,6 +62,18 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toNodeInfo,
   },
   {
+    name: 'txPoolInfo',
+    method: 'tx_pool_info',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toTxPoolInfo,
+  },
+  {
+    name: 'getPeers',
+    method: 'get_peers',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toPeers,
+  },
+  {
     name: 'traceTransaction',
     method: 'trace_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
@@ -73,10 +85,24 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toTrace,
   },
+  {
+    name: 'getCurrentEpoch',
+    method: 'get_current_epoch',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toEpoch,
+  },
+  {
+    name: 'getEpochByNumber',
+    method: 'get_epoch_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toEpoch,
+  },
 ]
 
 export class DefaultRPC {
   protected defaultMethods = defaultRPC
+
+  public getBlockByNumber!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Block>
 
   public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
 
@@ -105,6 +131,10 @@ export class DefaultRPC {
 
   public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
 
+  public txPoolInfo!: () => Promise<CKBComponents.TxPoolInfo>
+
+  public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
+
   public traceTransaction!: (transaction: {
     version: CKBComponents.Version
     deps: CKBComponents.OutPoint[]
@@ -113,6 +143,10 @@ export class DefaultRPC {
   }) => Promise<CKBComponents.Hash>
 
   public getTransactionTrace!: (transactionHash: CKBComponents.Hash) => Promise<CKBComponents.TransactionTrace>
+
+  public getCurrentEpoch!: () => Promise<CKBComponents.Epoch>
+
+  public getEpochByNumber!: (epoch: string) => Promise<CKBComponents.Epoch>
 }
 
 export default DefaultRPC

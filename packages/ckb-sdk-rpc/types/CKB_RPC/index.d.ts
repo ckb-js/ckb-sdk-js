@@ -6,6 +6,7 @@
 declare module CKB_RPC {
   export type ProposalShortId = CKBComponents.ProposalShortId
   export type UInt32 = CKBComponents.UInt32
+  export type Count = CKBComponents.Count
   export type Hash256 = CKBComponents.Hash256
   export type Version = CKBComponents.Version
   export type Capacity = CKBComponents.Capacity
@@ -15,6 +16,7 @@ declare module CKB_RPC {
   export type Since = CKBComponents.Since
   export type Timestamp = CKBComponents.Timestamp
   export type BlockNumber = CKBComponents.BlockNumber
+  export type EpochInHeader = string
   export type Difficulty = CKBComponents.Difficulty
 
   export enum TransactionStatus {
@@ -75,6 +77,7 @@ declare module CKB_RPC {
     parent_hash: Hash256
     timestamp: Timestamp
     number: BlockNumber
+    epoch: EpochInHeader
     transactions_root: Hash256
     proposals_root: Hash256
     witnesses_root: Hash256
@@ -101,6 +104,23 @@ declare module CKB_RPC {
     addresses: { address: string; score: number }[]
     node_id: string
     version: string
+  }
+
+  export interface TxPoolInfo {
+    pending: Count
+    staging: Count
+    orphan: Count
+    last_txs_updated_at: Timestamp
+  }
+
+  export interface Epoch {
+    block_reward: string
+    difficulty: string
+    last_block_hash_in_previous_epoch: string
+    length: string
+    number: string
+    remainder_reward: string
+    start_number: string
   }
 }
 /* eslint-enable camelcase */

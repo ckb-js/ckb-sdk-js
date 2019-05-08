@@ -8,8 +8,10 @@ declare namespace CKBComponents {
   export type UInt32 = number
   export type Index = UInt32
   export type Version = UInt32
+  export type Count = UInt32
   export type Difficulty = bigint
   export type BlockNumber = string
+  export type EpochInHeader = string
   export type Capacity = string
   export type ProposalShortId = string
   export type Timestamp = string
@@ -131,6 +133,7 @@ declare namespace CKBComponents {
    * @property parentHash
    * @property timestamp
    * @property number
+   * @property epoch
    * @property transactionsRoot
    * @property proposalsRoot
    * @property difficulty
@@ -144,6 +147,7 @@ declare namespace CKBComponents {
     parentHash: Hash256
     timestamp: Timestamp
     number: BlockNumber
+    epoch: EpochInHeader
     transactionsRoot: Hash256
     proposalsRoot: Hash256
     witnessesRoot: Hash256
@@ -214,8 +218,25 @@ declare namespace CKBComponents {
     addresses: { address: string; score: number }[]
   }
 
+  export interface TxPoolInfo {
+    pending: Count
+    staging: Count
+    orphan: Count
+    lastTxsUpdatedAt: Timestamp
+  }
+
   export enum CapacityUnit {
     Shannon = 1,
     Byte = 100000000,
+  }
+
+  export interface Epoch {
+    blockReward: String
+    difficulty: String
+    lastBlockHashInPreviousEpoch: String
+    length: String
+    number: String
+    remainderReward: String
+    startNumber: String
   }
 }

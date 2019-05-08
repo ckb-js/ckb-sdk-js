@@ -17,6 +17,11 @@ describe('ckb-rpc success', () => {
     expect(typeof info.nodeId).toBe('string')
   })
 
+  it('get peers', async () => {
+    const nodes = await rpc.getPeers()
+    expect(Array.isArray(nodes)).toBeTruthy()
+  })
+
   it('get tip block number', async () => {
     const tipBlockNumber = await rpc.getTipBlockNumber()
     expect(typeof tipBlockNumber).toBe('string')
@@ -111,14 +116,14 @@ describe('ckb-rpc errors', () => {
 describe('ckb-rpc settings and helpers', () => {
   it('set node', () => {
     const node = {
-      url: 'http://localhost',
+      url: 'http://localhost:8114',
     }
     rpc.setNode(node)
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 12 default rpc', () => {
-    expect(rpc.methods.length).toBe(12)
+  it('has 15 default rpc', () => {
+    expect(rpc.methods.length).toBe(15)
   })
 
   it(`set debug level to ${DebugLevel.Off}`, async () => {

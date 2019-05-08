@@ -227,6 +227,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -248,6 +249,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -271,6 +273,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -317,6 +320,7 @@
           "difficulty": "0x100",
           "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
           "number": "2",
+          "epoch": "0",
           "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
           "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "seal": {
@@ -376,6 +380,60 @@
         "nodeId": "QmYUE2bF85o5cgRN2L1yMoxMdmh899qu5GRybVUc59Vo9D",
         "version": "0.11.0"
       }
+    }],
+    "toTxPoolInfo": [{
+      "source": {
+        "pending": 34,
+        "staging": 22,
+        "orphan": 33,
+        "last_txs_updated_at": "1555507787683"
+      },
+      "target": {
+        "pending": 34,
+        "staging": 22,
+        "orphan": 33,
+        "lastTxsUpdatedAt": "1555507787683"
+      }
+    }],
+    "toPeers": [{
+      "source": [{
+        "addresses": [{
+          "address": "/ip4/192.168.0.3/tcp/8115",
+          "score": 1
+        }],
+        "node_id": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
+        "version": "unknown"
+      }, {
+        "addresses": [{
+          "address": "/ip4/192.168.0.4/tcp/8113",
+          "score": 255
+        }],
+        "node_id": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
+        "version": "unknown"
+      }, {
+        "addresses": [],
+        "node_id": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
+        "version": "unknown"
+      }],
+      "target": [{
+        "addresses": [{
+          "address": "/ip4/192.168.0.3/tcp/8115",
+          "score": 1
+        }],
+        "nodeId": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
+        "version": "unknown"
+      }, {
+        "addresses": [{
+          "address": "/ip4/192.168.0.4/tcp/8113",
+          "score": 255
+        }],
+        "nodeId": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
+        "version": "unknown"
+      }, {
+        "addresses": [],
+        "nodeId": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
+        "version": "unknown"
+      }]
     }],
     "toCell": [{
       "source": {
@@ -449,11 +507,12 @@
         "type": null
       }]
     }],
-    "toHeader": {
+    "toHeader": [{
       "source": {
         "difficulty": "0x100",
         "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
         "number": "2",
+        "epoch": "0",
         "parent_hash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
         "proposals_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "seal": {
@@ -471,6 +530,7 @@
         "difficulty": "0x100",
         "hash": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
         "number": "2",
+        "epoch": "0",
         "parentHash": "0xa1dba96cdebaa25f2be69316c943269e23c23fcc6e90eedd94ecd88b43f77170",
         "proposalsRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "seal": {
@@ -484,7 +544,7 @@
         "version": 0,
         "witnessesRoot": "0x0000000000000000000000000000000000000000000000000000000000000000"
       }
-    },
+    }],
     "toTrace": [{
       "source": [{
           "action": "AddPending",
@@ -602,6 +662,26 @@
           "status": "committed",
           "blockHash": "0xef285e5da29247ce39385cbd8dc36535f7ea1b5b0379db26e9d459a8b47d0d71"
         }
+      }
+    }],
+    "toEpoch": [{
+      "source": {
+        "block_reward": "5000000000000",
+        "difficulty": "0x100",
+        "last_block_hash_in_previous_epoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "length": "1000",
+        "number": "0",
+        "remainder_reward": "5000000000000",
+        "start_number": "0"
+      },
+      "target": {
+        "blockReward": "5000000000000",
+        "difficulty": "0x100",
+        "lastBlockHashInPreviousEpoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "length": "1000",
+        "number": "0",
+        "remainderReward": "5000000000000",
+        "startNumber": "0"
       }
     }]
   }
