@@ -1,12 +1,15 @@
 {
-  "name": "@nervosnetwork/ckb-sdk-utils",
+  "name": "@nervosnetwork/ckb-sdk-address",
   "version": "0.10.2",
-  "description": "> TODO: description",
+  "description": "Address module for CKB",
+  "keywords": [
+    "CKB",
+    "address"
+  ],
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -24,23 +27,13 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "test": "../../node_modules/.bin/jest"
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-types": "0.10.2",
-    "blake2b-wasm": "1.1.7",
-    "bs58check": "2.1.2",
-    "eth-lib": "0.2.8",
-    "safe-buffer": "5.1.2",
-    "tiny-secp256k1": "1.0.1"
-  },
-  "devDependencies": {
-    "@types/bitcoinjs-lib": "4.0.0",
-    "@types/tiny-secp256k1": "1.0.0",
-    "@types/utf8": "2.1.6"
-  },
-  "gitHead": "7b8b74a4501ce3999090f610dd4a371da6c8ceaa"
+    "@nervosnetwork/ckb-sdk-utils": "0.10.2",
+    "@nervosnetwork/ckb-types": "0.10.2"
+  }
 }

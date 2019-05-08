@@ -53,7 +53,7 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'sendTransaction',
     method: 'send_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
-    resultFormatters: resultFmts.toSendTransactionResponse,
+    resultFormatters: resultFmts.toHash,
   },
   {
     name: 'localNodeInfo',

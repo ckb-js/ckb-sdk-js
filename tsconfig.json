@@ -4,7 +4,8 @@
     "target": "es6",
     "lib": ["es6", "dom"],
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "sourceMap": true
   },
   "exclude": ["node_modules", "**/*.spec.ts", "*/**/debug.ts"]
 }

@@ -44,6 +44,13 @@ describe('result formatter', () => {
     })
   })
 
+  it('toTransactionWithStatus', () => {
+    result.toTransactionWithStatus.forEach(fixture => {
+      const formatted = resultFmt.toTransactionWithStatus(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
   it('toUncleBlock', () => {
     result.toUncleBlock.forEach(fixture => {
       const formatted = resultFmt.toUncleBlock(fixture.source)
@@ -84,6 +91,13 @@ describe('result formatter', () => {
   it('toCells', () => {
     result.toCells.forEach(fixture => {
       const formatted = resultFmt.toCells(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toTrace', () => {
+    result.toTrace.forEach(fixture => {
+      const formatted = resultFmt.toTrace(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })

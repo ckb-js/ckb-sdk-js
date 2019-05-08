@@ -7,10 +7,11 @@ const config = require('dotenv').config({
 }).parsed
 
 const CKBRPC = require('../lib').default
+const { DebugLevel } = require('../lib/enum')
 
 const rpc = new CKBRPC(config.RPC_URL)
 
-describe('ckb-rpc', () => {
+describe('ckb-rpc success', () => {
   it('local node info', async () => {
     const info = await rpc.localNodeInfo()
     expect(typeof info.nodeId).toBe('string')
@@ -98,5 +99,48 @@ describe('ckb-rpc', () => {
     expect(typeof traceHash).toBe('string')
     const traces = await rpc.getTransactionTrace(traceHash)
     expect(Array.isArray(traces)).toBeTruthy()
+  })
+})
+
+describe('ckb-rpc errors', () => {
+  it('throw raw error', async () => {
+    expect(() => rpc.getBlock(0)).toThrow()
+  })
+})
+
+describe('ckb-rpc settings and helpers', () => {
+  it('set node', () => {
+    const node = {
+      url: 'http://localhost',
+    }
+    rpc.setNode(node)
+    expect(rpc.node).toEqual(node)
+  })
+
+  it('has 12 default rpc', () => {
+    expect(rpc.methods.length).toBe(12)
+  })
+
+  it(`set debug level to ${DebugLevel.Off}`, async () => {
+    const info = jest.spyOn(global.console, 'info')
+    const group = jest.spyOn(global.console, 'group')
+    const groupEnd = jest.spyOn(global.console, 'groupEnd')
+    rpc.setDebugLevel(DebugLevel.Off)
+    await rpc.getTipBlockNumber()
+    expect(info).not.toHaveBeenCalled()
+    expect(group).not.toHaveBeenCalled()
+    expect(groupEnd).not.toHaveBeenCalled()
+  })
+
+  it(`set debug level to ${DebugLevel.On}`, async () => {
+    const info = jest.spyOn(global.console, 'info')
+    const group = jest.spyOn(global.console, 'group')
+    const groupEnd = jest.spyOn(global.console, 'groupEnd')
+    rpc.setDebugLevel(DebugLevel.On)
+    await rpc.getTipBlockNumber()
+    expect(info).toHaveBeenCalled()
+    expect(group).toHaveBeenCalled()
+    expect(groupEnd).toHaveBeenCalled()
+    rpc.setDebugLevel(DebugLevel.Off)
   })
 })
