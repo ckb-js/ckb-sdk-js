@@ -85,7 +85,7 @@ Default rule to generate the address from a public key is:
 
 - Blake160(public key): blake2b(public key) then trauncate it for fist 20 bytes.
 - Specify options used: Address Type, Address Bin Index, Prefix. The options will be explained in an RFC.
-- Bech32 the blake160ed public key with specified options: beck32Address(blake160Pubkey, {prefix, type, binIndex})
+- Bech32 the blake160ed public key with specified options: bech32Address(blake160Pubkey, {prefix, type, binIndex})
 
 </dd>
 </details>
