@@ -3,67 +3,44 @@ const formatter = {
   toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number,
   toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: ({
-    version,
     parent_hash,
-    timestamp,
-    number,
-    epoch,
     transactions_root,
     proposals_root,
     witnesses_root,
-    difficulty,
     uncles_hash,
     uncles_count,
-    seal,
-    hash,
+    ...rest
   }: CKB_RPC.Header): CKBComponents.BlockHeader => ({
-    version,
-    number,
-    epoch,
     parentHash: parent_hash,
-    timestamp,
     transactionsRoot: transactions_root,
     proposalsRoot: proposals_root,
     witnessesRoot: witnesses_root,
-    difficulty,
     unclesHash: uncles_hash,
     unclesCount: uncles_count,
-    seal,
-    hash,
+    ...rest,
   }),
   toScript: ({ args, code_hash: codeHash }: CKB_RPC.Script): CKBComponents.Script => ({
     args,
     codeHash,
   }),
-  toInput: ({ previous_output: previousOutput, since, args }: CKB_RPC.CellInput): CKBComponents.CellInput => ({
+  toInput: ({ previous_output: previousOutput, ...rest }: CKB_RPC.CellInput): CKBComponents.CellInput => ({
     previousOutput: formatter.toOutPoint(previousOutput),
-    since,
-    args,
+    ...rest,
   }),
-  toOutput: ({ capacity, data, lock, type }: CKB_RPC.CellOutput): CKBComponents.CellOutput => ({
-    capacity,
-    data,
+  toOutput: ({ lock, type, ...rest }: CKB_RPC.CellOutput): CKBComponents.CellOutput => ({
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,
+    ...rest,
   }),
   toOutPoint: ({ tx_hash: txHash, index }: CKB_RPC.OutPoint): CKBComponents.OutPoint => ({
     txHash,
     index,
   }),
-  toTransaction: ({
-    deps,
-    inputs,
-    outputs,
-    version,
-    witnesses,
-    hash,
-  }: CKB_RPC.Transaction): CKBComponents.Transaction => ({
+  toTransaction: ({ deps, inputs, outputs, ...rest }: CKB_RPC.Transaction): CKBComponents.Transaction => ({
     deps: deps.map(formatter.toOutPoint),
     inputs: inputs.map(formatter.toInput),
     outputs: outputs.map(formatter.toOutput),
-    version,
-    witnesses,
-    hash,
+    ...rest,
   }),
   toUncleBlock: ({ header, proposals }: CKB_RPC.UncleBlock): CKBComponents.UncleBlock => ({
     header: formatter.toHeader(header),
@@ -77,21 +54,19 @@ const formatter = {
     proposals,
   }),
   toTrace: (trace: CKBComponents.TransactionTrace) => trace,
-  toNodeInfo: ({ addresses, node_id: nodeId, version }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
-    addresses,
+  toNodeInfo: ({ node_id: nodeId, ...rest }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
     nodeId,
-    version,
+    ...rest,
   }),
   toTxPoolInfo: ({ last_txs_updated_at: lastTxsUpdatedAt, ...rest }: CKB_RPC.TxPoolInfo): CKBComponents.TxPoolInfo => ({
     lastTxsUpdatedAt,
     ...rest,
   }),
   toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
-  toCell: ({ capacity, data, lock, type }: CKB_RPC.Cell): CKBComponents.Cell => ({
-    capacity,
-    data,
+  toCell: ({ lock, type, ...rest }: CKB_RPC.Cell): CKBComponents.Cell => ({
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,
+    ...rest,
   }),
   toCellWithStatus: ({ cell, status }: { cell: CKB_RPC.Cell; status: string }) => ({
     cell: formatter.toCell(cell),
@@ -110,20 +85,16 @@ const formatter = {
   }),
   toEpoch: ({
     block_reward: blockReward,
-    difficulty,
     last_block_hash_in_previous_epoch: lastBlockHashInPreviousEpoch,
-    length,
-    number,
     remainder_reward: remainderReward,
     start_number: startNumber,
+    ...rest
   }: CKB_RPC.Epoch): CKBComponents.Epoch => ({
     blockReward,
-    difficulty,
     lastBlockHashInPreviousEpoch,
-    length,
-    number,
     remainderReward,
     startNumber,
+    ...rest,
   }),
 }
 export default formatter
