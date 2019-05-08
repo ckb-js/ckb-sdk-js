@@ -74,6 +74,13 @@ describe('result formatter', () => {
     })
   })
 
+  it('toPeers', () => {
+    result.toPeers.forEach(fixture => {
+      const formatted = resultFmt.toPeers(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
   it('toCell', () => {
     result.toCell.forEach(fixture => {
       const formatted = resultFmt.toCell(fixture.source)
