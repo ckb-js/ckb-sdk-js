@@ -132,7 +132,7 @@ declare namespace CKBComponents {
    * @property timestamp
    * @property number
    * @property transactionsRoot
-   * @property proposalsRoot
+   * @property proposalsHash
    * @property difficulty
    * @property unclesHash
    * @property unclesCount
@@ -145,7 +145,7 @@ declare namespace CKBComponents {
     timestamp: Timestamp
     number: BlockNumber
     transactionsRoot: Hash256
-    proposalsRoot: Hash256
+    proposalsHash: Hash256
     witnessesRoot: Hash256
     difficulty: Difficulty
     unclesHash: Hash256

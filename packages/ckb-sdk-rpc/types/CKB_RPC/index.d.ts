@@ -76,7 +76,7 @@ declare module CKB_RPC {
     timestamp: Timestamp
     number: BlockNumber
     transactions_root: Hash256
-    proposals_root: Hash256
+    proposals_hash: Hash256
     witnesses_root: Hash256
     difficulty: Difficulty
     uncles_hash: Hash256
