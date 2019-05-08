@@ -62,6 +62,12 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toNodeInfo,
   },
   {
+    name: 'getPeers',
+    method: 'get_peers',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toPeers,
+  },
+  {
     name: 'traceTransaction',
     method: 'trace_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
@@ -104,6 +110,8 @@ export class DefaultRPC {
   public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
   public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
+
+  public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
 
   public traceTransaction!: (transaction: {
     version: CKBComponents.Version

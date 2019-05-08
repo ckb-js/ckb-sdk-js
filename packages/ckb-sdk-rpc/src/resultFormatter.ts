@@ -80,6 +80,7 @@ const formatter = {
     nodeId,
     version,
   }),
+  toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
   toCell: ({ capacity, data, lock, type }: CKB_RPC.Cell): CKBComponents.Cell => ({
     capacity,
     data,

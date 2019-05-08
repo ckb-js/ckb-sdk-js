@@ -377,6 +377,46 @@
         "version": "0.11.0"
       }
     }],
+    "toPeers": [{
+      "source": [{
+        "addresses": [{
+          "address": "/ip4/192.168.0.3/tcp/8115",
+          "score": 1
+        }],
+        "node_id": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
+        "version": "unknown"
+      }, {
+        "addresses": [{
+          "address": "/ip4/192.168.0.4/tcp/8113",
+          "score": 255
+        }],
+        "node_id": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
+        "version": "unknown"
+      }, {
+        "addresses": [],
+        "node_id": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
+        "version": "unknown"
+      }],
+      "target": [{
+        "addresses": [{
+          "address": "/ip4/192.168.0.3/tcp/8115",
+          "score": 1
+        }],
+        "nodeId": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
+        "version": "unknown"
+      }, {
+        "addresses": [{
+          "address": "/ip4/192.168.0.4/tcp/8113",
+          "score": 255
+        }],
+        "nodeId": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
+        "version": "unknown"
+      }, {
+        "addresses": [],
+        "nodeId": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
+        "version": "unknown"
+      }]
+    }],
     "toCell": [{
       "source": {
         "capacity": "5000000000000",
