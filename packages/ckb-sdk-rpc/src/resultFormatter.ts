@@ -74,7 +74,6 @@ const formatter = {
     transactions: transactions.map(formatter.toTransaction),
     proposals,
   }),
-  // TODO: implement toTrace
   toTrace: (trace: CKBComponents.TransactionTrace) => trace,
   toNodeInfo: ({ addresses, node_id: nodeId, version }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
     addresses,
@@ -92,8 +91,6 @@ const formatter = {
     status,
   }),
   toCells: (cells: CKB_RPC.Cell[]): CKBComponents.Cell[] => cells.map(formatter.toCell),
-  // TODO: implement
-  toSendTransactionResponse: (res: any) => res,
   toTransactionWithStatus: ({
     transaction,
     tx_status: { block_hash: blockHash, status },
