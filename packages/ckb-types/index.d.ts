@@ -96,22 +96,22 @@ declare namespace CKBComponents {
    * @property deps, transaction deps
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
+   * @property witnesses, segrated witnesses
    */
   export interface RawTransaction {
     version: Version
     deps: OutPoint[]
     inputs: CellInput[]
     outputs: CellOutput[]
+    witnesses: Witness[]
   }
 
   /**
    * @typedef Transaction, transaction object
    * @extends RawTransaction
-   * @property witnesses, segrated witnesses
    * @property hash, transaction hash
    */
   export interface Transaction extends RawTransaction {
-    witnesses: Witness[]
     hash: Hash256
   }
 

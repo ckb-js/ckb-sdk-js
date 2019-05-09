@@ -53,10 +53,10 @@ declare module CKB_RPC {
     deps: OutPoint[]
     inputs: CellInput[]
     outputs: CellOutput[]
+    witnesses: Witness[]
   }
 
   export interface Transaction extends RawTransaction {
-    witnesses: Witness[]
     hash: Hash256
   }
 
