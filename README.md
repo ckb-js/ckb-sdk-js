@@ -41,7 +41,7 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
 > _Noteice:_ The ckb process will send stack trace to sentry on Rust panics. This is enabled by default before mainnet, which can be opted out by setting the option dsn to empty in the config file.
 
-## About @nervosnetwokr/ckb-sdk-core
+## About @nervosnetwork/ckb-sdk-core
 
 `@nervosnetwork/ckb-sdk-core` is a SDK implemented by JavaScript, and published in [NPM Registry](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core/), which provides APIs for developers to send requests to the CKB blockchain.
 
