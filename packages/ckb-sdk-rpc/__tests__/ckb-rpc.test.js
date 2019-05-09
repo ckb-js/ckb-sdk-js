@@ -34,16 +34,6 @@ describe('ckb-rpc success', () => {
     expect(typeof blockNumber).toBe('string')
   })
 
-  it.skip('send transaction', async () => {
-    const hash = await rpc.sendTransaction({
-      version: 0,
-      deps: [],
-      inputs: [],
-      outputs: [],
-    })
-    expect(typeof hash).toBe('string')
-  })
-
   it('get tip header', async () => {
     const header = await rpc.getTipHeader()
     expect(typeof header.hash).toBe('string')
@@ -99,6 +89,46 @@ describe('ckb-rpc success', () => {
     expect(typeof traceHash).toBe('string')
     const traces = await rpc.getTransactionTrace(traceHash)
     expect(Array.isArray(traces)).toBeTruthy()
+  })
+})
+
+describe('send transaction', () => {
+  it('send transaction', async () => {
+    const blockHash = await rpc.getBlockHash('0')
+    const block = await rpc.getBlock(blockHash)
+    const txHash = block.transactions[0].hash
+    const tx = {
+      version: 0,
+      deps: [],
+      inputs: [
+        {
+          previousOutput: {
+            txHash,
+            index: 0,
+          },
+          args: [],
+          since: '0',
+        },
+      ],
+      outputs: [
+        {
+          lock: {
+            args: [],
+            codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
+          },
+          type: null,
+          capacity: '100000000000',
+          data: '0x',
+        },
+      ],
+      witnesses: [],
+    }
+    try {
+      await rpc.sendTransaction(tx)
+    } catch (err) {
+      // expect(err).toBeTruthy()
+      expect(err.toString()).toBe('Error: {"code":-3,"message":"InvalidTx(OutputsSumOverflow)"}')
+    }
   })
 })
 

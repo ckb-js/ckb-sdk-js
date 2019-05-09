@@ -110,6 +110,7 @@ export class DefaultRPC {
     deps: CKBComponents.OutPoint[]
     inputs: CKBComponents.CellInput[]
     outputs: CKBComponents.CellOutput[]
+    witnesses: CKBComponents.Witness[]
   }) => Promise<CKBComponents.Hash>
 
   public getTransactionTrace!: (transactionHash: CKBComponents.Hash) => Promise<CKBComponents.TransactionTrace>
