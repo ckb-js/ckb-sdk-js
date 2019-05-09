@@ -21,7 +21,13 @@ const formatter = {
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,
   }),
-  toRawTransaction: ({ version, deps, inputs, outputs }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+  toRawTransaction: ({
+    version,
+    deps,
+    inputs,
+    outputs,
+    ...rest
+  }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
     const formattedInputs = inputs.map(input => formatter.toInput(input))
     const formattedOutputs = outputs.map(output => formatter.toOutput(output))
     const formattedDeps = deps.map(dep => formatter.toOutPoint(dep))
@@ -30,6 +36,7 @@ const formatter = {
       deps: formattedDeps,
       inputs: formattedInputs,
       outputs: formattedOutputs,
+      ...rest,
     }
     return tx
   },
