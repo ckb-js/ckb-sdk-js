@@ -3,12 +3,12 @@ const formatter = {
   toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number,
   toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: ({
-    parent_hash,
     transactions_root,
     proposals_hash,
     witnesses_root,
     uncles_hash,
     uncles_count,
+    parent_hash,
     ...rest
   }: CKB_RPC.Header): CKBComponents.BlockHeader => ({
     parentHash: parent_hash,

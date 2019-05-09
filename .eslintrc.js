@@ -48,7 +48,7 @@ module.exports = {
         "multiline": true
       },
       "ObjectPattern": {
-        "multiline": true
+        "consistent": true
       },
       "ImportDeclaration": "never",
       "ExportDeclaration": {
