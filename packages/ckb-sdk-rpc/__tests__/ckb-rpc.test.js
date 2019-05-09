@@ -132,8 +132,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 17 default rpc', () => {
-    expect(rpc.methods.length).toBe(17)
+  it('has 18 default rpc', () => {
+    expect(rpc.methods.length).toBe(18)
   })
 
   it(`set debug level to ${DebugLevel.Off}`, async () => {

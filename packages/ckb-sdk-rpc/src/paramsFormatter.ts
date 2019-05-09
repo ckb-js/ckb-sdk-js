@@ -5,9 +5,13 @@ const formatter = {
     code_hash,
   }),
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toOutPoint: ({ txHash: tx_hash, index }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
-    tx_hash: formatter.toHash(tx_hash),
+  toCellOutPoint: ({ txHash: tx_hash, index }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
+    tx_hash,
     index,
+  }),
+  toOutPoint: ({ cell, blockHash: block_hash }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
+    cell: formatter.toCellOutPoint(cell),
+    block_hash,
   }),
   toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
   toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
