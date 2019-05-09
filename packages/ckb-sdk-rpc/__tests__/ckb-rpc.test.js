@@ -118,8 +118,11 @@ describe('send transaction', () => {
       inputs: [
         {
           previousOutput: {
-            txHash,
-            index: 0,
+            cell: {
+              txHash,
+              index: 0,
+            },
+            blockHash,
           },
           args: [],
           since: '0',
@@ -141,7 +144,6 @@ describe('send transaction', () => {
     try {
       await rpc.sendTransaction(tx)
     } catch (err) {
-      // expect(err).toBeTruthy()
       expect(err.toString()).toBe('Error: {"code":-3,"message":"InvalidTx(OutputsSumOverflow)"}')
     }
   })
