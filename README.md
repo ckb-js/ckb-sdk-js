@@ -20,7 +20,7 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 - [Installation](#installation)
 - [Modules](#modules)
 - [CORE](#core)
-- [RPC](#rpC)
+- [RPC](#rpc)
 - [Errors](#errors)
 - [Related Projects](#related-projects)
 

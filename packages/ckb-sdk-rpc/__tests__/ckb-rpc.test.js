@@ -12,6 +12,11 @@ const { DebugLevel } = require('../lib/enum')
 const rpc = new CKBRPC(config.RPC_URL)
 
 describe('ckb-rpc success', () => {
+  it('get blockchain info', async () => {
+    const info = await rpc.getBlockchainInfo()
+    expect(info).not.toBe(undefined)
+  })
+
   it('local node info', async () => {
     const info = await rpc.localNodeInfo()
     expect(typeof info.nodeId).toBe('string')
@@ -20,6 +25,11 @@ describe('ckb-rpc success', () => {
   it('get peers', async () => {
     const nodes = await rpc.getPeers()
     expect(Array.isArray(nodes)).toBeTruthy()
+  })
+
+  it('get peers state', async () => {
+    const state = await rpc.getPeersState()
+    expect(state).not.tobe(undefined)
   })
 
   it('get tip block number', async () => {
@@ -122,8 +132,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 15 default rpc', () => {
-    expect(rpc.methods.length).toBe(15)
+  it('has 17 default rpc', () => {
+    expect(rpc.methods.length).toBe(17)
   })
 
   it(`set debug level to ${DebugLevel.Off}`, async () => {

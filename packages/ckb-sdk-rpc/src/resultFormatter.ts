@@ -54,6 +54,15 @@ const formatter = {
     proposals,
   }),
   toTrace: (trace: CKBComponents.TransactionTrace) => trace,
+  toBlockchainInfo: ({
+    is_initial_block_download: isInitialBlockDownload,
+    median_time: medianTime,
+    ...rest
+  }: CKB_RPC.BlockchainInfo): CKBComponents.BlockchainInfo => ({
+    isInitialBlockDownload,
+    medianTime,
+    ...rest,
+  }),
   toNodeInfo: ({ node_id: nodeId, ...rest }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
     nodeId,
     ...rest,
@@ -63,6 +72,15 @@ const formatter = {
     ...rest,
   }),
   toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
+  toPeersState: ({
+    last_updated: lastUpdated,
+    blocks_in_flight: blocksInFlight,
+    ...rest
+  }: CKB_RPC.PeersState): CKBComponents.PeersState => ({
+    lastUpdated,
+    blocksInFlight,
+    ...rest,
+  }),
   toCell: ({ lock, type, ...rest }: CKB_RPC.Cell): CKBComponents.Cell => ({
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,

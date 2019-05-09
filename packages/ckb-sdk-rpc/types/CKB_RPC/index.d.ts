@@ -100,10 +100,25 @@ declare module CKB_RPC {
     proposals: ProposalShortId[]
   }
 
+  export interface BlockchainInfo {
+    is_initial_block_download: boolean
+    epoch: string
+    difficulty: string
+    median_time: string
+    chain: string
+    warnings: string
+  }
+
   export interface NodeInfo {
     addresses: { address: string; score: number }[]
     node_id: string
     version: string
+  }
+
+  export interface PeersState {
+    last_updated: string
+    blocks_in_flight: string
+    peer: string
   }
 
   export interface TxPoolInfo {
