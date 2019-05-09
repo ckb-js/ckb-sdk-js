@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toScript: ({ args, codeHash: code_hash }: CKBComponents.Script): CKB_RPC.Script => ({
-    args,
+  toScript: ({ codeHash: code_hash, ...rest }: CKBComponents.Script): CKB_RPC.Script => ({
     code_hash,
+    ...rest,
   }),
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toCellOutPoint: ({ txHash: tx_hash, index }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
+  toCellOutPoint: ({ txHash: tx_hash, ...rest }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
     tx_hash,
-    index,
+    ...rest,
   }),
   toOutPoint: ({ cell = null, blockHash: block_hash = null }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
     cell: cell ? formatter.toCellOutPoint(cell) : cell,
@@ -23,7 +23,13 @@ const formatter = {
     type: type ? formatter.toScript(type) : null,
     ...rest,
   }),
-  toRawTransaction: ({ version, deps, inputs, outputs }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+  toRawTransaction: ({
+    version,
+    deps,
+    inputs,
+    outputs,
+    ...rest
+  }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
     const formattedInputs = inputs.map(input => formatter.toInput(input))
     const formattedOutputs = outputs.map(output => formatter.toOutput(output))
     const formattedDeps = deps.map(dep => formatter.toOutPoint(dep))
@@ -32,6 +38,7 @@ const formatter = {
       deps: formattedDeps,
       inputs: formattedInputs,
       outputs: formattedOutputs,
+      ...rest,
     }
     return tx
   },
