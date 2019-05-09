@@ -2,10 +2,17 @@ import DefaultRPC from './defaultRPC'
 import { DebugLevel } from './enum'
 import Method from './method'
 
+import paramsFormatter from './paramsFormatter'
+import resultFormatter from './resultFormatter'
+
 class CKBRPC extends DefaultRPC {
   private _node: CKBComponents.Node
 
   private _methods: Method[] = []
+
+  public paramsFormatter = paramsFormatter
+
+  public resultFormatter = resultFormatter
 
   public setDebugLevel = (level: DebugLevel) => {
     Method.debugLevel = level
