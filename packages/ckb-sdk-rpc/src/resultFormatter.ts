@@ -5,7 +5,7 @@ const formatter = {
   toHeader: ({
     parent_hash,
     transactions_root,
-    proposals_root,
+    proposals_hash,
     witnesses_root,
     uncles_hash,
     uncles_count,
@@ -13,7 +13,7 @@ const formatter = {
   }: CKB_RPC.Header): CKBComponents.BlockHeader => ({
     parentHash: parent_hash,
     transactionsRoot: transactions_root,
-    proposalsRoot: proposals_root,
+    proposalsHash: proposals_hash,
     witnessesRoot: witnesses_root,
     unclesHash: uncles_hash,
     unclesCount: uncles_count,

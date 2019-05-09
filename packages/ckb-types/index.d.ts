@@ -135,7 +135,7 @@ declare namespace CKBComponents {
    * @property number
    * @property epoch
    * @property transactionsRoot
-   * @property proposalsRoot
+   * @property proposalsHash
    * @property difficulty
    * @property unclesHash
    * @property unclesCount
@@ -149,7 +149,7 @@ declare namespace CKBComponents {
     number: BlockNumber
     epoch: EpochInHeader
     transactionsRoot: Hash256
-    proposalsRoot: Hash256
+    proposalsHash: Hash256
     witnessesRoot: Hash256
     difficulty: Difficulty
     unclesHash: Hash256
