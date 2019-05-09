@@ -212,10 +212,26 @@ declare namespace CKBComponents {
   export enum CellStatus {
     LIVE = 'live',
   }
+
+  export interface BlockchainInfo {
+    isInitialBlockDownload: boolean
+    epoch: string
+    difficulty: string
+    medianTime: string
+    chain: string
+    warnings: string
+  }
+
   export interface NodeInfo {
     version: string
     nodeId: string
     addresses: { address: string; score: number }[]
+  }
+
+  export interface PeersState {
+    lastUpdated: string
+    blocksInFlight: string
+    peer: string
   }
 
   export interface TxPoolInfo {

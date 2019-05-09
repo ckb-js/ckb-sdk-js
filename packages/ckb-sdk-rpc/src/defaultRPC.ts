@@ -50,6 +50,12 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toNumber,
   },
   {
+    name: 'getBlockchainInfo',
+    method: 'get_blockchain_info',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toBlockchainInfo,
+  },
+  {
     name: 'sendTransaction',
     method: 'send_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
@@ -72,6 +78,12 @@ const defaultRPC: CKBComponents.Method[] = [
     method: 'get_peers',
     paramsFormatters: [],
     resultFormatters: resultFmts.toPeers,
+  },
+  {
+    name: 'getPeersState',
+    method: 'get_peers_state',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toPeersState,
   },
   {
     name: 'traceTransaction',
@@ -129,11 +141,15 @@ export class DefaultRPC {
 
   public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
+  public getBlockchainInfo!: () => Promise<CKBComponents.BlockchainInfo>
+
   public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
 
   public txPoolInfo!: () => Promise<CKBComponents.TxPoolInfo>
 
   public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
+
+  public getPeersState!: () => Promise<CKBComponents.PeersState>
 
   public traceTransaction!: (transaction: {
     version: CKBComponents.Version

@@ -363,6 +363,24 @@
         "uncles": []
       }
     }],
+    "toBlockchainInfo": [{
+      "source": {
+        "is_initial_block_download": false,
+        "epoch": "0",
+        "difficulty": "0x100",
+        "median_time": "1557287480008",
+        "chain": "ckb_dev",
+        "warnings": ""
+      },
+      "target": {
+        "isInitialBlockDownload": false,
+        "epoch": "0",
+        "difficulty": "0x100",
+        "medianTime": "1557287480008",
+        "chain": "ckb_dev",
+        "warnings": ""
+      }
+    }],
     "toNodeInfo": [{
       "source": {
         "addresses": [{
@@ -434,6 +452,18 @@
         "nodeId": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
         "version": "unknown"
       }]
+    }],
+    "toPeersState": [{
+      "source": {
+        "last_updated": "1557289448237",
+        "blocks_in_flight": "86",
+        "peer": "1"
+      },
+      "target": {
+        "lastUpdated": "1557289448237",
+        "blocksInFlight": "86",
+        "peer": "1"
+      }
     }],
     "toCell": [{
       "source": {

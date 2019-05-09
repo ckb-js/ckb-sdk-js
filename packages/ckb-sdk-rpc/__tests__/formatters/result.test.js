@@ -67,6 +67,13 @@ describe('result formatter', () => {
 
   it.skip('toTrace', () => {})
 
+  it('toBlockchainInfo', () => {
+    result.toBlockchainInfo.forEach(fixture => {
+      const formatted = resultFmt.toBlockchainInfo(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
   it('toNodeInfo', () => {
     result.toNodeInfo.forEach(fixture => {
       const formatted = resultFmt.toNodeInfo(fixture.source)
@@ -84,6 +91,13 @@ describe('result formatter', () => {
   it('toPeers', () => {
     result.toPeers.forEach(fixture => {
       const formatted = resultFmt.toPeers(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toPeersState', () => {
+    result.toPeersState.forEach(fixture => {
+      const formatted = resultFmt.toPeersState(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })
