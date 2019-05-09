@@ -36,8 +36,8 @@ declare module CKB_RPC {
   }
 
   export interface OutPoint {
-    cell: CellOutPoint
-    block_hash: Hash256
+    cell?: CellOutPoint | null
+    block_hash?: Hash256 | null
   }
 
   export interface CellInput {

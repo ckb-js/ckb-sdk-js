@@ -89,8 +89,8 @@ declare namespace CKBComponents {
   }
 
   export interface OutPoint {
-    cell: CellOutPoint
-    blockHash: Hash256
+    cell?: CellOutPoint | null
+    blockHash?: Hash256 | null
   }
 
   export interface Witness {

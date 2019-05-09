@@ -36,9 +36,9 @@ const formatter = {
     txHash,
     index,
   }),
-  toOutPoint: ({ block_hash: blockHash, cell }: CKB_RPC.OutPoint): CKBComponents.OutPoint => ({
+  toOutPoint: ({ block_hash: blockHash = null, cell = null }: CKB_RPC.OutPoint): CKBComponents.OutPoint => ({
     blockHash,
-    cell: formatter.toCellOutPoint(cell),
+    cell: cell ? formatter.toCellOutPoint(cell) : cell,
   }),
   toTransaction: ({ deps, inputs, outputs, ...rest }: CKB_RPC.Transaction): CKBComponents.Transaction => ({
     deps: deps.map(formatter.toOutPoint),

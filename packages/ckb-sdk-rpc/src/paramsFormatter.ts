@@ -9,8 +9,8 @@ const formatter = {
     tx_hash,
     index,
   }),
-  toOutPoint: ({ cell, blockHash: block_hash }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
-    cell: formatter.toCellOutPoint(cell),
+  toOutPoint: ({ cell = null, blockHash: block_hash = null }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
+    cell: cell ? formatter.toCellOutPoint(cell) : cell,
     block_hash,
   }),
   toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
