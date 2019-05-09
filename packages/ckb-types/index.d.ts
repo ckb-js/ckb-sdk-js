@@ -79,13 +79,18 @@ declare namespace CKBComponents {
   }
 
   /**
-   * @typedef OutPoint, used to refer a generated cell by transaction hash and output index
+   * @typedef CellOutPoint, used to refer a generated cell by transaction hash and output index
    * @property hash, transaction hash
    * @property index, index of cell output
    */
-  export interface OutPoint {
+  export interface CellOutPoint {
     txHash: Hash256
     index: Index
+  }
+
+  export interface OutPoint {
+    cell?: CellOutPoint | null
+    blockHash?: Hash256 | null
   }
 
   export interface Witness {
