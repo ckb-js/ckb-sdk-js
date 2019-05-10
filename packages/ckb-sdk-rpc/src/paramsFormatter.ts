@@ -14,7 +14,7 @@ const formatter = {
     block_hash,
     ...rest,
   }),
-  toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
+  toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number.toString(),
   toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
     previous_output: formatter.toOutPoint(previousOutput),
     ...rest,

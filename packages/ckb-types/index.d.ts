@@ -6,10 +6,10 @@ declare namespace CKBComponents {
   export type Hash = string
   export type Hash256 = string
   export type UInt32 = number
-  export type Index = UInt32
-  export type Version = UInt32
-  export type Count = UInt32
-  export type Difficulty = bigint
+  export type Index = string
+  export type Version = string
+  export type Count = string
+  export type Difficulty = string
   export type BlockNumber = string
   export type EpochInHeader = string
   export type Capacity = string
@@ -158,7 +158,7 @@ declare namespace CKBComponents {
     witnessesRoot: Hash256
     difficulty: Difficulty
     unclesHash: Hash256
-    unclesCount: UInt32
+    unclesCount: Count
     seal: Seal
     hash: Hash256
   }
@@ -230,7 +230,7 @@ declare namespace CKBComponents {
   export interface NodeInfo {
     version: string
     nodeId: string
-    addresses: { address: string; score: number }[]
+    addresses: { address: string; score: string }[]
   }
 
   export interface PeersState {
