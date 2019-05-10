@@ -40,7 +40,7 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'getLiveCell',
     method: 'get_live_cell',
-    paramsFormatters: [paramsFmts.toCellOutPoint],
+    paramsFormatters: [paramsFmts.toOutPoint],
     resultFormatters: resultFmts.toCellWithStatus,
   },
   {
