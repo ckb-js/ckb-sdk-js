@@ -49,16 +49,6 @@ describe('ckb-rpc success', () => {
     expect(typeof blockNumber).toBe('string')
   })
 
-  it.skip('send transaction', async () => {
-    const hash = await rpc.sendTransaction({
-      version: 0,
-      deps: [],
-      inputs: [],
-      outputs: [],
-    })
-    expect(typeof hash).toBe('string')
-  })
-
   it('get tip header', async () => {
     const header = await rpc.getTipHeader()
     expect(typeof header.hash).toBe('string')
@@ -103,17 +93,44 @@ describe('ckb-rpc success', () => {
     const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
     expect(Array.isArray(cells)).toBeTruthy()
   })
+})
 
-  it.skip('trace a transaction', async () => {
-    const traceHash = await rpc.traceTransaction({
+describe('send transaction', () => {
+  it('send transaction', async () => {
+    const blockHash = await rpc.getBlockHash('0')
+    const block = await rpc.getBlock(blockHash)
+    const txHash = block.transactions[0].hash
+    const tx = {
       version: 0,
       deps: [],
-      inputs: [],
-      outputs: [],
-    })
-    expect(typeof traceHash).toBe('string')
-    const traces = await rpc.getTransactionTrace(traceHash)
-    expect(Array.isArray(traces)).toBeTruthy()
+      inputs: [
+        {
+          previousOutput: {
+            cell: {
+              txHash,
+              index: 0,
+            },
+            blockHash,
+          },
+          args: [],
+          since: '0',
+        },
+      ],
+      outputs: [
+        {
+          lock: {
+            args: [],
+            codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
+          },
+          type: null,
+          capacity: '1',
+          data: '0x',
+        },
+      ],
+      witnesses: [],
+    }
+    const hash = rpc.sendTransaction(tx)
+    expect(hash).toBeTruthy()
   })
 })
 
@@ -132,8 +149,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 18 default rpc', () => {
-    expect(rpc.methods.length).toBe(18)
+  it('has 17 default rpc', () => {
+    expect(rpc.methods.length).toBe(17)
   })
 
   it(`set debug level to ${DebugLevel.Off}`, async () => {

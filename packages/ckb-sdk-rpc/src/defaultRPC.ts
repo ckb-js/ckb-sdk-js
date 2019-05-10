@@ -86,18 +86,6 @@ const defaultRPC: CKBComponents.Method[] = [
     resultFormatters: resultFmts.toPeersState,
   },
   {
-    name: 'traceTransaction',
-    method: 'trace_transaction',
-    paramsFormatters: [paramsFmts.toRawTransaction],
-    resultFormatters: resultFmts.toHash,
-  },
-  {
-    name: 'getTransactionTrace',
-    method: 'get_transaction_trace',
-    paramsFormatters: [paramsFmts.toHash],
-    resultFormatters: resultFmts.toTrace,
-  },
-  {
     name: 'getCurrentEpoch',
     method: 'get_current_epoch',
     paramsFormatters: [],
@@ -108,6 +96,12 @@ const defaultRPC: CKBComponents.Method[] = [
     method: 'get_epoch_by_number',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toEpoch,
+  },
+  {
+    name: 'dryRunTransaction',
+    method: 'dry_run_transaction',
+    paramsFormatters: [paramsFmts.toRawTransaction],
+    resultFormatters: resultFmts.toHash,
   },
 ]
 
@@ -151,18 +145,11 @@ export class DefaultRPC {
 
   public getPeersState!: () => Promise<CKBComponents.PeersState>
 
-  public traceTransaction!: (transaction: {
-    version: CKBComponents.Version
-    deps: CKBComponents.OutPoint[]
-    inputs: CKBComponents.CellInput[]
-    outputs: CKBComponents.CellOutput[]
-  }) => Promise<CKBComponents.Hash>
-
-  public getTransactionTrace!: (transactionHash: CKBComponents.Hash) => Promise<CKBComponents.TransactionTrace>
-
   public getCurrentEpoch!: () => Promise<CKBComponents.Epoch>
 
   public getEpochByNumber!: (epoch: string) => Promise<CKBComponents.Epoch>
+
+  public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 }
 
 export default DefaultRPC

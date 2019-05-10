@@ -3,12 +3,12 @@ const formatter = {
   toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number,
   toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: ({
-    parent_hash,
     transactions_root,
     proposals_hash,
     witnesses_root,
     uncles_hash,
     uncles_count,
+    parent_hash,
     ...rest
   }: CKB_RPC.Header): CKBComponents.BlockHeader => ({
     parentHash: parent_hash,
@@ -19,9 +19,9 @@ const formatter = {
     unclesCount: uncles_count,
     ...rest,
   }),
-  toScript: ({ args, code_hash: codeHash }: CKB_RPC.Script): CKBComponents.Script => ({
-    args,
+  toScript: ({ code_hash: codeHash, ...rest }: CKB_RPC.Script): CKBComponents.Script => ({
     codeHash,
+    ...rest,
   }),
   toInput: ({ previous_output: previousOutput, ...rest }: CKB_RPC.CellInput): CKBComponents.CellInput => ({
     previousOutput: formatter.toOutPoint(previousOutput),
@@ -32,9 +32,9 @@ const formatter = {
     type: type ? formatter.toScript(type) : null,
     ...rest,
   }),
-  toCellOutPoint: ({ tx_hash: txHash, index }: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => ({
+  toCellOutPoint: ({ tx_hash: txHash, ...rest }: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => ({
     txHash,
-    index,
+    ...rest,
   }),
   toOutPoint: ({ block_hash: blockHash = null, cell = null }: CKB_RPC.OutPoint): CKBComponents.OutPoint => ({
     blockHash,
@@ -46,18 +46,17 @@ const formatter = {
     outputs: outputs.map(formatter.toOutput),
     ...rest,
   }),
-  toUncleBlock: ({ header, proposals }: CKB_RPC.UncleBlock): CKBComponents.UncleBlock => ({
+  toUncleBlock: ({ header, ...rest }: CKB_RPC.UncleBlock): CKBComponents.UncleBlock => ({
     header: formatter.toHeader(header),
-    proposals,
+    ...rest,
   }),
 
-  toBlock: ({ header, uncles, transactions, proposals }: CKB_RPC.Block): CKBComponents.Block => ({
+  toBlock: ({ header, uncles, transactions, ...rest }: CKB_RPC.Block): CKBComponents.Block => ({
     header: formatter.toHeader(header),
     uncles: uncles.map(formatter.toUncleBlock),
     transactions: transactions.map(formatter.toTransaction),
-    proposals,
+    ...rest,
   }),
-  toTrace: (trace: CKBComponents.TransactionTrace) => trace,
   toBlockchainInfo: ({
     is_initial_block_download: isInitialBlockDownload,
     median_time: medianTime,
@@ -90,20 +89,22 @@ const formatter = {
     type: type ? formatter.toScript(type) : null,
     ...rest,
   }),
-  toCellWithStatus: ({ cell, status }: { cell: CKB_RPC.Cell; status: string }) => ({
+  toCellWithStatus: ({ cell, ...rest }: { cell: CKB_RPC.Cell; status: string }) => ({
     cell: formatter.toCell(cell),
-    status,
+    ...rest,
   }),
   toCells: (cells: CKB_RPC.Cell[]): CKBComponents.Cell[] => cells.map(formatter.toCell),
   toTransactionWithStatus: ({
     transaction,
     tx_status: { block_hash: blockHash, status },
+    ...rest
   }: CKB_RPC.TransactionWithStatus) => ({
     transaction: formatter.toTransaction(transaction),
     txStatus: {
       blockHash,
       status,
     },
+    ...rest,
   }),
   toEpoch: ({
     block_reward: blockReward,

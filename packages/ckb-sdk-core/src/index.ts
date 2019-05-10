@@ -1,13 +1,10 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import Wallet from '@nervosnetwork/ckb-sdk-wallet'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 class Core {
   public rpc: RPC
 
   private _node: CKBComponents.Node
-
-  private _wallet: Wallet
 
   public _utils = utils
 
@@ -16,7 +13,6 @@ class Core {
       url: nodeUrl,
     }
     this.rpc = new RPC(nodeUrl)
-    this._wallet = new Wallet(this.rpc)
   }
 
   public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
@@ -27,7 +23,6 @@ class Core {
     }
 
     this.rpc.setNode(this._node)
-    this._wallet.rpc = this.rpc
 
     return this._node
   }
@@ -38,10 +33,6 @@ class Core {
 
   public get utils() {
     return this._utils
-  }
-
-  public get wallet() {
-    return this._wallet
   }
 }
 
