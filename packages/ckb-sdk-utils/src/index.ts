@@ -40,10 +40,10 @@ export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
-export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: (Uint8Array | string)[] }) => {
+export const lockScriptToHash = ({ codeHash, args }: { codeHash?: string; args?: (Uint8Array | string)[] }) => {
   const s = blake2b(32, null, null, PERSONAL)
-  if (binaryHash) {
-    s.update(hexToBytes(binaryHash.replace(/^0x/, '')))
+  if (codeHash) {
+    s.update(hexToBytes(codeHash.replace(/^0x/, '')))
   }
   if (args && args.length) {
     args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))
