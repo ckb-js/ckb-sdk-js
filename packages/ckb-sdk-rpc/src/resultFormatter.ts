@@ -57,7 +57,6 @@ const formatter = {
     transactions: transactions.map(formatter.toTransaction),
     ...rest,
   }),
-  toTrace: (trace: CKBComponents.TransactionTrace) => trace,
   toBlockchainInfo: ({
     is_initial_block_download: isInitialBlockDownload,
     median_time: medianTime,
