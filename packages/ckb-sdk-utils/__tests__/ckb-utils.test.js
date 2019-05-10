@@ -126,7 +126,7 @@ describe('scriptToHash', () => {
     const fixture = {
       script: {
         version: 0,
-        binaryHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         args: [[1]],
       },
       lockHash: 'dade0e507e27e2a5995cf39c8cf454b6e70fa80d03c1187db7a4cb2c9eab79da',
