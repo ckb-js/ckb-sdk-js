@@ -65,8 +65,6 @@ describe('result formatter', () => {
     })
   })
 
-  it.skip('toTrace', () => {})
-
   it('toBlockchainInfo', () => {
     result.toBlockchainInfo.forEach(fixture => {
       const formatted = resultFmt.toBlockchainInfo(fixture.source)
@@ -119,13 +117,6 @@ describe('result formatter', () => {
   it('toCells', () => {
     result.toCells.forEach(fixture => {
       const formatted = resultFmt.toCells(fixture.source)
-      expect(formatted).toEqual(fixture.target)
-    })
-  })
-
-  it('toTrace', () => {
-    result.toTrace.forEach(fixture => {
-      const formatted = resultFmt.toTrace(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })

@@ -93,18 +93,6 @@ describe('ckb-rpc success', () => {
     const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
     expect(Array.isArray(cells)).toBeTruthy()
   })
-
-  it.skip('trace a transaction', async () => {
-    const traceHash = await rpc.traceTransaction({
-      version: 0,
-      deps: [],
-      inputs: [],
-      outputs: [],
-    })
-    expect(typeof traceHash).toBe('string')
-    const traces = await rpc.getTransactionTrace(traceHash)
-    expect(Array.isArray(traces)).toBeTruthy()
-  })
 })
 
 describe('send transaction', () => {
@@ -135,17 +123,14 @@ describe('send transaction', () => {
             codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
           },
           type: null,
-          capacity: '100000000000',
+          capacity: '1',
           data: '0x',
         },
       ],
       witnesses: [],
     }
-    try {
-      await rpc.sendTransaction(tx)
-    } catch (err) {
-      expect(err.toString()).toBe('Error: {"code":-3,"message":"InvalidTx(OutputsSumOverflow)"}')
-    }
+    const hash = rpc.sendTransaction(tx)
+    expect(hash).toBeTruthy()
   })
 })
 
@@ -164,8 +149,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 18 default rpc', () => {
-    expect(rpc.methods.length).toBe(18)
+  it('has 17 default rpc', () => {
+    expect(rpc.methods.length).toBe(17)
   })
 
   it(`set debug level to ${DebugLevel.Off}`, async () => {
