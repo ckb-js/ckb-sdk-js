@@ -121,7 +121,7 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.methods.length).toBe(12)
   })
 
-  it('has default node url of http://localhost:8114', () => {
+  it('has initialized node url of http://localhost:8114', () => {
     expect(rpc.methods[0].constructor.node.url).toBe('http://localhost:8114')
   })
 
