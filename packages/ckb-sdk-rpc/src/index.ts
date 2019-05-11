@@ -3,38 +3,36 @@ import { DebugLevel } from './enum'
 import Method from './method'
 
 class CKBRPC extends DefaultRPC {
-  private _node: CKBComponents.Node
+  public node: CKBComponents.Node = {
+    url: '',
+  }
 
-  private _methods: Method[] = []
+  public methods: Method[] = []
 
   public setDebugLevel = (level: DebugLevel) => {
     Method.debugLevel = level
   }
 
-  constructor(nodeUrl: string) {
+  constructor(url: string) {
     super()
-    this._node = {
-      url: nodeUrl,
-    }
+    this.setNode({
+      url,
+    })
     this.defaultMethods.map(this.addMethod)
   }
 
   public setNode(node: CKBComponents.Node): CKBComponents.Node {
-    this._node = node
-    return this._node
-  }
-
-  public get node() {
-    return this._node
-  }
-
-  public get methods() {
-    return this._methods
+    this.node = {
+      ...this.node,
+      ...node,
+    }
+    Method.setNode(this.node)
+    return this.node
   }
 
   public addMethod = (options: CKBComponents.Method) => {
-    const method = new Method(options, this._node)
-    this._methods.push(method)
+    const method = new Method(options)
+    this.methods.push(method)
 
     Object.defineProperty(this, options.name, {
       value: method.call,
