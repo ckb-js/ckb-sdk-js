@@ -88,7 +88,7 @@ declare module CKB_RPC {
     witnesses_root: Hash256
     difficulty: Difficulty
     uncles_hash: Hash256
-    uncles_count: UInt32
+    uncles_count: Count
     seal: Seal
     hash: Hash256
   }
@@ -115,7 +115,7 @@ declare module CKB_RPC {
   }
 
   export interface NodeInfo {
-    addresses: { address: string; score: number }[]
+    addresses: { address: string; score: string }[]
     node_id: string
     version: string
   }

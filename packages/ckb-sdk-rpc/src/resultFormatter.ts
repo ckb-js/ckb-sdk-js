@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number,
+  toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number.toString(),
   toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: ({
     transactions_root,
