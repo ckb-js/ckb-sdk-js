@@ -16,6 +16,7 @@ declare namespace CKBComponents {
   export type ProposalShortId = string
   export type Timestamp = string
   export type Nonce = string
+  export type Cycles = string
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -259,5 +260,9 @@ declare namespace CKBComponents {
     number: String
     remainderReward: String
     startNumber: String
+  }
+
+  export interface RunDryResult {
+    cycles: Cycles
   }
 }
