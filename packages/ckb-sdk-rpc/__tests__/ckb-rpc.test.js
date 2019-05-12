@@ -111,7 +111,7 @@ describe('ckb-rpc errors', () => {
 describe('ckb-rpc settings and helpers', () => {
   it('set node', () => {
     const node = {
-      url: 'http://localhost',
+      url: 'http://localhost:8114',
     }
     rpc.setNode(node)
     expect(rpc.node).toEqual(node)
