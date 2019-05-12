@@ -101,7 +101,6 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'dryRunTransaction',
     method: 'dry_run_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
-    resultFormatters: resultFmts.toHash,
   },
 ]
 
@@ -149,7 +148,7 @@ export class DefaultRPC {
 
   public getEpochByNumber!: (epoch: string) => Promise<CKBComponents.Epoch>
 
-  public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
+  public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
 }
 
 export default DefaultRPC
