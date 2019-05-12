@@ -1,7 +1,7 @@
 {
   "name": "@nervosnetwork/ckb-sdk-rpc",
   "version": "0.11.0-alpha.0",
-  "description": "@ckb-sdk rpc module",
+  "description": "RPC module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",

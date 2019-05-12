@@ -1,11 +1,5 @@
-# `ckb-rpc`
+# `ckb-sdk-rpc`
 
-This is **ckb-sdk** rpc module.
+`@nervosnetwork/ckb-sdk-rpc` is the rpc module of `@nervosnetwork/ckb-sdk-core`.
 
-## Usage
-
-```
-const ckbRpc = require('ckb-rpc');
-
-// TODO: DEMONSTRATE API
-```
+RPC list could be found [here](http://nervosnetwork.github.io/ckb-sdk-js/classes/defaultrpc.html)

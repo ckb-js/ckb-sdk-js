@@ -1,14 +1,14 @@
 {
   "name": "@nervosnetwork/ckb-cli",
   "version": "0.11.0-alpha.0",
-  "description": "> TODO: description",
+  "description": "Command line package based on @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "preferGlobal": true,
   "bin": {
-    "ckb-cli": "./lib"
+    "ckb-cli": "./lib/index.js"
   },
   "directories": {
     "lib": "lib",

@@ -1,7 +1,7 @@
 {
   "name": "@nervosnetwork/ckb-sdk-utils",
   "version": "0.11.0-alpha.0",
-  "description": "> TODO: description",
+  "description": "Utils module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
