@@ -64,7 +64,7 @@ If you still encounter problems, please read this guide at [secp256k1-node](http
 # Installation
 
 ```sh
-yarn add @nervosnetwork/ckb-sdk-core # install the sdk into your project
+$ yarn add @nervosnetwork/ckb-sdk-core # install the SDK into your project
 ```
 
 # Modules
