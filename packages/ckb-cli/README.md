@@ -39,18 +39,18 @@ ckb => await core.rpc.getBlock('0x89de946313839a8a77749b6218d4d7ab3513910c5ed860
       '0x0000000000000000000000000000000000000000000000000000000000000000',
      unclesHash:
       '0x0000000000000000000000000000000000000000000000000000000000000000',
-     unclesCount: '0',
+     unclesCount: 0,
      difficulty: '0x1000',
      epoch: '4',
      hash:
       '0x89de946313839a8a77749b6218d4d7ab3513910c5ed86040e5f38efd41e566d7',
-     number: '6905',
+     number: 6905,
      seal:
       { nonce: '17168453808346374945',
         proof:
          '0x6c040000e00d0000380f0000c22100002f2900001d2b0000c32b0000fc2c0000743f00008d4600000c480000e46c0000' },
      timestamp: '1557653980138',
-     version: '0' },
+     version: 0 },
   uncles: [],
   transactions:
    [ { deps: [],
@@ -58,7 +58,7 @@ ckb => await core.rpc.getBlock('0x89de946313839a8a77749b6218d4d7ab3513910c5ed860
        outputs: [Array],
        hash:
         '0x993b28a820cea9297da82654c18e99e6469e08c1a14425724e71ed271d0aac0e',
-       version: '0',
+       version: 0,
        witnesses: [] } ],
   proposals: [] }
 ckb =>
