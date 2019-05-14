@@ -117,7 +117,7 @@ declare module CKB_RPC {
   export interface NodeInfo {
     addresses: { address: string; score: string }[]
     node_id: string
-    is_outbound: any
+    is_outbound: boolean | null
     version: string
   }
 
