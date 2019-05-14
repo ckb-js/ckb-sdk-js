@@ -29,7 +29,7 @@ describe('ckb-rpc success', () => {
 
   it('get peers state', async () => {
     const state = await rpc.getPeersState()
-    expect(state).not.tobe(undefined)
+    expect(state).not.toBe(undefined)
   })
 
   it('get tip block number', async () => {
@@ -151,18 +151,6 @@ describe('ckb-rpc settings and helpers', () => {
 
   it('has 17 default rpc', () => {
     expect(rpc.methods.length).toBe(17)
-  })
-
-  it('has initialized node url of http://localhost:8114', () => {
-    expect(rpc.methods[0].constructor.node.url).toBe('http://localhost:8114')
-  })
-
-  it('set node url to http://test.localhost:8114', () => {
-    const url = 'http://test.localhost:8114'
-    rpc.setNode({
-      url,
-    })
-    expect(rpc.methods[0].constructor.node.url).toBe(url)
   })
 
   it('has initialized node url of http://localhost:8114', () => {
