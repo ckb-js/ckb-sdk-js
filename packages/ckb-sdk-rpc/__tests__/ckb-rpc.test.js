@@ -165,6 +165,18 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.methods[0].constructor.node.url).toBe(url)
   })
 
+  it('has initialized node url of http://localhost:8114', () => {
+    expect(rpc.methods[0].constructor.node.url).toBe('http://localhost:8114')
+  })
+
+  it('set node url to http://test.localhost:8114', () => {
+    const url = 'http://test.localhost:8114'
+    rpc.setNode({
+      url,
+    })
+    expect(rpc.methods[0].constructor.node.url).toBe(url)
+  })
+
   it(`set debug level to ${DebugLevel.Off}`, async () => {
     const info = jest.spyOn(global.console, 'info')
     const group = jest.spyOn(global.console, 'group')

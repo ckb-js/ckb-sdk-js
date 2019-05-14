@@ -39,21 +39,21 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
 > Nervos project defines a suite of scalable and interoperable blockchain protocols. Nervos CKB uses those protocols to create a self-evolving distributed network with a novel economic model, data model and more.
 
-> _Noteice:_ The ckb process will send stack trace to sentry on Rust panics. This is enabled by default before mainnet, which can be opted out by setting the option dsn to empty in the config file.
+> _Notice:_ The ckb process will send stack trace to sentry on Rust panics. This is enabled by default before mainnet, which can be opted out by setting the option dsn to empty in the config file.
 
 ## About @nervosnetwork/ckb-sdk-core
 
-`@nervosnetwork/ckb-sdk-core` is a SDK implemented by JavaScript, and published in [NPM Registry](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core/), which provides APIs for developers to send requests to the CKB blockchain.
+`@nervosnetwork/ckb-sdk-core` is an SDK implemented by JavaScript, and published in [NPM Registry](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core/), which provides APIs for developers to send requests to the CKB blockchain.
 
-This SDK can be used both in Browsers and [Node.js](https://nodejs.org) cuz it's source code is implemented by TypeScript, which is a superset of JavaScript and compiled into ES6. For some browsers with old versions, some polyfills might be injected.
+This SDK can be used both in Browsers and [Node.js](https://nodejs.org) as it's source code is implemented by TypeScript, which is a superset of JavaScript and compiled into ES6. For some browsers that have old versions, some polyfills might be injected.
 
 # Prerequisites
 
-We are going to use [yarn](https://yarnpkg.com/) for next steps, which is similar to [npm](https://npmjs.com), feel free to pick one.
+We are going to use [yarn](https://yarnpkg.com/) for the next steps, which is similar to [npm](https://npmjs.com), so feel free to pick one.
 
 For the developers who are interested in contribution.
 
-This project depends on [](https://github.com/bitcoinjs/tiny-secp256k1), which depends on a C library. Due to that, the tiny-secp256k1 might require rebuilding in some cases.
+This project depends on [tiny-secp256k1](https://github.com/bitcoinjs/tiny-secp256k1), which depends on a C library. Due to that, the tiny-secp256k1 might require rebuilding in some cases.
 
 ```sh
 $ yarn rebuild tiny-secp256k1 # rebuild tiny-secp256k1
@@ -64,7 +64,7 @@ If you still encounter problems, please read this guide at [secp256k1-node](http
 # Installation
 
 ```sh
-yarn add @nervosnetwork/ckb-sdk-core # install the sdk into your project
+$ yarn add @nervosnetwork/ckb-sdk-core # install the SDK into your project
 ```
 
 # Modules
@@ -79,7 +79,7 @@ This SDK includes several modules:
 
 Used to create an address object, whose value is the address we are going to use.
 
-Default `address algorithm` is the `pubkeyToAddress` in utils module, which generates it in bech32 format.
+Default `address algorithm` is the `pubkeyToAddress` in utils module, which generates address in bech32 format.
 
 Default rule to generate the address from a public key is:
 
@@ -143,7 +143,7 @@ TypeScript compiles to the PascalCase convention, which listed in this module.
 
 # CORE
 
-All the above modules are integrated into the core module. You can find `rpc`, `utils`, `wallet` in the core instance.
+All the modules above are integrated into the core module. You can find `rpc`, `utils`, `wallet` in the core instance.
 
 > The address module has not been integrated yet, and the wallet module will be removed in the future.
 
