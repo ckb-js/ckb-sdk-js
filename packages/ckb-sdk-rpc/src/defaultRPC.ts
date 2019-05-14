@@ -235,7 +235,7 @@ export class DefaultRPC {
   public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
 
   /**
-   * @mehtod getPeersState
+   * @method getPeersState
    * @memberof DefaultRPC
    * @description rpc to get state info of peers
    * @return {Promise<object[]>} peers' state info, including blocks_in_flight, last_updated, peer number
