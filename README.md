@@ -163,7 +163,7 @@ After that you can use the `core` object to generate addresses, send requests, e
 
 # RPC
 
-> TODO:
+Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/defaultRPC.ts#L107)
 
 # Errors
 
