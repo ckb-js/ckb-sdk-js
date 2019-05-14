@@ -66,8 +66,9 @@ const formatter = {
     medianTime,
     ...rest,
   }),
-  toNodeInfo: ({ node_id: nodeId, ...rest }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
+  toNodeInfo: ({ node_id: nodeId, is_outbound: isOutbound, ...rest }: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => ({
     nodeId,
+    isOutbound,
     ...rest,
   }),
   toTxPoolInfo: ({ last_txs_updated_at: lastTxsUpdatedAt, ...rest }: CKB_RPC.TxPoolInfo): CKBComponents.TxPoolInfo => ({

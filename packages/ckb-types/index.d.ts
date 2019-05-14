@@ -232,6 +232,7 @@ declare namespace CKBComponents {
     version: string
     nodeId: string
     addresses: { address: string; score: string }[]
+    isOutbound: boolean | null
   }
 
   export interface PeersState {

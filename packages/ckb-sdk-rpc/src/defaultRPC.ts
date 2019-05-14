@@ -107,22 +107,74 @@ const defaultRPC: CKBComponents.Method[] = [
 export class DefaultRPC {
   protected defaultMethods = defaultRPC
 
+  /**
+   * @method getBlockByNumber
+   * @memberof DefaultRPC
+   * @description rpc to get block by its number
+   * @param {string} number - the block number of the target block
+   * @returns {Promise<object>} block object
+   */
   public getBlockByNumber!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Block>
 
+  /**
+   * @method getBlockByNumber
+   * @memberof DefaultRPC
+   * @description rpc to get block by its hash
+   * @param {string} hash - the block hash of the target block
+   * @returns {Promise<object>} block object
+   */
   public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
 
+  /**
+   * @method getTransaction
+   * @memberof DefaultRPC
+   * @description rpc to get trasnaction by its hash
+   * @param {string} hash - the transaction hash of the target transaction
+   * @return {Promise<object>} transaction object
+   */
   public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Transaction>
 
+  /**
+   * @method getBlockHash
+   * @memberof DefaultRPC
+   * @description rpc to get the block hash by block number
+   * @param {string} hash - block hash
+   * @return {Promise<string>} block hash
+   */
   public getBlockHash!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Hash>
 
+  /**
+   * @method getTipHeader
+   * @memberof DefaultRPC
+   * @description rpc to get the tip header of the longeest blockchain
+   * @return {Promise<object>} block header
+   */
   public getTipHeader!: () => Promise<CKBComponents.BlockHeader>
 
+  /**
+   * @method getCellsByLockHash
+   * @memberof DefaultRPC
+   * @description rpc to get the collection of cells who have the corresponding lockhash,
+   *              the meaning of lockhash could be found in ckb-types
+   * @param {string} hash - hash of cell's lock script
+   * @param {string} from - the start block number
+   * @param {string} to - the end block number
+   * @return {object[]} array of cell objects
+   */
   public getCellsByLockHash!: (
     hash: string,
     from: CKBComponents.BlockNumber,
     to: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.CellByLockHash[]>
 
+  /**
+   * @method getLiveCell
+   * @memberof DefaultRPC
+   * @description rpc to get a cell by outPoint, the meaning of outPoint could be found in ckb-types,
+   *              please distinguish outPoint and cellOutPoint
+   * @param {object} outPoint - cell's outPoint
+   * @return {Promise<object>} cellWithStatus
+   */
   public getLiveCell!: (
     outPoint: CKBComponents.OutPoint
   ) => Promise<{
@@ -130,24 +182,91 @@ export class DefaultRPC {
     status: CKBComponents.CellStatus
   }>
 
+  /**
+   * @method getTipBlockNumber
+   * @memberof DefaultRPC
+   * @description rpc to get the number of blocks in the longest blockchain
+   * @return {Promise<string>} block number
+   */
   public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
 
+  /**
+   * @method sendTransaction
+   * @memberof DefaultRPC
+   * @description rpc to send a new transaction into transaction pool
+   * @param {object} rawTransaction - a raw transaction includes deps, inputs, outputs, version, and witnesses,
+   *                                  detailed info could be found in ckb-types
+   * @return {Promise<string>} transaction hash
+   */
   public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
 
+  /**
+   * @method getBlockchainInfo
+   * @memberof DefaultRPC
+   * @description rpc to get state info of the blockchain
+   * @return {Promise<object>} blockchain info, including chain name, difficulty, epoch number,
+   *                           is_intial_block_download, median time, warnings
+   */
   public getBlockchainInfo!: () => Promise<CKBComponents.BlockchainInfo>
 
+  /**
+   * @method localNodeInfo
+   * @memberof DefaultRPC
+   * @description rpc to get the local node information
+   * @return {Promise<object>} node info, including addresses, is_outbound, node id, and version
+   */
   public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
 
+  /**
+   * @method txPoolInfo
+   * @memberof DefaultRPC
+   * @description rpc to get pool information
+   * @return {Promise<object>} info of transaction pool, including last_txs_updated_at, number of orphan,
+   *                           number of pending, number of proposed
+   */
   public txPoolInfo!: () => Promise<CKBComponents.TxPoolInfo>
 
+  /**
+   * @method getPeers
+   * @memberof DefaultRPC
+   * @description rpc to get connected peers info
+   * @return {Promise<object[]>} peers' node info
+   */
   public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
 
+  /**
+   * @method getPeersState
+   * @memberof DefaultRPC
+   * @description rpc to get state info of peers
+   * @return {Promise<object[]>} peers' state info, including blocks_in_flight, last_updated, peer number
+   */
   public getPeersState!: () => Promise<CKBComponents.PeersState>
 
+  /**
+   * @method getCurrentEpoch
+   * @memberof DefaultRPC
+   * @description rpc to get the epoch info about the current epoch
+   * @return {Promise<object>} epoch info, including block reward, difficulty, last_block_hash_in_previous_epoch,
+   *                           length, number, remainder reward, start number
+   */
   public getCurrentEpoch!: () => Promise<CKBComponents.Epoch>
 
+  /**
+   * @method getEpochByNumber
+   * @memberof DefaultRPC
+   * @description rpc to get the epoch info by its number
+   * @return {Promise<object>} epoch info
+   */
   public getEpochByNumber!: (epoch: string) => Promise<CKBComponents.Epoch>
 
+  /**
+   * @method dryRunTransaction
+   * @memberof DefaultRPC
+   * @description dry run the transaction and return the execution cycles, this method will not check the transaction
+   *              validaty, but only run the lock script and type script and then return the execution cycles.
+   * @param {object} rawTrasnaction - the raw transaction whose cycles is going to be calculated
+   * @return {Promise<object>} dry run result, including cycles the transaction used.
+   */
   public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
 }
 

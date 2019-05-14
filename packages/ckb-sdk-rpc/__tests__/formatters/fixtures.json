@@ -485,20 +485,34 @@
     }],
     "toNodeInfo": [{
       "source": {
-        "addresses": [{
-          "address": "/ip4/0.0.0.0/tcp/8115/p2p/QmYUE2bF85o5cgRN2L1yMoxMdmh899qu5GRybVUc59Vo9D",
-          "score": "1"
-        }],
-        "node_id": "QmYUE2bF85o5cgRN2L1yMoxMdmh899qu5GRybVUc59Vo9D",
-        "version": "0.11.0"
+        "addresses": [
+            {
+                "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+                "score": "255"
+            },
+            {
+                "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+                "score": "1"
+            }
+        ],
+        "is_outbound": null,
+        "node_id": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "version": "0.9.0"
       },
       "target": {
-        "addresses": [{
-          "address": "/ip4/0.0.0.0/tcp/8115/p2p/QmYUE2bF85o5cgRN2L1yMoxMdmh899qu5GRybVUc59Vo9D",
-          "score": "1"
-        }],
-        "nodeId": "QmYUE2bF85o5cgRN2L1yMoxMdmh899qu5GRybVUc59Vo9D",
-        "version": "0.11.0"
+        "addresses": [
+            {
+                "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+                "score": "255"
+            },
+            {
+                "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+                "score": "1"
+            }
+        ],
+        "isOutbound": null,
+        "nodeId": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "version": "0.9.0"
       }
     }],
     "toTxPoolInfo": [{
