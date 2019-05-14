@@ -1,11 +1,7 @@
-# `ckb-core`
+# `ckb-sdk-core`
 
-> TODO: description
+`@nervosnetwork/ckb-sdk-core` is the JavaScript SDK for Nervos Network [CKB Project](https://github.com/nervosnetwork/ckb)
 
-## Usage
+# More Information
 
-```
-const ckbCore = require('ckb-core');
-
-// TODO: DEMONSTRATE API
-```
+[README.md](../../README.md)

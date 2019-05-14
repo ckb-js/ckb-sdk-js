@@ -29,7 +29,7 @@ describe('ckb-rpc success', () => {
 
   it('get peers state', async () => {
     const state = await rpc.getPeersState()
-    expect(state).not.tobe(undefined)
+    expect(state).not.toBe(undefined)
   })
 
   it('get tip block number', async () => {
