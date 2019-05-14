@@ -18,3 +18,17 @@ install:
 
 script:
   - lerna run tsc
+  - yarn run test utils formatters address
+
+after_success:
+  - yarn run docs
+  - codecov
+
+deploy:
+  provider: pages
+  local_dir: docs
+  skip_cleanup: false
+  github_token: $GITHUB_TOKEN
+  keep_history: false
+  on:
+    branch: master

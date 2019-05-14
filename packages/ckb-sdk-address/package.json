@@ -1,15 +1,15 @@
 {
-  "name": "@nervosnetwork/ckb-cli",
+  "name": "@nervosnetwork/ckb-sdk-address",
   "version": "0.11.0",
-  "description": "Command line package based on @nervosnetwork/ckb-sdk-core",
+  "description": "Address module of @nervosnetwork/ckb-sdk-core",
+  "keywords": [
+    "CKB",
+    "address"
+  ],
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
-  "preferGlobal": true,
-  "bin": {
-    "ckb-cli": "./lib/index.js"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -27,20 +27,14 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "tsc:watch": "tsc --watch",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-core": "0.11.0",
-    "commander": "2.19.0",
-    "inquirer": "6.2.1"
-  },
-  "devDependencies": {
-    "@types/crypto-js": "3.1.43",
-    "@types/inquirer": "6.0.0"
+    "@nervosnetwork/ckb-sdk-utils": "0.11.0",
+    "@nervosnetwork/ckb-types": "0.11.0"
   },
   "gitHead": "55819ad5bb85b21082adf7630658368c785e2a41"
 }

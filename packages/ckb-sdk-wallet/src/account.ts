@@ -1,21 +1,23 @@
 import ECPair, { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { hexToBytes, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
+import { hexToBytes, bytesToHex, lockScriptToHash } from '@nervosnetwork/ckb-sdk-utils'
+
+const BasicCapacityUnit: CKBComponents.CapacityUnit.Byte = 10 ** 8
 
 class Account extends ECPair {
-  public static MIN_CELL_CAPACITY = 10
+  public static MIN_CELL_CAPACITY = 10 * BasicCapacityUnit
 
   public rpc: RPC
 
   public unlockArgs: string[] = []
 
   public lockScript: CKBComponents.Script = {
-    binaryHash: '',
+    codeHash: '',
     args: [],
   }
 
   public contractScript: CKBComponents.Script = {
-    binaryHash: '',
+    codeHash: '',
     args: [],
   }
 
@@ -39,7 +41,7 @@ class Account extends ECPair {
   }
 
   public get hexPubKey(): string {
-    return Buffer.from(this.publicKey).toString('hex')
+    return bytesToHex(this.publicKey)
   }
 
   // =========================
@@ -61,7 +63,7 @@ class Account extends ECPair {
   gatherInputs = async (
     capacityStr: CKBComponents.Capacity,
     minCapacityStr: CKBComponents.Capacity,
-    validSince: string = '0'
+    since: CKBComponents.Since = '0'
   ) => {
     const capacity = BigInt(capacityStr)
     const minCapacity = BigInt(minCapacityStr)
@@ -75,7 +77,7 @@ class Account extends ECPair {
         const input: CKBComponents.CellInput = {
           previousOutput: cell.outPoint,
           args: this.unlockArgs,
-          validSince,
+          since,
         }
         inputs.push(input)
         inputCapacities += BigInt(cell.capacity)
@@ -90,26 +92,28 @@ class Account extends ECPair {
     }
     return {
       inputs,
-      capacity: inputCapacities,
+      capacity: inputCapacities.toString(),
     }
   }
 
   generateTx = async (
     targetLock: CKBComponents.Script,
-    targetCapacity: CKBComponents.Capacity
+    targetCapacityStr: CKBComponents.Capacity
   ): Promise<CKBComponents.RawTransaction> => {
-    const { inputs, capacity } = await this.gatherInputs(targetCapacity, `${Account.MIN_CELL_CAPACITY}`)
+    const { inputs, capacity: capacityStr } = await this.gatherInputs(targetCapacityStr, `${Account.MIN_CELL_CAPACITY}`)
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: targetCapacity,
-        data: new Uint8Array(0),
+        capacity: targetCapacityStr,
+        data: '',
         lock: targetLock,
       },
     ]
-    if (capacity > BigInt(targetCapacity)) {
+    const capacity = BigInt(capacityStr)
+    const targetCapacity = BigInt(targetCapacityStr)
+    if (capacity > targetCapacity) {
       outputs.push({
-        capacity: `${capacity - BigInt(targetCapacity)}`,
-        data: new Uint8Array(0),
+        capacity: (capacity - targetCapacity).toString(),
+        data: '',
         lock: this.lockScript,
       })
     }

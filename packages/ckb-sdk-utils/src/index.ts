@@ -1,10 +1,12 @@
-import utf8 from 'utf8'
+import { TextEncoder, TextDecoder } from 'util'
 import crypto from './crypto'
 
 export * from './address'
 
 export const { blake2b, bech32, blake160 } = crypto
-export const PERSONAL = Buffer.from('ckb-default-hash', 'utf8')
+const textEncoder = new TextEncoder()
+const textDecoder = new TextDecoder()
+export const PERSONAL = textEncoder.encode('ckb-default-hash')
 
 export const hexToBytes = (rawhex: any) => {
   let hex = rawhex.toString(16)
@@ -30,44 +32,18 @@ export const bytesToHex = (bytes: Uint8Array): string => {
   return hex.join('')
 }
 
-export const utf8ToHex = (str: string) => {
-  let encodedStr = utf8.encode(str)
-  let hex = ''
-  // remove \u0000 from ether side
-  encodedStr = encodedStr.replace(/^(?:\u0000)*/, '')
-  // encodedStr = encodedStr.replace(/(?:\u0000)$/,'')
-  encodedStr = [...encodedStr]
-    .reverse()
-    .join('')
-    .replace(/^(?:\u0000)*/, '')
-  const charCodes = [...encodedStr].reverse()
-  charCodes.forEach(charCode => {
-    const n = (+charCode).toString(16)
-    hex += n.length < 2 ? `0${n}` : n
-  })
-  return hex
-}
+export const bytesToUtf8 = (bytes: Uint8Array) => textDecoder.decode(bytes)
 
-export const hexToUtf8 = (hex: string) => {
-  let rawHex = hex.replace(/^0x/i, '')
-  let str = ''
-  // remove 00 padding from either side
-  rawHex = rawHex.replace(/^(?:00)*/, '')
-  rawHex = [...rawHex].reverse().join('')
-  rawHex = rawHex.replace(/^(?:00)*/, '')
-  const charCodes = [...rawHex].reverse()
-  rawHex = charCodes.join('')
-  charCodes.forEach((_, i) => {
-    const code = parseInt(rawHex.substr(i, 2), 16)
-    str += String.fromCharCode(code)
-  })
-  return utf8.decode(str)
-}
+export const hexToUtf8 = (hex: string) => bytesToUtf8(hexToBytes(hex))
 
-export const lockScriptToHash = ({ binaryHash, args }: { binaryHash?: string; args?: (Uint8Array | string)[] }) => {
+export const utf8ToBytes = (str: string) => textEncoder.encode(str)
+
+export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
+
+export const lockScriptToHash = ({ codeHash, args }: { codeHash?: string; args?: (Uint8Array | string)[] }) => {
   const s = blake2b(32, null, null, PERSONAL)
-  if (binaryHash) {
-    s.update(Buffer.from(binaryHash.replace(/^0x/, ''), 'hex'))
+  if (codeHash) {
+    s.update(hexToBytes(codeHash.replace(/^0x/, '')))
   }
   if (args && args.length) {
     args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))

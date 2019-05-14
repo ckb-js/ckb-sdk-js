@@ -6,11 +6,12 @@ const config = require('dotenv').config({
   path: env,
 }).parsed
 
-const CkbRpc = require('../lib').default
+const CKBRPC = require('../lib').default
+const { DebugLevel } = require('../lib/enum')
 
-const rpc = new CkbRpc(config.RPC_URL)
+const rpc = new CKBRPC(config.RPC_URL)
 
-describe('ckb-rpc', () => {
+describe('ckb-rpc success', () => {
   it('local node info', async () => {
     const info = await rpc.localNodeInfo()
     expect(typeof info.nodeId).toBe('string')
@@ -18,11 +19,11 @@ describe('ckb-rpc', () => {
 
   it('get tip block number', async () => {
     const tipBlockNumber = await rpc.getTipBlockNumber()
-    expect(typeof tipBlockNumber).toBe('number')
+    expect(typeof tipBlockNumber).toBe('string')
   })
 
   it('get block hash and get block of genesis block', async () => {
-    const hash = await rpc.getBlockHash(0)
+    const hash = await rpc.getBlockHash('0')
     expect(hash.length).toBe(66)
     const block = await rpc.getBlock(hash)
     expect(block.header.hash).toBe(hash)
@@ -30,10 +31,10 @@ describe('ckb-rpc', () => {
 
   it('get tip block number', async () => {
     const blockNumber = await rpc.getTipBlockNumber()
-    expect(typeof blockNumber).toBe('number')
+    expect(typeof blockNumber).toBe('string')
   })
 
-  it('send transaction', async () => {
+  it.skip('send transaction', async () => {
     const hash = await rpc.sendTransaction({
       version: 0,
       deps: [],
@@ -49,26 +50,30 @@ describe('ckb-rpc', () => {
   })
 
   it('get transaction', async () => {
-    const hash = await rpc.getBlockHash(0)
+    const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
-    const txs = block.commitTransactions
-    if (txs.length) {
-      const txHash = txs[0].hash
-      const tx = await rpc.getTransaction(txHash)
-      expect(tx.hash).toBe(txHash)
+    const { transactions } = block
+    if (transactions.length) {
+      const txHash = transactions[0].hash
+      const { transaction, txStatus } = await rpc.getTransaction(txHash)
+      expect(transaction.hash).toBe(txHash)
+      expect(txStatus).toEqual({
+        blockHash: hash,
+        status: 'committed',
+      })
     } else {
       throw new Error('No transaction found')
     }
   })
 
   it('get live cell', async () => {
-    const hash = await rpc.getBlockHash(0)
+    const hash = await rpc.getBlockHash('0')
     const block = await rpc.getBlock(hash)
-    const txs = block.commitTransactions
-    if (txs.length) {
-      const txHash = txs[0].hash
+    const { transactions } = block
+    if (transactions.length) {
+      const txHash = transactions[0].hash
       const outPoint = {
-        hash: txHash,
+        txHash,
         index: 0,
       }
       const cellRes = await rpc.getLiveCell(outPoint)
@@ -80,11 +85,11 @@ describe('ckb-rpc', () => {
 
   it('get cells by lock hash', async () => {
     const lockHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
-    const cells = await rpc.getCellsByLockHash(lockHash, 0, 100)
+    const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
     expect(Array.isArray(cells)).toBeTruthy()
   })
 
-  it('trace a transaction', async () => {
+  it.skip('trace a transaction', async () => {
     const traceHash = await rpc.traceTransaction({
       version: 0,
       deps: [],
@@ -94,5 +99,60 @@ describe('ckb-rpc', () => {
     expect(typeof traceHash).toBe('string')
     const traces = await rpc.getTransactionTrace(traceHash)
     expect(Array.isArray(traces)).toBeTruthy()
+  })
+})
+
+describe('ckb-rpc errors', () => {
+  it('throw raw error', async () => {
+    expect(() => rpc.getBlock(0)).toThrow()
+  })
+})
+
+describe('ckb-rpc settings and helpers', () => {
+  it('set node', () => {
+    const node = {
+      url: 'http://localhost:8114',
+    }
+    rpc.setNode(node)
+    expect(rpc.node).toEqual(node)
+  })
+
+  it('has 12 default rpc', () => {
+    expect(rpc.methods.length).toBe(12)
+  })
+
+  it('has initialized node url of http://localhost:8114', () => {
+    expect(rpc.methods[0].constructor.node.url).toBe('http://localhost:8114')
+  })
+
+  it('set node url to http://test.localhost:8114', () => {
+    const url = 'http://test.localhost:8114'
+    rpc.setNode({
+      url,
+    })
+    expect(rpc.methods[0].constructor.node.url).toBe(url)
+  })
+
+  it(`set debug level to ${DebugLevel.Off}`, async () => {
+    const info = jest.spyOn(global.console, 'info')
+    const group = jest.spyOn(global.console, 'group')
+    const groupEnd = jest.spyOn(global.console, 'groupEnd')
+    rpc.setDebugLevel(DebugLevel.Off)
+    await rpc.getTipBlockNumber()
+    expect(info).not.toHaveBeenCalled()
+    expect(group).not.toHaveBeenCalled()
+    expect(groupEnd).not.toHaveBeenCalled()
+  })
+
+  it(`set debug level to ${DebugLevel.On}`, async () => {
+    const info = jest.spyOn(global.console, 'info')
+    const group = jest.spyOn(global.console, 'group')
+    const groupEnd = jest.spyOn(global.console, 'groupEnd')
+    rpc.setDebugLevel(DebugLevel.On)
+    await rpc.getTipBlockNumber()
+    expect(info).toHaveBeenCalled()
+    expect(group).toHaveBeenCalled()
+    expect(groupEnd).toHaveBeenCalled()
+    rpc.setDebugLevel(DebugLevel.Off)
   })
 })

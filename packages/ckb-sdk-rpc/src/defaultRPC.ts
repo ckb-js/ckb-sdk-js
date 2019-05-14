@@ -3,6 +3,12 @@ import resultFmts from './resultFormatter'
 
 const defaultRPC: CKBComponents.Method[] = [
   {
+    name: 'getBlockByNumber',
+    method: 'get_block_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toBlock,
+  },
+  {
     name: 'getBlock',
     method: 'get_block',
     paramsFormatters: [paramsFmts.toHash],
@@ -12,6 +18,7 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'getTransaction',
     method: 'get_transaction',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
+    resultFormatters: resultFmts.toTransactionWithStatus,
   },
   {
     name: 'getBlockHash',
@@ -45,19 +52,19 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'sendTransaction',
     method: 'send_transaction',
-    paramsFormatters: [paramsFmts.toTx],
-    resultFormatters: resultFmts.toTxRes,
+    paramsFormatters: [paramsFmts.toRawTransaction],
+    resultFormatters: resultFmts.toHash,
   },
   {
     name: 'localNodeInfo',
     method: 'local_node_info',
     paramsFormatters: [],
-    resultFormatters: resultFmts.toLocalNodeInfo,
+    resultFormatters: resultFmts.toNodeInfo,
   },
   {
     name: 'traceTransaction',
     method: 'trace_transaction',
-    paramsFormatters: [paramsFmts.toTx],
+    paramsFormatters: [paramsFmts.toRawTransaction],
     resultFormatters: resultFmts.toHash,
   },
   {

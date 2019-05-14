@@ -1,10 +1,6 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import Account from './account'
-import ASW from './alwaysSuccessAccount'
 
-const aswSkStr = 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
-const aswSkBytes = Buffer.from(hexToBytes(aswSkStr))
 class Wallet {
   public accountFromPrivateKey = (sk: Buffer) => new Account(sk, this.rpc)
 
@@ -31,7 +27,5 @@ class Wallet {
     this._accounts.push(acc)
     return acc
   }
-
-  public newASW = () => new ASW(aswSkBytes, this.rpc)
 }
 export default Wallet

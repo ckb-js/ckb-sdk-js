@@ -11,13 +11,19 @@ class Method {
 
   static debugLevel = DebugLevel.Off
 
-  private _node: CKBComponents.Node = {
+  static node: CKBComponents.Node = {
     url: '',
   }
 
-  constructor(options: CKBComponents.Method, node: CKBComponents.Node) {
+  static setNode = (node: CKBComponents.Node) => {
+    Method.node = {
+      ...Method.node,
+      ...node,
+    }
+  }
+
+  constructor(options: CKBComponents.Method) {
     this._options = options
-    this._node = node
   }
 
   public call = (...params: (string | number)[]) => {
@@ -35,7 +41,7 @@ class Method {
         'content-type': 'application/json',
       },
       data: payload,
-      url: this._node.url,
+      url: Method.node.url,
     }).then(res => {
       if (res.data.id !== id) {
         throw new Error('JSONRPC id not match')
@@ -53,6 +59,9 @@ class Method {
         console.groupEnd()
         console.groupEnd()
         /* eslint-enabled */
+      }
+      if (res.data.error) {
+        throw new Error(JSON.stringify(res.data.error))
       }
       if (res.data.result === undefined) {
         throw new Error('No Result')
