@@ -147,6 +147,17 @@ const formatter = {
     }
   },
   toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => cells.map(formatter.toCell),
+  toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
+    if (!cell) return cell
+    const { lock, out_point, ...rest } = cell
+    return {
+      lock: formatter.toScript(lock),
+      outPoint: formatter.toOutPoint(out_point),
+      ...rest,
+    }
+  },
+  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] =>
+    cells.map(formatter.toCellIncludingOutPoint),
   toTransactionWithStatus: (txWithStatus: CKB_RPC.TransactionWithStatus) => {
     if (!txWithStatus) return txWithStatus
     const {

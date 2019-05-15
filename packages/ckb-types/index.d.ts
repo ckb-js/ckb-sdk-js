@@ -203,13 +203,9 @@ declare namespace CKBComponents {
    * @property outPoint
    */
 
-  export interface CellWithOutPoint extends Cell {
-    outPoint: OutPoint
-  }
-
-  export interface CellByLockHash {
+  export interface CellIncludingOutPoint {
     capacity: Capacity
-    lock: Hash256
+    lock: Script
     outPoint: OutPoint
   }
 
