@@ -1,4 +1,5 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
+import Address from '@nervosnetwork/ckb-sdk-address'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 class Core {
@@ -34,6 +35,13 @@ class Core {
   public get utils() {
     return this._utils
   }
+
+  public generateAddress = (privateKey: string) =>
+    new Address(privateKey, {
+      prefix: utils.AddressPrefix.Mainnet,
+      type: utils.AddressType.BinIdx,
+      binIdx: utils.AddressBinIdx.P2PH,
+    })
 }
 
 export default Core
