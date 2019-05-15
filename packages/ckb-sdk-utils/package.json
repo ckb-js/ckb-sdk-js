@@ -32,14 +32,11 @@
   "dependencies": {
     "@nervosnetwork/ckb-types": "0.11.0",
     "blake2b-wasm": "1.1.7",
-    "bs58check": "2.1.2",
-    "eth-lib": "0.2.8",
-    "safe-buffer": "5.1.2",
-    "tiny-secp256k1": "1.1.1"
+    "elliptic": "^6.4.1"
   },
   "devDependencies": {
     "@types/bitcoinjs-lib": "4.0.1",
-    "@types/tiny-secp256k1": "1.0.0",
+    "@types/elliptic": "^6.4.8",
     "@types/utf8": "2.1.6"
   },
   "gitHead": "55819ad5bb85b21082adf7630658368c785e2a41"

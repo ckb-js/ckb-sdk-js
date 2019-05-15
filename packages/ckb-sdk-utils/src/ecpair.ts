@@ -1,14 +1,15 @@
-import { pointFromScalar } from 'tiny-secp256k1'
-import { hexToBytes, bytesToHex } from '.'
+import { ec as EC } from 'elliptic'
+
+import { hexToBytes } from '.'
+
+const ec = new EC('secp256k1')
 
 export interface Options {
   compressed?: boolean
 }
 
 class ECPair {
-  protected sk: Uint8Array = new Uint8Array(0)
-
-  protected pk: Uint8Array = new Uint8Array(0)
+  protected key: EC.KeyPair
 
   public compressed: boolean = false
 
@@ -18,25 +19,36 @@ class ECPair {
       compressed: true,
     }
   ) {
-    this.sk = typeof sk === 'string' ? hexToBytes(sk) : sk
+    this.key = ec.keyFromPrivate(sk)
     this.compressed = compressed
-    this.pk = pointFromScalar(sk as Buffer, this.compressed) || this.pk
   }
 
-  get privateKey(): Uint8Array {
-    return this.sk
+  get privateKey(): string {
+    return this.key.getPrivate('hex')
   }
 
   get publicKey() {
-    return this.pk
+    return this.key.getPublic(this.compressed, 'hex')
   }
 
-  get privateKeyHex(): string {
-    return bytesToHex(this.sk)
+  public getPrivateKey = (enc: 'hex' = 'hex') => this.key.getPrivate(enc)
+
+  public getPublicKey = (enc: 'hex' | 'array') => this.key.getPublic(this.compressed, enc)
+
+  public sign = (msg: string | Uint8Array) => {
+    if (!this.key) throw new Error('Missing private key')
+    const message = typeof msg === 'string' ? hexToBytes(msg) : msg
+    return this.key
+      .sign(message, {
+        canonical: true,
+      })
+      .toDER('hex')
   }
 
-  get publicKeyHex(): string {
-    return bytesToHex(this.pk)
+  public verify = (msg: string | Buffer, sig: string | Buffer) => {
+    const message = typeof msg === 'string' ? hexToBytes(msg) : msg
+    const signature = typeof sig === 'string' ? hexToBytes(sig) : sig
+    return this.key.verify(message, signature as any)
   }
 }
 
