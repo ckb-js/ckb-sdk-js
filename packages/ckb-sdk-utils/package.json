@@ -38,7 +38,7 @@
     "tiny-secp256k1": "1.0.1"
   },
   "devDependencies": {
-    "@types/bitcoinjs-lib": "4.0.0",
+    "@types/bitcoinjs-lib": "4.0.1",
     "@types/tiny-secp256k1": "1.0.0",
     "@types/utf8": "2.1.6"
   },
