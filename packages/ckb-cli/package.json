@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@nervosnetwork/ckb-sdk-core": "0.11.0",
-    "commander": "2.19.0",
+    "commander": "2.20.0",
     "inquirer": "6.2.1"
   },
   "devDependencies": {
