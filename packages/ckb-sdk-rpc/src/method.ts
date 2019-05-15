@@ -63,9 +63,6 @@ class Method {
       if (res.data.error) {
         throw new Error(JSON.stringify(res.data.error))
       }
-      if (res.data.result === undefined) {
-        throw new Error('No Result')
-      }
       return this._options.resultFormatters ? this._options.resultFormatters(res.data.result) : res.data.result
     })
   }
