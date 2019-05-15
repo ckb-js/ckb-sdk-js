@@ -1,5 +1,5 @@
 const ECPair = require('../lib/ecpair').default
-const { vectors } = require('./signature-fixtures.json')
+const { sigFixtures } = require('./signature-fixtures.json')
 const { hexToBytes } = require('../lib')
 
 describe('ECPair', () => {
@@ -47,7 +47,7 @@ describe('ECPair', () => {
   })
 
   it('sign and verify message', () => {
-    vectors.forEach(fixture => {
+    sigFixtures.forEach(fixture => {
       const ecpair = new ECPair(fixture.privkey)
       const sig = ecpair.sign(fixture.msg)
       // slice sig from 0, -2 to ignore the recovery param
