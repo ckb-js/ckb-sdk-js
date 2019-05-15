@@ -121,6 +121,20 @@ describe('result formatter', () => {
     })
   })
 
+  it('toCellIncludingOutPoint', () => {
+    result.toCellIncludingOutPoint.forEach(fixture => {
+      const formatted = resultFmt.toCellIncludingOutPoint(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toCellsIncludingOutPoint', () => {
+    result.toCellsIncludingOutPoint.forEach(fixture => {
+      const formatted = resultFmt.toCellsIncludingOutPoint(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
   it('toHeader', () => {
     result.toHeader.forEach(fixture => {
       const formatted = resultFmt.toHeader(fixture.source)

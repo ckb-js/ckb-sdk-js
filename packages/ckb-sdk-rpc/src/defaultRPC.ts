@@ -35,7 +35,7 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'getCellsByLockHash',
     method: 'get_cells_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
-    resultFormatters: resultFmts.toCells,
+    resultFormatters: resultFmts.toCellsIncludingOutPoint,
   },
   {
     name: 'getLiveCell',
@@ -159,13 +159,13 @@ export class DefaultRPC {
    * @param {string} hash - hash of cell's lock script
    * @param {string} from - the start block number
    * @param {string} to - the end block number
-   * @return {object[]} array of cell objects
+   * @return {object[]} array of objects including lock script, capacity, outPoint
    */
   public getCellsByLockHash!: (
     hash: string,
     from: CKBComponents.BlockNumber,
     to: CKBComponents.BlockNumber
-  ) => Promise<CKBComponents.CellByLockHash[]>
+  ) => Promise<CKBComponents.CellIncludingOutPoint[]>
 
   /**
    * @method getLiveCell

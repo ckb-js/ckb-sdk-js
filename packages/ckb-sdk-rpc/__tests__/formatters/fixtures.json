@@ -256,7 +256,6 @@
         "blockHash": null,
         "cell": null
       }
-
     }],
     "toTransaction": [{
       "source": {
@@ -485,8 +484,7 @@
     }],
     "toNodeInfo": [{
       "source": {
-        "addresses": [
-          {
+        "addresses": [{
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
             "score": "255"
           },
@@ -500,8 +498,7 @@
         "version": "0.9.0"
       },
       "target": {
-        "addresses": [
-          {
+        "addresses": [{
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
             "score": "255"
           },
@@ -633,6 +630,42 @@
         "status": "live"
       }
     }],
+    "toCellIncludingOutPoint": [{
+      "source": {
+        "lock": {
+          "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
+          "args": [
+            "0x7f52f0fccdd1d11391c441adfb174f87bca612b0"
+          ]
+        },
+        "type": null,
+        "capacity": "5000000000000",
+        "out_point": {
+          "block_hash": null,
+          "cell": {
+            "index": "0",
+            "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
+          }
+        }
+      },
+      "target": {
+        "lock": {
+          "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
+          "args": [
+            "0x7f52f0fccdd1d11391c441adfb174f87bca612b0"
+          ]
+        },
+        "type": null,
+        "capacity": "5000000000000",
+        "outPoint": {
+          "blockHash": null,
+          "cell": {
+            "index": "0",
+            "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
+          }
+        }
+      }
+    }],
     "toCells": [{
       "source": [{
         "capacity": "5000000000000",
@@ -651,6 +684,42 @@
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
         },
         "type": null
+      }]
+    }],
+    "toCellsIncludingOutPoint": [{
+      "source": [{
+        "lock": {
+          "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
+          "args": [
+            "0x7f52f0fccdd1d11391c441adfb174f87bca612b0"
+          ]
+        },
+        "type": null,
+        "capacity": "5000000000000",
+        "out_point": {
+          "block_hash": null,
+          "cell": {
+            "index": "0",
+            "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
+          }
+        }
+      }],
+      "target": [{
+        "lock": {
+          "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
+          "args": [
+            "0x7f52f0fccdd1d11391c441adfb174f87bca612b0"
+          ]
+        },
+        "type": null,
+        "capacity": "5000000000000",
+        "outPoint": {
+          "blockHash": null,
+          "cell": {
+            "index": "0",
+            "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
+          }
+        }
       }]
     }],
     "toHeader": [{

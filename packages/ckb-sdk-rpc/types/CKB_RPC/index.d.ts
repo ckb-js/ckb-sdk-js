@@ -55,6 +55,12 @@ declare module CKB_RPC {
 
   export type Cell = CellOutput
 
+  export interface CellIncludingOutPoint {
+    capacity: Capacity
+    lock: Script
+    out_point: OutPoint
+  }
+
   export interface RawTransaction {
     version: Version
     deps: OutPoint[]
