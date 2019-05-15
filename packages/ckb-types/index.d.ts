@@ -243,9 +243,9 @@ declare namespace CKBComponents {
   }
 
   export interface TxPoolInfo {
-    pending: Count
-    staging: Count
     orphan: Count
+    pending: Count
+    proposed: Count
     lastTxsUpdatedAt: Timestamp
   }
 

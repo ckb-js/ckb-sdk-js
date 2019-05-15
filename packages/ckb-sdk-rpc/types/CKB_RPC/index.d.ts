@@ -128,9 +128,9 @@ declare module CKB_RPC {
   }
 
   export interface TxPoolInfo {
-    pending: Count
-    staging: Count
     orphan: Count
+    pending: Count
+    proposed: Count
     last_txs_updated_at: Timestamp
   }
 

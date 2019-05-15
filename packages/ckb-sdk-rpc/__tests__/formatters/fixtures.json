@@ -486,14 +486,14 @@
     "toNodeInfo": [{
       "source": {
         "addresses": [
-            {
-                "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
-                "score": "255"
-            },
-            {
-                "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
-                "score": "1"
-            }
+          {
+            "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+            "score": "255"
+          },
+          {
+            "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+            "score": "1"
+          }
         ],
         "is_outbound": null,
         "node_id": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -501,14 +501,14 @@
       },
       "target": {
         "addresses": [
-            {
-                "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
-                "score": "255"
-            },
-            {
-                "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
-                "score": "1"
-            }
+          {
+            "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+            "score": "255"
+          },
+          {
+            "address": "/ip4/0.0.0.0/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+            "score": "1"
+          }
         ],
         "isOutbound": null,
         "nodeId": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -517,15 +517,15 @@
     }],
     "toTxPoolInfo": [{
       "source": {
-        "pending": "34",
-        "staging": "22",
         "orphan": "33",
+        "pending": "34",
+        "proposed": "22",
         "last_txs_updated_at": "1555507787683"
       },
       "target": {
-        "pending": "34",
-        "staging": "22",
         "orphan": "33",
+        "pending": "34",
+        "proposed": "22",
         "lastTxsUpdatedAt": "1555507787683"
       }
     }],
