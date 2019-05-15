@@ -216,7 +216,8 @@ declare namespace CKBComponents {
   export type TransactionTrace = { action: string; info: string; time: Timestamp }[]
 
   export enum CellStatus {
-    LIVE = 'live',
+    Live = 'live',
+    Unknown = 'unknown',
   }
 
   export interface BlockchainInfo {

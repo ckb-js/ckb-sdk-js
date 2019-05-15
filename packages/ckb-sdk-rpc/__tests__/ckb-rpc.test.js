@@ -72,20 +72,15 @@ describe('ckb-rpc success', () => {
   })
 
   it('get live cell', async () => {
-    const hash = await rpc.getBlockHash('0')
-    const block = await rpc.getBlock(hash)
-    const { transactions } = block
-    if (transactions.length) {
-      const txHash = transactions[0].hash
-      const outPoint = {
-        txHash,
-        index: 0,
-      }
-      const cellRes = await rpc.getLiveCell(outPoint)
-      expect(cellRes.status).toBe('live')
-    } else {
-      throw new Error('No transaction found')
+    const outPoint = {
+      blockHash: null,
+      cell: {
+        txHash: '0xff5a36107851d244e1543821f9f039c3d4eb69d9968750b0b0e82e78da86c987',
+        index: '0',
+      },
     }
+    const cellRes = await rpc.getLiveCell(outPoint)
+    expect(cellRes.status).toBe('unknown')
   })
 
   it('get cells by lock hash', async () => {
@@ -101,14 +96,14 @@ describe('send transaction', () => {
     const block = await rpc.getBlock(blockHash)
     const txHash = block.transactions[0].hash
     const tx = {
-      version: 0,
+      version: '0',
       deps: [],
       inputs: [
         {
           previousOutput: {
             cell: {
               txHash,
-              index: 0,
+              index: '0',
             },
             blockHash,
           },
