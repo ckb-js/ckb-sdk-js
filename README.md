@@ -53,8 +53,6 @@ We are going to use [yarn](https://yarnpkg.com/) for the next steps, which is si
 
 For the developers who are interested in contribution.
 
-If you still encounter problems, please read this guide at [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node#installation), as the build instruction shoud be exactly the same.
-
 # Installation
 
 ```sh
