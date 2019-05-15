@@ -170,8 +170,3 @@ Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develo
 1. RPC Errors
 
 The rpc module will throw an error when the result contains an error field, you need to handle it manually.
-
-# Related Projects
-
-1. [Neuron](https://github.com/nervosnetwork/neuron): a blockchain wallet for CKB.
-2. [CLI](https://github.com/Keith-CY/ckb-sdk-js/tree/document/packages/ckb-cli): a terminal tool based on this SDK.
