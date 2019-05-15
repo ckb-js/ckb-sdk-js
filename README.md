@@ -53,12 +53,6 @@ We are going to use [yarn](https://yarnpkg.com/) for the next steps, which is si
 
 For the developers who are interested in contribution.
 
-This project depends on [tiny-secp256k1](https://github.com/bitcoinjs/tiny-secp256k1), which depends on a C library. Due to that, the tiny-secp256k1 might require rebuilding in some cases.
-
-```sh
-$ yarn rebuild tiny-secp256k1 # rebuild tiny-secp256k1
-```
-
 If you still encounter problems, please read this guide at [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node#installation), as the build instruction shoud be exactly the same.
 
 # Installation

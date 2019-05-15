@@ -1,5 +1,6 @@
 const ECPair = require('../lib/ecpair').default
-const { bytesToHex, hexToBytes } = require('../lib')
+const { vectors } = require('./signature-fixtures.json')
+const { hexToBytes } = require('../lib')
 
 describe('ECPair', () => {
   it('new ecpair', () => {
@@ -13,8 +14,10 @@ describe('ECPair', () => {
       compressed: fixture.compressed,
     })
     expect(ecpair.compressed).toBe(fixture.compressed)
-    expect(bytesToHex(ecpair.privateKey)).toEqual(fixture.privateKey)
-    expect(bytesToHex(ecpair.publicKey)).toBe(fixture.publicKey)
+    expect(ecpair.privateKey).toBe(fixture.privateKey)
+    expect(ecpair.getPrivateKey('hex')).toBe(fixture.privateKey)
+    expect(ecpair.publicKey).toBe(fixture.publicKey)
+    expect(ecpair.getPublicKey('hex')).toBe(fixture.publicKey)
   })
 
   it('new ecpair with empty options, default compressed should be true', () => {
@@ -26,8 +29,8 @@ describe('ECPair', () => {
 
     const ecpair = new ECPair(hexToBytes(fixture.privateKey), {})
     expect(ecpair.compressed).toBe(fixture.compressed)
-    expect(bytesToHex(ecpair.privateKey)).toEqual(fixture.privateKey)
-    expect(bytesToHex(ecpair.publicKey)).toBe(fixture.publicKey)
+    expect(ecpair.privateKey).toEqual(fixture.privateKey)
+    expect(ecpair.publicKey).toBe(fixture.publicKey)
   })
 
   it('new ecpair with default options which should be { compressed: true }', () => {
@@ -39,7 +42,17 @@ describe('ECPair', () => {
 
     const ecpair = new ECPair(hexToBytes(fixture.privateKey))
     expect(ecpair.compressed).toBe(fixture.compressed)
-    expect(bytesToHex(ecpair.privateKey)).toEqual(fixture.privateKey)
-    expect(bytesToHex(ecpair.publicKey)).toBe(fixture.publicKey)
+    expect(ecpair.privateKey).toEqual(fixture.privateKey)
+    expect(ecpair.publicKey).toBe(fixture.publicKey)
+  })
+
+  it('sign and verify message', () => {
+    vectors.forEach(fixture => {
+      const ecpair = new ECPair(fixture.privkey)
+      const sig = ecpair.sign(fixture.msg)
+      // slice sig from 0, -2 to ignore the recovery param
+      expect(sig).toBe(fixture.sig.slice(0, -2))
+      expect(ecpair.verify(fixture.msg, fixture.sig.slice(0, -2))).toBe(true)
+    })
   })
 })
