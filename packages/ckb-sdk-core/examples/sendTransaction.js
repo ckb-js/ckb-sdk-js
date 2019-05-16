@@ -2,8 +2,8 @@
 const Core = require('../lib').default
 
 const bootstrap = async () => {
-  const nodeUrl = 'http://localhost:8114' // example node url
-  const privateKey = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
+  const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
+  const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
