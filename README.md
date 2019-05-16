@@ -109,17 +109,6 @@ The Utils module provides useful methods for other modules.
 
 <details>
 <summary>
-  <del>Wallet <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-wallet" alt="wallet">Code</a></del>
-</summary>
-<dd>
-
-The wallet module used to be a demo, will be deprecated in the future for its fuzzy concept.
-
-</dd>
-</details>
-
-<details>
-<summary>
   Types <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-types" alt="types">Code</a>
 </summary>
 <dd>
@@ -135,9 +124,7 @@ TypeScript compiles to the PascalCase convention, which listed in this module.
 
 # CORE
 
-All the modules above are integrated into the core module. You can find `rpc`, `utils`, `wallet` in the core instance.
-
-> The address module has not been integrated yet, and the wallet module will be removed in the future.
+All the modules above are integrated into the core module. You can find `rpc` and `utils` in the core instance.
 
 To use the core module, you need to import it in your project and instantiate it with a node object. For now, the node object only contains one field named `url`, the URI of the blockchain node your are going to communicate with.
 
