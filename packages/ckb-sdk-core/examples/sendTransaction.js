@@ -228,19 +228,6 @@ const bootstrap = async () => {
   // })
 
   /**
-   * add an RPC which calculates the transaction hash, it can also be calculated offline
-   * @ref: https://github.com/nervosnetwork/ckb/blob/develop/rpc/json/rpc.json
-   * @description this RPC is marked as deprecated, but still works for now.
-   *              this RPC sends the raw transaction to CKB and returns the hash of the transaction.
-   */
-  const computeTransactionHashMethod = {
-    name: 'computeTransactionHash',
-    method: '_compute_transaction_hash',
-    paramsFormatters: [core.rpc.paramsFormatter.toRawTransaction],
-  }
-  core.rpc.addMethod(computeTransactionHashMethod)
-
-  /**
    * sign the transaction hash and then compute the witness which will fill the witnesses field in the transaction
    * to know more about witness and segwit
    * @link https://www.wikiwand.com/en/SegWit
