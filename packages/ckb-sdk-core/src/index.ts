@@ -14,6 +14,19 @@ class Core {
       url: nodeUrl,
     }
     this.rpc = new RPC(nodeUrl)
+
+    const computeTransactionHashMethod = {
+      name: 'computeTransactionHash',
+      method: '_compute_transaction_hash',
+      paramsFormatters: [this.rpc.paramsFormatter.toRawTransaction],
+    }
+
+    /**
+     * @method computeTransactionHash
+     * @description this RPC is used to calculate the hash of a raw transaction
+     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
+     */
+    this.rpc.addMethod(computeTransactionHashMethod)
   }
 
   public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
