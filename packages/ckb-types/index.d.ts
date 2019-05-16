@@ -95,7 +95,7 @@ declare namespace CKBComponents {
   }
 
   export interface Witness {
-    data: Bytes[]
+    data: Hash[]
   }
 
   /**
