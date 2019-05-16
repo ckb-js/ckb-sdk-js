@@ -162,3 +162,7 @@ Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develo
 1. RPC Errors
 
 The rpc module will throw an error when the result contains an error field, you need to handle it manually.
+
+# Examples
+
+1. [Send Transaction](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransaction.js)
