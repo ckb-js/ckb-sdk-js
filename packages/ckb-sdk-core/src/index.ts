@@ -60,7 +60,7 @@ class Core {
     const block = await this.rpc.getBlockByNumber('0')
     if (!block) throw new Error('Cannot load the genesis block')
     const cellTx = block.transactions[0]
-    if (!cellTx) throw new Error('Cannot load the transaction which have the system cell')
+    if (!cellTx) throw new Error('Cannot load the transaction which has the system cell')
     const cell = cellTx.outputs[1]
     if (!cell) throw new Error('Cannot load the system cell')
 
