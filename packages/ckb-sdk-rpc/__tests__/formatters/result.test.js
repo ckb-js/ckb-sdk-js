@@ -65,11 +65,37 @@ describe('result formatter', () => {
     })
   })
 
-  it.skip('toTrace', () => {})
+  it('toBlockchainInfo', () => {
+    result.toBlockchainInfo.forEach(fixture => {
+      const formatted = resultFmt.toBlockchainInfo(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
 
   it('toNodeInfo', () => {
     result.toNodeInfo.forEach(fixture => {
       const formatted = resultFmt.toNodeInfo(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toTxPoolInfo', () => {
+    result.toTxPoolInfo.forEach(fixture => {
+      const formatted = resultFmt.toTxPoolInfo(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toPeers', () => {
+    result.toPeers.forEach(fixture => {
+      const formatted = resultFmt.toPeers(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toPeersState', () => {
+    result.toPeersState.forEach(fixture => {
+      const formatted = resultFmt.toPeersState(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })
@@ -95,9 +121,30 @@ describe('result formatter', () => {
     })
   })
 
-  it('toTrace', () => {
-    result.toTrace.forEach(fixture => {
-      const formatted = resultFmt.toTrace(fixture.source)
+  it('toCellIncludingOutPoint', () => {
+    result.toCellIncludingOutPoint.forEach(fixture => {
+      const formatted = resultFmt.toCellIncludingOutPoint(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toCellsIncludingOutPoint', () => {
+    result.toCellsIncludingOutPoint.forEach(fixture => {
+      const formatted = resultFmt.toCellsIncludingOutPoint(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toHeader', () => {
+    result.toHeader.forEach(fixture => {
+      const formatted = resultFmt.toHeader(fixture.source)
+      expect(formatted).toEqual(fixture.target)
+    })
+  })
+
+  it('toEpoch', () => {
+    result.toEpoch.forEach(fixture => {
+      const formatted = resultFmt.toEpoch(fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })

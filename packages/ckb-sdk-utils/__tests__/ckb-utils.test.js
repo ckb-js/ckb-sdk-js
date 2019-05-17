@@ -6,6 +6,7 @@ const {
   blake160,
   bech32,
   bech32Address,
+  toAddressPayload,
   pubkeyToAddress,
   parseAddress,
   hexToBytes,
@@ -137,6 +138,15 @@ describe('scriptToHash', () => {
 })
 
 describe('address', () => {
+  it('to address payload', () => {
+    const fixture = {
+      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
+      payload: '015032504836c329ed630d6ce750712a477543672adab57f4c',
+    }
+    const payload = bytesToHex(toAddressPayload(fixture.blake160Pubkey))
+    expect(payload).toBe(fixture.payload)
+  })
+
   it('pubkey blake160 to address', () => {
     const fixture = {
       str: '36c329ed630d6ce750712a477543672adab57f4c',
@@ -146,6 +156,24 @@ describe('address', () => {
     const address = bech32Address(fixture.str, {
       prefix: fixture.prefix,
     })
+    expect(address).toBe(fixture.address)
+  })
+
+  it('bech32Address with empty options', () => {
+    const fixture = {
+      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+    }
+    const address = bech32Address(fixture.str, {})
+    expect(address).toBe(fixture.address)
+  })
+
+  it('bech32Address with default options which should be prefix: ckb, type: binIndx, binIdx: P2PH', () => {
+    const fixture = {
+      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+    }
+    const address = bech32Address(fixture.str)
     expect(address).toBe(fixture.address)
   })
 
@@ -169,6 +197,19 @@ describe('address', () => {
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
+    expect(parsedHex).toBe(fixture.hrp + fixture.blake160Pubkey)
+    const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
+    expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)
+  })
+
+  it('parse address with default options prefix: ckb, encode: binary', () => {
+    const fixture = {
+      addr: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+      prefix: 'ckb',
+      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
+    }
+    const parsedHex = bytesToHex(parseAddress(fixture.addr))
     expect(parsedHex).toBe(fixture.hrp + fixture.blake160Pubkey)
     const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
     expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)

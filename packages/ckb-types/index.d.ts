@@ -6,14 +6,17 @@ declare namespace CKBComponents {
   export type Hash = string
   export type Hash256 = string
   export type UInt32 = number
-  export type Index = UInt32
-  export type Version = UInt32
-  export type Difficulty = bigint
+  export type Index = string
+  export type Version = string
+  export type Count = string
+  export type Difficulty = string
   export type BlockNumber = string
+  export type EpochInHeader = string
   export type Capacity = string
   export type ProposalShortId = string
   export type Timestamp = string
   export type Nonce = string
+  export type Cycles = string
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -77,17 +80,22 @@ declare namespace CKBComponents {
   }
 
   /**
-   * @typedef OutPoint, used to refer a generated cell by transaction hash and output index
+   * @typedef CellOutPoint, used to refer a generated cell by transaction hash and output index
    * @property hash, transaction hash
    * @property index, index of cell output
    */
-  export interface OutPoint {
+  export interface CellOutPoint {
     txHash: Hash256
     index: Index
   }
 
+  export interface OutPoint {
+    cell?: CellOutPoint | null
+    blockHash?: Hash256 | null
+  }
+
   export interface Witness {
-    data: Bytes[]
+    data: Hash[]
   }
 
   /**
@@ -96,22 +104,22 @@ declare namespace CKBComponents {
    * @property deps, transaction deps
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
+   * @property witnesses, segrated witnesses
    */
   export interface RawTransaction {
     version: Version
     deps: OutPoint[]
     inputs: CellInput[]
     outputs: CellOutput[]
+    witnesses: Witness[]
   }
 
   /**
    * @typedef Transaction, transaction object
    * @extends RawTransaction
-   * @property witnesses, segrated witnesses
    * @property hash, transaction hash
    */
   export interface Transaction extends RawTransaction {
-    witnesses: Witness[]
     hash: Hash256
   }
 
@@ -131,8 +139,9 @@ declare namespace CKBComponents {
    * @property parentHash
    * @property timestamp
    * @property number
+   * @property epoch
    * @property transactionsRoot
-   * @property proposalsRoot
+   * @property proposalsHash
    * @property difficulty
    * @property unclesHash
    * @property unclesCount
@@ -144,12 +153,13 @@ declare namespace CKBComponents {
     parentHash: Hash256
     timestamp: Timestamp
     number: BlockNumber
+    epoch: EpochInHeader
     transactionsRoot: Hash256
-    proposalsRoot: Hash256
+    proposalsHash: Hash256
     witnessesRoot: Hash256
     difficulty: Difficulty
     unclesHash: Hash256
-    unclesCount: UInt32
+    unclesCount: Count
     seal: Seal
     hash: Hash256
   }
@@ -193,29 +203,64 @@ declare namespace CKBComponents {
    * @property outPoint
    */
 
-  export interface CellWithOutPoint extends Cell {
-    outPoint: OutPoint
-  }
-
-  export interface CellByLockHash {
+  export interface CellIncludingOutPoint {
     capacity: Capacity
-    lock: Hash256
+    lock: Script
     outPoint: OutPoint
   }
 
   export type TransactionTrace = { action: string; info: string; time: Timestamp }[]
 
   export enum CellStatus {
-    LIVE = 'live',
+    Live = 'live',
+    Unknown = 'unknown',
   }
+
+  export interface BlockchainInfo {
+    isInitialBlockDownload: boolean
+    epoch: string
+    difficulty: string
+    medianTime: string
+    chain: string
+    warnings: string
+  }
+
   export interface NodeInfo {
     version: string
     nodeId: string
-    addresses: { address: string; score: number }[]
+    addresses: { address: string; score: string }[]
+    isOutbound: boolean | null
+  }
+
+  export interface PeersState {
+    lastUpdated: string
+    blocksInFlight: string
+    peer: string
+  }
+
+  export interface TxPoolInfo {
+    orphan: Count
+    pending: Count
+    proposed: Count
+    lastTxsUpdatedAt: Timestamp
   }
 
   export enum CapacityUnit {
     Shannon = 1,
     Byte = 100000000,
+  }
+
+  export interface Epoch {
+    blockReward: String
+    difficulty: String
+    lastBlockHashInPreviousEpoch: String
+    length: String
+    number: String
+    remainderReward: String
+    startNumber: String
+  }
+
+  export interface RunDryResult {
+    cycles: Cycles
   }
 }

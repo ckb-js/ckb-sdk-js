@@ -1,25 +1,28 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toScript: ({ args, codeHash: code_hash }: CKBComponents.Script): CKB_RPC.Script => ({
-    args,
+  toScript: ({ codeHash: code_hash, ...rest }: CKBComponents.Script): CKB_RPC.Script => ({
     code_hash,
+    ...rest,
   }),
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toOutPoint: ({ txHash: tx_hash, index }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
-    tx_hash: formatter.toHash(tx_hash),
-    index,
+  toCellOutPoint: ({ txHash: tx_hash, ...rest }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
+    tx_hash,
+    ...rest,
   }),
-  toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number,
-  toInput: ({ previousOutput, since, args }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
+  toOutPoint: ({ cell = null, blockHash: block_hash = null, ...rest }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
+    cell: cell ? formatter.toCellOutPoint(cell) : cell,
+    block_hash,
+    ...rest,
+  }),
+  toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number.toString(),
+  toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
     previous_output: formatter.toOutPoint(previousOutput),
-    since,
-    args,
+    ...rest,
   }),
-  toOutput: ({ capacity, data, lock, type }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
-    capacity,
-    data,
+  toOutput: ({ lock, type, ...rest }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
     lock: formatter.toScript(lock),
     type: type ? formatter.toScript(type) : null,
+    ...rest,
   }),
   toRawTransaction: ({
     version,
