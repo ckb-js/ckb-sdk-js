@@ -21,7 +21,7 @@ export interface AddressOptions {
 }
 
 export const defaultAddressOptions = {
-  prefix: AddressPrefix.Mainnet,
+  prefix: AddressPrefix.Testnet,
   type: AddressType.BinIdx,
   binIdx: AddressBinIdx.P2PH,
 }
@@ -44,7 +44,7 @@ export const toAddressPayload = (
 export const bech32Address = (
   data: Uint8Array | string,
   {
-    prefix = AddressPrefix.Mainnet,
+    prefix = AddressPrefix.Testnet,
     type = AddressType.BinIdx,
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
@@ -53,7 +53,7 @@ export const bech32Address = (
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
   {
-    prefix = AddressPrefix.Mainnet,
+    prefix = AddressPrefix.Testnet,
     type = AddressType.BinIdx,
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
@@ -68,7 +68,7 @@ export const pubkeyToAddress = (
 
 export const parseAddress = (
   address: string,
-  prefix: AddressPrefix = AddressPrefix.Mainnet,
+  prefix: AddressPrefix = AddressPrefix.Testnet,
   encode: 'binary' | 'hex' = 'binary'
 ) => {
   const decoded = bech32.decode(address)
