@@ -62,11 +62,18 @@ class Core {
     return this._utils
   }
 
-  public generateAddress = (privateKey: string) =>
-    new Address(privateKey, {
+  public generateAddress = (
+    privateKey: string,
+    { prefix = utils.AddressPrefix.Mainnet, type = utils.AddressType.BinIdx, binIdx = utils.AddressBinIdx.P2PH } = {
       prefix: utils.AddressPrefix.Mainnet,
       type: utils.AddressType.BinIdx,
       binIdx: utils.AddressBinIdx.P2PH,
+    }
+  ) =>
+    new Address(privateKey, {
+      prefix,
+      type,
+      binIdx,
     })
 
   public loadSystemCell = async () => {
