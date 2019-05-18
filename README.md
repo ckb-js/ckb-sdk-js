@@ -131,11 +131,9 @@ To use the core module, you need to import it in your project and instantiate it
 ```javascript
 const CKBCore = require('@nervosnetwork/ckb-sdk-core').default
 
-const node = {
-  url: 'http://localhost:8114',
-}
+const nodeUrl = 'http://localhost:8114'
 
-const core = new CKBCore(node)
+const core = new CKBCore(nodeUrl)
 ```
 
 After that you can use the `core` object to generate addresses, send requests, etc.
