@@ -141,7 +141,7 @@ const bootstrap = async () => {
     /**
      * the new cell as a change
      */
-    const chargeOutput = {
+    const changeOutput = {
       capacity: 0n,
       lock: {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
@@ -185,7 +185,7 @@ const bootstrap = async () => {
       throw new Error('inputCapacity is not enough')
     }
     if (inputCapacity > targetCapacity) {
-      chargeOutput.capacity = inputCapacity - targetCapacity
+      changeOutput.capacity = inputCapacity - targetCapacity
     }
 
     /**
@@ -196,14 +196,14 @@ const bootstrap = async () => {
       deps: [SYSTEM_ENCRYPTION_OUT_POINT],
       inputs,
       outputs:
-        chargeOutput.capacity > 0n ? [
+        changeOutput.capacity > 0n ? [
           {
             ...targetOutput,
             capacity: targetOutput.capacity.toString(),
           },
           {
-            ...chargeOutput,
-            capacity: chargeOutput.capacity.toString(),
+            ...changeOutput,
+            capacity: changeOutput.capacity.toString(),
           },
         ] : [
           {
