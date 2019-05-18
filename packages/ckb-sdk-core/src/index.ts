@@ -64,8 +64,8 @@ class Core {
 
   public generateAddress = (
     privateKey: string,
-    { prefix = utils.AddressPrefix.Mainnet, type = utils.AddressType.BinIdx, binIdx = utils.AddressBinIdx.P2PH } = {
-      prefix: utils.AddressPrefix.Mainnet,
+    { prefix = utils.AddressPrefix.Testnet, type = utils.AddressType.BinIdx, binIdx = utils.AddressBinIdx.P2PH } = {
+      prefix: utils.AddressPrefix.Testnet,
       type: utils.AddressType.BinIdx,
       binIdx: utils.AddressBinIdx.P2PH,
     }
