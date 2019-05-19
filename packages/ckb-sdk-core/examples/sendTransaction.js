@@ -176,7 +176,7 @@ const bootstrap = async () => {
         since: '0',
         args: [],
       })
-      inputCapacity += BigInt(unspentCells[1].capacity)
+      inputCapacity += BigInt(unspentCells[i].capacity)
       if (inputCapacity >= targetCapacity) {
         break
       }
