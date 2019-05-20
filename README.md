@@ -35,9 +35,7 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
 ## Before everything
 
-This project will never generate any private keys for users for safety sake.
-
-The `openssl` is the only choice we make to generate a private key:
+Due to safety concern, the SDK won’t generate private keys for you. You can use `openssl` to generate a private key:
 
 ```sh
 $ openssl rand 32 -hex
