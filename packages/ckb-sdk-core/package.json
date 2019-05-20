@@ -29,10 +29,10 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-address": "0.12.1",
-    "@nervosnetwork/ckb-sdk-rpc": "0.12.1",
-    "@nervosnetwork/ckb-sdk-utils": "0.12.1",
-    "@nervosnetwork/ckb-types": "0.12.1"
+    "@nervosnetwork/ckb-sdk-address": "^0.12.1",
+    "@nervosnetwork/ckb-sdk-rpc": "^0.12.1",
+    "@nervosnetwork/ckb-sdk-utils": "^0.12.1",
+    "@nervosnetwork/ckb-types": "^0.12.1"
   },
   "devDependencies": {
     "@types/crypto-js": "3.1.43"
