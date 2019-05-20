@@ -147,7 +147,7 @@ describe('address', () => {
     expect(payload).toBe(fixture.payload)
   })
 
-  it('pubkey blake160 to address', () => {
+  it('pubkey blake160 to address with prefix of ckt', () => {
     const fixture = {
       str: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
@@ -159,10 +159,22 @@ describe('address', () => {
     expect(address).toBe(fixture.address)
   })
 
+  it('pubkey blake160 to address with prefix of ckb', () => {
+    const fixture = {
+      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      prefix: 'ckb',
+      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+    }
+    const address = bech32Address(fixture.str, {
+      prefix: fixture.prefix,
+    })
+    expect(address).toBe(fixture.address)
+  })
+
   it('bech32Address with empty options', () => {
     const fixture = {
       str: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
     const address = bech32Address(fixture.str, {})
     expect(address).toBe(fixture.address)
@@ -171,7 +183,7 @@ describe('address', () => {
   it('bech32Address with default options which should be prefix: ckb, type: binIndx, binIdx: P2PH', () => {
     const fixture = {
       str: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
     const address = bech32Address(fixture.str)
     expect(address).toBe(fixture.address)
@@ -202,10 +214,10 @@ describe('address', () => {
     expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)
   })
 
-  it('parse address with default options prefix: ckb, encode: binary', () => {
+  it('parse address with default options prefix: ckt, encode: binary', () => {
     const fixture = {
-      addr: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
-      prefix: 'ckb',
+      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      prefix: 'ckt',
       hrp: `01${Buffer.from('P2PH').toString('hex')}`,
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }

@@ -1,11 +1,13 @@
-import { TextEncoder, TextDecoder } from 'util'
+import * as util from 'util'
 import crypto from './crypto'
 
 export * from './address'
 
+declare const TextDecoder: any // will be removed when Node@11 becomes LTS
+declare const TextEncoder: any // will be removed when Node@11 becomes LTS
 export const { blake2b, bech32, blake160 } = crypto
-const textEncoder = new TextEncoder()
-const textDecoder = new TextDecoder()
+const textEncoder = new (typeof TextEncoder !== 'undefined' ? TextEncoder : util.TextEncoder)()
+const textDecoder = new (typeof TextDecoder !== 'undefined' ? TextDecoder : util.TextDecoder)()
 export const PERSONAL = textEncoder.encode('ckb-default-hash')
 
 export const hexToBytes = (rawhex: any) => {

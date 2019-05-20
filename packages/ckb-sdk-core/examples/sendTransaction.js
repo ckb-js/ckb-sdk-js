@@ -109,13 +109,24 @@ const bootstrap = async () => {
         // console.log(cells)
         if (cb) cb(cells)
       })
+      
+  // load the unspent cells in Promise method, just an optimiztion of code.
+  const loadCells = () =>
+    new Promise((resolve, reject) => {
+      core.rpc
+        .getTipBlockNumber()
+        .then(tipNumber =>
+          getUnspentCells(lockHash, 0, tipNumber, resolve)
+        )
+        .catch(reject)
+    })
 
   /**
    * to see the unspent cells
    */
   // core.rpc
   //   .getTipBlockNumber()
-  //   .then(tipNumber => getUnspentCells(lockHash, 0, tipNumber))
+  //   .then(tipNumber => loadCells(lockHash, 0, tipNumber))
   //   .then(console.log)
 
   /**
@@ -141,7 +152,7 @@ const bootstrap = async () => {
     /**
      * the new cell as a change
      */
-    const chargeOutput = {
+    const changeOutput = {
       capacity: 0n,
       lock: {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
@@ -149,19 +160,6 @@ const bootstrap = async () => {
       },
       data: '0x',
     }
-
-    // load the unspent cells in Promise method, just an optimiztion of code.
-    const loadCells = () =>
-      new Promise((resolve, reject) => {
-        core.rpc
-          .getTipBlockNumber()
-          .then(tipNumber =>
-            getUnspentCells(lockHash, 0, tipNumber, cells => {
-              resolve(cells)
-            })
-          )
-          .catch(reject)
-      })
 
     const unspentCells = await loadCells()
     const inputs = []
@@ -176,7 +174,7 @@ const bootstrap = async () => {
         since: '0',
         args: [],
       })
-      inputCapacity += BigInt(unspentCells[1].capacity)
+      inputCapacity += BigInt(unspentCells[i].capacity)
       if (inputCapacity >= targetCapacity) {
         break
       }
@@ -185,7 +183,7 @@ const bootstrap = async () => {
       throw new Error('inputCapacity is not enough')
     }
     if (inputCapacity > targetCapacity) {
-      chargeOutput.capacity = inputCapacity - targetCapacity
+      changeOutput.capacity = inputCapacity - targetCapacity
     }
 
     /**
@@ -196,14 +194,14 @@ const bootstrap = async () => {
       deps: [SYSTEM_ENCRYPTION_OUT_POINT],
       inputs,
       outputs:
-        chargeOutput.capacity > 0n ? [
+        changeOutput.capacity > 0n ? [
           {
             ...targetOutput,
             capacity: targetOutput.capacity.toString(),
           },
           {
-            ...chargeOutput,
-            capacity: chargeOutput.capacity.toString(),
+            ...changeOutput,
+            capacity: changeOutput.capacity.toString(),
           },
         ] : [
           {
