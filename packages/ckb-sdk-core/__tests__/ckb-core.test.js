@@ -18,9 +18,9 @@ describe('ckb-core', () => {
     target: {
       codeHash: '9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08',
       outPoint: {
-        blockHash: '92968288728fc0901b2ed94611fcf668db7d15842f019674e0805dffd26dadd5',
+        blockHash: 'aad9b82caa07f5989dfb8caa44927f0bab515a96ccaaceba82c7bea609fec205',
         cell: {
-          txHash: '7c77c04b904bd937bd371ab0d413ed6eb887661e2484bc198aca6934ba5ea4e3',
+          txHash: 'bffab7ee0a050e2cb882de066d3dbf3afdd8932d6a26eda44f06e4b23f0f4b5a',
           index: '1',
         },
       },
