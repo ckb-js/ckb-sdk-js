@@ -4,9 +4,8 @@ export * from './address'
 
 export const { blake2b, bech32, blake160 } = crypto
 
-const isBrowser = typeof window !== 'undefined'
-const textEncoder = isBrowser ? window.TextEncoder : new TextEncoder()
-const textDecoder = isBrowser ? window.TextDecoder : new TextDecoder()
+const textEncoder = new TextEncoder()
+const textDecoder = new TextDecoder()
 
 export const PERSONAL = textEncoder.encode('ckb-default-hash')
 
