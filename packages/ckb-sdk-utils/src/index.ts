@@ -1,4 +1,3 @@
-import { TextEncoder, TextDecoder } from 'util'
 import crypto from './crypto'
 
 export * from './address'
