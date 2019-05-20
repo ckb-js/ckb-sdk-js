@@ -33,6 +33,18 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
 `@nervosnetwork/ckb-sdk-core` is the SDK used to interact with [Nervos CKB](https://github.com/nervosnetwork/ckb), which is an open source project of public blockchain.
 
+## Before everything
+
+This project will never generate any private keys for users for safety sake.
+
+The `openssl` is the only choice we make to generate a private key:
+
+```sh
+$ openssl rand 32 -hex
+```
+
+For other cases, say, you're going to generate it in a JavaScript Project(Please don't), [Elliptic](https://github.com/indutny/elliptic/) may be the one you can use.
+
 ## About Nervos CKB
 
 > Nervos CKB is the layer 1 of Nervos Network, a public blockchain with PoW and cell model.
@@ -151,3 +163,15 @@ The rpc module will throw an error when the result contains an error field, you 
 # Examples
 
 1. [Send Transaction](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransaction.js)
+
+# Development Process
+
+This project used [lerna](https://github.com/lerna/lerna/) for packages management, which needs to be bootstrapped by the following steps:
+
+```sh
+$ yarn install # to install the lerna package in this project, could be skipped if the lerna has been installed globally
+$ lerna bootstrap # install the depedencies and link the packages in the project
+$ npm run tsc # build packages with tsc command
+```
+
+After the second step, namely the bootstrap, all module packages are linked together, and used as in one package.
