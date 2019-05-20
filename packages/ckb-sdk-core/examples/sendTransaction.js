@@ -109,13 +109,24 @@ const bootstrap = async () => {
         // console.log(cells)
         if (cb) cb(cells)
       })
+      
+  // load the unspent cells in Promise method, just an optimiztion of code.
+  const loadCells = () =>
+    new Promise((resolve, reject) => {
+      core.rpc
+        .getTipBlockNumber()
+        .then(tipNumber =>
+          getUnspentCells(lockHash, 0, tipNumber, resolve)
+        )
+        .catch(reject)
+    })
 
   /**
    * to see the unspent cells
    */
   // core.rpc
   //   .getTipBlockNumber()
-  //   .then(tipNumber => getUnspentCells(lockHash, 0, tipNumber))
+  //   .then(tipNumber => loadCells(lockHash, 0, tipNumber))
   //   .then(console.log)
 
   /**
@@ -149,19 +160,6 @@ const bootstrap = async () => {
       },
       data: '0x',
     }
-
-    // load the unspent cells in Promise method, just an optimiztion of code.
-    const loadCells = () =>
-      new Promise((resolve, reject) => {
-        core.rpc
-          .getTipBlockNumber()
-          .then(tipNumber =>
-            getUnspentCells(lockHash, 0, tipNumber, cells => {
-              resolve(cells)
-            })
-          )
-          .catch(reject)
-      })
 
     const unspentCells = await loadCells()
     const inputs = []
