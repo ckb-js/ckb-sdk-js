@@ -47,7 +47,7 @@ $ npm install --save @nervosnetwork/ckb-cli
 ## Usage
 
 ```javascript
-const Address = require('@nervosnetwork/ckb-sdk-address)`
+const Address = require('@nervosnetwork/ckb-sdk-address')
 
 const privateKey = 'your private key'
 
