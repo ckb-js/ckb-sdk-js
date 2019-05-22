@@ -35,13 +35,13 @@ Detailed methods could be found in `@nervosnetwork/ckb-sdk-utils`
 Install the package with [yarn](https://yarnpkg.com/):
 
 ```sh
-$ yarn add @nervosnetwork/ckb-cli
+$ yarn add @nervosnetwork/ckb-sdk-address
 ```
 
 Or install the package with [npm](https://npmjs.com):
 
 ```sh
-$ npm install --save @nervosnetwork/ckb-cli
+$ npm install --save @nervosnetwork/ckb-sdk-address
 ```
 
 ## Usage
