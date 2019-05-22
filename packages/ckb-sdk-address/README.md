@@ -51,6 +51,6 @@ const Address = require('@nervosnetwork/ckb-sdk-address').default
 
 const privateKey = 'your private key'
 
-const address = new Address(privateKey, { compressed: true, prefix: 'ckt' })
+const address = new Address(privateKey, { prefix: 'ckt' })
 console.log(address.value)
 ```
