@@ -55,4 +55,8 @@ describe('ECPair', () => {
       expect(ecpair.verify(fixture.msg, fixture.sig.slice(0, -2))).toBe(true)
     })
   })
+
+  it('throw error is private key is missed', () => {
+    expect(() => new ECPair()).toThrow('Private key is required')
+  })
 })
