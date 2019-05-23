@@ -7,21 +7,29 @@ class Address extends ECPair {
   public constructor(
     sk: Uint8Array | string,
     {
-      compressed = true,
       addressAlgorithm = pubkeyToAddress,
-      ...addressOptions
+      prefix = AddressPrefix.Testnet,
+      type = AddressType.BinIdx,
+      binIdx = AddressBinIdx.P2PH,
     }: Options &
       Partial<{
         addressAlgorithm: Function
         prefix: AddressPrefix
         type: AddressType
         binIdx: AddressBinIdx
-      }>
+      }> = {
+      addressAlgorithm: pubkeyToAddress,
+      prefix: AddressPrefix.Testnet,
+      type: AddressType.BinIdx,
+      binIdx: AddressBinIdx.P2PH,
+    }
   ) {
-    super(typeof sk === 'string' ? hexToBytes(sk) : sk, {
-      compressed,
+    super(typeof sk === 'string' ? hexToBytes(sk) : sk)
+    this.value = addressAlgorithm(this.publicKey, {
+      prefix,
+      type,
+      binIdx,
     })
-    this.value = addressAlgorithm(this.publicKey, addressOptions)
   }
 }
 
