@@ -47,4 +47,13 @@ describe('ckb-sdk-address', () => {
     })
     expect(address.value).toBe(fixture.address)
   })
+
+  it('generate idenfitier with default configuration', () => {
+    const fixture = {
+      privateKey: 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e',
+      idenfitier: '2f663ae60e00153d223657c685a15604255b168b',
+    }
+    const address = new Address(fixture.privateKey)
+    expect(address.idenfitier).toBe(fixture.idenfitier)
+  })
 })
