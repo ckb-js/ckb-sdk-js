@@ -138,34 +138,34 @@ describe('scriptToHash', () => {
 })
 
 describe('address', () => {
-  it('to address payload', () => {
+  it('identifier to address payload', () => {
     const fixture = {
-      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       payload: '015032504836c329ed630d6ce750712a477543672adab57f4c',
     }
-    const payload = bytesToHex(toAddressPayload(fixture.blake160Pubkey))
+    const payload = bytesToHex(toAddressPayload(fixture.identifier))
     expect(payload).toBe(fixture.payload)
   })
 
-  it('pubkey blake160 to address with prefix of ckt', () => {
+  it('identifier to address with prefix of ckt', () => {
     const fixture = {
-      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
       address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
-    const address = bech32Address(fixture.str, {
+    const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
   })
 
-  it('pubkey blake160 to address with prefix of ckb', () => {
+  it('identifier to address with prefix of ckb', () => {
     const fixture = {
-      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckb',
       address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
     }
-    const address = bech32Address(fixture.str, {
+    const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
@@ -173,19 +173,19 @@ describe('address', () => {
 
   it('bech32Address with empty options', () => {
     const fixture = {
-      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
-    const address = bech32Address(fixture.str, {})
+    const address = bech32Address(fixture.identifier, {})
     expect(address).toBe(fixture.address)
   })
 
   it('bech32Address with default options which should be prefix: ckb, type: binIndx, binIdx: P2PH', () => {
     const fixture = {
-      str: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
     }
-    const address = bech32Address(fixture.str)
+    const address = bech32Address(fixture.identifier)
     expect(address).toBe(fixture.address)
   })
 

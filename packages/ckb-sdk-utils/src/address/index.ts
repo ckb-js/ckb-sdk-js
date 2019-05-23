@@ -31,15 +31,17 @@ export const defaultAddressOptions = {
  * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
  */
 export const toAddressPayload = (
-  blake160Pubkey: string | Uint8Array,
+  identifier: string | Uint8Array,
   type: AddressType = AddressType.BinIdx,
   params: AddressBinIdx = AddressBinIdx.P2PH
 ): Uint8Array => {
-  if (typeof blake160Pubkey === 'string') {
-    return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...hexToBytes(blake160Pubkey)])
+  if (typeof identifier === 'string') {
+    return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...hexToBytes(identifier)])
   }
-  return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...blake160Pubkey])
+  return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...identifier])
 }
+
+export const toAddressIdentifier = toAddressPayload
 
 export const bech32Address = (
   data: Uint8Array | string,
@@ -48,7 +50,7 @@ export const bech32Address = (
     type = AddressType.BinIdx,
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(data, type, binIdx)))
+) => bech32.encode(prefix, bech32.toWords(toAddressIdentifier(data, type, binIdx)))
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
@@ -58,8 +60,8 @@ export const pubkeyToAddress = (
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
 ) => {
-  const blake160Pubkey = blake160(pubkey)
-  return bech32Address(blake160Pubkey, {
+  const identifier = blake160(pubkey)
+  return bech32Address(identifier, {
     prefix,
     type,
     binIdx,
