@@ -56,7 +56,7 @@ describe('ECPair', () => {
     })
   })
 
-  it('throw error is private key is missed', () => {
+  it('throw error if private key is absent', () => {
     expect(() => new ECPair()).toThrow('Private key is required')
   })
 })
