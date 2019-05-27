@@ -19,6 +19,7 @@ class ECPair {
       compressed: true,
     }
   ) {
+    if (typeof sk === 'undefined') throw new Error('Private key is required')
     this.key = ec.keyFromPrivate(sk)
     this.compressed = compressed
   }
@@ -36,7 +37,6 @@ class ECPair {
   public getPublicKey = (enc: 'hex' | 'array') => this.key.getPublic(this.compressed, enc)
 
   public sign = (msg: string | Uint8Array) => {
-    if (!this.key) throw new Error('Missing private key')
     const message = typeof msg === 'string' ? hexToBytes(msg) : msg
     return this.key
       .sign(message, {
