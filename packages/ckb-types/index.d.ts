@@ -17,6 +17,7 @@ declare namespace CKBComponents {
   export type Timestamp = string
   export type Nonce = string
   export type Cycles = string
+  export type Size = string
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -243,6 +244,8 @@ declare namespace CKBComponents {
     pending: Count
     proposed: Count
     lastTxsUpdatedAt: Timestamp
+    totalTxCycles: Cycles
+    totalTxSize: Size
   }
 
   export enum CapacityUnit {
