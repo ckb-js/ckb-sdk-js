@@ -24,19 +24,19 @@ class ECPair {
     this.compressed = compressed
   }
 
-  get privateKey(): string {
+  get privateKey() {
     return this.key.getPrivate('hex')
   }
 
   get publicKey() {
-    return this.key.getPublic(this.compressed, 'hex')
+    return this.key.getPublic(this.compressed, 'hex') as string
   }
 
   public getPrivateKey = (enc: 'hex' = 'hex') => this.key.getPrivate(enc)
 
   public getPublicKey = (enc: 'hex' | 'array') => this.key.getPublic(this.compressed, enc)
 
-  public sign = (msg: string | Uint8Array) => {
+  public sign = (msg: string | Uint8Array): string => {
     const message = typeof msg === 'string' ? hexToBytes(msg) : msg
     return this.key
       .sign(message, {

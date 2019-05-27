@@ -68,11 +68,18 @@ export const pubkeyToAddress = (
   })
 }
 
-export const parseAddress = (
+export declare interface ParseAddress {
+  (address: string): Uint8Array
+  (address: string, prefix: AddressPrefix): Uint8Array
+  (address: string, prefix: AddressPrefix, encode: 'binary'): Uint8Array
+  (address: string, prefix: AddressPrefix, encode: 'hex'): string
+  (address: string, prefix: AddressPrefix, encode: 'binary' | 'hex'): Uint8Array | string
+}
+export const parseAddress: ParseAddress = (
   address: string,
   prefix: AddressPrefix = AddressPrefix.Testnet,
   encode: 'binary' | 'hex' = 'binary'
-) => {
+): any => {
   const decoded = bech32.decode(address)
   if (decoded.prefix !== prefix) {
     throw new Error('Prefix not matched')
