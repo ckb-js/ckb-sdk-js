@@ -33,7 +33,7 @@ class Address extends ECPair {
       type,
       binIdx,
     })
-    this.idenfitier = blake160(this.publicKey as string, 'hex') as string
+    this.idenfitier = blake160(this.publicKey as string, 'hex')
   }
 }
 
