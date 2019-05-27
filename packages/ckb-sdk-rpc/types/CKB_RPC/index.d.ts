@@ -18,6 +18,8 @@ declare module CKB_RPC {
   export type BlockNumber = CKBComponents.BlockNumber
   export type EpochInHeader = string
   export type Difficulty = CKBComponents.Difficulty
+  export type Cycles = CKBComponents.Cycles
+  export type Size = CKBComponents.Size
 
   export enum TransactionStatus {
     Pending = 'pending',
@@ -138,6 +140,8 @@ declare module CKB_RPC {
     pending: Count
     proposed: Count
     last_txs_updated_at: Timestamp
+    total_tx_cycles: Cycles
+    total_tx_size: Size
   }
 
   export interface Epoch {

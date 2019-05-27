@@ -517,13 +517,17 @@
         "orphan": "33",
         "pending": "34",
         "proposed": "22",
-        "last_txs_updated_at": "1555507787683"
+        "last_txs_updated_at": "1555507787683",
+        "total_tx_cycles": "12",
+        "total_tx_size": "156"
       },
       "target": {
         "orphan": "33",
         "pending": "34",
         "proposed": "22",
-        "lastTxsUpdatedAt": "1555507787683"
+        "lastTxsUpdatedAt": "1555507787683",
+        "totalTxCycles": "12",
+        "totalTxSize": "156"
       }
     }],
     "toPeers": [{
