@@ -1,27 +1,39 @@
-import ECPair, { Options } from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
-import { hexToBytes, AddressPrefix, AddressType, AddressBinIdx, pubkeyToAddress } from '@nervosnetwork/ckb-sdk-utils'
+import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
+import * as utils from '@nervosnetwork/ckb-sdk-utils'
+import { AddressOptions } from '@nervosnetwork/ckb-sdk-utils/lib/address'
+
+const { hexToBytes, pubkeyToAddress, blake160, AddressPrefix, AddressType, AddressBinIdx } = utils
 
 class Address extends ECPair {
   public value = ''
 
+  public idenfitier = ''
+
   public constructor(
     sk: Uint8Array | string,
     {
-      compressed = true,
       addressAlgorithm = pubkeyToAddress,
-      ...addressOptions
-    }: Options &
-      Partial<{
+      prefix = AddressPrefix.Testnet,
+      type = AddressType.BinIdx,
+      binIdx = AddressBinIdx.P2PH,
+    }: Partial<
+      {
         addressAlgorithm: Function
-        prefix: AddressPrefix
-        type: AddressType
-        binIdx: AddressBinIdx
-      }>
+      } & AddressOptions
+    > = {
+      addressAlgorithm: pubkeyToAddress,
+      prefix: AddressPrefix.Testnet,
+      type: AddressType.BinIdx,
+      binIdx: AddressBinIdx.P2PH,
+    }
   ) {
-    super(typeof sk === 'string' ? hexToBytes(sk) : sk, {
-      compressed,
+    super(typeof sk === 'string' ? hexToBytes(sk) : sk)
+    this.value = addressAlgorithm(this.publicKey, {
+      prefix,
+      type,
+      binIdx,
     })
-    this.value = addressAlgorithm(this.publicKey, addressOptions)
+    this.idenfitier = blake160(this.publicKey as string, 'hex') as string
   }
 }
 

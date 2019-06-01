@@ -5,9 +5,9 @@ import * as utils from '@nervosnetwork/ckb-sdk-utils'
 class Core {
   public rpc: RPC
 
-  private _node: CKBComponents.Node
+  public utils = utils
 
-  public _utils = utils
+  private _node: CKBComponents.Node
 
   public config = {
     systemCellInfo: {
@@ -56,10 +56,6 @@ class Core {
 
   public get node(): CKBComponents.Node {
     return this._node
-  }
-
-  public get utils() {
-    return this._utils
   }
 
   public generateAddress = (

@@ -101,15 +101,15 @@ const bootstrap = async () => {
         })
         .catch(reject)
     })
-      .then(group => group.flat())
-      .then(cells => {
-        /**
-         * too see the cells
-         */
-        // console.log(cells)
-        if (cb) cb(cells)
-      })
-      
+    .then(group => group.flat())
+    .then(cells => {
+      /**
+       * too see the cells
+       */
+      // console.log(cells)
+      if (cb) cb(cells)
+    })
+
   // load the unspent cells in Promise method, just an optimiztion of code.
   const loadCells = () =>
     new Promise((resolve, reject) => {
@@ -236,14 +236,16 @@ const bootstrap = async () => {
     const signature = myAddressObj.sign(txHash) // sign the transaction
     const signatureSize = core.utils.hexToBytes(signature).length // get the size of signature
     const sequence = new DataView(new ArrayBuffer(8))
-    sequence.setUint8(0, signatureSize, true)
+    sequence.setUint8(0, signatureSize)
     const sequencedSignatureSize = Buffer.from(sequence.buffer).toString('hex') // get a formatted signature size
-    const witness = { 
+    const witness = {
       data: [`0x${myAddressObj.publicKey}`, `0x${signature}`, `0x${sequencedSignatureSize}`],
     }
     const witnesses = Array.from({
-      length: tx.inputs.length,
-    }).fill(witness) 
+        length: tx.inputs.length,
+      },
+      () => witness
+    )
     tx.witnesses = witnesses // fill the witness in transaction's witnesses
     return tx
   }

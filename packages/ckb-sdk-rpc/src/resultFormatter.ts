@@ -113,9 +113,16 @@ const formatter = {
   },
   toTxPoolInfo: (info: CKB_RPC.TxPoolInfo): CKBComponents.TxPoolInfo => {
     if (!info) return info
-    const { last_txs_updated_at: lastTxsUpdatedAt, ...rest } = info
+    const {
+      last_txs_updated_at: lastTxsUpdatedAt,
+      total_tx_cycles: totalTxCycles,
+      total_tx_size: totalTxSize,
+      ...rest
+    } = info
     return {
       lastTxsUpdatedAt,
+      totalTxCycles,
+      totalTxSize,
       ...rest,
     }
   },
