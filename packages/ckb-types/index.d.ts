@@ -58,12 +58,10 @@ declare namespace CKBComponents {
    * @property previousOutput, point to its P1 cell
    * @property since, a parameter to prevent a cell to be spent before a centain block timestamp or a block number,
    *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
-   * @property args, args to unlock cell
    */
   export interface CellInput {
     previousOutput: OutPoint
     since: Since
-    args: Bytes[]
   }
 
   /**
