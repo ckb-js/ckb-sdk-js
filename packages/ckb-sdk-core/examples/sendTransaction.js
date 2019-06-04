@@ -233,20 +233,18 @@ const bootstrap = async () => {
   const fillTransactionWithWitnesses = async () => {
     const tx = await generateTransaction(`0x${blake160edPublicKey}`, 6000000000) // generate the raw transaction with empty witnesses
     const txHash = await core.rpc.computeTransactionHash(tx) // get transaction hash
-    const signature = myAddressObj.sign(txHash) // sign the transaction
-    const signatureSize = core.utils.hexToBytes(signature).length // get the size of signature
-    const sequence = new DataView(new ArrayBuffer(8))
-    sequence.setUint8(0, signatureSize)
-    const sequencedSignatureSize = Buffer.from(sequence.buffer).toString('hex') // get a formatted signature size
-    const witness = {
-      data: [`0x${myAddressObj.publicKey}`, `0x${signature}`, `0x${sequencedSignatureSize}`],
-    }
-    const witnesses = Array.from({
-        length: tx.inputs.length,
-      },
-      () => witness
-    )
-    tx.witnesses = witnesses // fill the witness in transaction's witnesses
+    const signedWitnesses = tx.witnesses.map(witness => { // sign witnesses
+      const oldData = witness.data || []
+      const s = blake2b(32, null, null, core.utils.PERSONAL)
+      s.update(core.utils.hexToBytes(txHash.replace(/^0x/, '')))
+      oldData.forEach(datum => {
+        s.update(core.utils.hexToBytes(datum))
+      })
+      const message = s.digest('hex')
+      const data = [myAddressObj.publicKey, myAddressObj.sign(message), ...oldData]
+      return data
+    })
+    tx.witnesses = signedWitnesses
     return tx
   }
 
