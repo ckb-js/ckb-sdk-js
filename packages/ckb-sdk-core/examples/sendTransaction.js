@@ -37,6 +37,7 @@ const bootstrap = async () => {
    * - value, the address string
    * - privateKey, the private key in hex string format
    * - publicKey, the public key in hex string format
+   * - identifier, the identifier of the public key, a blake160-ed public key is use here
    * - sign(msg): signature string
    * - verify(msg, signature): boolean
    */
@@ -48,19 +49,14 @@ const bootstrap = async () => {
 
   /**
    * calculate the lockhash by the address
-   * 1. a blake160-ed public key is required in the args field of lock script
+   * 1. the identifier of the address is required in the args field of lock script
    * 2. compose the lock script with SYSTEM_ENCRYPTION_CODE_HASH, and args
    * 3. calculate the hash of lock script
    */
-  const blake160edPublicKey = core.utils.blake160(myAddressObj.publicKey, 'hex')
-  /**
-   * to see the blake160-ed public key
-   */
-  // console.log(blake160edPublicKey)
 
   const script = {
     codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
-    args: [blake160edPublicKey],
+    args: [`0x${myAddressObj.idenfitier}`],
   }
   /**
    * to see the lock script
@@ -130,11 +126,11 @@ const bootstrap = async () => {
   //   .then(console.log)
 
   /**
-   * @notice fill the blaked160ed public key in the output's args,
+   * @notice fill the blaked160ed public key as the identifier of the target address in the output's args,
    *         which is used to specify the next owner of the output, namely the fresh cell.
    * @notice use bigint or big number to handle the capacity for safety
    */
-  const generateTransaction = async (targetBlake160edPublicKey, capacity) => {
+  const generateTransaction = async (targetIdentifier, capacity) => {
     const targetCapacity = BigInt(capacity)
 
     /**
@@ -144,7 +140,7 @@ const bootstrap = async () => {
       capacity: targetCapacity,
       lock: {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
-        args: [targetBlake160edPublicKey],
+        args: [targetIdentifier],
       },
       data: '0x',
     }
@@ -156,7 +152,7 @@ const bootstrap = async () => {
       capacity: 0n,
       lock: {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
-        args: [`0x${blake160edPublicKey}`],
+        args: [`0x${myAddressObj.idenfitier}`],
       },
       data: '0x',
     }
@@ -193,27 +189,21 @@ const bootstrap = async () => {
       version: '0',
       deps: [SYSTEM_ENCRYPTION_OUT_POINT],
       inputs,
-      outputs:
-        changeOutput.capacity > 0n ? [
-          {
-            ...targetOutput,
-            capacity: targetOutput.capacity.toString(),
-          },
-          {
-            ...changeOutput,
-            capacity: changeOutput.capacity.toString(),
-          },
-        ] : [
-          {
-            ...targetOutput,
-            capacity: targetOutput.capacity.toString(),
-          },
-        ],
-      witnesses: [
-        {
-          data: [],
+      outputs: changeOutput.capacity > 0n ? [{
+          ...targetOutput,
+          capacity: targetOutput.capacity.toString(),
         },
-      ],
+        {
+          ...changeOutput,
+          capacity: changeOutput.capacity.toString(),
+        },
+      ] : [{
+        ...targetOutput,
+        capacity: targetOutput.capacity.toString(),
+      }, ],
+      witnesses: [{
+        data: [],
+      }, ],
     }
     return tx
   }
@@ -226,37 +216,16 @@ const bootstrap = async () => {
   // })
 
   /**
-   * sign the transaction hash and then compute the witness which will fill the witnesses field in the transaction
-   * to know more about witness and segwit
-   * @link https://www.wikiwand.com/en/SegWit
-   */
-  const fillTransactionWithWitnesses = async () => {
-    const tx = await generateTransaction(`0x${blake160edPublicKey}`, 6000000000) // generate the raw transaction with empty witnesses
-    const txHash = await core.rpc.computeTransactionHash(tx) // get transaction hash
-    const signedWitnesses = tx.witnesses.map(witness => { // sign witnesses
-      const oldData = witness.data || []
-      const s = blake2b(32, null, null, core.utils.PERSONAL)
-      s.update(core.utils.hexToBytes(txHash.replace(/^0x/, '')))
-      oldData.forEach(datum => {
-        s.update(core.utils.hexToBytes(datum))
-      })
-      const message = s.digest('hex')
-      const data = [myAddressObj.publicKey, myAddressObj.sign(message), ...oldData]
-      return data
-    })
-    tx.witnesses = signedWitnesses
-    return tx
-  }
-
-  /**
    * send transaction
    */
-  const tx = await fillTransactionWithWitnesses()
+  const tx = await generateTransaction(`0x${myAddressObj.idenfitier}`, 6000000000) // generate the raw transaction with empty witnesses
+  const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
-   * to see the real transaction, (slightly differs from the previous one which used to calculate the transaction hash)
+   * to see the signed transaction
    */
-  // console.log(JSON.stringify(tx, null, 2))
-  const realTxHash = await core.rpc.sendTransaction(tx)
+  // console.log(JSON.stringify(signedTx, null, 2))
+
+  const realTxHash = await core.rpc.sendTransaction(signedTx)
   /**
    * to see the real transaction hash
    */

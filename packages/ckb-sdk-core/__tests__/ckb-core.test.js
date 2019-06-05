@@ -1,35 +1,86 @@
+const successFixtures = require('./successFixtures.json')
+const exceptionFixtures = require('./exceptionFixtures.json')
+
 const Core = require('../lib').default
 
 const url = 'http://localhost:8114'
 const core = new Core(url)
 
 describe('ckb-core', () => {
-  const fixture = {
-    empty: {
-      codeHash: '',
-      outPoint: {
-        blockHash: '',
-        cell: {
-          txHash: '',
-          index: '0',
-        },
-      },
-    },
-    target: {
-      codeHash: '9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08',
-      outPoint: {
-        blockHash: 'aad9b82caa07f5989dfb8caa44927f0bab515a96ccaaceba82c7bea609fec205',
-        cell: {
-          txHash: 'bffab7ee0a050e2cb882de066d3dbf3afdd8932d6a26eda44f06e4b23f0f4b5a',
-          index: '1',
-        },
-      },
-    },
-  }
-  it('load the system cell', async () => {
-    expect(core.config.systemCellInfo).toEqual(fixture.empty)
+  describe('success', () => {
+    it('load the system cell', async () => {
+      const fixture = successFixtures.loadSystemCell
+      expect(core.config.systemCellInfo).toEqual(fixture.emptyInfo)
 
-    const systemCellInfo = await core.loadSystemCell()
-    expect(systemCellInfo).toEqual(fixture.target)
+      const systemCellInfo = await core.loadSystemCell()
+      expect(systemCellInfo).toEqual(fixture.target)
+    })
+
+    it('sign witnesses', () => {
+      const fixture = successFixtures.signWitnesses
+      const signedWitnessesByPrivateKey = core.signWitnesses(fixture.privateKey)(fixture.message)
+      expect(signedWitnessesByPrivateKey).toEqual(fixture.target)
+
+      const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(fixture.privateKey))(
+        fixture.message
+      )
+      expect(signedWitnessesByAddressObject).toEqual(fixture.target)
+    })
+
+    it('sign transaction', async () => {
+      const fixture = successFixtures.signTransaction
+      const signedTransactionWithPrivateKey = await core.signTransaction(fixture.privateKey)(fixture.transaction)
+      const signedTransactionWithAddressObj = await core.signTransaction(core.generateAddress(fixture.privateKey))(
+        fixture.transaction
+      )
+      expect(signedTransactionWithPrivateKey).toEqual(fixture.target)
+      expect(signedTransactionWithAddressObj).toEqual(fixture.target)
+    })
+  })
+
+  describe('exceptions', () => {
+    describe('sign witneses', () => {
+      it('throw an error when key is missing', () => {
+        const fixture = exceptionFixtures.signWitnessesWithoutKey
+        expect(() => core.signWitnesses(fixture.privateKey)(fixture.message)).toThrowError(fixture.exception)
+      })
+
+      it('throw an error when transaction hash is missing', () => {
+        const fixture = exceptionFixtures.signWitnessesWithoutTransactionHash
+        expect(() => core.signWitnesses(fixture.privateKey)(fixture.message)).toThrowError(fixture.exception)
+      })
+    })
+
+    describe('sign transaction', () => {
+      it('throw an error when key is missing', () => {
+        const fixture = exceptionFixtures.signTransactionWithoutKey
+        expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
+          new Error(fixture.exception)
+        )
+      })
+
+      it('throw an error when trasnaction is missing', () => {
+        const fixture = exceptionFixtures.signTransactionWithoutTransaction
+        expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
+          new Error(fixture.exception)
+        )
+      })
+
+      it('throw an error when witnesses is missing', () => {
+        const fixture = exceptionFixtures.signTransactionWithoutWitnesses
+        console.log(!fixture.transaction.witnesses)
+        expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
+          new Error(fixture.exception)
+        )
+      })
+
+      it('throw an error with invalid cound of witnesses', () => {
+        const fixture = exceptionFixtures.signTransactionWithInvalidCountOfWitnesses
+        console.log(!fixture.transaction.witnesses)
+        expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
+          new Error(fixture.exception)
+        )
+      })
+    })
   })
 })
