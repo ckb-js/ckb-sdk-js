@@ -168,9 +168,9 @@ The rpc module will throw an error when the result contains an error field, you 
 This project used [lerna](https://github.com/lerna/lerna/) for packages management, which needs to be bootstrapped by the following steps:
 
 ```sh
-$ yarn install # to install the lerna package in this project, could be skipped if the lerna has been installed globally
-$ lerna bootstrap # install the depedencies and link the packages in the project
-$ npm run tsc # build packages with tsc command
+$ yarn add lerna --exact --ignore-workspace-root-check # to install the lerna package in this project, could be skipped if the lerna has been installed globally
+$ npx lerna bootstrap # install the depedencies and link the packages in the project
+$ yarn run tsc # build packages with tsc command
 ```
 
 After the second step, namely the bootstrap, all module packages are linked together, and used as in one package.
