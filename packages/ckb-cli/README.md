@@ -20,8 +20,10 @@ $ npm install -g @nervosnetwork/ckb-cli
 
 ## Usage
 
+### REPL
+
 ```sh
-$ @nervosnetwork/ckb-cli <url to the node>
+$ ckb-cli i <url to the node>
 ckb => connected to <url to the node>
 ckb => await core.rpc.getTipBlockNumber()
 '6905'
@@ -62,4 +64,10 @@ ckb => await core.rpc.getBlock('0x89de946313839a8a77749b6218d4d7ab3513910c5ed860
        witnesses: [] } ],
   proposals: [] }
 ckb =>
+```
+
+### Dashboard
+
+```sh
+$ ckb-cli d <url to the node>
 ```
