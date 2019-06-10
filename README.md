@@ -6,8 +6,9 @@
 | Coverage | [![Codecov](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master/graph/badge.svg)](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master) | [![Codecov](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop/graph/badge.svg)](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop) |
 
 [![NPM](https://img.shields.io/npm/v/@nervosnetwork/ckb-sdk-core/latest.svg)](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core)
+[![Package Quality](https://npm.packagequality.com/shield/%40nervosnetwork%2Fckb-sdk-core.svg)](https://packagequality.com/#?package=@nervosnetwork/ckb-sdk-core)
+[![License](https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg)](./LICENSE)
 [![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
-![License](https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg)
 
 JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
