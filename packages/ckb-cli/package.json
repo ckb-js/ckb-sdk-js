@@ -35,10 +35,13 @@
   },
   "dependencies": {
     "@nervosnetwork/ckb-sdk-core": "0.13.0",
+    "blessed": "0.1.81",
+    "blessed-contrib": "4.8.16",
     "commander": "2.20.0",
     "inquirer": "6.2.1"
   },
   "devDependencies": {
+    "@types/blessed": "0.1.11",
     "@types/crypto-js": "3.1.43",
     "@types/inquirer": "6.0.0"
   },
