@@ -56,10 +56,10 @@ class ECPair {
     const { r, s, recoveryParam } = this.key.sign(msg, {
       canonical: true,
     })
+    if (recoveryParam === null) throw new Error('Fail to sign the message')
     const fmtR = r.toString(16).padStart(64, '0')
     const fmtS = s.toString(16).padStart(64, '0')
-    const fmtRecID = recoveryParam ? '01' : '00'
-    return `${fmtR}${fmtS}${fmtRecID}`
+    return `${fmtR}${fmtS}0${recoveryParam}`
   }
 }
 
