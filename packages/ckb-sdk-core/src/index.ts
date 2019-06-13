@@ -116,7 +116,7 @@ class Core {
         s.update(this.utils.hexToBytes(datum))
       })
       const message = s.digest('hex')
-      const data = [`0x${addrObj.publicKey}`, `0x${addrObj.sign(message)}`, ...oldData]
+      const data = [`0x${addrObj.signRecoverable(message)}`, ...oldData]
       return {
         data,
       }
