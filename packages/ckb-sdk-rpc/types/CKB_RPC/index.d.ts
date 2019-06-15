@@ -45,7 +45,6 @@ declare module CKB_RPC {
   export interface CellInput {
     previous_output: OutPoint
     since: Since
-    args: Bytes[]
   }
 
   export interface CellOutput {

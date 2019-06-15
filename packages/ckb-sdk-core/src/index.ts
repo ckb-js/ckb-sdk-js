@@ -96,6 +96,52 @@ class Core {
     }
     return this.config.systemCellInfo
   }
+
+  public signWitnesses = (key: string | Address) => ({
+    transactionHash,
+    witnesses = [],
+  }: {
+    transactionHash: string
+    witnesses: CKBComponents.Witness[]
+  }) => {
+    if (!key) throw new Error('Private key or address object is required')
+    if (!transactionHash) throw new Error('Transaction hash is required')
+
+    const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
+    const signedWitnesses = witnesses.map(witness => {
+      const oldData = witness.data || []
+      const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
+      s.update(this.utils.hexToBytes(transactionHash.replace(/^0x/, '')))
+      oldData.forEach(datum => {
+        s.update(this.utils.hexToBytes(datum))
+      })
+      const message = s.digest('hex')
+      const data = [`0x${addrObj.publicKey}`, `0x${addrObj.sign(message)}`, ...oldData]
+      return {
+        data,
+      }
+    })
+    return signedWitnesses
+  }
+
+  public signTransaction = (key: string | Address) => async (transaction: CKBComponents.RawTransaction) => {
+    if (!key) throw new Error('Private key or address object is required')
+    if (!transaction) throw new Error('Transaction is required')
+    if (!transaction.witnesses) throw new Error('Witnesses is required')
+    if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
+
+    const transactionHash = await (this.rpc as RPC & { computeTransactionHash: Function }).computeTransactionHash(
+      transaction
+    )
+    const signedWitnesses = await this.signWitnesses(key)({
+      transactionHash,
+      witnesses: transaction.witnesses,
+    })
+    return {
+      ...transaction,
+      witnesses: signedWitnesses,
+    }
+  }
 }
 
 export default Core
