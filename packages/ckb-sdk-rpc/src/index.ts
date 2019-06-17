@@ -29,16 +29,12 @@ class CKBRPC extends DefaultRPC {
   }
 
   public setNode(node: CKBComponents.Node): CKBComponents.Node {
-    this.node = {
-      ...this.node,
-      ...node,
-    }
-    Method.setNode(this.node)
+    Object.assign(this.node, node)
     return this.node
   }
 
   public addMethod = (options: CKBComponents.Method) => {
-    const method = new Method(options)
+    const method = new Method(this.node, options)
     this.methods.push(method)
 
     Object.defineProperty(this, options.name, {
