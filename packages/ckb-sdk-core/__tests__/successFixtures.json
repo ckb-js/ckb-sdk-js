@@ -13,9 +13,9 @@
     "target": {
       "codeHash": "f1951123466e4479842387a66fabfd6b65fc87fd84ae8e6cd3053edb27fff2fd",
       "outPoint": {
-        "blockHash": "fc3ad90e38598032598c90b4ad4fefb420bacabaa7c5b40111daca7dfcc1f9d4",
+        "blockHash": "c3b42742ea8658c93de23f16a10c43212bd8b24a6bde5a93b8446dba3fb2a728",
         "cell": {
-          "txHash": "3f09b95f8886723cc850db0beb9c153169151c663f3e8f832dc04421fbb1f382",
+          "txHash": "6950a2491d7c0ccac11fcb985cbb3f6b5a70eaf6fff952c08a20d1b99c01fb98",
           "index": "1"
         }
       }
