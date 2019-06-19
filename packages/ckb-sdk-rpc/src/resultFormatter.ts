@@ -207,6 +207,44 @@ const formatter = {
       ...rest,
     }
   },
+  toTransactionPoint: (transactionPoint: CKB_RPC.TransactionPoint): CKBComponents.TransactionPoint => {
+    if (!transactionPoint) return transactionPoint
+    const { block_number: blockNumber, tx_hash: txHash, ...rest } = transactionPoint
+    return {
+      blockNumber,
+      txHash,
+      ...rest,
+    }
+  },
+  toTransactionsByLockHash: (transactions: CKB_RPC.TransactionsByLockHash): CKBComponents.TransactionsByLockHash => {
+    if (!transactions) return transactions
+    return transactions.map(tx => ({
+      consumedBy: tx.consumed_by ? formatter.toTransactionPoint(tx.consumed_by) : tx.consumed_by,
+      createdBy: formatter.toTransactionPoint(tx.created_by),
+    }))
+  },
+  toLiveCellsByLockHash: (cells: CKB_RPC.LiveCellsByLockHash): CKBComponents.LiveCellsByLockHash => {
+    if (!cells) return cells
+    return cells.map(cell => ({
+      cellOutput: formatter.toCell(cell.cell_output),
+      createdBy: formatter.toTransactionPoint(cell.created_by),
+    }))
+  },
+  toLockHashIndexState: (index: CKB_RPC.LockHashIndexState): CKBComponents.LockHashIndexState => {
+    if (!index) return index
+    const { block_hash: blockHash, block_number: blockNumber, lock_hash: lockHash, ...rest } = index
+    return {
+      blockHash,
+      blockNumber,
+      lockHash,
+      ...rest,
+    }
+  },
+  toLockHashIndexStates: (states: CKB_RPC.LockHashIndexStates): CKBComponents.LockHashIndexStates => {
+    if (!states) return states
+    return states.map(formatter.toLockHashIndexState)
+  },
 }
+
 export default formatter
 /* eslint-enable camelcase */

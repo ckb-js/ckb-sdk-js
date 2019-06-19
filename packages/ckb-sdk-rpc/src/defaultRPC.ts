@@ -102,6 +102,35 @@ const defaultRPC: CKBComponents.Method[] = [
     method: 'dry_run_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
   },
+  {
+    name: 'deindexLockHash',
+    method: 'deindex_lock_hash',
+    paramsFormatters: [paramsFmts.toHash],
+  },
+  {
+    name: 'getLiveCellsByLockHash',
+    method: 'get_live_cells_by_lock_hash',
+    paramsFormatters: [paramsFmts.toHash, paramsFmts.toPageNumber, paramsFmts.toPageSize, paramsFmts.toReverseOrder],
+    resultFormatters: resultFmts.toLiveCellsByLockHash,
+  },
+  {
+    name: 'getLockHashIndexStates',
+    method: 'get_lock_hash_index_states',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toLockHashIndexStates,
+  },
+  {
+    name: 'getTransactionsByLockHash',
+    method: 'get_transactions_by_lock_hash',
+    paramsFormatters: [paramsFmts.toHash, paramsFmts.toPageNumber, paramsFmts.toPageSize, paramsFmts.toReverseOrder],
+    resultFormatters: resultFmts.toTransactionsByLockHash,
+  },
+  {
+    name: 'indexLockHash',
+    method: 'index_lock_hash',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toLockHashIndexState,
+  },
 ]
 
 export class DefaultRPC {
@@ -162,7 +191,7 @@ export class DefaultRPC {
    * @return {object[]} array of objects including lock script, capacity, outPoint
    */
   public getCellsByLockHash!: (
-    hash: string,
+    hash: CKBComponents.Hash256,
     from: CKBComponents.BlockNumber,
     to: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.CellIncludingOutPoint[]>
@@ -268,6 +297,73 @@ export class DefaultRPC {
    * @return {Promise<object>} dry run result, including cycles the transaction used.
    */
   public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
+
+  /**
+   * @method deindexLockHash
+   * @memberof DefaultRPC
+   * @description remove index for live cells and transaction by the hash of lock script,
+   *              returns empty array when the `lock_hash` not indexed yet.
+   * @param {string} lockHash
+   * @retrun {Promise<null}
+   */
+  public deindexLockHash!: (lockHash: CKBComponents.Hash256) => Promise<null>
+
+  /**
+   * @method getLiveCellsByLockHash
+   * @memberof DefaultRPC
+   * @description return the live cells collection by the hash of lock script
+   * @param {string} lockHash, the hash of lock script
+   * @param {string} pageNumber
+   * @param {string} pageSize, max value is 50
+   * @param {boolean} [reverseOrder], return the live cells collection in reverse order,
+   *                                  an optional parameter, default to be false
+   * @return {Promise<object[]>}
+   */
+  public getLiveCellsByLockHash!: (
+    lockHash: CKBComponents.Hash256,
+    pageNumber: string,
+    pageSize: string,
+    reverseOrder?: boolean
+  ) => Promise<CKBComponents.LiveCellsByLockHash>
+
+  /**
+   * @method getLockHashIndexStates
+   * @memberof DefaultRPC
+   * @description get lock hash index states
+   * @retrun {Promise<object[]>}
+   */
+  public getLockHashIndexStates!: () => Promise<CKBComponents.LockHashIndexStates>
+
+  /**
+   * @method getTransactionsByLockHash
+   * @memberof DefaultRPC
+   * @description retrun the transactions collection by the hash of lock script.
+   *              return empty array when the `lock_hash` not indexed yet.
+   * @param {string} lockHash, the hash of lock script
+   * @param {string} pageNumber
+   * @param {string} pageSize, max value is 50
+   * @param {boolean} [reverseOrder], return the transactions collection in reverse order,
+   *                                  an optional parameter, default to be false
+   */
+  public getTransactionsByLockHash!: (
+    lockHash: CKBComponents.Hash256,
+    pageNumber: string,
+    pageSize: string,
+    reverseOrder?: boolean
+  ) => Promise<CKBComponents.TransactionsByLockHash>
+
+  /**
+   * @method indexLockHash
+   * @memberof DefaultRPC
+   * @description create index for live cells and transactions by the hash of lock script
+   * @param {string} lockHash, the hash of lock script
+   * @param {string} [indexFrom], the starting block number(exclusive), an optional parameter,
+   *                              null means starting from the tip and 0 means starting from genesis
+   */
+  public indexLockHash!: (
+    lockHash: CKBComponents.Hash,
+    indexFrom?: CKBComponents.BlockNumber
+  ) => Promise<CKBComponents.LockHashIndexState>
 }
 
 export default DefaultRPC

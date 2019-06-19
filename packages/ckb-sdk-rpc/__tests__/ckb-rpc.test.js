@@ -85,6 +85,16 @@ describe('ckb-rpc success', () => {
     const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
     expect(Array.isArray(cells)).toBeTruthy()
   })
+
+  it('deindex lock hash', async () => {})
+
+  it('get live cells by lock hash', async () => {})
+
+  it('get lock hash index states', async () => {})
+
+  it('get transactions by lock hash', async () => {})
+
+  it('index lock hash', async () => {})
 })
 
 describe('send transaction', () => {
