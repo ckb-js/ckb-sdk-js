@@ -372,7 +372,7 @@
           "difficulty": "0x100",
           "median_time": "1557287480008",
           "chain": "ckb_dev",
-          "warnings": ""
+          "alerts": []
         },
         "target": {
           "isInitialBlockDownload": false,
@@ -380,7 +380,7 @@
           "difficulty": "0x100",
           "medianTime": "1557287480008",
           "chain": "ckb_dev",
-          "warnings": ""
+          "alerts": []
         }
       }
     ],
