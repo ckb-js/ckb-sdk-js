@@ -112,13 +112,20 @@ declare module CKB_RPC {
     proposals: ProposalShortId[]
   }
 
+  export interface AlertMessage {
+    id: string
+    priority: string
+    notice_until: Timestamp
+    message: string
+  }
+
   export interface BlockchainInfo {
     is_initial_block_download: boolean
     epoch: string
     difficulty: string
     median_time: string
     chain: string
-    warnings: string
+    alerts: AlertMessage[]
   }
 
   export interface NodeInfo {

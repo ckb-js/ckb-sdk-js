@@ -215,13 +215,20 @@ declare namespace CKBComponents {
     Unknown = 'unknown',
   }
 
+  export interface AlertMessage {
+    id: string
+    priority: string
+    noticeUntil: Timestamp
+    message: string
+  }
+
   export interface BlockchainInfo {
     isInitialBlockDownload: boolean
     epoch: string
     difficulty: string
     medianTime: string
     chain: string
-    warnings: string
+    alerts: AlertMessage[]
   }
 
   export interface NodeInfo {
