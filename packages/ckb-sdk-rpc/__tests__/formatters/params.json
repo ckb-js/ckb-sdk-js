@@ -148,6 +148,9 @@
       {
         "source": 12,
         "target": "12"
+      },
+      {
+        "target": "1"
       }
     ],
     "toPageSize": [
@@ -158,6 +161,9 @@
       {
         "source": 12,
         "target": "12"
+      },
+      {
+        "target": "50"
       }
     ],
     "toReverseOrder": [
@@ -167,6 +173,9 @@
       },
       {
         "source": false,
+        "target": false
+      },
+      {
         "target": false
       }
     ]
