@@ -364,6 +364,22 @@
         }
       }
     ],
+    "toAlertMessage": [
+      {
+        "source": {
+          "id": "1111",
+          "priority": "1111",
+          "notice_until": "1557287480008",
+          "message": "alert message"
+        },
+        "target": {
+          "id": "1111",
+          "priority": "1111",
+          "noticeUntil": "1557287480008",
+          "message": "alert message"
+        }
+      }
+    ],
     "toBlockchainInfo": [
       {
         "source": {
