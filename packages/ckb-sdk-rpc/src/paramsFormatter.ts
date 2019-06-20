@@ -43,6 +43,15 @@ const formatter = {
     }
     return tx
   },
+  toPageNumber: (pageNo: string | number = '1') => pageNo.toString(),
+  toPageSize: (pageSize: string | number = 50) => {
+    const size = +pageSize || 50
+    if (size > 50) throw new Error('Page size is up to 50')
+    if (size < 0) throw new Error('Page size is expected to be positive')
+    return `${size}`
+  },
+  toReverseOrder: (reverse: boolean = false) => !!reverse,
 }
+
 export default formatter
 /* eslint-enable camelcase */

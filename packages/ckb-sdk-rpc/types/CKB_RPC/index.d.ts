@@ -82,6 +82,24 @@ declare module CKB_RPC {
     }
   }
 
+  export interface TransactionPoint {
+    block_number: BlockNumber
+    index: Index
+    tx_hash: Hash256
+  }
+
+  export interface TransactionByLockHash {
+    consumed_by: null | TransactionPoint
+    created_by: TransactionPoint
+  }
+  export type TransactionsByLockHash = TransactionByLockHash[]
+
+  export interface LiveCellByLockHash {
+    cell_output: CellOutput
+    created_by: TransactionPoint
+  }
+  export type LiveCellsByLockHash = LiveCellByLockHash[]
+
   export type Seal = CKBComponents.Seal
 
   export interface Header {
@@ -159,5 +177,13 @@ declare module CKB_RPC {
     remainder_reward: string
     start_number: string
   }
+
+  export interface LockHashIndexState {
+    block_hash: Hash256
+    block_number: BlockNumber
+    lock_hash: Hash256
+  }
+
+  export type LockHashIndexStates = LockHashIndexState[]
 }
 /* eslint-enable camelcase */

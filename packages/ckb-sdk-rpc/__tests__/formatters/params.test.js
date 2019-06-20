@@ -1,32 +1,21 @@
 const paramsFmt = require('../../lib/paramsFormatter').default
-const { params } = require('./fixtures.json')
+const fixtures = require('./params.json')
 
-describe('params formatter', () => {
-  it('toHash', () => {
-    params.toHash.forEach(fixture => {
-      const formatted = paramsFmt.toHash(fixture.source)
-      expect(formatted).toBe(fixture.target)
-    })
-  })
+const { success, failure } = fixtures
 
-  it('toOutPoint', () => {
-    params.toOutPoint.forEach(fixture => {
-      const formatted = paramsFmt.toOutPoint(fixture.source)
+describe('params formatter success', () => {
+  test.each(Object.keys(success))('%s', metohdName => {
+    success[metohdName].forEach(fixture => {
+      const formatted = paramsFmt[metohdName](fixture.source)
       expect(formatted).toEqual(fixture.target)
     })
   })
+})
 
-  it('toNumber', () => {
-    params.toNumber.forEach(fixture => {
-      const formatted = paramsFmt.toNumber(fixture.source)
-      expect(formatted).toBe(fixture.target)
-    })
-  })
-
-  it('toRawTransaction', () => {
-    params.toRawTransaction.forEach(fixture => {
-      const formatted = paramsFmt.toRawTransaction(fixture.source)
-      expect(formatted).toEqual(fixture.target)
+describe('param formatter failure', () => {
+  test.each(Object.keys(failure))('%s', methodName => {
+    failure[methodName].forEach(fixture => {
+      expect(() => paramsFmt[methodName](fixture.source)).toThrowError(fixture.error)
     })
   })
 })
