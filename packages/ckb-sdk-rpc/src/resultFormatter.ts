@@ -93,12 +93,21 @@ const formatter = {
       ...rest,
     }
   },
+  toAlertMessage: (alertMessage: CKB_RPC.AlertMessage): CKBComponents.AlertMessage => {
+    if (!alertMessage) return alertMessage
+    const { notice_until: noticeUntil, ...rest } = alertMessage
+    return {
+      noticeUntil,
+      ...rest,
+    }
+  },
   toBlockchainInfo: (info: CKB_RPC.BlockchainInfo): CKBComponents.BlockchainInfo => {
     if (!info) return info
-    const { is_initial_block_download: isInitialBlockDownload, median_time: medianTime, ...rest } = info
+    const { is_initial_block_download: isInitialBlockDownload, median_time: medianTime, alerts, ...rest } = info
     return {
       isInitialBlockDownload,
       medianTime,
+      alerts: alerts.map(formatter.toAlertMessage),
       ...rest,
     }
   },
