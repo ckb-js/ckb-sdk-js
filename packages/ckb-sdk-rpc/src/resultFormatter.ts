@@ -192,17 +192,9 @@ const formatter = {
   },
   toEpoch: (epoch: CKB_RPC.Epoch): CKBComponents.Epoch => {
     if (!epoch) return epoch
-    const {
-      block_reward: blockReward,
-      last_block_hash_in_previous_epoch: lastBlockHashInPreviousEpoch,
-      remainder_reward: remainderReward,
-      start_number: startNumber,
-      ...rest
-    } = epoch
+    const { epoch_reward: epochReward, start_number: startNumber, ...rest } = epoch
     return {
-      blockReward,
-      lastBlockHashInPreviousEpoch,
-      remainderReward,
+      epochReward,
       startNumber,
       ...rest,
     }

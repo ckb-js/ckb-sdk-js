@@ -290,12 +290,10 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    blockReward: String
+    epochReward: String
     difficulty: String
-    lastBlockHashInPreviousEpoch: String
     length: String
     number: String
-    remainderReward: String
     startNumber: String
   }
 

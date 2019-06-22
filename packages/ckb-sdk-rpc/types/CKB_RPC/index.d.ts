@@ -169,12 +169,10 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    block_reward: string
+    epoch_reward: string
     difficulty: string
-    last_block_hash_in_previous_epoch: string
     length: string
     number: string
-    remainder_reward: string
     start_number: string
   }
 

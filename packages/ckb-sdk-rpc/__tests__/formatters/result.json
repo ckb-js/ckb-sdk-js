@@ -797,21 +797,17 @@
     "toEpoch": [
       {
         "source": {
-          "block_reward": "5000000000000",
+          "epoch_reward": "125000000000000",
           "difficulty": "0x100",
-          "last_block_hash_in_previous_epoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "length": "1000",
           "number": "0",
-          "remainder_reward": "5000000000000",
           "start_number": "0"
         },
         "target": {
-          "blockReward": "5000000000000",
+          "epochReward": "125000000000000",
           "difficulty": "0x100",
-          "lastBlockHashInPreviousEpoch": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "length": "1000",
           "number": "0",
-          "remainderReward": "5000000000000",
           "startNumber": "0"
         }
       }
