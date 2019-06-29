@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.14.0...v0.15.0) (2019-06-29)
+
+
+### Features
+
+* **cli:** add dashboard mode of ckb-cli ([9accdeb](https://github.com/nervosnetwork/ckb-sdk-js/commit/9accdeb))
+
+
+
+
+
 # [0.14.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.13.0...v0.14.0) (2019-06-15)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-cli

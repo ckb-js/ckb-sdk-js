@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.14.0...v0.15.0) (2019-06-29)
+
+
+### Features
+
+* **utils:** add signRecoverable method to the ECPair class ([3c1f334](https://github.com/nervosnetwork/ckb-sdk-js/commit/3c1f334))
+
+
+### BREAKING CHANGES
+
+* **utils:** use signRecoverable instead of sign method to sign the transactions.
+
+
+
+
+
 # [0.14.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.13.0...v0.14.0) (2019-06-15)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils
