@@ -40,12 +40,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node).toEqual(node)
   })
 
-  it('has 17 default rpc', () => {
-    expect(rpc.methods.length).toBe(17)
-  })
-
-  it('has initialized node url of http://localhost:8114', () => {
-    expect(rpc.methods[0].constructor.node.url).toBe('http://localhost:8114')
+  it('has 22 default rpc', () => {
+    expect(rpc.methods.length).toBe(22)
   })
 
   it('set node url to http://test.localhost:8114', () => {
@@ -53,6 +49,6 @@ describe('ckb-rpc settings and helpers', () => {
     rpc.setNode({
       url,
     })
-    expect(rpc.methods[0].constructor.node.url).toBe(url)
+    expect(rpc.node.url).toBe(url)
   })
 })

@@ -82,6 +82,24 @@ declare module CKB_RPC {
     }
   }
 
+  export interface TransactionPoint {
+    block_number: BlockNumber
+    index: Index
+    tx_hash: Hash256
+  }
+
+  export interface TransactionByLockHash {
+    consumed_by: null | TransactionPoint
+    created_by: TransactionPoint
+  }
+  export type TransactionsByLockHash = TransactionByLockHash[]
+
+  export interface LiveCellByLockHash {
+    cell_output: CellOutput
+    created_by: TransactionPoint
+  }
+  export type LiveCellsByLockHash = LiveCellByLockHash[]
+
   export type Seal = CKBComponents.Seal
 
   export interface Header {
@@ -112,13 +130,20 @@ declare module CKB_RPC {
     proposals: ProposalShortId[]
   }
 
+  export interface AlertMessage {
+    id: string
+    priority: string
+    notice_until: Timestamp
+    message: string
+  }
+
   export interface BlockchainInfo {
     is_initial_block_download: boolean
     epoch: string
     difficulty: string
     median_time: string
     chain: string
-    warnings: string
+    alerts: AlertMessage[]
   }
 
   export interface NodeInfo {
@@ -144,13 +169,19 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    block_reward: string
+    epoch_reward: string
     difficulty: string
-    last_block_hash_in_previous_epoch: string
     length: string
     number: string
-    remainder_reward: string
     start_number: string
   }
+
+  export interface LockHashIndexState {
+    block_hash: Hash256
+    block_number: BlockNumber
+    lock_hash: Hash256
+  }
+
+  export type LockHashIndexStates = LockHashIndexState[]
 }
 /* eslint-enable camelcase */

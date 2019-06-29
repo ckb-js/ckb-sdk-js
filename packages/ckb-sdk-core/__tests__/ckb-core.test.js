@@ -68,7 +68,6 @@ describe('ckb-core', () => {
 
       it('throw an error when witnesses is missing', () => {
         const fixture = exceptionFixtures.signTransactionWithoutWitnesses
-        console.log(!fixture.transaction.witnesses)
         expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
           new Error(fixture.exception)
         )
@@ -76,7 +75,6 @@ describe('ckb-core', () => {
 
       it('throw an error with invalid cound of witnesses', () => {
         const fixture = exceptionFixtures.signTransactionWithInvalidCountOfWitnesses
-        console.log(!fixture.transaction.witnesses)
         expect(core.signTransaction(fixture.privateKey)(fixture.transaction)).rejects.toEqual(
           new Error(fixture.exception)
         )

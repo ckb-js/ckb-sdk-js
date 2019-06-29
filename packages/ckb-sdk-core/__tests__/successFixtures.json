@@ -13,9 +13,9 @@
     "target": {
       "codeHash": "f1951123466e4479842387a66fabfd6b65fc87fd84ae8e6cd3053edb27fff2fd",
       "outPoint": {
-        "blockHash": "fc3ad90e38598032598c90b4ad4fefb420bacabaa7c5b40111daca7dfcc1f9d4",
+        "blockHash": "c3b42742ea8658c93de23f16a10c43212bd8b24a6bde5a93b8446dba3fb2a728",
         "cell": {
-          "txHash": "3f09b95f8886723cc850db0beb9c153169151c663f3e8f832dc04421fbb1f382",
+          "txHash": "6950a2491d7c0ccac11fcb985cbb3f6b5a70eaf6fff952c08a20d1b99c01fb98",
           "index": "1"
         }
       }
@@ -35,8 +35,7 @@
     "target": [
       {
         "data": [
-          "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01",
-          "0x304402202c643579e47045be050d3842ed9270151af8885e33954bddad0e53e81d1c2dbe02202dc637877a8302110846ebc6a16d9148c106e25f945063ad1c4d4db2b6952408"
+          "0x2c643579e47045be050d3842ed9270151af8885e33954bddad0e53e81d1c2dbe2dc637877a8302110846ebc6a16d9148c106e25f945063ad1c4d4db2b695240800"
         ]
       }
     ]
@@ -117,8 +116,7 @@
       "witnesses": [
         {
           "data": [
-            "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01",
-            "0x3045022100aa659c1d2920d144b76e4d03eb4d0c56b22e66501c68bb330bc58b5af1ba411c02203728e526386d4186955049405a669a9ce63ec0e3b233ca7696f9a5d95651a256"
+            "0xaa659c1d2920d144b76e4d03eb4d0c56b22e66501c68bb330bc58b5af1ba411c3728e526386d4186955049405a669a9ce63ec0e3b233ca7696f9a5d95651a25600"
           ]
         }
       ]

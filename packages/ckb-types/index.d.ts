@@ -123,6 +123,30 @@ declare namespace CKBComponents {
   }
 
   /**
+   * @typeof TransactionPoint
+   * @property blockNumber
+   * @property index
+   * @property txHash
+   */
+  export interface TransactionPoint {
+    blockNumber: BlockNumber
+    index: Index
+    txHash: Hash256
+  }
+
+  /**
+   * @TransactionByLockHash
+   * @property consumedBy
+   * @property createdBy
+   */
+  export interface TransactionByLockHash {
+    consumedBy: null | TransactionPoint
+    createdBy: TransactionPoint
+  }
+
+  export type TransactionsByLockHash = TransactionByLockHash[]
+
+  /**
    * @typedef @Seal
    * @property nonce
    * @property proof
@@ -215,13 +239,27 @@ declare namespace CKBComponents {
     Unknown = 'unknown',
   }
 
+  export interface LiveCellByLockHash {
+    cellOutput: CellOutput
+    createdBy: TransactionPoint
+  }
+
+  export type LiveCellsByLockHash = LiveCellByLockHash[]
+
+  export interface AlertMessage {
+    id: string
+    priority: string
+    noticeUntil: Timestamp
+    message: string
+  }
+
   export interface BlockchainInfo {
     isInitialBlockDownload: boolean
     epoch: string
     difficulty: string
     medianTime: string
     chain: string
-    warnings: string
+    alerts: AlertMessage[]
   }
 
   export interface NodeInfo {
@@ -252,16 +290,22 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    blockReward: String
+    epochReward: String
     difficulty: String
-    lastBlockHashInPreviousEpoch: String
     length: String
     number: String
-    remainderReward: String
     startNumber: String
   }
 
   export interface RunDryResult {
     cycles: Cycles
   }
+
+  export interface LockHashIndexState {
+    blockHash: Hash256
+    blockNumber: BlockNumber
+    lockHash: Hash256
+  }
+
+  export type LockHashIndexStates = LockHashIndexState[]
 }

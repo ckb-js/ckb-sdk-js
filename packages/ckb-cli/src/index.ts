@@ -4,7 +4,7 @@ import repl from 'repl'
 import Core from '@nervosnetwork/ckb-sdk-core'
 import commander from 'commander'
 import { prompt } from 'inquirer'
-// import questions from './rpc' // { rpcMethods }
+import dashboard from './dashboard'
 
 const RPC_URL = 'http://localhost:8114'
 
@@ -70,8 +70,20 @@ commander
     const core = new Core(remote)
     replServer.context.core = core
     replServer.context.rpc = {}
+    replServer.context.dashboard = () => dashboard(core)
     Object.keys(core.rpc).forEach(key => {
       replServer.context.rpc[key] = (core.rpc as any)[key]
     })
   })
+
+commander
+  .command('dashboard [remote]')
+  .alias('d')
+  .description('dashboard')
+  .action(async (remote = RPC_URL) => {
+    console.info('boosting the dashboard')
+    const core = new Core(remote)
+    dashboard(core).start()
+  })
+
 commander.parse(process.argv)

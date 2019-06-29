@@ -1,5 +1,5 @@
 const ECPair = require('../lib/ecpair').default
-const { sigFixtures } = require('./signature-fixtures.json')
+const { sigFixtures, signRecoverableFixtures } = require('./signature-fixtures.json')
 const { hexToBytes } = require('../lib')
 
 describe('ECPair', () => {
@@ -53,6 +53,14 @@ describe('ECPair', () => {
       // slice sig from 0, -2 to ignore the recovery param
       expect(sig).toBe(fixture.sig.slice(0, -2))
       expect(ecpair.verify(fixture.msg, fixture.sig.slice(0, -2))).toBe(true)
+    })
+  })
+
+  it('signRecoverable', () => {
+    signRecoverableFixtures.forEach(fixture => {
+      const ecpair = new ECPair(fixture.privKey)
+      const sig = ecpair.signRecoverable(fixture.msg)
+      expect(sig).toBe(fixture.sig)
     })
   })
 

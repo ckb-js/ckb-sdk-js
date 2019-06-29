@@ -36,19 +36,30 @@ class ECPair {
 
   public getPublicKey = (enc: 'hex' | 'array') => this.key.getPublic(this.compressed, enc)
 
-  public sign = (msg: string | Uint8Array): string => {
-    const message = typeof msg === 'string' ? hexToBytes(msg) : msg
+  public sign = (message: string | Uint8Array): string => {
+    const msg = typeof message === 'string' ? hexToBytes(message) : message
     return this.key
-      .sign(message, {
+      .sign(msg, {
         canonical: true,
       })
       .toDER('hex')
   }
 
-  public verify = (msg: string | Buffer, sig: string | Buffer) => {
-    const message = typeof msg === 'string' ? hexToBytes(msg) : msg
+  public verify = (message: string | Buffer, sig: string | Buffer) => {
+    const msg = typeof message === 'string' ? hexToBytes(message) : message
     const signature = typeof sig === 'string' ? hexToBytes(sig) : sig
-    return this.key.verify(message, signature as any)
+    return this.key.verify(msg, signature as any)
+  }
+
+  public signRecoverable = (message: string | Uint8Array): string => {
+    const msg = typeof message === 'string' ? hexToBytes(message) : message
+    const { r, s, recoveryParam } = this.key.sign(msg, {
+      canonical: true,
+    })
+    if (recoveryParam === null) throw new Error('Fail to sign the message')
+    const fmtR = r.toString(16).padStart(64, '0')
+    const fmtS = s.toString(16).padStart(64, '0')
+    return `${fmtR}${fmtS}0${recoveryParam}`
   }
 }
 
