@@ -58,6 +58,22 @@
           "cell": null,
           "block_hash": null
         }
+      },
+      {
+        "source": {
+          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "target": {
+          "cell": null,
+          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      {
+        "source": {},
+        "target": {
+          "cell": null,
+          "block_hash": null
+        }
       }
     ],
     "toNumber": [
