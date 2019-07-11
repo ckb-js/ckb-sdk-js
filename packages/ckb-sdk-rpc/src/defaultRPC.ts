@@ -157,11 +157,11 @@ export class DefaultRPC {
   /**
    * @method getTransaction
    * @memberof DefaultRPC
-   * @description rpc to get trasnaction by its hash
+   * @description rpc to get trasnaction wtih its status by its hash
    * @param {string} hash - the transaction hash of the target transaction
-   * @return {Promise<object>} transaction object
+   * @return {Promise<object>} transaction object with transaction status
    */
-  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Transaction>
+  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.TransactionWithStatus>
 
   /**
    * @method getBlockHash

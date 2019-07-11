@@ -41,16 +41,14 @@ export const toAddressPayload = (
   return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...identifier])
 }
 
-export const toAddressIdentifier = toAddressPayload
-
 export const bech32Address = (
-  data: Uint8Array | string,
+  identifier: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
     type = AddressType.BinIdx,
     binIdx = AddressBinIdx.P2PH,
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressIdentifier(data, type, binIdx)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(identifier, type, binIdx)))
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,

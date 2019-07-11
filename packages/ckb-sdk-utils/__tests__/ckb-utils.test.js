@@ -189,15 +189,28 @@ describe('address', () => {
     expect(address).toBe(fixture.address)
   })
 
-  it('pubkey to address', () => {
-    const fixture = {
+  const pubkeyToAddressFixtures = {
+    'with configuration of { prefix: ckt }': {
       pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-      prefix: 'ckt',
+      config: {
+        prefix: 'ckt',
+      },
       address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
-    }
-    const address = pubkeyToAddress(hexToBytes(fixture.pubkey), {
-      prefix: fixture.prefix,
-    })
+    },
+    'with empty configuration': {
+      pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      config: {},
+      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+    },
+    'with undefined configuration': {
+      pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      config: undefined,
+      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+    },
+  }
+  test.each(Object.keys(pubkeyToAddressFixtures))('%s', caseName => {
+    const fixture = pubkeyToAddressFixtures[caseName]
+    const address = pubkeyToAddress(hexToBytes(fixture.pubkey), fixture.config)
     expect(address).toBe(fixture.address)
   })
 

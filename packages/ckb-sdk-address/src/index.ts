@@ -7,7 +7,7 @@ const { hexToBytes, pubkeyToAddress, blake160, AddressPrefix, AddressType, Addre
 class Address extends ECPair {
   public value = ''
 
-  public idenfitier = ''
+  public identifier = ''
 
   public constructor(
     sk: Uint8Array | string,
@@ -33,7 +33,7 @@ class Address extends ECPair {
       type,
       binIdx,
     })
-    this.idenfitier = blake160(this.publicKey as string, 'hex')
+    this.identifier = blake160(this.publicKey as string, 'hex')
   }
 }
 

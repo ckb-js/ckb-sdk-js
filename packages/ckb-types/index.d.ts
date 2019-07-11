@@ -18,6 +18,11 @@ declare namespace CKBComponents {
   export type Nonce = string
   export type Cycles = string
   export type Size = string
+  export enum TransactionStatus {
+    Pending = 'pending',
+    Proposed = 'proposed',
+    Committed = 'committed',
+  }
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -120,6 +125,14 @@ declare namespace CKBComponents {
    */
   export interface Transaction extends RawTransaction {
     hash: Hash256
+  }
+
+  export interface TransactionWithStatus {
+    transaction: Transaction
+    txStatus: {
+      blockHash: Hash256 | null
+      status: TransactionStatus
+    }
   }
 
   /**

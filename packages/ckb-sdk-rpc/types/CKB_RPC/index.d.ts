@@ -21,11 +21,7 @@ declare module CKB_RPC {
   export type Cycles = CKBComponents.Cycles
   export type Size = CKBComponents.Size
 
-  export enum TransactionStatus {
-    Pending = 'pending',
-    Proposed = 'proposed',
-    Committed = 'committed',
-  }
+  export type TransactionStatus = CKBComponents.TransactionStatus
 
   export interface Script {
     args: Bytes[]

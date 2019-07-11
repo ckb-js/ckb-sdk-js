@@ -56,7 +56,7 @@ const bootstrap = async () => {
 
   const script = {
     codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
-    args: [`0x${myAddressObj.idenfitier}`],
+    args: [`0x${myAddressObj.identifier}`],
   }
   /**
    * to see the lock script
@@ -152,7 +152,7 @@ const bootstrap = async () => {
       capacity: 0n,
       lock: {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
-        args: [`0x${myAddressObj.idenfitier}`],
+        args: [`0x${myAddressObj.identifier}`],
       },
       data: '0x',
     }
@@ -218,7 +218,7 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const tx = await generateTransaction(`0x${myAddressObj.idenfitier}`, 6000000000) // generate the raw transaction with empty witnesses
+  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 6000000000) // generate the raw transaction with empty witnesses
   const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
    * to see the signed transaction
