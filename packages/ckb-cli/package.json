@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-cli",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "Command line package based on @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -34,7 +34,7 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-core": "0.15.1",
+    "@nervosnetwork/ckb-sdk-core": "0.16.0",
     "blessed": "0.1.81",
     "blessed-contrib": "4.8.16",
     "commander": "2.20.0",
@@ -45,5 +45,5 @@
     "@types/crypto-js": "3.1.43",
     "@types/inquirer": "6.0.0"
   },
-  "gitHead": "77e21f208d5ad443801e758dc80c2ded32036c28"
+  "gitHead": "6651a70914f95c08a3e03af50fdeb084b35138be"
 }
