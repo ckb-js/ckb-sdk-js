@@ -1,12 +1,18 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toScript: ({ codeHash: code_hash, ...rest }: CKBComponents.Script): CKB_RPC.Script => ({
+  toScript: ({ codeHash: code_hash, hashType: hash_type, ...rest }: CKBComponents.Script): CKB_RPC.Script => ({
     code_hash,
+    hash_type,
     ...rest,
   }),
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toCellOutPoint: ({ txHash: tx_hash, ...rest }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
+  toCellOutPoint: ({
+    txHash: tx_hash,
+    hashType: hash_type,
+    ...rest
+  }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
     tx_hash,
+    hash_type,
     ...rest,
   }),
   toOutPoint: ({ cell = null, blockHash: block_hash = null, ...rest }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
