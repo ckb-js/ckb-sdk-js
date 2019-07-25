@@ -1,4 +1,4 @@
-import { bech32, blake160, hexToBytes, bytesToHex, utf8ToBytes } from '..'
+import { bech32, blake160, hexToBytes, bytesToHex } from '..'
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -7,62 +7,60 @@ export enum AddressPrefix {
 
 export enum AddressType {
   BinHash = '0x00',
-  BinIdx = '0x01',
+  HashIdx = '0x01',
 }
 
-export enum AddressBinIdx {
-  P2PH = 'P2PH',
-}
+export type CodeHashIndex = '0x00' | string
 
 export interface AddressOptions {
   prefix: AddressPrefix
   type: AddressType
-  binIdx: AddressBinIdx
+  codeHashIndex: CodeHashIndex
 }
 
 export const defaultAddressOptions = {
   prefix: AddressPrefix.Testnet,
-  type: AddressType.BinIdx,
-  binIdx: AddressBinIdx.P2PH,
+  type: AddressType.HashIdx,
+  codeHashIndex: '0x00',
 }
 
 /**
- * @description payload = type(01) | bin-idx("P2PH" => "50|32|50|40") | blake160-formatted pubkey
+ * @description payload = type(01) | code hash index(00) | blake160-formatted pubkey
  * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
  */
 export const toAddressPayload = (
   identifier: string | Uint8Array,
-  type: AddressType = AddressType.BinIdx,
-  params: AddressBinIdx = AddressBinIdx.P2PH
+  type: AddressType = AddressType.HashIdx,
+  params: CodeHashIndex = '0x00'
 ): Uint8Array => {
   if (typeof identifier === 'string') {
-    return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...hexToBytes(identifier)])
+    return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...hexToBytes(identifier)])
   }
-  return new Uint8Array([...hexToBytes(type), ...utf8ToBytes(params), ...identifier])
+  return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...identifier])
 }
 
 export const bech32Address = (
   identifier: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
-    type = AddressType.BinIdx,
-    binIdx = AddressBinIdx.P2PH,
+    type = AddressType.HashIdx,
+    codeHashIndex = '0x00',
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(identifier, type, binIdx)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(identifier, type, codeHashIndex)))
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
-    type = AddressType.BinIdx,
-    binIdx = AddressBinIdx.P2PH,
+    type = AddressType.HashIdx,
+    codeHashIndex = '0x00' as CodeHashIndex,
   }: AddressOptions = defaultAddressOptions
 ) => {
   const identifier = blake160(pubkey)
   return bech32Address(identifier, {
     prefix,
     type,
-    binIdx,
+    codeHashIndex,
   })
 }
 
