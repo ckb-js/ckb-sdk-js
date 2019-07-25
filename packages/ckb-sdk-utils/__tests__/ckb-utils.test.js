@@ -170,7 +170,7 @@ describe('address', () => {
   it('identifier to address payload', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      payload: '015032504836c329ed630d6ce750712a477543672adab57f4c',
+      payload: '010036c329ed630d6ce750712a477543672adab57f4c',
     }
     const payload = bytesToHex(toAddressPayload(fixture.identifier))
     expect(payload).toBe(fixture.payload)
@@ -180,7 +180,7 @@ describe('address', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
@@ -192,7 +192,7 @@ describe('address', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckb',
-      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+      address: 'ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd',
     }
     const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
@@ -203,16 +203,16 @@ describe('address', () => {
   it('bech32Address with empty options', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier, {})
     expect(address).toBe(fixture.address)
   })
 
-  it('bech32Address with default options which should be prefix: ckb, type: binIndx, binIdx: P2PH', () => {
+  it('bech32Address with default options which should be prefix: ckb, type: binIndx, code hash index: 0x00', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier)
     expect(address).toBe(fixture.address)
@@ -224,17 +224,17 @@ describe('address', () => {
       config: {
         prefix: 'ckt',
       },
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with empty configuration': {
       pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: {},
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with undefined configuration': {
       pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: undefined,
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
   }
   test.each(Object.keys(pubkeyToAddressFixtures))('%s', caseName => {
@@ -245,9 +245,9 @@ describe('address', () => {
 
   it('parse address', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       prefix: 'ckt',
-      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
@@ -258,9 +258,9 @@ describe('address', () => {
 
   it('parse address with default options prefix: ckt, encode: binary', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       prefix: 'ckt',
-      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = bytesToHex(parseAddress(fixture.addr))
@@ -271,7 +271,7 @@ describe('address', () => {
 
   it('parser incorrect address', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       incorrectPrefix: 'ckb',
     }
     expect(() => parseAddress(fixture.addr, fixture.incorrectPrefix)).toThrow('Prefix not matched')

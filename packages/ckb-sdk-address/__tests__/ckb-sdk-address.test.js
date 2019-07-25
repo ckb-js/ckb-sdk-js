@@ -4,7 +4,7 @@ describe('ckb-sdk-address', () => {
   it('generate address with default configuration', () => {
     const fixture = {
       privateKey: 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = new Address(fixture.privateKey)
     expect(address.value).toBe(fixture.address)
@@ -14,7 +14,7 @@ describe('ckb-sdk-address', () => {
     const fixture = {
       privateKey: 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
       prefix: 'ckt',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = new Address(fixture.privateKey, {
       prefix: fixture.prefix,
@@ -26,7 +26,7 @@ describe('ckb-sdk-address', () => {
     const fixture = {
       privateKey: 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
       type: '0x01',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = new Address(fixture.privateKey, {
       type: fixture.type,
@@ -34,16 +34,16 @@ describe('ckb-sdk-address', () => {
     expect(address.value).toBe(fixture.address)
   })
 
-  it('generate address specified type 0x01 and binIdx of P2PH', () => {
+  it('generate address specified type 0x01 and code hash index of 0x00', () => {
     const fixture = {
       privateKey: 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
       type: '0x01',
-      binIdx: 'P2PH',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      codeHashIndex: '0x00',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = new Address(fixture.privateKey, {
       type: fixture.type,
-      binIdx: fixture.binIdx,
+      codeHashIndex: fixture.codeHashIndex,
     })
     expect(address.value).toBe(fixture.address)
   })
