@@ -5,7 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.17.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.16.0...v0.17.0) (2019-07-27)
 
-**Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
+
+### Features
+
+* **utils:** update the address format ([74a5ad8](https://github.com/nervosnetwork/ckb-sdk-js/commit/74a5ad8))
+
+
+### BREAKING CHANGES
+
+* **utils:** update the address format
 
 
 
