@@ -123,15 +123,44 @@ describe('bech32', () => {
 })
 
 describe('scriptToHash', () => {
-  it('scriptToHash(basic script)', () => {
-    const fixture = {
+  const fixtures = {
+    'Empty script': {
       script: {
         version: 0,
         codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
-        args: [[1]],
+        args: [],
       },
-      lockHash: 'dade0e507e27e2a5995cf39c8cf454b6e70fa80d03c1187db7a4cb2c9eab79da',
-    }
+      lockHash: 'c371c8d6a0aed6018e91202d047c35055cfb0228e6709f1cd1d5f756525628b9',
+    },
+    'Script with default hash type of Data': {
+      script: {
+        version: 0,
+        codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        args: ['0x01'],
+      },
+      lockHash: 'cd5b0c29b8f5528d3a75e3918576db4d962a1d4b315dff7d3c50818cc373b3f5',
+    },
+    'Script with hash type of Data': {
+      script: {
+        version: 0,
+        codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        args: ['0x01'],
+        hashType: 'Data',
+      },
+      lockHash: 'cd5b0c29b8f5528d3a75e3918576db4d962a1d4b315dff7d3c50818cc373b3f5',
+    },
+    'Script with hash type of Type': {
+      script: {
+        version: 0,
+        codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        args: ['0x01'],
+        hashType: 'Type',
+      },
+      lockHash: '7bc53ae03b219a1cb520fce8ac2299092958147db23d92d3a97b3a9dec748d94',
+    },
+  }
+  test.each(Object.keys(fixtures))('%s', fixtureName => {
+    const fixture = fixtures[fixtureName]
     const lockHash = lockScriptToHash(fixture.script)
     expect(lockHash).toBe(fixture.lockHash)
   })
@@ -141,7 +170,7 @@ describe('address', () => {
   it('identifier to address payload', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      payload: '015032504836c329ed630d6ce750712a477543672adab57f4c',
+      payload: '010036c329ed630d6ce750712a477543672adab57f4c',
     }
     const payload = bytesToHex(toAddressPayload(fixture.identifier))
     expect(payload).toBe(fixture.payload)
@@ -151,7 +180,7 @@ describe('address', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
@@ -163,7 +192,7 @@ describe('address', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckb',
-      address: 'ckb1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6vqdd7em',
+      address: 'ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd',
     }
     const address = bech32Address(fixture.identifier, {
       prefix: fixture.prefix,
@@ -174,16 +203,16 @@ describe('address', () => {
   it('bech32Address with empty options', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier, {})
     expect(address).toBe(fixture.address)
   })
 
-  it('bech32Address with default options which should be prefix: ckb, type: binIndx, binIdx: P2PH', () => {
+  it('bech32Address with default options which should be prefix: ckb, type: binIndx, code hash index: 0x00', () => {
     const fixture = {
       identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier)
     expect(address).toBe(fixture.address)
@@ -195,17 +224,17 @@ describe('address', () => {
       config: {
         prefix: 'ckt',
       },
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with empty configuration': {
       pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: {},
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with undefined configuration': {
       pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: undefined,
-      address: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
   }
   test.each(Object.keys(pubkeyToAddressFixtures))('%s', caseName => {
@@ -216,9 +245,9 @@ describe('address', () => {
 
   it('parse address', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       prefix: 'ckt',
-      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
@@ -229,9 +258,9 @@ describe('address', () => {
 
   it('parse address with default options prefix: ckt, encode: binary', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       prefix: 'ckt',
-      hrp: `01${Buffer.from('P2PH').toString('hex')}`,
+      hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = bytesToHex(parseAddress(fixture.addr))
@@ -242,7 +271,7 @@ describe('address', () => {
 
   it('parser incorrect address', () => {
     const fixture = {
-      addr: 'ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf',
+      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
       incorrectPrefix: 'ckb',
     }
     expect(() => parseAddress(fixture.addr, fixture.incorrectPrefix)).toThrow('Prefix not matched')

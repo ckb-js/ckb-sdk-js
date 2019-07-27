@@ -25,9 +25,10 @@ const formatter = {
   },
   toScript: (script: CKB_RPC.Script): CKBComponents.Script => {
     if (!script) return script
-    const { code_hash: codeHash, ...rest } = script
+    const { code_hash: codeHash, hash_type: hashType, ...rest } = script
     return {
       codeHash,
+      hashType,
       ...rest,
     }
   },
@@ -50,9 +51,10 @@ const formatter = {
   },
   toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => {
     if (!cellOutPoint) return cellOutPoint
-    const { tx_hash: txHash, ...rest } = cellOutPoint
+    const { tx_hash: txHash, hash_type: hashType, ...rest } = cellOutPoint
     return {
       txHash,
+      hashType,
       ...rest,
     }
   },

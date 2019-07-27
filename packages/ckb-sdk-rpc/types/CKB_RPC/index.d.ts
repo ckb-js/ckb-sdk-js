@@ -23,14 +23,21 @@ declare module CKB_RPC {
 
   export type TransactionStatus = CKBComponents.TransactionStatus
 
+  export enum ScriptHashType {
+    Data = 'Data',
+    Type = 'Type',
+  }
+
   export interface Script {
     args: Bytes[]
     code_hash: Hash256
+    hash_type: ScriptHashType
   }
 
   export interface CellOutPoint {
     tx_hash: Hash256
     index: Index
+    hash_type: ScriptHashType
   }
 
   export interface OutPoint {

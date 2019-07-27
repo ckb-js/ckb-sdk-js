@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-address",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Address module of @nervosnetwork/ckb-sdk-core",
   "keywords": [
     "CKB",
@@ -33,8 +33,8 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-utils": "0.16.0",
-    "@nervosnetwork/ckb-types": "0.16.0"
+    "@nervosnetwork/ckb-sdk-utils": "0.17.0",
+    "@nervosnetwork/ckb-types": "0.17.0"
   },
-  "gitHead": "6651a70914f95c08a3e03af50fdeb084b35138be"
+  "gitHead": "0a3fee8d4c7187f5a73851c751a98fe9948482aa"
 }

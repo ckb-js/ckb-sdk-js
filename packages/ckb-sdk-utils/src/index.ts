@@ -42,11 +42,27 @@ export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
-export const lockScriptToHash = ({ codeHash, args }: { codeHash?: string; args?: (Uint8Array | string)[] }) => {
+export enum ScriptHashType {
+  Data = 'Data',
+  Type = 'Type',
+}
+
+export const lockScriptToHash = ({
+  codeHash = '',
+  args = [],
+  hashType = ScriptHashType.Data,
+}: CKBComponents.Script) => {
   const s = blake2b(32, null, null, PERSONAL)
   if (codeHash) {
     s.update(hexToBytes(codeHash.replace(/^0x/, '')))
   }
+
+  if (hashType === ScriptHashType.Data) {
+    s.update(Buffer.from([0x0]))
+  } else {
+    s.update(Buffer.from([0x1]))
+  }
+
   if (args && args.length) {
     args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))
   }

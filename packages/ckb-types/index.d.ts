@@ -23,6 +23,12 @@ declare namespace CKBComponents {
     Proposed = 'proposed',
     Committed = 'committed',
   }
+
+  export enum ScriptHashType {
+    Data = 'Data',
+    Type = 'Type',
+  }
+
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -56,6 +62,7 @@ declare namespace CKBComponents {
   export interface Script {
     args: Bytes[]
     codeHash: Hash256
+    hashType: ScriptHashType
   }
 
   /**
@@ -91,6 +98,7 @@ declare namespace CKBComponents {
   export interface CellOutPoint {
     txHash: Hash256
     index: Index
+    hashType: ScriptHashType
   }
 
   export interface OutPoint {
