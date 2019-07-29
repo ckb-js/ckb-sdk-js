@@ -51,10 +51,9 @@ const formatter = {
   },
   toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => {
     if (!cellOutPoint) return cellOutPoint
-    const { tx_hash: txHash, hash_type: hashType, ...rest } = cellOutPoint
+    const { tx_hash: txHash, ...rest } = cellOutPoint
     return {
       txHash,
-      hashType,
       ...rest,
     }
   },

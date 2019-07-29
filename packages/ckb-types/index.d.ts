@@ -98,7 +98,6 @@ declare namespace CKBComponents {
   export interface CellOutPoint {
     txHash: Hash256
     index: Index
-    hashType: ScriptHashType
   }
 
   export interface OutPoint {
