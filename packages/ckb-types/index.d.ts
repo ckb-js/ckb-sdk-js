@@ -328,4 +328,13 @@ declare namespace CKBComponents {
   }
 
   export type LockHashIndexStates = LockHashIndexState[]
+
+  export interface BannedAddress {
+    address: string
+    banReason: string
+    banUntil: Timestamp
+    createdAt: Timestamp
+  }
+
+  export type BannedAddresses = BannedAddress[]
 }

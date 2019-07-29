@@ -131,6 +131,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toLockHashIndexState,
   },
+  {
+    name: 'getBannedAddresses',
+    method: 'get_banned_addresses',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toBannedAddresses,
+  },
 ]
 
 export class DefaultRPC {
@@ -364,6 +370,8 @@ export class DefaultRPC {
     lockHash: CKBComponents.Hash,
     indexFrom?: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.LockHashIndexState>
+
+  public getBannedAddresses!: () => Promise<CKBComponents.BannedAddresses>
 }
 
 export default DefaultRPC

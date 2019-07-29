@@ -185,5 +185,13 @@ declare module CKB_RPC {
   }
 
   export type LockHashIndexStates = LockHashIndexState[]
+
+  export interface BannedAddress {
+    address: string
+    ban_reason: string
+    ban_until: Timestamp
+    created_at: Timestamp
+  }
+  export type BannedAddresses = BannedAddress[]
 }
 /* eslint-enable camelcase */
