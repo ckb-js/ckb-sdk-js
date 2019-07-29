@@ -37,7 +37,6 @@ declare module CKB_RPC {
   export interface CellOutPoint {
     tx_hash: Hash256
     index: Index
-    hash_type: ScriptHashType
   }
 
   export interface OutPoint {
