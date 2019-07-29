@@ -137,6 +137,11 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [],
     resultFormatters: resultFmts.toBannedAddresses,
   },
+  {
+    name: 'setBan',
+    method: 'set_ban',
+    paramsFormatters: [],
+  },
 ]
 
 export class DefaultRPC {
@@ -372,6 +377,27 @@ export class DefaultRPC {
   ) => Promise<CKBComponents.LockHashIndexState>
 
   public getBannedAddresses!: () => Promise<CKBComponents.BannedAddresses>
+  /**
+   * @method setBan
+   * @memberof DefaultRPC
+   * @description insert or delete an IP/Subnet from the banned list
+   * @param {string} address, The IP/Subnet with an optional netmask (default is /32 = single IP)
+   * @param {insert|delete} command, `insert` to insert an IP/Subnet to the list, `delete` to delete an IP/Subnet
+   *                                 from the list
+   * @param {string|null} ban_time, Time in milliseconds how long (or until when if [absolute] is set) the IP is banned,
+   *                                optional parameter, null means using the default time of 24h
+   * @param {[boolean]} absolute, If set, the `ban_time` must be an absolute timestamp in milliseconds since epoch,
+   *                              optional parameter
+   * @param {[string]} reason, Ban reason, optional parameter
+   */
+
+  public setBan!: (
+    address: string,
+    command: 'insert' | 'delete',
+    banTime: string | null,
+    absolute?: boolean,
+    reason?: string
+  ) => Promise<null>
 }
 
 export default DefaultRPC
