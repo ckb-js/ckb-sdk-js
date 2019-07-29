@@ -123,6 +123,7 @@ describe('send transaction', () => {
           lock: {
             args: [],
             codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
+            hashType: 'Data',
           },
           type: null,
           capacity: '1',
