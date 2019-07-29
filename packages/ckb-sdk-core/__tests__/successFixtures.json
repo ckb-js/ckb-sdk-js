@@ -11,11 +11,11 @@
       }
     },
     "target": {
-      "codeHash": "f1951123466e4479842387a66fabfd6b65fc87fd84ae8e6cd3053edb27fff2fd",
+      "codeHash": "54811ce986d5c3e57eaafab22cdd080e32209e39590e204a99b32935f835a13c",
       "outPoint": {
-        "blockHash": "c3b42742ea8658c93de23f16a10c43212bd8b24a6bde5a93b8446dba3fb2a728",
+        "blockHash": "0efcf4221871200e064e5c48969909ccfb04686395db5f733b0da15361c5ac04",
         "cell": {
-          "txHash": "6950a2491d7c0ccac11fcb985cbb3f6b5a70eaf6fff952c08a20d1b99c01fb98",
+          "txHash": "d0608a90cc3fd5bec9807263d3c7c93fad48a1afa0e44b38a664fbe79d4a1400",
           "index": "1"
         }
       }
@@ -71,7 +71,8 @@
           "data": "0x",
           "lock": {
             "args": [],
-            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
+            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hashType": "Data"
           },
           "type": null
         }
@@ -107,7 +108,8 @@
           "data": "0x",
           "lock": {
             "args": [],
-            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
+            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hashType": "Data"
           },
           "type": null
         }
@@ -116,7 +118,7 @@
       "witnesses": [
         {
           "data": [
-            "0xaa659c1d2920d144b76e4d03eb4d0c56b22e66501c68bb330bc58b5af1ba411c3728e526386d4186955049405a669a9ce63ec0e3b233ca7696f9a5d95651a25600"
+            "0x54370f05bcdc65adec5b8a082001439a752822f6a8b784b13cd6911f2c6bea3166daf6f22eb24eb36d183874f4e3dff1a4d43b4cfdfa8c7df34537fe7ec6409600"
           ]
         }
       ]
