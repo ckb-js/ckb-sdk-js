@@ -251,6 +251,17 @@ const formatter = {
     if (!bannedAddresses) return bannedAddresses
     return bannedAddresses.map(banAddr => formatter.toBannedAddress(banAddr))
   },
+  toCellbaseOutputCapacityDetails: (
+    details: CKB_RPC.CellbaseOutputCapacityDetails
+  ): CKBComponents.CellbaseOutputCapacityDetails => {
+    if (!details) return details
+    const { proposal_reward: proposalReward, tx_fee: txFee, ...rest } = details
+    return {
+      proposalReward,
+      txFee,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

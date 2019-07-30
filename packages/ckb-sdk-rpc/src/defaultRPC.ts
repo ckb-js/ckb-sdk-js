@@ -154,6 +154,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toHeader,
   },
+  {
+    name: 'getCellbaseOutputCapacityDetails',
+    method: 'get_cellbase_output_capacity_details',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toCellbaseOutputCapacityDetails,
+  },
 ]
 
 export class DefaultRPC {
@@ -388,6 +394,11 @@ export class DefaultRPC {
     indexFrom?: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.LockHashIndexState>
 
+  /**
+   * @method getBannedAddresses
+   * @memberof DefaultRPC
+   * @description Returns all banned IPs/Subnets
+   */
   public getBannedAddresses!: () => Promise<CKBComponents.BannedAddresses>
   /**
    * @method setBan
@@ -411,9 +422,32 @@ export class DefaultRPC {
     reason?: string
   ) => Promise<null>
 
-  public getHeader!: (hash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
+  /**
+   * @method getHeader
+   * @memberof DefaultRPC
+   * @description Returns the information about a block header by hash.
+   * @params {string} block hash
+   */
+  public getHeader!: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
 
+  /**
+   * @method getHeaderByNumber
+   * @memberof DefaultRPC
+   * @description Returns the information about a block header by block number
+   * @params {string} block number
+   */
   public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber) => Promise<CKBComponents.BlockHeader>
+
+  /**
+   * @method getCellbaseOutputCapacityDetails
+   * @memberof DefaultRPC
+   * @description Returns each component of the created CKB in this block's cellbase, which is issued to
+   *              a block N - 1 - ProposalWindow.farthest, where this block's height is N.
+   * @param {string} blockHash
+   */
+  public getCellbaseOutputCapacityDetails!: (
+    blockHash: CKBComponents.Hash
+  ) => Promise<CKBComponents.CellbaseOutputCapacityDetails>
 }
 
 export default DefaultRPC

@@ -341,4 +341,12 @@ declare namespace CKBComponents {
   }
 
   export type BannedAddresses = BannedAddress[]
+
+  export interface CellbaseOutputCapacityDetails {
+    primary: string
+    proposalReward: string
+    secondary: string
+    total: string
+    txFee: string
+  }
 }

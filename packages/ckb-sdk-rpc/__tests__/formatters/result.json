@@ -1111,6 +1111,24 @@
           }
         ]
       }
+    ],
+    "toCellbaseOutputCapacityDetails": [
+      {
+        "source": {
+          "primary": "100000000000",
+          "proposal_reward": "0",
+          "secondary": "1346505683",
+          "total": "101346505683",
+          "tx_fee": "0"
+        },
+        "target": {
+          "primary": "100000000000",
+          "proposalReward": "0",
+          "secondary": "1346505683",
+          "total": "101346505683",
+          "txFee": "0"
+        }
+      }
     ]
   },
   "failure": {}

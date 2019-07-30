@@ -194,5 +194,13 @@ declare module CKB_RPC {
     created_at: Timestamp
   }
   export type BannedAddresses = BannedAddress[]
+
+  export interface CellbaseOutputCapacityDetails {
+    primary: string
+    proposal_reward: string
+    secondary: string
+    total: string
+    tx_fee: string
+  }
 }
 /* eslint-enable camelcase */
