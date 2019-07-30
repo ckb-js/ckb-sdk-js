@@ -142,6 +142,12 @@ const defaultRPC: CKBComponents.Method[] = [
     method: 'set_ban',
     paramsFormatters: [],
   },
+  {
+    name: 'getHeader',
+    method: 'get_header',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toHeader,
+  },
 ]
 
 export class DefaultRPC {
@@ -398,6 +404,8 @@ export class DefaultRPC {
     absolute?: boolean,
     reason?: string
   ) => Promise<null>
+
+  public getHeader!: (hash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
 }
 
 export default DefaultRPC

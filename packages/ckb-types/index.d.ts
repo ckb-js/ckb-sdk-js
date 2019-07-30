@@ -3,6 +3,7 @@
  */
 
 declare namespace CKBComponents {
+  export type DAO = string
   export type Hash = string
   export type Hash256 = string
   export type UInt32 = number
@@ -178,33 +179,36 @@ declare namespace CKBComponents {
 
   /**
    * @typedef BlockHeader, header of a block
-   * @property version
-   * @property parentHash
-   * @property timestamp
-   * @property number
-   * @property epoch
-   * @property transactionsRoot
-   * @property proposalsHash
+   * @property dao
    * @property difficulty
-   * @property unclesHash
-   * @property unclesCount
-   * @property seal
+   * @property epoch
    * @property hash
+   * @property number
+   * @property parentHash
+   * @property proposalsHash
+   * @property seal
+   * @property timestamp
+   * @property transactionsRoot
+   * @property unclesCount
+   * @property unclesHash
+   * @property witnessesRoot
+   * @property version
    */
   export interface BlockHeader {
-    version: Version
-    parentHash: Hash256
-    timestamp: Timestamp
-    number: BlockNumber
-    epoch: EpochInHeader
-    transactionsRoot: Hash256
-    proposalsHash: Hash256
-    witnessesRoot: Hash256
+    dao: DAO
     difficulty: Difficulty
-    unclesHash: Hash256
-    unclesCount: Count
-    seal: Seal
+    epoch: EpochInHeader
     hash: Hash256
+    number: BlockNumber
+    parentHash: Hash256
+    proposalsHash: Hash256
+    seal: Seal
+    timestamp: Timestamp
+    transactionsRoot: Hash256
+    unclesCount: Count
+    unclesHash: Hash256
+    witnessesRoot: Hash256
+    version: Version
   }
 
   /**

@@ -110,6 +110,14 @@ describe('ckb-rpc success', () => {
     const addresses = await rpc.getBannedAddresses()
     expect(Array.isArray(addresses)).toBe(true)
   })
+
+  it('get header', async () => {
+    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlockHeader = zeroBlock.header
+    const zeroBlockHash = zeroBlockHeader.hash
+    const header = await rpc.getHeader(zeroBlockHash)
+    expect(header).toEqual(zeroBlockHeader)
+  })
 })
 
 describe('send transaction', () => {
