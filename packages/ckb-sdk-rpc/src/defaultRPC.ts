@@ -148,6 +148,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toHeader,
   },
+  {
+    name: 'getHeaderByNumber',
+    method: 'get_header_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toHeader,
+  },
 ]
 
 export class DefaultRPC {
@@ -406,6 +412,8 @@ export class DefaultRPC {
   ) => Promise<null>
 
   public getHeader!: (hash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
+
+  public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber) => Promise<CKBComponents.BlockHeader>
 }
 
 export default DefaultRPC

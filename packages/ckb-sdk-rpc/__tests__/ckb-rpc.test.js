@@ -118,6 +118,13 @@ describe('ckb-rpc success', () => {
     const header = await rpc.getHeader(zeroBlockHash)
     expect(header).toEqual(zeroBlockHeader)
   })
+
+  it('get header by number', async () => {
+    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlockHeader = zeroBlock.header
+    const header = await rpc.getHeaderByNumber('0')
+    expect(header).toEqual(zeroBlockHeader)
+  })
 })
 
 describe('send transaction', () => {
