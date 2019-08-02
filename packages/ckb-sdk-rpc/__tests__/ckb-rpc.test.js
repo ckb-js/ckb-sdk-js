@@ -95,6 +95,36 @@ describe('ckb-rpc success', () => {
   it('get transactions by lock hash', async () => {})
 
   it('index lock hash', async () => {})
+
+  it('get banned addresses', async () => {
+    const addresses = await rpc.getBannedAddresses()
+    expect(Array.isArray(addresses)).toBe(true)
+  })
+
+  it('set address to be banned', async () => {
+    expect.assertions(1)
+    await expect(rpc.setBan('192.168.0.2', 'insert', null)).resolves.toEqual(null)
+  })
+
+  it('get banned address', async () => {
+    const addresses = await rpc.getBannedAddresses()
+    expect(Array.isArray(addresses)).toBe(true)
+  })
+
+  it('get header', async () => {
+    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlockHeader = zeroBlock.header
+    const zeroBlockHash = zeroBlockHeader.hash
+    const header = await rpc.getHeader(zeroBlockHash)
+    expect(header).toEqual(zeroBlockHeader)
+  })
+
+  it('get header by number', async () => {
+    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlockHeader = zeroBlock.header
+    const header = await rpc.getHeaderByNumber('0')
+    expect(header).toEqual(zeroBlockHeader)
+  })
 })
 
 describe('send transaction', () => {

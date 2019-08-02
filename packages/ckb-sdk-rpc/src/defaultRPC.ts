@@ -131,6 +131,35 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toLockHashIndexState,
   },
+  {
+    name: 'getBannedAddresses',
+    method: 'get_banned_addresses',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toBannedAddresses,
+  },
+  {
+    name: 'setBan',
+    method: 'set_ban',
+    paramsFormatters: [],
+  },
+  {
+    name: 'getHeader',
+    method: 'get_header',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toHeader,
+  },
+  {
+    name: 'getHeaderByNumber',
+    method: 'get_header_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toHeader,
+  },
+  {
+    name: 'getCellbaseOutputCapacityDetails',
+    method: 'get_cellbase_output_capacity_details',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toCellbaseOutputCapacityDetails,
+  },
 ]
 
 export class DefaultRPC {
@@ -364,6 +393,61 @@ export class DefaultRPC {
     lockHash: CKBComponents.Hash,
     indexFrom?: CKBComponents.BlockNumber
   ) => Promise<CKBComponents.LockHashIndexState>
+
+  /**
+   * @method getBannedAddresses
+   * @memberof DefaultRPC
+   * @description Returns all banned IPs/Subnets
+   */
+  public getBannedAddresses!: () => Promise<CKBComponents.BannedAddresses>
+  /**
+   * @method setBan
+   * @memberof DefaultRPC
+   * @description insert or delete an IP/Subnet from the banned list
+   * @param {string} address, The IP/Subnet with an optional netmask (default is /32 = single IP)
+   * @param {insert|delete} command, `insert` to insert an IP/Subnet to the list, `delete` to delete an IP/Subnet
+   *                                 from the list
+   * @param {string|null} ban_time, Time in milliseconds how long (or until when if [absolute] is set) the IP is banned,
+   *                                optional parameter, null means using the default time of 24h
+   * @param {[boolean]} absolute, If set, the `ban_time` must be an absolute timestamp in milliseconds since epoch,
+   *                              optional parameter
+   * @param {[string]} reason, Ban reason, optional parameter
+   */
+
+  public setBan!: (
+    address: string,
+    command: 'insert' | 'delete',
+    banTime: string | null,
+    absolute?: boolean,
+    reason?: string
+  ) => Promise<null>
+
+  /**
+   * @method getHeader
+   * @memberof DefaultRPC
+   * @description Returns the information about a block header by hash.
+   * @params {string} block hash
+   */
+  public getHeader!: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
+
+  /**
+   * @method getHeaderByNumber
+   * @memberof DefaultRPC
+   * @description Returns the information about a block header by block number
+   * @params {string} block number
+   */
+  public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber) => Promise<CKBComponents.BlockHeader>
+
+  /**
+   * @method getCellbaseOutputCapacityDetails
+   * @memberof DefaultRPC
+   * @description Returns each component of the created CKB in this block's cellbase, which is issued to
+   *              a block N - 1 - ProposalWindow.farthest, where this block's height is N.
+   * @param {string} blockHash
+   */
+  public getCellbaseOutputCapacityDetails!: (
+    blockHash: CKBComponents.Hash
+  ) => Promise<CKBComponents.CellbaseOutputCapacityDetails>
 }
 
 export default DefaultRPC

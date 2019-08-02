@@ -105,19 +105,20 @@ declare module CKB_RPC {
   export type Seal = CKBComponents.Seal
 
   export interface Header {
-    version: Version
-    parent_hash: Hash256
-    timestamp: Timestamp
-    number: BlockNumber
-    epoch: EpochInHeader
-    transactions_root: Hash256
-    proposals_hash: Hash256
-    witnesses_root: Hash256
+    dao: DAO
     difficulty: Difficulty
-    uncles_hash: Hash256
-    uncles_count: Count
-    seal: Seal
+    epoch: EpochInHeader
     hash: Hash256
+    number: BlockNumber
+    parent_hash: Hash256
+    proposals_hash: Hash256
+    seal: Seal
+    timestamp: Timestamp
+    transactions_root: Hash256
+    uncles_count: Count
+    uncles_hash: Hash256
+    witnesses_root: Hash256
+    version: Version
   }
 
   export interface UncleBlock {
@@ -185,5 +186,21 @@ declare module CKB_RPC {
   }
 
   export type LockHashIndexStates = LockHashIndexState[]
+
+  export interface BannedAddress {
+    address: string
+    ban_reason: string
+    ban_until: Timestamp
+    created_at: Timestamp
+  }
+  export type BannedAddresses = BannedAddress[]
+
+  export interface CellbaseOutputCapacityDetails {
+    primary: string
+    proposal_reward: string
+    secondary: string
+    total: string
+    tx_fee: string
+  }
 }
 /* eslint-enable camelcase */
