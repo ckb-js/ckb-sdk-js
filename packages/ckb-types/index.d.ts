@@ -73,7 +73,7 @@ declare namespace CKBComponents {
    *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
    */
   export interface CellInput {
-    previousOutput: OutPoint
+    previousOutput: CellOutPoint | null
     since: Since
   }
 

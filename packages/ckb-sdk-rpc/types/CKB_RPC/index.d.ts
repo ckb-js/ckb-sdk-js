@@ -45,7 +45,7 @@ declare module CKB_RPC {
   }
 
   export interface CellInput {
-    previous_output: OutPoint
+    previous_output: CellOutPoint | null
     since: Since
   }
 

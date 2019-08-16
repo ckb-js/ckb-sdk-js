@@ -132,7 +132,7 @@ const dashboard = (core: Core) => {
     if (txs.length) {
       const newTxs: Transaction[] = txs.map(tx => [
         tx.hash,
-        JSON.stringify(tx.inputs.map(input => input.previousOutput.cell)),
+        JSON.stringify(tx.inputs.map(input => input.previousOutput)),
         JSON.stringify(tx.outputs.map(output => `${output.lock.args[0]}-${output.capacity}`)),
       ])
       data.transactions = [...newTxs, ...data.transactions].slice(0, MAX_TRANSACTIONS)

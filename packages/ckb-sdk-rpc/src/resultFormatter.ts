@@ -36,7 +36,7 @@ const formatter = {
     if (!input) return input
     const { previous_output: previousOutput, ...rest } = input
     return {
-      previousOutput: formatter.toOutPoint(previousOutput),
+      previousOutput: previousOutput ? formatter.toCellOutPoint(previousOutput) : previousOutput,
       ...rest,
     }
   },
@@ -49,7 +49,7 @@ const formatter = {
       ...rest,
     }
   },
-  toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => {
+  toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint | null): CKBComponents.CellOutPoint | null => {
     if (!cellOutPoint) return cellOutPoint
     const { tx_hash: txHash, ...rest } = cellOutPoint
     return {

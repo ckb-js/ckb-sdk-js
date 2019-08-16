@@ -6,10 +6,14 @@ const formatter = {
     ...rest,
   }),
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toCellOutPoint: ({ txHash: tx_hash, ...rest }: CKBComponents.CellOutPoint): CKB_RPC.CellOutPoint => ({
-    tx_hash,
-    ...rest,
-  }),
+  toCellOutPoint: (cellOutPoint: CKBComponents.CellOutPoint | null): CKB_RPC.CellOutPoint | null => {
+    if (!cellOutPoint) return cellOutPoint
+    const { txHash: tx_hash, ...rest } = cellOutPoint
+    return {
+      tx_hash,
+      ...rest,
+    }
+  },
   toOutPoint: ({ cell = null, blockHash: block_hash = null, ...rest }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
     cell: cell ? formatter.toCellOutPoint(cell) : cell,
     block_hash,
@@ -17,7 +21,7 @@ const formatter = {
   }),
   toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number.toString(),
   toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
-    previous_output: formatter.toOutPoint(previousOutput),
+    previous_output: previousOutput ? formatter.toCellOutPoint(previousOutput) : previousOutput,
     ...rest,
   }),
   toOutput: ({ lock, type, ...rest }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
