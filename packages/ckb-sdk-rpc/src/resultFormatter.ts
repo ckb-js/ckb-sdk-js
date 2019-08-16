@@ -136,7 +136,10 @@ const formatter = {
       ...rest,
     }
   },
-  toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
+  toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => {
+    if (!Array.isArray(nodes)) return nodes
+    return nodes.map(formatter.toNodeInfo)
+  },
   toPeersState: (state: CKB_RPC.PeersState): CKBComponents.PeersState => {
     if (!state) return state
     const { last_updated: lastUpdated, blocks_in_flight: blocksInFlight, ...rest } = state
@@ -163,7 +166,10 @@ const formatter = {
       ...rest,
     }
   },
-  toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => cells.map(formatter.toCell),
+  toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => {
+    if (!Array.isArray(cells)) return cells
+    return cells.map(formatter.toCell)
+  },
   toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
     const { lock, out_point, ...rest } = cell
