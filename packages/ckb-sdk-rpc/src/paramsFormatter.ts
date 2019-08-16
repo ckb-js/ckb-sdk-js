@@ -1,41 +1,43 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toScript: ({ codeHash: code_hash, hashType: hash_type, ...rest }: CKBComponents.Script): CKB_RPC.Script => ({
-    code_hash,
-    hash_type,
-    ...rest,
-  }),
+  toScript: (script: CKBComponents.Script): CKB_RPC.Script => {
+    const { codeHash: code_hash, hashType: hash_type, ...rest } = script
+    return {
+      code_hash,
+      hash_type,
+      ...rest,
+    }
+  },
   toHash: (hash: string): CKB_RPC.Hash256 => (hash.startsWith('0x') ? hash : `0x${hash}`),
-  toCellOutPoint: (cellOutPoint: CKBComponents.CellOutPoint | null): CKB_RPC.CellOutPoint | null => {
-    if (!cellOutPoint) return cellOutPoint
-    const { txHash: tx_hash, ...rest } = cellOutPoint
+  toOutPoint: (outPoint: CKBComponents.OutPoint | null): CKB_RPC.OutPoint | null => {
+    if (!outPoint) return outPoint
+    const { txHash: tx_hash, ...rest } = outPoint
     return {
       tx_hash,
       ...rest,
     }
   },
-  toOutPoint: ({ cell = null, blockHash: block_hash = null, ...rest }: CKBComponents.OutPoint): CKB_RPC.OutPoint => ({
-    cell: cell ? formatter.toCellOutPoint(cell) : cell,
-    block_hash,
-    ...rest,
-  }),
   toNumber: (number: CKBComponents.BlockNumber): CKB_RPC.BlockNumber => number.toString(),
-  toInput: ({ previousOutput, ...rest }: CKBComponents.CellInput): CKB_RPC.CellInput => ({
-    previous_output: previousOutput ? formatter.toCellOutPoint(previousOutput) : previousOutput,
-    ...rest,
-  }),
-  toOutput: ({ lock, type, ...rest }: CKBComponents.CellOutput): CKB_RPC.CellOutput => ({
-    lock: formatter.toScript(lock),
-    type: type ? formatter.toScript(type) : null,
-    ...rest,
-  }),
-  toRawTransaction: ({
-    version,
-    deps,
-    inputs,
-    outputs,
-    ...rest
-  }: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+  toInput: (input: CKBComponents.CellInput): CKB_RPC.CellInput => {
+    if (!input) return input
+    const { previousOutput, ...rest } = input
+    return {
+      previous_output: formatter.toOutPoint(previousOutput),
+      ...rest,
+    }
+  },
+  toOutput: (output: CKBComponents.CellOutput): CKB_RPC.CellOutput => {
+    if (!output) return output
+    const { lock, type = null, ...rest } = output
+    return {
+      lock: formatter.toScript(lock),
+      type: type ? formatter.toScript(type) : type,
+      ...rest,
+    }
+  },
+  toRawTransaction: (transaction: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+    if (!transaction) return transaction
+    const { version, deps, inputs, outputs, ...rest } = transaction
     const formattedInputs = inputs.map(input => formatter.toInput(input))
     const formattedOutputs = outputs.map(output => formatter.toOutput(output))
     const formattedDeps = deps.map(dep => formatter.toOutPoint(dep))

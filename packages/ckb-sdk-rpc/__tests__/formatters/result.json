@@ -110,7 +110,7 @@
         }
       }
     ],
-    "toCellOutPoint": [
+    "toOutPoint": [
       {
         "source": null,
         "target": null
@@ -123,59 +123,6 @@
         "target": {
           "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "index": "4294967295"
-        }
-      }
-    ],
-    "toOutPoint": [
-      {
-        "source": null,
-        "target": null
-      },
-      {
-        "source": {
-          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "cell": {
-            "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
-          }
-        },
-        "target": {
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "cell": {
-            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
-          }
-        }
-      },
-      {
-        "source": {
-          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        },
-        "target": {
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "cell": null
-        }
-      },
-      {
-        "source": {
-          "cell": {
-            "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
-          }
-        },
-        "target": {
-          "blockHash": null,
-          "cell": {
-            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
-          }
-        }
-      },
-      {
-        "source": {},
-        "target": {
-          "blockHash": null,
-          "cell": null
         }
       }
     ],
@@ -739,11 +686,8 @@
           "type": null,
           "capacity": "5000000000000",
           "out_point": {
-            "block_hash": null,
-            "cell": {
-              "index": "0",
-              "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-            }
+            "index": "0",
+            "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
           }
         },
         "target": {
@@ -755,11 +699,8 @@
           "type": null,
           "capacity": "5000000000000",
           "outPoint": {
-            "blockHash": null,
-            "cell": {
-              "index": "0",
-              "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-            }
+            "index": "0",
+            "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
           }
         }
       }
@@ -808,11 +749,8 @@
             "type": null,
             "capacity": "5000000000000",
             "out_point": {
-              "block_hash": null,
-              "cell": {
-                "index": "0",
-                "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-              }
+              "index": "0",
+              "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
             }
           }
         ],
@@ -826,11 +764,8 @@
             "type": null,
             "capacity": "5000000000000",
             "outPoint": {
-              "blockHash": null,
-              "cell": {
-                "index": "0",
-                "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-              }
+              "index": "0",
+              "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
             }
           }
         ]

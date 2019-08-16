@@ -36,7 +36,7 @@ const formatter = {
     if (!input) return input
     const { previous_output: previousOutput, ...rest } = input
     return {
-      previousOutput: previousOutput ? formatter.toCellOutPoint(previousOutput) : previousOutput,
+      previousOutput: previousOutput ? formatter.toOutPoint(previousOutput) : previousOutput,
       ...rest,
     }
   },
@@ -49,20 +49,12 @@ const formatter = {
       ...rest,
     }
   },
-  toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint | null): CKBComponents.CellOutPoint | null => {
-    if (!cellOutPoint) return cellOutPoint
-    const { tx_hash: txHash, ...rest } = cellOutPoint
+  toOutPoint: (outPoint: CKB_RPC.OutPoint | null): CKBComponents.OutPoint | null => {
+    if (!outPoint) return outPoint
+    const { tx_hash: txHash, ...rest } = outPoint
     return {
       txHash,
       ...rest,
-    }
-  },
-  toOutPoint: (outPoint: CKB_RPC.OutPoint): CKBComponents.OutPoint => {
-    if (!outPoint) return outPoint
-    const { block_hash: blockHash = null, cell = null } = outPoint
-    return {
-      blockHash,
-      cell: cell ? formatter.toCellOutPoint(cell) : cell,
     }
   },
   toTransaction: (tx: CKB_RPC.Transaction): CKBComponents.Transaction => {

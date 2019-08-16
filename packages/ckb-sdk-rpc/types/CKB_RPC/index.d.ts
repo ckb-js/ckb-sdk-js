@@ -34,18 +34,13 @@ declare module CKB_RPC {
     hash_type: ScriptHashType
   }
 
-  export interface CellOutPoint {
+  export interface OutPoint {
     tx_hash: Hash256
     index: Index
   }
 
-  export interface OutPoint {
-    cell?: CellOutPoint | null
-    block_hash?: Hash256 | null
-  }
-
   export interface CellInput {
-    previous_output: CellOutPoint | null
+    previous_output: OutPoint | null
     since: Since
   }
 
@@ -61,12 +56,12 @@ declare module CKB_RPC {
   export interface CellIncludingOutPoint {
     capacity: Capacity
     lock: Script
-    out_point: OutPoint
+    out_point: OutPoint | null
   }
 
   export interface RawTransaction {
     version: Version
-    deps: OutPoint[]
+    deps: (OutPoint | null)[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]

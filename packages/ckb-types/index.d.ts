@@ -73,7 +73,7 @@ declare namespace CKBComponents {
    *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
    */
   export interface CellInput {
-    previousOutput: CellOutPoint | null
+    previousOutput: OutPoint | null
     since: Since
   }
 
@@ -92,18 +92,13 @@ declare namespace CKBComponents {
   }
 
   /**
-   * @typedef CellOutPoint, used to refer a generated cell by transaction hash and output index
+   * @typedef OutPoint, used to refer a generated cell by transaction hash and output index
    * @property hash, transaction hash
    * @property index, index of cell output
    */
-  export interface CellOutPoint {
+  export interface OutPoint {
     txHash: Hash256
     index: Index
-  }
-
-  export interface OutPoint {
-    cell?: CellOutPoint | null
-    blockHash?: Hash256 | null
   }
 
   export interface Witness {
@@ -120,7 +115,7 @@ declare namespace CKBComponents {
    */
   export interface RawTransaction {
     version: Version
-    deps: OutPoint[]
+    deps: (OutPoint | null)[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
@@ -253,7 +248,7 @@ declare namespace CKBComponents {
   export interface CellIncludingOutPoint {
     capacity: Capacity
     lock: Script
-    outPoint: OutPoint
+    outPoint: OutPoint | null
   }
 
   export type TransactionTrace = { action: string; info: string; time: Timestamp }[]
