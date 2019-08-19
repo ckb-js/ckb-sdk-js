@@ -129,6 +129,8 @@ class Core {
     if (!transaction) throw new Error('Transaction is required')
     if (!transaction.witnesses) throw new Error('Witnesses is required')
     if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
+    if (!transaction.outputsData) throw new Error('OutputsData is required')
+    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
     const transactionHash = await (this.rpc as RPC & { computeTransactionHash: Function }).computeTransactionHash(
       transaction
