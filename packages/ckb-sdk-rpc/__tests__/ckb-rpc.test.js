@@ -134,7 +134,7 @@ describe('send transaction', () => {
     const txHash = block.transactions[0].hash
     const tx = {
       version: '0',
-      deps: [],
+      cellDeps: [],
       inputs: [
         {
           previousOutput: {

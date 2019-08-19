@@ -55,7 +55,7 @@ ckb => await core.rpc.getBlock('0x89de946313839a8a77749b6218d4d7ab3513910c5ed860
      version: 0 },
   uncles: [],
   transactions:
-   [ { deps: [],
+   [ { cellDeps: [],
        inputs: [Array],
        outputs: [Array],
        hash:

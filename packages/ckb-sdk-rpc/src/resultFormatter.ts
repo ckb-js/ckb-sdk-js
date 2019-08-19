@@ -57,11 +57,20 @@ const formatter = {
       ...rest,
     }
   },
+  toCellDep: (cellDep: CKB_RPC.CellDep): CKBComponents.CellDep => {
+    if (!cellDep) return cellDep
+    const { out_point: outPoint = null, is_dep_group: isDepGroup = false, ...rest } = cellDep
+    return {
+      outPoint: formatter.toOutPoint(outPoint),
+      isDepGroup,
+      ...rest,
+    }
+  },
   toTransaction: (tx: CKB_RPC.Transaction): CKBComponents.Transaction => {
     if (!tx) return tx
-    const { deps = [], inputs = [], outputs = [], ...rest } = tx
+    const { cell_deps: cellDeps = [], inputs = [], outputs = [], ...rest } = tx
     return {
-      deps: deps.map(formatter.toOutPoint),
+      cellDeps: cellDeps.map(formatter.toCellDep),
       inputs: inputs.map(formatter.toInput),
       outputs: outputs.map(formatter.toOutput),
       ...rest,

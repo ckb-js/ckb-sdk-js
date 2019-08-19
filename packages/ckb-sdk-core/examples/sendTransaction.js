@@ -187,7 +187,10 @@ const bootstrap = async () => {
      */
     const tx = {
       version: '0',
-      deps: [SYSTEM_ENCRYPTION_OUT_POINT],
+      cellDeps: [{
+        outPoint: SYSTEM_ENCRYPTION_OUT_POINT,
+        isDepGroup: false
+      }],
       inputs,
       outputs: changeOutput.capacity > 0n ? [{
           ...targetOutput,

@@ -35,15 +35,24 @@ const formatter = {
       ...rest,
     }
   },
+  toCellDep: (cellDep: CKBComponents.CellDep): CKB_RPC.CellDep => {
+    if (!cellDep) return cellDep
+    const { outPoint = null, isDepGroup: is_dep_group = false, ...rest } = cellDep
+    return {
+      out_point: formatter.toOutPoint(outPoint),
+      is_dep_group,
+      ...rest,
+    }
+  },
   toRawTransaction: (transaction: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
     if (!transaction) return transaction
-    const { version, deps, inputs, outputs, ...rest } = transaction
+    const { version, cellDeps = [], inputs = [], outputs = [], ...rest } = transaction
     const formattedInputs = inputs.map(input => formatter.toInput(input))
     const formattedOutputs = outputs.map(output => formatter.toOutput(output))
-    const formattedDeps = deps.map(dep => formatter.toOutPoint(dep))
+    const formattedCellDeps = cellDeps.map(cellDep => formatter.toCellDep(cellDep))
     const tx = {
       version,
-      deps: formattedDeps,
+      cell_deps: formattedCellDeps,
       inputs: formattedInputs,
       outputs: formattedOutputs,
       ...rest,

@@ -126,6 +126,56 @@
         }
       }
     ],
+    "toCellDep": [
+      {
+        "source": null,
+        "target": null
+      },
+      {
+        "source": {
+          "is_dep_group": false
+        },
+        "target": {
+          "outPoint": null,
+          "isDepGroup": false
+        }
+      },
+      {
+        "source": {
+          "out_point": null
+        },
+        "target": {
+          "outPoint": null,
+          "isDepGroup": false
+        }
+      },
+      {
+        "source": {
+          "out_point": null,
+          "is_dep_group": false
+        },
+        "target": {
+          "outPoint": null,
+          "isDepGroup": false
+        }
+      },
+      {
+        "source": {
+          "out_point": {
+            "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "is_dep_group": true
+        },
+        "target": {
+          "outPoint": {
+            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "isDepGroup": true
+        }
+      }
+    ],
     "toTransaction": [
       {
         "source": null,
@@ -133,7 +183,7 @@
       },
       {
         "source": {
-          "deps": [],
+          "cell_deps": [],
           "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
           "inputs": [
             {
@@ -160,7 +210,7 @@
           "witnesses": []
         },
         "target": {
-          "deps": [],
+          "cellDeps": [],
           "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
           "inputs": [
             {
@@ -194,7 +244,7 @@
           "witnesses": []
         },
         "target": {
-          "deps": [],
+          "cellDeps": [],
           "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
           "inputs": [],
           "outputs": [],
@@ -284,7 +334,7 @@
           "proposals": [],
           "transactions": [
             {
-              "deps": [],
+              "cell_deps": [],
               "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
               "inputs": [
                 {
@@ -336,7 +386,7 @@
           "proposals": [],
           "transactions": [
             {
-              "deps": [],
+              "cellDeps": [],
               "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
               "inputs": [
                 {
@@ -825,7 +875,7 @@
       {
         "source": {
           "transaction": {
-            "deps": [],
+            "cell_deps": [],
             "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
             "inputs": [
               {
@@ -858,7 +908,7 @@
         },
         "target": {
           "transaction": {
-            "deps": [],
+            "cellDeps": [],
             "hash": "0x8027376875e45318ed469bed6314408e8f1986de246cbd03a786b69073c948b8",
             "inputs": [
               {

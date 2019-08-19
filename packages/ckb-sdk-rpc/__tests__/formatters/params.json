@@ -30,6 +30,56 @@
         "target": null
       }
     ],
+    "toCellDep": [
+      {
+        "source": null,
+        "target": null
+      },
+      {
+        "source": {
+          "isDepGroup": false
+        },
+        "target": {
+          "out_point": null,
+          "is_dep_group": false
+        }
+      },
+      {
+        "source": {
+          "outPoint": null
+        },
+        "target": {
+          "out_point": null,
+          "is_dep_group": false
+        }
+      },
+      {
+        "source": {
+          "outPoint": null,
+          "isDepGroup": false
+        },
+        "target": {
+          "out_point": null,
+          "is_dep_group": false
+        }
+      },
+      {
+        "source": {
+          "outPoint": {
+            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "isDepGroup": true
+        },
+        "target": {
+          "out_point": {
+            "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "is_dep_group": true
+        }
+      }
+    ],
     "toNumber": [
       {
         "source": "1",
@@ -125,10 +175,13 @@
       },
       {
         "source": {
-          "deps": [
+          "cellDeps": [
             {
-              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "index": "4294967295"
+              "outPoint": {
+                "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "index": "4294967295"
+              },
+              "isDepGroup": false
             }
           ],
           "inputs": [
@@ -159,10 +212,13 @@
           "version": "0"
         },
         "target": {
-          "deps": [
+          "cell_deps": [
             {
-              "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "index": "4294967295"
+              "out_point": {
+                "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "index": "4294967295"
+              },
+              "is_dep_group": false
             }
           ],
           "inputs": [

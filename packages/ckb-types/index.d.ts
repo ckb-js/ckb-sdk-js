@@ -101,6 +101,16 @@ declare namespace CKBComponents {
     index: Index
   }
 
+  /**
+   * @typeof CellDep, cell dependencies in a transaction
+   * @property outPoint, the out point of the cell dependency
+   * @property isDepGroup, indicate if the data of the cell containing a group of dependencies
+   */
+  export interface CellDep {
+    outPoint: OutPoint | null
+    isDepGroup: boolean
+  }
+
   export interface Witness {
     data: Hash[]
   }
@@ -108,14 +118,14 @@ declare namespace CKBComponents {
   /**
    * @typedef RawTransaction, raw transaction object
    * @property version, transaction version
-   * @property deps, transaction deps
+   * @property cellDeps, cell deps used in the transaction
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
    * @property witnesses, segrated witnesses
    */
   export interface RawTransaction {
     version: Version
-    deps: (OutPoint | null)[]
+    cellDeps: CellDep[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
