@@ -122,6 +122,7 @@ declare namespace CKBComponents {
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
    * @property witnesses, segrated witnesses
+   * @property outputsData, data referenced by scripts
    */
   export interface RawTransaction {
     version: Version
@@ -129,6 +130,7 @@ declare namespace CKBComponents {
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
+    outputsData: Bytes[]
   }
 
   /**

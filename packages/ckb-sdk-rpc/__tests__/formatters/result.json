@@ -207,7 +207,8 @@
             }
           ],
           "version": "0",
-          "witnesses": []
+          "witnesses": [],
+          "outputs_data": ["0x"]
         },
         "target": {
           "cellDeps": [],
@@ -234,7 +235,8 @@
             }
           ],
           "version": "0",
-          "witnesses": []
+          "witnesses": [],
+          "outputsData": ["0x"]
         }
       },
       {
@@ -249,7 +251,8 @@
           "inputs": [],
           "outputs": [],
           "version": "0",
-          "witnesses": []
+          "witnesses": [],
+          "outputsData": []
         }
       }
     ],
@@ -358,7 +361,8 @@
                 }
               ],
               "version": "0",
-              "witnesses": []
+              "witnesses": [],
+              "outputs_data": []
             }
           ],
           "uncles": []
@@ -410,7 +414,8 @@
                 }
               ],
               "version": "0",
-              "witnesses": []
+              "witnesses": [],
+              "outputsData": []
             }
           ],
           "uncles": []
@@ -899,7 +904,8 @@
               }
             ],
             "version": "0",
-            "witnesses": []
+            "witnesses": [],
+            "outputs_data": []
           },
           "tx_status": {
             "status": "committed",
@@ -932,7 +938,8 @@
               }
             ],
             "version": "0",
-            "witnesses": []
+            "witnesses": [],
+            "outputsData": []
           },
           "txStatus": {
             "status": "committed",

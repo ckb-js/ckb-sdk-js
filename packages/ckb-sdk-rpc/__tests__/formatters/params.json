@@ -209,7 +209,8 @@
               "type": null
             }
           ],
-          "version": "0"
+          "version": "0",
+          "outputsData": []
         },
         "target": {
           "cell_deps": [
@@ -246,7 +247,8 @@
               "type": null
             }
           ],
-          "version": "0"
+          "version": "0",
+          "outputs_data": []
         }
       }
     ],

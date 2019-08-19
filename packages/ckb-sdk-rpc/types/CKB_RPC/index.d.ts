@@ -70,6 +70,7 @@ declare module CKB_RPC {
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
+    outputs_data: Bytes[]
   }
 
   export interface Transaction extends RawTransaction {

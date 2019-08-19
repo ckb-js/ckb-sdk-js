@@ -46,7 +46,7 @@ const formatter = {
   },
   toRawTransaction: (transaction: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
     if (!transaction) return transaction
-    const { version, cellDeps = [], inputs = [], outputs = [], ...rest } = transaction
+    const { version, cellDeps = [], inputs = [], outputs = [], outputsData: outputs_data = [], ...rest } = transaction
     const formattedInputs = inputs.map(input => formatter.toInput(input))
     const formattedOutputs = outputs.map(output => formatter.toOutput(output))
     const formattedCellDeps = cellDeps.map(cellDep => formatter.toCellDep(cellDep))
@@ -55,6 +55,7 @@ const formatter = {
       cell_deps: formattedCellDeps,
       inputs: formattedInputs,
       outputs: formattedOutputs,
+      outputs_data,
       ...rest,
     }
     return tx
