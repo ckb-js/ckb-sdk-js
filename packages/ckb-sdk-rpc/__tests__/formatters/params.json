@@ -224,7 +224,7 @@
             }
           ],
           "version": "0",
-          "outputsData": []
+          "outputsData": ["0x"]
         },
         "target": {
           "cell_deps": [
@@ -263,7 +263,7 @@
             }
           ],
           "version": "0",
-          "outputs_data": []
+          "outputs_data": ["0x"]
         }
       }
     ],

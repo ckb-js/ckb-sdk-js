@@ -46,7 +46,6 @@ declare module CKB_RPC {
 
   export interface CellOutput {
     capacity: Capacity
-    data: Bytes
     lock: Script
     type?: Script | null
   }
@@ -174,7 +173,6 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    epoch_reward: string
     difficulty: string
     length: string
     number: string

@@ -77,11 +77,10 @@ class Core {
     if (!block) throw new Error('Cannot load the genesis block')
     const cellTx = block.transactions[0]
     if (!cellTx) throw new Error('Cannot load the transaction which has the system cell')
-    const cell = cellTx.outputs[1]
-    if (!cell) throw new Error('Cannot load the system cell')
+    if (!cellTx.outputsData || !cellTx.outputsData[0]) throw new Error('The code data is not found')
 
     const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-    s.update(this.utils.hexToBytes(cell.data.replace(/^0x/, '')))
+    s.update(this.utils.hexToBytes(cellTx.outputsData[0].replace(/^0x/, '')))
     const codeHash = s.digest('hex')
     const outPoint = {
       blockHash: block.header.hash.replace(/^0x/, ''),

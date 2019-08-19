@@ -142,7 +142,6 @@ const bootstrap = async () => {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
         args: [targetIdentifier],
       },
-      data: '0x',
     }
 
     /**
@@ -154,7 +153,6 @@ const bootstrap = async () => {
         codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
         args: [`0x${myAddressObj.identifier}`],
       },
-      data: '0x',
     }
 
     const unspentCells = await loadCells()
@@ -199,8 +197,8 @@ const bootstrap = async () => {
         ...targetOutput,
         capacity: targetOutput.capacity.toString(),
       }, ]
-      
-    const outputsData = outputs.map(output => output.data)
+
+    const outputsData = outputs.map(output => "0x")
 
     const tx = {
       version: '0',
@@ -210,10 +208,7 @@ const bootstrap = async () => {
       }, ],
       headerDeps: [],
       inputs,
-      outputs: outputs.map(output => ({
-        data,
-        ...rest
-      }) => rest),
+      outputs,
       witnesses: [{
         data: [],
       }, ],

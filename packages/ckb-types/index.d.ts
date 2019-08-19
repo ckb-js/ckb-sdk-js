@@ -80,13 +80,11 @@ declare namespace CKBComponents {
   /**
    * @typedef CellOutput, cell output in a transaction
    * @property capacity, the capacity of the genereated P1 cell
-   * @property data, cell data
    * @property lock, lock script
    * @property type, type script
    */
   export interface CellOutput {
     capacity: Capacity
-    data: Bytes
     lock: Script
     type?: Script | null
   }
@@ -323,7 +321,6 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    epochReward: String
     difficulty: String
     length: String
     number: String
