@@ -584,7 +584,7 @@
     "toPeers": [
       {
         "source": null,
-        "target": null
+        "target": []
       },
       {
         "source": [
@@ -768,7 +768,7 @@
     "toCells": [
       {
         "source": null,
-        "target": null
+        "target": []
       },
       {
         "source": [
@@ -798,6 +798,10 @@
       }
     ],
     "toCellsIncludingOutPoint": [
+      {
+        "source": null,
+        "target": []
+      },
       {
         "source": [
           {

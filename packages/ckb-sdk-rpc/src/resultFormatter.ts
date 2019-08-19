@@ -147,7 +147,7 @@ const formatter = {
     }
   },
   toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => {
-    if (!Array.isArray(nodes)) return nodes
+    if (!Array.isArray(nodes)) return []
     return nodes.map(formatter.toNodeInfo)
   },
   toPeersState: (state: CKB_RPC.PeersState): CKBComponents.PeersState => {
@@ -177,7 +177,7 @@ const formatter = {
     }
   },
   toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => {
-    if (!Array.isArray(cells)) return cells
+    if (!Array.isArray(cells)) return []
     return cells.map(formatter.toCell)
   },
   toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
@@ -189,8 +189,10 @@ const formatter = {
       ...rest,
     }
   },
-  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] =>
-    cells.map(formatter.toCellIncludingOutPoint),
+  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] => {
+    if (!Array.isArray(cells)) return []
+    return cells.map(formatter.toCellIncludingOutPoint)
+  },
   toTransactionWithStatus: (txWithStatus: CKB_RPC.TransactionWithStatus) => {
     if (!txWithStatus) return txWithStatus
     const {

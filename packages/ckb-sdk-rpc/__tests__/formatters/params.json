@@ -175,6 +175,19 @@
       },
       {
         "source": {
+          "version": "0"
+        },
+        "target": {
+          "version": "0",
+          "cell_deps": [],
+          "header_deps": [],
+          "inputs": [],
+          "outputs": [],
+          "outputs_data": []
+        }
+      },
+      {
+        "source": {
           "cellDeps": [
             {
               "outPoint": {
