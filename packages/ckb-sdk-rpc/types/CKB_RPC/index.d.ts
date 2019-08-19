@@ -67,6 +67,7 @@ declare module CKB_RPC {
   export interface RawTransaction {
     version: Version
     cell_deps: CellDep[]
+    header_deps: Hash256[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]

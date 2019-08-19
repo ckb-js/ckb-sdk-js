@@ -119,6 +119,7 @@ declare namespace CKBComponents {
    * @typedef RawTransaction, raw transaction object
    * @property version, transaction version
    * @property cellDeps, cell deps used in the transaction
+   * @property headerDeps, header deps referenced to a specific block used in the transaction
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
    * @property witnesses, segrated witnesses
@@ -127,6 +128,7 @@ declare namespace CKBComponents {
   export interface RawTransaction {
     version: Version
     cellDeps: CellDep[]
+    headerDeps: Hash256[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]

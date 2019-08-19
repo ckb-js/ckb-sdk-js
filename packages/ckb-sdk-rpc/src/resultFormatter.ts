@@ -68,12 +68,20 @@ const formatter = {
   },
   toTransaction: (tx: CKB_RPC.Transaction): CKBComponents.Transaction => {
     if (!tx) return tx
-    const { cell_deps: cellDeps = [], inputs = [], outputs = [], outputs_data: outputsData = [], ...rest } = tx
+    const {
+      cell_deps: cellDeps = [],
+      inputs = [],
+      outputs = [],
+      outputs_data: outputsData = [],
+      header_deps: headerDeps = [],
+      ...rest
+    } = tx
     return {
       cellDeps: cellDeps.map(formatter.toCellDep),
       inputs: inputs.map(formatter.toInput),
       outputs: outputs.map(formatter.toOutput),
       outputsData,
+      headerDeps,
       ...rest,
     }
   },
