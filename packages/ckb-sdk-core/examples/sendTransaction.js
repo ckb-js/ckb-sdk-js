@@ -185,14 +185,9 @@ const bootstrap = async () => {
     /**
      * compose the raw transaction which has an empty witnesses
      */
-    const tx = {
-      version: '0',
-      cellDeps: [{
-        outPoint: SYSTEM_ENCRYPTION_OUT_POINT,
-        isDepGroup: false
-      }],
-      inputs,
-      outputs: changeOutput.capacity > 0n ? [{
+
+    const outputs =
+      changeOutput.capacity > 0n ? [{
           ...targetOutput,
           capacity: targetOutput.capacity.toString(),
         },
@@ -203,10 +198,26 @@ const bootstrap = async () => {
       ] : [{
         ...targetOutput,
         capacity: targetOutput.capacity.toString(),
+      }, ]
+      
+    const outputsData = outputs.map(output => output.data)
+
+    const tx = {
+      version: '0',
+      cellDeps: [{
+        outPoint: SYSTEM_ENCRYPTION_OUT_POINT,
+        isDepGroup: false,
       }, ],
+      headerDeps: [],
+      inputs,
+      outputs: outputs.map(output => ({
+        data,
+        ...rest
+      }) => rest),
       witnesses: [{
         data: [],
       }, ],
+      outputsData,
     }
     return tx
   }
