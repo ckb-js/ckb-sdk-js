@@ -82,7 +82,7 @@ const bootstrap = async () => {
               console.log(`Fetched from ${from} to ${from + STEP} with ${cells.length} cells`)
             }
             cellsGroup.push(cells)
-            return getUnspentCells(_lockHash, from + STEP, to, cb)
+            return getUnspentCells(_lockHash, from + STEP + 1, to, cb)
           })
           .catch(reject)
       }
