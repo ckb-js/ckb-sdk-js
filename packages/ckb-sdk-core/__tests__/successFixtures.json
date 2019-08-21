@@ -1,9 +1,9 @@
 {
   "loadSecp256k1Dep": {
     "target": {
-      "codeHash": "54811ce986d5c3e57eaafab22cdd080e32209e39590e204a99b32935f835a13c",
+      "codeHash": "664b03c55410dd7d694a73779fa86edd7f069ee1",
       "outPoint": {
-        "txHash": "d0608a90cc3fd5bec9807263d3c7c93fad48a1afa0e44b38a664fbe79d4a1400",
+        "txHash": "9c4711ef497702ae5bbd297fb2db1f1159c01e99d65c7b87084917ee377f7841",
         "index": "0"
       }
     }
@@ -31,12 +31,7 @@
   "signTransaction": {
     "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
     "transaction": {
-      "cellDeps": [
-        {
-          "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "index": "4294967295"
-        }
-      ],
+      "cellDeps": [],
       "inputs": [
         {
           "previousOutput": {
@@ -62,15 +57,7 @@
       "witnesses": [{ "data": [] }]
     },
     "target": {
-      "cellDeps": [
-        {
-          "cell": {
-            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
-          },
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        }
-      ],
+      "cellDeps": [],
       "inputs": [
         {
           "previousOutput": {

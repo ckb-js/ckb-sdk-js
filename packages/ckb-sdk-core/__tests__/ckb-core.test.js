@@ -9,6 +9,7 @@ const core = new Core(url)
 describe('ckb-core', () => {
   describe('success', () => {
     it('load the secp256k1 dep', async () => {
+      jest.setTimeout(50000)
       const fixture = successFixtures.loadSecp256k1Dep
       expect(core.config.loadSecp256k1Dep).toEqual(undefined)
 
@@ -34,10 +35,10 @@ describe('ckb-core', () => {
           hashType: 'Data',
           args: [],
         },
-        scriptHash: '0xeb69f265382eb9d5139be8c918e51f2ab65027c975db60f90130735776b4751e',
+        scriptHash: '0x9e9e450fa32ef75e7063023574f1fd3647e8eb35ff5ce9e3c04fb3056c8e37d6',
       }
-      const camputedHash = await core.rpc.computeScriptHash(fixture.script)
-      expect(camputedHash).toBe(fixture.scriptHash)
+      const computedHash = await core.rpc.computeScriptHash(fixture.script)
+      expect(computedHash).toBe(fixture.scriptHash)
     })
 
     it('sign transaction', async () => {

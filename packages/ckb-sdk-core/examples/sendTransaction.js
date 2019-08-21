@@ -33,7 +33,7 @@ const bootstrap = async () => {
 
   const script = {
     type: 'Data',
-    codeHash: secp256k1Dep.codeHash,
+    codeHash: `0x${secp256k1Dep.codeHash}`,
     args: [`0x${myAddressObj.identifier}`],
   }
   /**

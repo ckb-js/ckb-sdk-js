@@ -14,10 +14,8 @@ class Core {
   private _node: CKBComponents.Node
 
   public config: {
-    secp256k1Dep: DepCellInfo | undefined
-  } = {
-    secp256k1Dep: undefined,
-  }
+    secp256k1Dep?: DepCellInfo
+  } = {}
 
   constructor(nodeUrl: string) {
     this._node = {
@@ -89,14 +87,24 @@ class Core {
      */
     const block = await this.rpc.getBlockByNumber('0')
     if (!block) throw new Error('Cannot load the genesis block')
-    const tx = block.transactions[1]
-    if (!tx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
-    if (!tx.outputs[0]) throw new Error('Cannot load the secp256k1 dep because the specific output is not found')
+    const secp256k1CodeTx = block.transactions[0]
+    if (!secp256k1CodeTx) throw new Error('Cannot load the transaction which has the secp256k1 code cell')
+    if (!secp256k1CodeTx.outputs[1]) {
+      throw new Error('Cannot load the secp256k1 code because the specific output is not found')
+    }
+
+    const secp256k1CodeHash = this.utils.blake160(secp256k1CodeTx.outputsData[1], 'hex')
+
+    const secp256k1DepTx = block.transactions[1]
+    if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
+    if (!secp256k1DepTx.outputs[0]) {
+      throw new Error('Cannot load the secp256k1 dep because the specific output is not found')
+    }
 
     this.config.secp256k1Dep = {
-      codeHash: tx.outputs[0].lock.codeHash,
+      codeHash: secp256k1CodeHash,
       outPoint: {
-        txHash: tx.hash.replace(/^0x/, ''),
+        txHash: secp256k1DepTx.hash.replace(/^0x/, ''),
         index: '0',
       },
     }
