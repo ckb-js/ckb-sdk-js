@@ -17,19 +17,13 @@ const bootstrap = async () => {
 
   /**
    * const SYSTEM_ENCRYPTION_OUT_POINT = {
-   *   blockHash: '0x92968288728fc0901b2ed94611fcf668db7d15842f019674e0805dffd26dadd5',
-   *   cell: {
-   *     txHash: '0x7c77c04b904bd937bd371ab0d413ed6eb887661e2484bc198aca6934ba5ea4e3',
-   *     index: '1',
-   *   },
+   *   txHash: '0x7c77c04b904bd937bd371ab0d413ed6eb887661e2484bc198aca6934ba5ea4e3',
+   *   index: '1',
    * }
    */
   const SYSTEM_ENCRYPTION_OUT_POINT = {
-    blockHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.blockHash),
-    cell: {
-      txHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.cell.txHash),
-      index: systemCellInfo.outPoint.cell.index,
-    },
+    txHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.cell.txHash),
+    index: systemCellInfo.outPoint.cell.index,
   }
 
   /**

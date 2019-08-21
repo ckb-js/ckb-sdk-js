@@ -13,11 +13,8 @@ class Core {
     systemCellInfo: {
       codeHash: '',
       outPoint: {
-        blockHash: '',
-        cell: {
-          txHash: '',
-          index: '0',
-        },
+        txHash: '',
+        index: '0',
       },
     },
   }
@@ -75,19 +72,14 @@ class Core {
   public loadSystemCell = async () => {
     const block = await this.rpc.getBlockByNumber('0')
     if (!block) throw new Error('Cannot load the genesis block')
-    const cellTx = block.transactions[0]
+    const cellTx = block.transactions[1]
     if (!cellTx) throw new Error('Cannot load the transaction which has the system cell')
-    if (!cellTx.outputsData || !cellTx.outputsData[0]) throw new Error('The code data is not found')
+    if (!cellTx.outputs[0]) throw new Error('Cannot load the system cell because the specific output is not found')
 
-    const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-    s.update(this.utils.hexToBytes(cellTx.outputsData[0].replace(/^0x/, '')))
-    const codeHash = s.digest('hex')
+    const { codeHash } = cellTx.outputs[0].lock
     const outPoint = {
-      blockHash: block.header.hash.replace(/^0x/, ''),
-      cell: {
-        txHash: cellTx.hash.replace(/^0x/, ''),
-        index: '1',
-      },
+      txHash: cellTx.hash.replace(/^0x/, ''),
+      index: '1',
     }
     this.config.systemCellInfo = {
       codeHash,
