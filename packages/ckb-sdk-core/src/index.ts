@@ -2,6 +2,10 @@ import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import Address from '@nervosnetwork/ckb-sdk-address'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
+interface DepCellInfo {
+  codeHash: CKBComponents.Hash256
+  outPoint: CKBComponents.OutPoint
+}
 class Core {
   public rpc: RPC
 
@@ -9,14 +13,10 @@ class Core {
 
   private _node: CKBComponents.Node
 
-  public config = {
-    systemCellInfo: {
-      codeHash: '',
-      outPoint: {
-        txHash: '',
-        index: '0',
-      },
-    },
+  public config: {
+    secp256k1Dep: DepCellInfo | undefined
+  } = {
+    secp256k1Dep: undefined,
   }
 
   constructor(nodeUrl: string) {
@@ -69,23 +69,25 @@ class Core {
       codeHashIndex,
     })
 
-  public loadSystemCell = async () => {
+  public loadSecp256k1Dep = async () => {
+    /**
+     * cell list
+     * @link https://github.com/nervosnetwork/ckb/blob/dbadf484cea6bdba0329d58102726068be997a50/docs/hashes.toml
+     */
     const block = await this.rpc.getBlockByNumber('0')
     if (!block) throw new Error('Cannot load the genesis block')
-    const cellTx = block.transactions[1]
-    if (!cellTx) throw new Error('Cannot load the transaction which has the system cell')
-    if (!cellTx.outputs[0]) throw new Error('Cannot load the system cell because the specific output is not found')
+    const tx = block.transactions[1]
+    if (!tx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
+    if (!tx.outputs[0]) throw new Error('Cannot load the secp256k1 dep because the specific output is not found')
 
-    const { codeHash } = cellTx.outputs[0].lock
-    const outPoint = {
-      txHash: cellTx.hash.replace(/^0x/, ''),
-      index: '1',
+    this.config.secp256k1Dep = {
+      codeHash: tx.outputs[0].lock.codeHash,
+      outPoint: {
+        txHash: tx.hash.replace(/^0x/, ''),
+        index: '0',
+      },
     }
-    this.config.systemCellInfo = {
-      codeHash,
-      outPoint,
-    }
-    return this.config.systemCellInfo
+    return this.config.secp256k1Dep
   }
 
   public signWitnesses = (key: string | Address) => ({

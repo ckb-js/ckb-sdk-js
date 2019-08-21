@@ -7,24 +7,7 @@ const bootstrap = async () => {
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
-  const systemCellInfo = await core.loadSystemCell() // load system cell, which contains the secp256k1 algorithm used to verify the signature in transaction's witnesses.
-
-  /**
-   * const SYSTEM_ENCRYPTION_CODE_HASH = 0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08
-   * The system encryption code hash is the hash of system cell's data by blake2b algorithm
-   */
-  const SYSTEM_ENCRYPTION_CODE_HASH = core.rpc.paramsFormatter.toHash(systemCellInfo.codeHash)
-
-  /**
-   * const SYSTEM_ENCRYPTION_OUT_POINT = {
-   *   txHash: '0x7c77c04b904bd937bd371ab0d413ed6eb887661e2484bc198aca6934ba5ea4e3',
-   *   index: '1',
-   * }
-   */
-  const SYSTEM_ENCRYPTION_OUT_POINT = {
-    txHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.cell.txHash),
-    index: systemCellInfo.outPoint.cell.index,
-  }
+  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dep group of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
   /**
    * genereat address object, who has peroperties like private key, public key, sign method and verify mehtod
@@ -44,12 +27,12 @@ const bootstrap = async () => {
   /**
    * calculate the lockhash by the address
    * 1. the identifier of the address is required in the args field of lock script
-   * 2. compose the lock script with SYSTEM_ENCRYPTION_CODE_HASH, and args
+   * 2. compose the lock script with secp256k1Dep.codeHash, and args
    * 3. calculate the hash of lock script
    */
 
   const script = {
-    codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+    codeHash: secp256k1Dep.codeHash,
     args: [`0x${myAddressObj.identifier}`],
   }
   /**
@@ -133,7 +116,7 @@ const bootstrap = async () => {
     const targetOutput = {
       capacity: targetCapacity,
       lock: {
-        codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+        codeHash: secp256k1Dep.codeHash,
         args: [targetIdentifier],
       },
     }
@@ -144,7 +127,7 @@ const bootstrap = async () => {
     const changeOutput = {
       capacity: 0n,
       lock: {
-        codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+        codeHash: secp256k1Dep.codeHash,
         args: [`0x${myAddressObj.identifier}`],
       },
     }
@@ -197,8 +180,8 @@ const bootstrap = async () => {
     const tx = {
       version: '0',
       cellDeps: [{
-        outPoint: SYSTEM_ENCRYPTION_OUT_POINT,
-        isDepGroup: false,
+        outPoint: secp256k1Dep.outPoint,
+        isDepGroup: true,
       }, ],
       headerDeps: [],
       inputs,

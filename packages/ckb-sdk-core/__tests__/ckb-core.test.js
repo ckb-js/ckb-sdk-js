@@ -8,12 +8,12 @@ const core = new Core(url)
 
 describe('ckb-core', () => {
   describe('success', () => {
-    it('load the system cell', async () => {
-      const fixture = successFixtures.loadSystemCell
-      expect(core.config.systemCellInfo).toEqual(fixture.emptyInfo)
+    it('load the secp256k1 dep', async () => {
+      const fixture = successFixtures.loadSecp256k1Dep
+      expect(core.config.loadSecp256k1Dep).toEqual(undefined)
 
-      const systemCellInfo = await core.loadSystemCell()
-      expect(systemCellInfo).toEqual(fixture.target)
+      const secp256k1Dep = await core.loadSecp256k1Dep()
+      expect(secp256k1Dep).toEqual(fixture.target)
     })
 
     it('sign witnesses', () => {
