@@ -25,13 +25,14 @@ const bootstrap = async () => {
   // console.log(myAddressObj.value)
 
   /**
-   * calculate the lockhash by the address
+   * calculate the lockhash by the address identifier
    * 1. the identifier of the address is required in the args field of lock script
    * 2. compose the lock script with secp256k1Dep.codeHash, and args
-   * 3. calculate the hash of lock script
+   * 3. calculate the hash of lock script via core.rpc.computeScriptHash method
    */
 
   const script = {
+    type: 'Data',
     codeHash: secp256k1Dep.codeHash,
     args: [`0x${myAddressObj.identifier}`],
   }
@@ -40,7 +41,7 @@ const bootstrap = async () => {
    */
   // console.log(JSON.stringify(script, null, 2))
 
-  const lockHash = core.utils.lockScriptToHash(script)
+  const lockHash = await core.rpc.computeScriptHash(script)
   /**
    * to see the lock hash
    */
