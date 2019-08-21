@@ -37,6 +37,19 @@ class Core {
      * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
      */
     this.rpc.addMethod(computeTransactionHashMethod)
+
+    const computeScriptHashMethod = {
+      name: 'computeScriptHash',
+      method: '_compute_script_hash',
+      paramsFormatters: [this.rpc.paramsFormatter.toScript],
+    }
+
+    /**
+     * @method computeScriptHash
+     * @description this RPC is used to calculate the hash of lock/type script
+     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
+     */
+    this.rpc.addMethod(computeScriptHashMethod)
   }
 
   public setNode(node: string | CKBComponents.Node): CKBComponents.Node {

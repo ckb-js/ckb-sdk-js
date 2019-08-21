@@ -27,6 +27,19 @@ describe('ckb-core', () => {
       expect(signedWitnessesByAddressObject).toEqual(fixture.target)
     })
 
+    it('compute script hash', async () => {
+      const fixture = {
+        script: {
+          codeHash: '0xb35557e7e9854206f7bc13e3c3a7fa4cf8892c84a09237fb0aab40aab3771eee',
+          hashType: 'Data',
+          args: [],
+        },
+        scriptHash: '0xeb69f265382eb9d5139be8c918e51f2ab65027c975db60f90130735776b4751e',
+      }
+      const camputedHash = await core.rpc.computeScriptHash(fixture.script)
+      expect(camputedHash).toBe(fixture.scriptHash)
+    })
+
     it('sign transaction', async () => {
       const fixture = successFixtures.signTransaction
       const signedTransactionWithPrivateKey = await core.signTransaction(fixture.privateKey)(fixture.transaction)
