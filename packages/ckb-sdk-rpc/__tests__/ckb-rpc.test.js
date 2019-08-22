@@ -70,11 +70,8 @@ describe('ckb-rpc success', () => {
 
   it('get live cell', async () => {
     const outPoint = {
-      blockHash: null,
-      cell: {
-        txHash: '0xff5a36107851d244e1543821f9f039c3d4eb69d9968750b0b0e82e78da86c987',
-        index: '0',
-      },
+      txHash: '0xff5a36107851d244e1543821f9f039c3d4eb69d9968750b0b0e82e78da86c987',
+      index: '0',
     }
     const cellRes = await rpc.getLiveCell(outPoint)
     expect(cellRes.status).toBe('unknown')
