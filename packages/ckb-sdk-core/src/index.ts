@@ -81,7 +81,7 @@ class Core {
     if (!cell) throw new Error('Cannot load the system cell')
 
     const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-    s.update(this.utils.hexToBytes(cell.data.replace(/^0x/, '')))
+    s.update(this.utils.hexToBytes(cell.data_hash.replace(/^0x/, '')))
     const codeHash = s.digest('hex')
     const outPoint = {
       blockHash: block.header.hash.replace(/^0x/, ''),
