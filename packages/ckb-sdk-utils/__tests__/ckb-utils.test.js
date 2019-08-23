@@ -13,7 +13,7 @@ const {
   bytesToHex,
   utf8ToHex,
   hexToUtf8,
-  lockScriptToHash,
+  scriptToHash,
   PERSONAL,
 } = ckbUtils
 
@@ -161,7 +161,7 @@ describe('scriptToHash', () => {
   }
   test.each(Object.keys(fixtures))('%s', fixtureName => {
     const fixture = fixtures[fixtureName]
-    const lockHash = lockScriptToHash(fixture.script)
+    const lockHash = scriptToHash(fixture.script)
     expect(lockHash).toBe(fixture.lockHash)
   })
 })
