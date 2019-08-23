@@ -7,7 +7,7 @@ const bootstrap = async () => {
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
-  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dep group of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
+  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dep group and code hash of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
   /**
    * genereat address object, who has peroperties like private key, public key, sign method and verify mehtod
