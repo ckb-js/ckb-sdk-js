@@ -3,6 +3,7 @@ import Address from '@nervosnetwork/ckb-sdk-address'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 interface DepCellInfo {
+  type: CKBComponents.ScriptHashType
   codeHash: CKBComponents.Hash256
   outPoint: CKBComponents.OutPoint
 }
@@ -90,10 +91,13 @@ class Core {
     const secp256k1CodeTx = block.transactions[0]
     if (!secp256k1CodeTx) throw new Error('Cannot load the transaction which has the secp256k1 code cell')
     if (!secp256k1CodeTx.outputs[1]) {
-      throw new Error('Cannot load the secp256k1 code because the specific output is not found')
+      throw new Error('Cannot load the secp256k1 cell because the specific output is not found')
+    }
+    if (!secp256k1CodeTx.outputs[1].type) {
+      throw new Error('Secp256k1 type script not found in the cell')
     }
 
-    const secp256k1CodeHash = this.utils.blake160(secp256k1CodeTx.outputsData[1], 'hex')
+    const secp256k1TypeHash = this.utils.scriptToHash(secp256k1CodeTx.outputs[1].type)
 
     const secp256k1DepTx = block.transactions[1]
     if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -102,7 +106,8 @@ class Core {
     }
 
     this.config.secp256k1Dep = {
-      codeHash: secp256k1CodeHash,
+      type: 'Type' as CKBComponents.ScriptHashType.Type,
+      codeHash: secp256k1TypeHash,
       outPoint: {
         txHash: secp256k1DepTx.hash.replace(/^0x/, ''),
         index: '0',
