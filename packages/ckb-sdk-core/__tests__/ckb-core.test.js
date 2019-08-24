@@ -8,12 +8,13 @@ const core = new Core(url)
 
 describe('ckb-core', () => {
   describe('success', () => {
-    it('load the system cell', async () => {
-      const fixture = successFixtures.loadSystemCell
-      expect(core.config.systemCellInfo).toEqual(fixture.emptyInfo)
+    it('load the secp256k1 dep', async () => {
+      jest.setTimeout(50000)
+      const fixture = successFixtures.loadSecp256k1Dep
+      expect(core.config.loadSecp256k1Dep).toEqual(undefined)
 
-      const systemCellInfo = await core.loadSystemCell()
-      expect(systemCellInfo).toEqual(fixture.target)
+      const secp256k1Dep = await core.loadSecp256k1Dep()
+      expect(secp256k1Dep).toEqual(fixture.target)
     })
 
     it('sign witnesses', () => {
@@ -25,6 +26,19 @@ describe('ckb-core', () => {
         fixture.message
       )
       expect(signedWitnessesByAddressObject).toEqual(fixture.target)
+    })
+
+    it('compute script hash', async () => {
+      const fixture = {
+        script: {
+          codeHash: '0xb35557e7e9854206f7bc13e3c3a7fa4cf8892c84a09237fb0aab40aab3771eee',
+          hashType: 'data',
+          args: [],
+        },
+        scriptHash: '0x9e9e450fa32ef75e7063023574f1fd3647e8eb35ff5ce9e3c04fb3056c8e37d6',
+      }
+      const computedHash = await core.rpc.computeScriptHash(fixture.script)
+      expect(computedHash).toBe(fixture.scriptHash)
     })
 
     it('sign transaction', async () => {

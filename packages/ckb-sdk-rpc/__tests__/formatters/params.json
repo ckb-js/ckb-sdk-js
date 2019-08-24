@@ -10,7 +10,11 @@
         "target": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1"
       }
     ],
-    "toCellOutPoint": [
+    "toOutPoint": [
+      {
+        "source": null,
+        "target": null
+      },
       {
         "source": {
           "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -20,59 +24,69 @@
           "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "index": "4294967295"
         }
+      },
+      {
+        "source": null,
+        "target": null
       }
     ],
-    "toOutPoint": [
+    "toDepType": [
+      {
+        "source": "code",
+        "target": "code"
+      },
+      {
+        "source": "depGroup",
+        "target": "dep_group"
+      }
+    ],
+    "toCellDep": [
+      {
+        "source": null,
+        "target": null
+      },
       {
         "source": {
-          "cell": {
+          "depType": "depGroup"
+        },
+        "target": {
+          "out_point": null,
+          "dep_type": "dep_group"
+        }
+      },
+      {
+        "source": {
+          "outPoint": null
+        },
+        "target": {
+          "out_point": null,
+          "dep_type": "code"
+        }
+      },
+      {
+        "source": {
+          "outPoint": null,
+          "depType": "depGroup"
+        },
+        "target": {
+          "out_point": null,
+          "dep_type": "dep_group"
+        }
+      },
+      {
+        "source": {
+          "outPoint": {
             "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+          "depType": "code"
         },
         "target": {
-          "cell": {
+          "out_point": {
             "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        }
-      },
-      {
-        "source": {
-          "cell": null,
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        },
-        "target": {
-          "cell": null,
-          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        }
-      },
-      {
-        "source": {
-          "cell": null,
-          "blockHash": null
-        },
-        "target": {
-          "cell": null,
-          "block_hash": null
-        }
-      },
-      {
-        "source": {
-          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        },
-        "target": {
-          "cell": null,
-          "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-        }
-      },
-      {
-        "source": {},
-        "target": {
-          "cell": null,
-          "block_hash": null
+          "dep_type": "code"
         }
       }
     ],
@@ -82,26 +96,127 @@
         "target": "1"
       }
     ],
-    "toRawTransaction": [
+
+    "toInput": [
+      {
+        "source": null,
+        "target": null
+      },
       {
         "source": {
-          "deps": [
+          "previousOutput": null,
+          "since": 0
+        },
+        "target": {
+          "previous_output": null,
+          "since": 0
+        }
+      },
+      {
+        "source": {
+          "previousOutput": {
+            "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "since": "0"
+        },
+        "target": {
+          "previous_output": {
+            "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "index": "4294967295"
+          },
+          "since": "0"
+        }
+      }
+    ],
+    "toOutput": [
+      {
+        "source": null,
+        "target": null
+      },
+      {
+        "source": {
+          "capacity": "5000000000000",
+          "data": "0x",
+          "lock": {
+            "args": [],
+            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hashType": "data"
+          },
+          "type": null
+        },
+        "target": {
+          "capacity": "5000000000000",
+          "data": "0x",
+          "lock": {
+            "args": [],
+            "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hash_type": "data"
+          },
+          "type": null
+        }
+      },
+      {
+        "source": {
+          "capacity": "5000000000000",
+          "data": "0x",
+          "lock": {
+            "args": [],
+            "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hashType": "data"
+          }
+        },
+        "target": {
+          "capacity": "5000000000000",
+          "data": "0x",
+          "lock": {
+            "args": [],
+            "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "hash_type": "data"
+          },
+          "type": null
+        }
+      }
+    ],
+    "toRawTransaction": [
+      {
+        "source": null,
+        "target": null
+      },
+      {
+        "source": {
+          "version": "0"
+        },
+        "target": {
+          "version": "0",
+          "cell_deps": [],
+          "header_deps": [],
+          "inputs": [],
+          "outputs": [],
+          "outputs_data": []
+        }
+      },
+      {
+        "source": {
+          "cellDeps": [
             {
-              "cell": {
+              "outPoint": {
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "4294967295"
               },
-              "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+              "depType": "code"
             }
           ],
+          "headerDeps": [],
           "inputs": [
             {
+              "previousOutput": null,
+              "since": 0
+            },
+            {
               "previousOutput": {
-                "cell": {
-                  "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                  "index": "4294967295"
-                },
-                "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+                "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "index": "4294967295"
               },
               "since": "0"
             }
@@ -113,31 +228,34 @@
               "lock": {
                 "args": [],
                 "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                "hashType": "Data"
+                "hashType": "data"
               },
               "type": null
             }
           ],
-          "version": "0"
+          "version": "0",
+          "outputsData": ["0x"]
         },
         "target": {
-          "deps": [
+          "cell_deps": [
             {
-              "cell": {
+              "out_point": {
                 "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "4294967295"
               },
-              "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+              "dep_type": "code"
             }
           ],
+          "header_deps": [],
           "inputs": [
             {
+              "previous_output": null,
+              "since": 0
+            },
+            {
               "previous_output": {
-                "cell": {
-                  "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                  "index": "4294967295"
-                },
-                "block_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+                "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "index": "4294967295"
               },
               "since": "0"
             }
@@ -149,12 +267,13 @@
               "lock": {
                 "args": [],
                 "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                "hash_type": "Data"
+                "hash_type": "data"
               },
               "type": null
             }
           ],
-          "version": "0"
+          "version": "0",
+          "outputs_data": ["0x"]
         }
       }
     ],

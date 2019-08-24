@@ -252,7 +252,7 @@ export class DefaultRPC {
    * @method sendTransaction
    * @memberof DefaultRPC
    * @description rpc to send a new transaction into transaction pool
-   * @param {object} rawTransaction - a raw transaction includes deps, inputs, outputs, version, and witnesses,
+   * @param {object} rawTransaction - a raw transaction includes cell deps, inputs, outputs, version, and witnesses,
    *                                  detailed info could be found in ckb-types
    * @return {Promise<string>} transaction hash
    */

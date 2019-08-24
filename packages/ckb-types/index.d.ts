@@ -25,10 +25,9 @@ declare namespace CKBComponents {
     Committed = 'committed',
   }
 
-  export enum ScriptHashType {
-    Data = 'Data',
-    Type = 'Type',
-  }
+  export type ScriptHashType = 'data' | 'type'
+
+  export type DepType = 'code' | 'depGroup'
 
   /**
    * @typedef Bytes, keep consistent with CKB
@@ -56,8 +55,7 @@ declare namespace CKBComponents {
    * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
    * @property args, arguments.
    * @property codeHash, point to its dependency, if the referred dependency is listed in the deps field in a transaction, the codeHash means the hash of the referred cell's data.
-   * @see https://github.com/nervosnetwork/ckb/blob/develop/core/src/script.rs#L16
-   * @tutorial Each script has a `lock_hash` which uniquely identifies the script, for example, the `lock_hash` of lock script, is exactly the corresponding `lock` script field value in the referenced cell, when calculating hash for a script, `bianryHash`, and `args` will all be used.
+   * @property hashType, a enumerate indicates the type of the code which is referened by the code hash
    */
   /* eslint-enable max-len */
   export interface Script {
@@ -73,37 +71,40 @@ declare namespace CKBComponents {
    *           [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md)
    */
   export interface CellInput {
-    previousOutput: OutPoint
+    previousOutput: OutPoint | null
     since: Since
   }
 
   /**
    * @typedef CellOutput, cell output in a transaction
    * @property capacity, the capacity of the genereated P1 cell
-   * @property data, cell data
    * @property lock, lock script
    * @property type, type script
    */
   export interface CellOutput {
     capacity: Capacity
-    data: Bytes
     lock: Script
     type?: Script | null
   }
 
   /**
-   * @typedef CellOutPoint, used to refer a generated cell by transaction hash and output index
+   * @typedef OutPoint, used to refer a generated cell by transaction hash and output index
    * @property hash, transaction hash
    * @property index, index of cell output
    */
-  export interface CellOutPoint {
+  export interface OutPoint {
     txHash: Hash256
     index: Index
   }
 
-  export interface OutPoint {
-    cell?: CellOutPoint | null
-    blockHash?: Hash256 | null
+  /**
+   * @typeof CellDep, cell dependencies in a transaction
+   * @property outPoint, the out point of the cell dependency
+   * @property depType, indicate if the data of the cell containing a group of dependencies
+   */
+  export interface CellDep {
+    outPoint: OutPoint | null
+    depType: DepType
   }
 
   export interface Witness {
@@ -113,17 +114,21 @@ declare namespace CKBComponents {
   /**
    * @typedef RawTransaction, raw transaction object
    * @property version, transaction version
-   * @property deps, transaction deps
+   * @property cellDeps, cell deps used in the transaction
+   * @property headerDeps, header deps referenced to a specific block used in the transaction
    * @property inputs, cell inputs in the transaction
    * @property outputs, cell outputs in the transaction
    * @property witnesses, segrated witnesses
+   * @property outputsData, data referenced by scripts
    */
   export interface RawTransaction {
     version: Version
-    deps: OutPoint[]
+    cellDeps: CellDep[]
+    headerDeps: Hash256[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
+    outputsData: Bytes[]
   }
 
   /**
@@ -168,16 +173,6 @@ declare namespace CKBComponents {
   export type TransactionsByLockHash = TransactionByLockHash[]
 
   /**
-   * @typedef @Seal
-   * @property nonce
-   * @property proof
-   */
-  export interface Seal {
-    nonce: Nonce
-    proof: Uint8Array
-  }
-
-  /**
    * @typedef BlockHeader, header of a block
    * @property dao
    * @property difficulty
@@ -186,7 +181,7 @@ declare namespace CKBComponents {
    * @property number
    * @property parentHash
    * @property proposalsHash
-   * @property seal
+   * @property nonce
    * @property timestamp
    * @property transactionsRoot
    * @property unclesCount
@@ -202,7 +197,7 @@ declare namespace CKBComponents {
     number: BlockNumber
     parentHash: Hash256
     proposalsHash: Hash256
-    seal: Seal
+    nonce: Nonce
     timestamp: Timestamp
     transactionsRoot: Hash256
     unclesCount: Count
@@ -253,7 +248,7 @@ declare namespace CKBComponents {
   export interface CellIncludingOutPoint {
     capacity: Capacity
     lock: Script
-    outPoint: OutPoint
+    outPoint: OutPoint | null
   }
 
   export type TransactionTrace = { action: string; info: string; time: Timestamp }[]
@@ -314,7 +309,6 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    epochReward: String
     difficulty: String
     length: String
     number: String

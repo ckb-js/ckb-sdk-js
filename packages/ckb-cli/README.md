@@ -47,15 +47,12 @@ ckb => await core.rpc.getBlock('0x89de946313839a8a77749b6218d4d7ab3513910c5ed860
      hash:
       '0x89de946313839a8a77749b6218d4d7ab3513910c5ed86040e5f38efd41e566d7',
      number: 6905,
-     seal:
-      { nonce: '17168453808346374945',
-        proof:
-         '0x6c040000e00d0000380f0000c22100002f2900001d2b0000c32b0000fc2c0000743f00008d4600000c480000e46c0000' },
+     nonce: '17168453808346374945',
      timestamp: '1557653980138',
      version: 0 },
   uncles: [],
   transactions:
-   [ { deps: [],
+   [ { cellDeps: [],
        inputs: [Array],
        outputs: [Array],
        hash:
