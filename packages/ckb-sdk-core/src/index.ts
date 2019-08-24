@@ -97,7 +97,9 @@ class Core {
       throw new Error('Secp256k1 type script not found in the cell')
     }
 
-    const secp256k1TypeHash = this.utils.scriptToHash(secp256k1CodeTx.outputs[1].type)
+    const secp256k1TypeHash = await (this.rpc as RPC & { computeScriptHash: Function }).computeScriptHash(
+      secp256k1CodeTx.outputs[1].type
+    )
 
     const secp256k1DepTx = block.transactions[1]
     if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -109,7 +111,7 @@ class Core {
       hashType: 'type',
       codeHash: secp256k1TypeHash,
       outPoint: {
-        txHash: secp256k1DepTx.hash.replace(/^0x/, ''),
+        txHash: secp256k1DepTx.hash,
         index: '0',
       },
     }

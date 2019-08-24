@@ -2,9 +2,9 @@
   "loadSecp256k1Dep": {
     "target": {
       "hashType": "type",
-      "codeHash": "f6d0736d63b5ab0629ef574344bb59e4becb7874a5a170f8bb503509b3b2baf2",
+      "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
       "outPoint": {
-        "txHash": "9a0d9a0d8bb39cbe468783df7db219f8eb1a703691e3bd2f691f3d1568a3abc1",
+        "txHash": "0x9a0d9a0d8bb39cbe468783df7db219f8eb1a703691e3bd2f691f3d1568a3abc1",
         "index": "0"
       }
     }

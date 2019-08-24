@@ -22,7 +22,7 @@ const bootstrap = async () => {
   /**
    * to see the address
    */
-  // console.log(myAddressObj.value)
+  console.log(myAddressObj.value)
 
   /**
    * calculate the lockhash by the address identifier
@@ -33,7 +33,7 @@ const bootstrap = async () => {
 
   const script = {
     hashType: secp256k1Dep.hashType,
-    codeHash: `0x${secp256k1Dep.codeHash}`,
+    codeHash: secp256k1Dep.codeHash,
     args: [`0x${myAddressObj.identifier}`],
   }
   /**
