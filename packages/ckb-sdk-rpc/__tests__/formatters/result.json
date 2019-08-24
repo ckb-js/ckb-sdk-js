@@ -129,11 +129,11 @@
       },
       {
         "source": {
-          "is_dep_group": false
+          "dep_type": "dep_group"
         },
         "target": {
           "outPoint": null,
-          "isDepGroup": false
+          "depType": "depGroup"
         }
       },
       {
@@ -142,17 +142,17 @@
         },
         "target": {
           "outPoint": null,
-          "isDepGroup": false
+          "depType": "code"
         }
       },
       {
         "source": {
           "out_point": null,
-          "is_dep_group": false
+          "dep_type": "code"
         },
         "target": {
           "outPoint": null,
-          "isDepGroup": false
+          "depType": "code"
         }
       },
       {
@@ -161,14 +161,14 @@
             "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "is_dep_group": true
+          "dep_type": "code"
         },
         "target": {
           "outPoint": {
             "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "isDepGroup": true
+          "depType": "code"
         }
       }
     ],
@@ -638,6 +638,16 @@
         }
       }
     ],
+    "toDepType": [
+      {
+        "source": "dep_group",
+        "target": "depGroup"
+      },
+      {
+        "source": "code",
+        "target": "code"
+      }
+    ],
     "toCell": [
       {
         "source": null,
@@ -646,7 +656,6 @@
       {
         "source": {
           "capacity": "5000000000000",
-
           "lock": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -660,7 +669,6 @@
         },
         "target": {
           "capacity": "5000000000000",
-
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -683,7 +691,6 @@
         "source": {
           "cell": {
             "capacity": "5000000000000",
-
             "lock": {
               "args": [],
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -696,7 +703,6 @@
         "target": {
           "cell": {
             "capacity": "5000000000000",
-
             "lock": {
               "args": [],
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",

@@ -30,6 +30,8 @@ declare namespace CKBComponents {
     Type = 'Type',
   }
 
+  export type DepType = 'code' | 'depGroup'
+
   /**
    * @typedef Bytes, keep consistent with CKB
    * @description Bytes will be serialized to string
@@ -102,11 +104,11 @@ declare namespace CKBComponents {
   /**
    * @typeof CellDep, cell dependencies in a transaction
    * @property outPoint, the out point of the cell dependency
-   * @property isDepGroup, indicate if the data of the cell containing a group of dependencies
+   * @property depType, indicate if the data of the cell containing a group of dependencies
    */
   export interface CellDep {
     outPoint: OutPoint | null
-    isDepGroup: boolean
+    depType: DepType
   }
 
   export interface Witness {

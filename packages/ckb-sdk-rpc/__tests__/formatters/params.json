@@ -30,6 +30,16 @@
         "target": null
       }
     ],
+    "toDepType": [
+      {
+        "source": "code",
+        "target": "code"
+      },
+      {
+        "source": "depGroup",
+        "target": "dep_group"
+      }
+    ],
     "toCellDep": [
       {
         "source": null,
@@ -37,11 +47,11 @@
       },
       {
         "source": {
-          "isDepGroup": false
+          "depType": "depGroup"
         },
         "target": {
           "out_point": null,
-          "is_dep_group": false
+          "dep_type": "dep_group"
         }
       },
       {
@@ -50,17 +60,17 @@
         },
         "target": {
           "out_point": null,
-          "is_dep_group": false
+          "dep_type": "code"
         }
       },
       {
         "source": {
           "outPoint": null,
-          "isDepGroup": false
+          "depType": "depGroup"
         },
         "target": {
           "out_point": null,
-          "is_dep_group": false
+          "dep_type": "dep_group"
         }
       },
       {
@@ -69,14 +79,14 @@
             "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "isDepGroup": true
+          "depType": "code"
         },
         "target": {
           "out_point": {
             "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "index": "4294967295"
           },
-          "is_dep_group": true
+          "dep_type": "code"
         }
       }
     ],
@@ -194,7 +204,7 @@
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "4294967295"
               },
-              "isDepGroup": false
+              "depType": "code"
             }
           ],
           "headerDeps": [],
@@ -233,7 +243,7 @@
                 "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "4294967295"
               },
-              "is_dep_group": false
+              "dep_type": "code"
             }
           ],
           "header_deps": [],

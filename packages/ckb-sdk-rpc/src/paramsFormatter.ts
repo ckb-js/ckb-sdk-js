@@ -35,12 +35,18 @@ const formatter = {
       ...rest,
     }
   },
+  toDepType: (type: CKBComponents.DepType) => {
+    if (type === 'depGroup') {
+      return 'dep_group'
+    }
+    return type
+  },
   toCellDep: (cellDep: CKBComponents.CellDep): CKB_RPC.CellDep => {
     if (!cellDep) return cellDep
-    const { outPoint = null, isDepGroup: is_dep_group = false, ...rest } = cellDep
+    const { outPoint = null, depType = 'code', ...rest } = cellDep
     return {
       out_point: formatter.toOutPoint(outPoint),
-      is_dep_group,
+      dep_type: formatter.toDepType(depType),
       ...rest,
     }
   },

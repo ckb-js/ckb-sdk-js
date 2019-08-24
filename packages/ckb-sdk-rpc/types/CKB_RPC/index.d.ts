@@ -28,6 +28,8 @@ declare module CKB_RPC {
     Type = 'Type',
   }
 
+  export type DepType = 'code' | 'dep_group'
+
   export interface Script {
     args: Bytes[]
     code_hash: Hash256
@@ -54,7 +56,7 @@ declare module CKB_RPC {
 
   export interface CellDep {
     out_point: OutPoint | null
-    is_dep_group: boolean
+    dep_type: DepType
   }
 
   export interface CellIncludingOutPoint {

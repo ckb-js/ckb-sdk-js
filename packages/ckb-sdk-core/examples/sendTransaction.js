@@ -184,7 +184,7 @@ const bootstrap = async () => {
       version: '0',
       cellDeps: [{
         outPoint: secp256k1Dep.outPoint,
-        isDepGroup: true,
+        depType: "depGroup",
       }, ],
       headerDeps: [],
       inputs,
