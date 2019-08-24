@@ -103,8 +103,6 @@ declare module CKB_RPC {
   }
   export type LiveCellsByLockHash = LiveCellByLockHash[]
 
-  export type Seal = CKBComponents.Seal
-
   export interface Header {
     dao: DAO
     difficulty: Difficulty
@@ -113,7 +111,7 @@ declare module CKB_RPC {
     number: BlockNumber
     parent_hash: Hash256
     proposals_hash: Hash256
-    seal: Seal
+    nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
     uncles_count: Count

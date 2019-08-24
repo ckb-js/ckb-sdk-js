@@ -175,16 +175,6 @@ declare namespace CKBComponents {
   export type TransactionsByLockHash = TransactionByLockHash[]
 
   /**
-   * @typedef @Seal
-   * @property nonce
-   * @property proof
-   */
-  export interface Seal {
-    nonce: Nonce
-    proof: Uint8Array
-  }
-
-  /**
    * @typedef BlockHeader, header of a block
    * @property dao
    * @property difficulty
@@ -193,7 +183,7 @@ declare namespace CKBComponents {
    * @property number
    * @property parentHash
    * @property proposalsHash
-   * @property seal
+   * @property nonce
    * @property timestamp
    * @property transactionsRoot
    * @property unclesCount
@@ -209,7 +199,7 @@ declare namespace CKBComponents {
     number: BlockNumber
     parentHash: Hash256
     proposalsHash: Hash256
-    seal: Seal
+    nonce: Nonce
     timestamp: Timestamp
     transactionsRoot: Hash256
     unclesCount: Count
