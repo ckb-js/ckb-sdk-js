@@ -4,10 +4,11 @@ const Core = require('../lib').default
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
   const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
+  const blockAssemblerCodeHash = '0x1d107ddec56ec77b79c41cd10b35a3b47434c93a604ecb8e8e73e7372fe1a794' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
-  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dep group and code hash of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
+  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dependencies of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
   /**
    * genereat address object, who has peroperties like private key, public key, sign method and verify mehtod
@@ -25,23 +26,23 @@ const bootstrap = async () => {
   console.log(myAddressObj.value)
 
   /**
-   * calculate the lockhash by the address identifier
+   * calculate the lockHash by the address identifier
    * 1. the identifier of the address is required in the args field of lock script
-   * 2. compose the lock script with secp256k1Dep.codeHash, and args
+   * 2. compose the lock script with the code hash(as a miner, we use blockAssemblerCodeHash here), and args
    * 3. calculate the hash of lock script via core.rpc.computeScriptHash method
    */
 
-  const script = {
-    hashType: secp256k1Dep.hashType,
-    codeHash: secp256k1Dep.codeHash,
+  const lockScript = {
+    hashType: "data",
+    codeHash: blockAssemblerCodeHash,
     args: [`0x${myAddressObj.identifier}`],
   }
   /**
    * to see the lock script
    */
-  // console.log(JSON.stringify(script, null, 2))
+  // console.log(JSON.stringify(lockScript, null, 2))
 
-  const lockHash = await core.rpc.computeScriptHash(script)
+  const lockHash = await core.rpc.computeScriptHash(lockScript)
   /**
    * to see the lock hash
    */
@@ -117,7 +118,7 @@ const bootstrap = async () => {
     const targetOutput = {
       capacity: targetCapacity,
       lock: {
-        hashType: secp256k1Dep.hashTypetype,
+        hashType: secp256k1Dep.hashType,
         codeHash: secp256k1Dep.codeHash,
         args: [targetIdentifier],
       },
@@ -129,8 +130,8 @@ const bootstrap = async () => {
     const changeOutput = {
       capacity: 0n,
       lock: {
-        hashTypetype: secp256k1Dep.hashType,
-        codeHash: `0x${secp256k1Dep.codeHash}`,
+        hashType: secp256k1Dep.hashType,
+        codeHash: secp256k1Dep.codeHash,
         args: [`0x${myAddressObj.identifier}`],
       },
     }
@@ -207,7 +208,7 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 6000000000) // generate the raw transaction with empty witnesses
+  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 60000000000) // generate the raw transaction with empty witnesses
   const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
    * to see the signed transaction
