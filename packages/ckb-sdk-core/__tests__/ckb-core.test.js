@@ -32,7 +32,7 @@ describe('ckb-core', () => {
       const fixture = {
         script: {
           codeHash: '0xb35557e7e9854206f7bc13e3c3a7fa4cf8892c84a09237fb0aab40aab3771eee',
-          hashType: 'Data',
+          hashType: 'data',
           args: [],
         },
         scriptHash: '0x9e9e450fa32ef75e7063023574f1fd3647e8eb35ff5ce9e3c04fb3056c8e37d6',

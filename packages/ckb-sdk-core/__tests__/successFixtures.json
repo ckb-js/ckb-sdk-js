@@ -1,9 +1,10 @@
 {
   "loadSecp256k1Dep": {
     "target": {
-      "codeHash": "664b03c55410dd7d694a73779fa86edd7f069ee1",
+      "hashType": "type",
+      "codeHash": "f6d0736d63b5ab0629ef574344bb59e4becb7874a5a170f8bb503509b3b2baf2",
       "outPoint": {
-        "txHash": "9c4711ef497702ae5bbd297fb2db1f1159c01e99d65c7b87084917ee377f7841",
+        "txHash": "9a0d9a0d8bb39cbe468783df7db219f8eb1a703691e3bd2f691f3d1568a3abc1",
         "index": "0"
       }
     }
@@ -47,7 +48,7 @@
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": null
         }
@@ -73,7 +74,7 @@
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": null
         }
@@ -83,7 +84,7 @@
       "witnesses": [
         {
           "data": [
-            "0x54370f05bcdc65adec5b8a082001439a752822f6a8b784b13cd6911f2c6bea3166daf6f22eb24eb36d183874f4e3dff1a4d43b4cfdfa8c7df34537fe7ec6409600"
+            "0xf69acebe08cc4e6cbfea1a7b3e2e0b73c72ff62158e82ba40411d44eb06d374567c0ec8f12c6619457cea64aa507d9d3e8158e5af3d0dd3b0514d3d578dccbe800"
           ]
         }
       ]
