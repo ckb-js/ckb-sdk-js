@@ -3,7 +3,7 @@ import Address from '@nervosnetwork/ckb-sdk-address'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 interface DepCellInfo {
-  type: CKBComponents.ScriptHashType
+  hashType: CKBComponents.ScriptHashType
   codeHash: CKBComponents.Hash256
   outPoint: CKBComponents.OutPoint
 }
@@ -106,7 +106,7 @@ class Core {
     }
 
     this.config.secp256k1Dep = {
-      type: 'Type' as CKBComponents.ScriptHashType.Type,
+      hashType: 'type',
       codeHash: secp256k1TypeHash,
       outPoint: {
         txHash: secp256k1DepTx.hash.replace(/^0x/, ''),

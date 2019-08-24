@@ -42,18 +42,13 @@ export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
-export enum ScriptHashType {
-  Data = 'Data',
-  Type = 'Type',
-}
-
-export const scriptToHash = ({ codeHash = '', args = [], hashType = ScriptHashType.Data }: CKBComponents.Script) => {
+export const scriptToHash = ({ codeHash = '', args = [], hashType = 'data' }: CKBComponents.Script) => {
   const s = blake2b(32, null, null, PERSONAL)
   if (codeHash) {
     s.update(hexToBytes(codeHash.replace(/^0x/, '')))
   }
 
-  if (hashType === ScriptHashType.Data) {
+  if (hashType === 'data') {
     s.update(Buffer.from([0x0]))
   } else {
     s.update(Buffer.from([0x1]))

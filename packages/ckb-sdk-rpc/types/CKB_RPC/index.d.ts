@@ -23,10 +23,7 @@ declare module CKB_RPC {
 
   export type TransactionStatus = CKBComponents.TransactionStatus
 
-  export enum ScriptHashType {
-    Data = 'Data',
-    Type = 'Type',
-  }
+  export type ScriptHashType = 'data' | type
 
   export type DepType = 'code' | 'dep_group'
 

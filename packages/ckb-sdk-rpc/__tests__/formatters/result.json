@@ -21,12 +21,12 @@
         "source": {
           "args": [],
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-          "hash_type": "Data"
+          "hash_type": "data"
         },
         "target": {
           "args": [],
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-          "hashType": "Data"
+          "hashType": "data"
         }
       }
     ],
@@ -63,12 +63,12 @@
           "lock": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hash_type": "Data"
+            "hash_type": "data"
           },
           "type": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hash_type": "Type"
+            "hash_type": "type"
           }
         },
         "target": {
@@ -76,12 +76,12 @@
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Type"
+            "hashType": "type"
           }
         }
       },
@@ -91,7 +91,7 @@
           "lock": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hash_type": "Data"
+            "hash_type": "data"
           },
           "type": null
         },
@@ -100,7 +100,7 @@
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": null
         }
@@ -197,7 +197,7 @@
               "lock": {
                 "args": [],
                 "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                "hash_type": "Data"
+                "hash_type": "data"
               },
               "type": null
             }
@@ -226,7 +226,7 @@
               "lock": {
                 "args": [],
                 "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                "hashType": "Data"
+                "hashType": "data"
               },
               "type": null
             }
@@ -345,7 +345,7 @@
                   "lock": {
                     "args": [],
                     "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                    "hash_type": "Data"
+                    "hash_type": "data"
                   },
                   "type": null
                 }
@@ -396,7 +396,7 @@
                   "lock": {
                     "args": [],
                     "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                    "hashType": "Data"
+                    "hashType": "data"
                   },
                   "type": null
                 }
@@ -659,12 +659,12 @@
           "lock": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hash_type": "Data"
+            "hash_type": "data"
           },
           "type": {
             "args": [],
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hash_type": "Type"
+            "hash_type": "type"
           }
         },
         "target": {
@@ -672,12 +672,12 @@
           "lock": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": {
             "args": [],
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "hashType": "Type"
+            "hashType": "type"
           }
         }
       }
@@ -694,7 +694,7 @@
             "lock": {
               "args": [],
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-              "hash_type": "Data"
+              "hash_type": "data"
             },
             "type": null
           },
@@ -706,7 +706,7 @@
             "lock": {
               "args": [],
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-              "hashType": "Data"
+              "hashType": "data"
             },
             "type": null
           },
@@ -724,7 +724,7 @@
           "lock": {
             "code_hash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
             "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
-            "hash_type": "Data"
+            "hash_type": "data"
           },
           "type": null,
           "capacity": "5000000000000",
@@ -737,7 +737,7 @@
           "lock": {
             "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
             "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
-            "hashType": "Data"
+            "hashType": "data"
           },
           "type": null,
           "capacity": "5000000000000",
@@ -761,7 +761,7 @@
             "lock": {
               "args": [],
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-              "hash_type": "Data"
+              "hash_type": "data"
             },
             "type": null
           }
@@ -773,7 +773,7 @@
             "lock": {
               "args": [],
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-              "hashType": "Data"
+              "hashType": "data"
             },
             "type": null
           }
@@ -791,7 +791,7 @@
             "lock": {
               "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
               "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
-              "hashType": "Data"
+              "hashType": "data"
             },
             "type": null,
             "capacity": "5000000000000",
@@ -806,7 +806,7 @@
             "lock": {
               "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
               "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
-              "hashType": "Data"
+              "hashType": "data"
             },
             "type": null,
             "capacity": "5000000000000",
@@ -884,7 +884,7 @@
                 "lock": {
                   "args": [],
                   "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                  "hash_type": "Data"
+                  "hash_type": "data"
                 },
                 "type": null
               }
@@ -918,7 +918,7 @@
                 "lock": {
                   "args": [],
                   "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
-                  "hashType": "Data"
+                  "hashType": "data"
                 },
                 "type": null
               }

@@ -32,7 +32,7 @@ const bootstrap = async () => {
    */
 
   const script = {
-    type: secp256k1Dep.type,
+    hashType: secp256k1Dep.hashType,
     codeHash: `0x${secp256k1Dep.codeHash}`,
     args: [`0x${myAddressObj.identifier}`],
   }
@@ -117,7 +117,7 @@ const bootstrap = async () => {
     const targetOutput = {
       capacity: targetCapacity,
       lock: {
-        type: secp256k1Dep.type,
+        hashType: secp256k1Dep.hashTypetype,
         codeHash: secp256k1Dep.codeHash,
         args: [targetIdentifier],
       },
@@ -129,7 +129,7 @@ const bootstrap = async () => {
     const changeOutput = {
       capacity: 0n,
       lock: {
-        type: secp256k1Dep.type,
+        hashTypetype: secp256k1Dep.hashType,
         codeHash: `0x${secp256k1Dep.codeHash}`,
         args: [`0x${myAddressObj.identifier}`],
       },

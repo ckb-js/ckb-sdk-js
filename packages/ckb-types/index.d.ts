@@ -25,10 +25,7 @@ declare namespace CKBComponents {
     Committed = 'committed',
   }
 
-  export enum ScriptHashType {
-    Data = 'Data',
-    Type = 'Type',
-  }
+  export type ScriptHashType = 'data' | 'type'
 
   export type DepType = 'code' | 'depGroup'
 
@@ -58,8 +55,7 @@ declare namespace CKBComponents {
    * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
    * @property args, arguments.
    * @property codeHash, point to its dependency, if the referred dependency is listed in the deps field in a transaction, the codeHash means the hash of the referred cell's data.
-   * @see https://github.com/nervosnetwork/ckb/blob/develop/core/src/script.rs#L16
-   * @tutorial Each script has a `lock_hash` which uniquely identifies the script, for example, the `lock_hash` of lock script, is exactly the corresponding `lock` script field value in the referenced cell, when calculating hash for a script, `bianryHash`, and `args` will all be used.
+   * @property hashType, a enumerate indicates the type of the code which is referened by the code hash
    */
   /* eslint-enable max-len */
   export interface Script {
