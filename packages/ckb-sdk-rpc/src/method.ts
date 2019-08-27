@@ -34,6 +34,8 @@ class Method {
       },
       data: payload,
       url: this.node.url,
+      httpAgent: this.node.httpAgent,
+      httpsAgent: this.node.httpsAgent,
     }).then(res => {
       if (res.data.id !== id) {
         throw new Error('JSONRPC id not match')
