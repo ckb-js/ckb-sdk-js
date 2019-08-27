@@ -23,10 +23,9 @@ declare module CKB_RPC {
 
   export type TransactionStatus = CKBComponents.TransactionStatus
 
-  export enum ScriptHashType {
-    Data = 'Data',
-    Type = 'Type',
-  }
+  export type ScriptHashType = 'data' | type
+
+  export type DepType = 'code' | 'dep_group'
 
   export interface Script {
     args: Bytes[]
@@ -34,42 +33,43 @@ declare module CKB_RPC {
     hash_type: ScriptHashType
   }
 
-  export interface CellOutPoint {
+  export interface OutPoint {
     tx_hash: Hash256
     index: Index
   }
 
-  export interface OutPoint {
-    cell?: CellOutPoint | null
-    block_hash?: Hash256 | null
-  }
-
   export interface CellInput {
-    previous_output: OutPoint
+    previous_output: OutPoint | null
     since: Since
   }
 
   export interface CellOutput {
     capacity: Capacity
-    data: Bytes
     lock: Script
     type?: Script | null
   }
 
   export type Cell = CellOutput
 
+  export interface CellDep {
+    out_point: OutPoint | null
+    dep_type: DepType
+  }
+
   export interface CellIncludingOutPoint {
     capacity: Capacity
     lock: Script
-    out_point: OutPoint
+    out_point: OutPoint | null
   }
 
   export interface RawTransaction {
     version: Version
-    deps: OutPoint[]
+    cell_deps: CellDep[]
+    header_deps: Hash256[]
     inputs: CellInput[]
     outputs: CellOutput[]
     witnesses: Witness[]
+    outputs_data: Bytes[]
   }
 
   export interface Transaction extends RawTransaction {
@@ -102,8 +102,6 @@ declare module CKB_RPC {
   }
   export type LiveCellsByLockHash = LiveCellByLockHash[]
 
-  export type Seal = CKBComponents.Seal
-
   export interface Header {
     dao: DAO
     difficulty: Difficulty
@@ -112,7 +110,7 @@ declare module CKB_RPC {
     number: BlockNumber
     parent_hash: Hash256
     proposals_hash: Hash256
-    seal: Seal
+    nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
     uncles_count: Count
@@ -172,7 +170,6 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    epoch_reward: string
     difficulty: string
     length: string
     number: string

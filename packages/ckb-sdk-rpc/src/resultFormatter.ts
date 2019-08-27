@@ -36,7 +36,7 @@ const formatter = {
     if (!input) return input
     const { previous_output: previousOutput, ...rest } = input
     return {
-      previousOutput: formatter.toOutPoint(previousOutput),
+      previousOutput: previousOutput ? formatter.toOutPoint(previousOutput) : previousOutput,
       ...rest,
     }
   },
@@ -49,29 +49,46 @@ const formatter = {
       ...rest,
     }
   },
-  toCellOutPoint: (cellOutPoint: CKB_RPC.CellOutPoint): CKBComponents.CellOutPoint => {
-    if (!cellOutPoint) return cellOutPoint
-    const { tx_hash: txHash, ...rest } = cellOutPoint
+  toOutPoint: (outPoint: CKB_RPC.OutPoint | null): CKBComponents.OutPoint | null => {
+    if (!outPoint) return outPoint
+    const { tx_hash: txHash, ...rest } = outPoint
     return {
       txHash,
       ...rest,
     }
   },
-  toOutPoint: (outPoint: CKB_RPC.OutPoint): CKBComponents.OutPoint => {
-    if (!outPoint) return outPoint
-    const { block_hash: blockHash = null, cell = null } = outPoint
+  toDepType: (type: CKB_RPC.DepType) => {
+    if (type === 'dep_group') {
+      return 'depGroup'
+    }
+    return type
+  },
+
+  toCellDep: (cellDep: CKB_RPC.CellDep): CKBComponents.CellDep => {
+    if (!cellDep) return cellDep
+    const { out_point: outPoint = null, dep_type = 'code', ...rest } = cellDep
     return {
-      blockHash,
-      cell: cell ? formatter.toCellOutPoint(cell) : cell,
+      outPoint: formatter.toOutPoint(outPoint),
+      depType: formatter.toDepType(dep_type),
+      ...rest,
     }
   },
   toTransaction: (tx: CKB_RPC.Transaction): CKBComponents.Transaction => {
     if (!tx) return tx
-    const { deps = [], inputs = [], outputs = [], ...rest } = tx
+    const {
+      cell_deps: cellDeps = [],
+      inputs = [],
+      outputs = [],
+      outputs_data: outputsData = [],
+      header_deps: headerDeps = [],
+      ...rest
+    } = tx
     return {
-      deps: deps.map(formatter.toOutPoint),
+      cellDeps: cellDeps.map(formatter.toCellDep),
       inputs: inputs.map(formatter.toInput),
       outputs: outputs.map(formatter.toOutput),
+      outputsData,
+      headerDeps,
       ...rest,
     }
   },
@@ -136,7 +153,10 @@ const formatter = {
       ...rest,
     }
   },
-  toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => nodes.map(formatter.toNodeInfo),
+  toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => {
+    if (!Array.isArray(nodes)) return []
+    return nodes.map(formatter.toNodeInfo)
+  },
   toPeersState: (state: CKB_RPC.PeersState): CKBComponents.PeersState => {
     if (!state) return state
     const { last_updated: lastUpdated, blocks_in_flight: blocksInFlight, ...rest } = state
@@ -163,7 +183,10 @@ const formatter = {
       ...rest,
     }
   },
-  toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => cells.map(formatter.toCell),
+  toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => {
+    if (!Array.isArray(cells)) return []
+    return cells.map(formatter.toCell)
+  },
   toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
     const { lock, out_point, ...rest } = cell
@@ -173,8 +196,10 @@ const formatter = {
       ...rest,
     }
   },
-  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] =>
-    cells.map(formatter.toCellIncludingOutPoint),
+  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] => {
+    if (!Array.isArray(cells)) return []
+    return cells.map(formatter.toCellIncludingOutPoint)
+  },
   toTransactionWithStatus: (txWithStatus: CKB_RPC.TransactionWithStatus) => {
     if (!txWithStatus) return txWithStatus
     const {
@@ -193,9 +218,8 @@ const formatter = {
   },
   toEpoch: (epoch: CKB_RPC.Epoch): CKBComponents.Epoch => {
     if (!epoch) return epoch
-    const { epoch_reward: epochReward, start_number: startNumber, ...rest } = epoch
+    const { start_number: startNumber, ...rest } = epoch
     return {
-      epochReward,
       startNumber,
       ...rest,
     }

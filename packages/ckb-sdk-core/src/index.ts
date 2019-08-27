@@ -2,6 +2,11 @@ import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import Address from '@nervosnetwork/ckb-sdk-address'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
+interface DepCellInfo {
+  hashType: CKBComponents.ScriptHashType
+  codeHash: CKBComponents.Hash256
+  outPoint: CKBComponents.OutPoint
+}
 class Core {
   public rpc: RPC
 
@@ -9,18 +14,9 @@ class Core {
 
   private _node: CKBComponents.Node
 
-  public config = {
-    systemCellInfo: {
-      codeHash: '',
-      outPoint: {
-        blockHash: '',
-        cell: {
-          txHash: '',
-          index: '0',
-        },
-      },
-    },
-  }
+  public config: {
+    secp256k1Dep?: DepCellInfo
+  } = {}
 
   constructor(nodeUrl: string) {
     this._node = {
@@ -40,6 +36,19 @@ class Core {
      * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
      */
     this.rpc.addMethod(computeTransactionHashMethod)
+
+    const computeScriptHashMethod = {
+      name: 'computeScriptHash',
+      method: '_compute_script_hash',
+      paramsFormatters: [this.rpc.paramsFormatter.toScript],
+    }
+
+    /**
+     * @method computeScriptHash
+     * @description this RPC is used to calculate the hash of lock/type script
+     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
+     */
+    this.rpc.addMethod(computeScriptHashMethod)
   }
 
   public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
@@ -72,29 +81,41 @@ class Core {
       codeHashIndex,
     })
 
-  public loadSystemCell = async () => {
+  public loadSecp256k1Dep = async () => {
+    /**
+     * cell list
+     * @link https://github.com/nervosnetwork/ckb/blob/dbadf484cea6bdba0329d58102726068be997a50/docs/hashes.toml
+     */
     const block = await this.rpc.getBlockByNumber('0')
     if (!block) throw new Error('Cannot load the genesis block')
-    const cellTx = block.transactions[0]
-    if (!cellTx) throw new Error('Cannot load the transaction which has the system cell')
-    const cell = cellTx.outputs[1]
-    if (!cell) throw new Error('Cannot load the system cell')
+    const secp256k1CodeTx = block.transactions[0]
+    if (!secp256k1CodeTx) throw new Error('Cannot load the transaction which has the secp256k1 code cell')
+    if (!secp256k1CodeTx.outputs[1]) {
+      throw new Error('Cannot load the secp256k1 cell because the specific output is not found')
+    }
+    if (!secp256k1CodeTx.outputs[1].type) {
+      throw new Error('Secp256k1 type script not found in the cell')
+    }
 
-    const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-    s.update(this.utils.hexToBytes(cell.data.replace(/^0x/, '')))
-    const codeHash = s.digest('hex')
-    const outPoint = {
-      blockHash: block.header.hash.replace(/^0x/, ''),
-      cell: {
-        txHash: cellTx.hash.replace(/^0x/, ''),
-        index: '1',
+    const secp256k1TypeHash = await (this.rpc as RPC & { computeScriptHash: Function }).computeScriptHash(
+      secp256k1CodeTx.outputs[1].type
+    )
+
+    const secp256k1DepTx = block.transactions[1]
+    if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
+    if (!secp256k1DepTx.outputs[0]) {
+      throw new Error('Cannot load the secp256k1 dep because the specific output is not found')
+    }
+
+    this.config.secp256k1Dep = {
+      hashType: 'type',
+      codeHash: secp256k1TypeHash,
+      outPoint: {
+        txHash: secp256k1DepTx.hash,
+        index: '0',
       },
     }
-    this.config.systemCellInfo = {
-      codeHash,
-      outPoint,
-    }
-    return this.config.systemCellInfo
+    return this.config.secp256k1Dep
   }
 
   public signWitnesses = (key: string | Address) => ({
@@ -129,6 +150,8 @@ class Core {
     if (!transaction) throw new Error('Transaction is required')
     if (!transaction.witnesses) throw new Error('Witnesses is required')
     if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
+    if (!transaction.outputsData) throw new Error('OutputsData is required')
+    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
     const transactionHash = await (this.rpc as RPC & { computeTransactionHash: Function }).computeTransactionHash(
       transaction

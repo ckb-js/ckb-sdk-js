@@ -4,33 +4,11 @@ const Core = require('../lib').default
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
   const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
+  const blockAssemblerCodeHash = '0x1d107ddec56ec77b79c41cd10b35a3b47434c93a604ecb8e8e73e7372fe1a794' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
-  const systemCellInfo = await core.loadSystemCell() // load system cell, which contains the secp256k1 algorithm used to verify the signature in transaction's witnesses.
-
-  /**
-   * const SYSTEM_ENCRYPTION_CODE_HASH = 0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08
-   * The system encryption code hash is the hash of system cell's data by blake2b algorithm
-   */
-  const SYSTEM_ENCRYPTION_CODE_HASH = core.rpc.paramsFormatter.toHash(systemCellInfo.codeHash)
-
-  /**
-   * const SYSTEM_ENCRYPTION_OUT_POINT = {
-   *   blockHash: '0x92968288728fc0901b2ed94611fcf668db7d15842f019674e0805dffd26dadd5',
-   *   cell: {
-   *     txHash: '0x7c77c04b904bd937bd371ab0d413ed6eb887661e2484bc198aca6934ba5ea4e3',
-   *     index: '1',
-   *   },
-   * }
-   */
-  const SYSTEM_ENCRYPTION_OUT_POINT = {
-    blockHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.blockHash),
-    cell: {
-      txHash: core.rpc.paramsFormatter.toHash(systemCellInfo.outPoint.cell.txHash),
-      index: systemCellInfo.outPoint.cell.index,
-    },
-  }
+  const secp256k1Dep = await core.loadSecp256k1Dep() // load the dependencies of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
   /**
    * genereat address object, who has peroperties like private key, public key, sign method and verify mehtod
@@ -45,25 +23,26 @@ const bootstrap = async () => {
   /**
    * to see the address
    */
-  // console.log(myAddressObj.value)
+  console.log(myAddressObj.value)
 
   /**
-   * calculate the lockhash by the address
+   * calculate the lockHash by the address identifier
    * 1. the identifier of the address is required in the args field of lock script
-   * 2. compose the lock script with SYSTEM_ENCRYPTION_CODE_HASH, and args
-   * 3. calculate the hash of lock script
+   * 2. compose the lock script with the code hash(as a miner, we use blockAssemblerCodeHash here), and args
+   * 3. calculate the hash of lock script via core.rpc.computeScriptHash method
    */
 
-  const script = {
-    codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+  const lockScript = {
+    hashType: "data",
+    codeHash: blockAssemblerCodeHash,
     args: [`0x${myAddressObj.identifier}`],
   }
   /**
    * to see the lock script
    */
-  // console.log(JSON.stringify(script, null, 2))
+  // console.log(JSON.stringify(lockScript, null, 2))
 
-  const lockHash = core.utils.lockScriptToHash(script)
+  const lockHash = await core.rpc.computeScriptHash(lockScript)
   /**
    * to see the lock hash
    */
@@ -82,7 +61,7 @@ const bootstrap = async () => {
               console.log(`Fetched from ${from} to ${from + STEP} with ${cells.length} cells`)
             }
             cellsGroup.push(cells)
-            return getUnspentCells(_lockHash, from + STEP, to, cb)
+            return getUnspentCells(_lockHash, from + STEP + 1, to, cb)
           })
           .catch(reject)
       }
@@ -139,10 +118,10 @@ const bootstrap = async () => {
     const targetOutput = {
       capacity: targetCapacity,
       lock: {
-        codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+        hashType: secp256k1Dep.hashType,
+        codeHash: secp256k1Dep.codeHash,
         args: [targetIdentifier],
       },
-      data: '0x',
     }
 
     /**
@@ -151,10 +130,10 @@ const bootstrap = async () => {
     const changeOutput = {
       capacity: 0n,
       lock: {
-        codeHash: SYSTEM_ENCRYPTION_CODE_HASH,
+        hashType: secp256k1Dep.hashType,
+        codeHash: secp256k1Dep.codeHash,
         args: [`0x${myAddressObj.identifier}`],
       },
-      data: '0x',
     }
 
     const unspentCells = await loadCells()
@@ -185,11 +164,9 @@ const bootstrap = async () => {
     /**
      * compose the raw transaction which has an empty witnesses
      */
-    const tx = {
-      version: '0',
-      deps: [SYSTEM_ENCRYPTION_OUT_POINT],
-      inputs,
-      outputs: changeOutput.capacity > 0n ? [{
+
+    const outputs =
+      changeOutput.capacity > 0n ? [{
           ...targetOutput,
           capacity: targetOutput.capacity.toString(),
         },
@@ -200,10 +177,23 @@ const bootstrap = async () => {
       ] : [{
         ...targetOutput,
         capacity: targetOutput.capacity.toString(),
+      }, ]
+
+    const outputsData = outputs.map(output => "0x")
+
+    const tx = {
+      version: '0',
+      cellDeps: [{
+        outPoint: secp256k1Dep.outPoint,
+        depType: "depGroup",
       }, ],
+      headerDeps: [],
+      inputs,
+      outputs,
       witnesses: [{
         data: [],
       }, ],
+      outputsData,
     }
     return tx
   }
@@ -218,7 +208,7 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 6000000000) // generate the raw transaction with empty witnesses
+  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 60000000000) // generate the raw transaction with empty witnesses
   const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
    * to see the signed transaction
