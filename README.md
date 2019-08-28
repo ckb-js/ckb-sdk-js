@@ -152,7 +152,27 @@ After that you can use the `core` object to generate addresses, send requests, e
 
 # RPC
 
+## Default RPC
+
 Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/defaultRPC.ts#L165)
+
+## Persistent Connection
+
+Please add `httpAgent` or `httpsAgent` to enable the persistent connection.
+
+If the SDK is running in Node.js, the following steps make the persistent connection available.
+
+```javascript
+// HTTP Agent
+const http = require('http')
+const httpAgent = new http.Agent({ keepAlive: true })
+core.rpc.setNode({ httpAgent })
+
+// HTTPS Agent
+const https = require('https')
+const httpsAgent = new https.Agent({ keepAlive: true })
+core.rpc.setNode({ httpsAgent })
+```
 
 # Errors
 

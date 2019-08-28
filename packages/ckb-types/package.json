@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-types",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "Type module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -26,5 +26,5 @@
   "devDependencies": {
     "@types/crypto-js": "3.1.43"
   },
-  "gitHead": "1f9603b54fe5cf20077bc0aa3542706566866209"
+  "gitHead": "94daf197d31ea697adcdcdf0b2d6875ce8946066"
 }
