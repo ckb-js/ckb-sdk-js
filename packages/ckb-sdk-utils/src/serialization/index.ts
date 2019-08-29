@@ -32,7 +32,7 @@ export const serializeArg = (arg: CKBComponents.Hash) => serializeHash(arg)
 export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   if (hashType === 'data') return '00'
   if (hashType === 'type') return '01'
-  throw new TypeError("Hash type must by either of 'data' or 'type'")
+  throw new TypeError("Hash type must be either of 'data' or 'type'")
 }
 
 export const serializeArgs = (args: string[]) => {

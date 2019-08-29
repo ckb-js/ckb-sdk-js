@@ -30,11 +30,19 @@ describe('Serialize HashType', () => {
   test.each(fixtureTable)('%s => %s', (hashType, expected) => {
     expect(serializeHashType(hashType)).toBe(expected)
   })
+
+  it('throw errors if hash type is neither data nor type', () => {
+    expect(() => serializeHashType('unknown')).toThrow(new TypeError("Hash type must be either of 'data' or 'type'"))
+  })
 })
 
 describe('Serialize Script', () => {
   const fixtureTable = fixtures.serializeScript.map(({ script, expected }) => [script, expected])
   test.each(fixtureTable)('%j => %s', (script, expected) => {
     expect(serializeScript(script)).toBe(expected)
+  })
+
+  it('throw errors if the script is not passed into the method', () => {
+    expect(() => serializeScript()).toThrow(new Error('Script is required'))
   })
 })
