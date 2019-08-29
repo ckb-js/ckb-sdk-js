@@ -2,6 +2,7 @@ import * as util from 'util'
 import crypto from './crypto'
 
 export * from './address'
+export * from './serialization'
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -61,3 +62,9 @@ export const scriptToHash = ({ codeHash = '', args = [], hashType = 'data' }: CK
   const digest = s.digest('hex')
   return digest as string
 }
+
+export const toHexInLittleEndian = (int: number, paddingBytes: number = 4) =>
+  (+int)
+    .toString(16)
+    .replace(/^(.(..)*)$/, '0$1')
+    .padEnd(paddingBytes * 2, '0')
