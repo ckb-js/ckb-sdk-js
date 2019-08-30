@@ -130,7 +130,7 @@ const dashboard = (core: Core) => {
     ]
     const { transactions: txs } = block
     if (txs.length) {
-      const newTxs: Transaction[] = txs.map(tx => [
+      const newTxs: Transaction[] = txs.map((tx): [string, string, string] => [
         tx.hash,
         JSON.stringify(tx.inputs.map(input => input.previousOutput)),
         JSON.stringify(tx.outputs.map(output => `${output.lock.args[0]}-${output.capacity}`)),
