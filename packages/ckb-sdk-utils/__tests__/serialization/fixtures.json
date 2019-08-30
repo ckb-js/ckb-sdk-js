@@ -1,0 +1,68 @@
+{
+  "serializeArg": [
+    {
+      "arg": "",
+      "expected": "00000000"
+    },
+    {
+      "arg": "0x",
+      "expected": "00000000"
+    },
+    {
+      "arg": "0x00",
+      "expected": "0100000000"
+    },
+    {
+      "arg": "00",
+      "expected": "0100000000"
+    },
+    {
+      "arg": "0x1010101010101010101010",
+      "expected": "0b0000001010101010101010101010"
+    }
+  ],
+  "serializeArgs": [
+    {
+      "args": [],
+      "expected": "04000000"
+    },
+    {
+      "args": ["0x10", "0x01"],
+      "expected": "160000000c0000001100000001000000100100000001"
+    },
+    {
+      "args": ["0x3954acece65096bfa81258983ddb83915fc56bd8"],
+      "expected": "2000000008000000140000003954acece65096bfa81258983ddb83915fc56bd8"
+    }
+  ],
+  "serializeCodeHash": [
+    {
+      "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
+      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+    },
+    {
+      "codeHash": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
+      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+    }
+  ],
+  "serializeHashType": [
+    {
+      "hashType": "data",
+      "expected": "00"
+    },
+    {
+      "hashType": "type",
+      "expected": "01"
+    }
+  ],
+  "serializeScript": [
+    {
+      "script": {
+        "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
+        "args": ["0x3954acece65096bfa81258983ddb83915fc56bd8"],
+        "hashType": "type"
+      },
+      "expected": "5100000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88012000000008000000140000003954acece65096bfa81258983ddb83915fc56bd8"
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 import * as util from 'util'
 import crypto from './crypto'
+import { serializeScript } from './serialization'
 
 export * from './address'
+export * from './serialization'
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -42,22 +44,17 @@ export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
-export const scriptToHash = ({ codeHash = '', args = [], hashType = 'data' }: CKBComponents.Script) => {
+export const scriptToHash = (script: CKBComponents.Script) => {
+  if (!script) throw new Error('Script is required')
+  const serializedScript = serializeScript(script)
   const s = blake2b(32, null, null, PERSONAL)
-  if (codeHash) {
-    s.update(hexToBytes(codeHash.replace(/^0x/, '')))
-  }
-
-  if (hashType === 'data') {
-    s.update(Buffer.from([0x0]))
-  } else {
-    s.update(Buffer.from([0x1]))
-  }
-
-  if (args && args.length) {
-    args.forEach(arg => (typeof arg === 'string' ? s.update(hexToBytes(arg)) : s.update(arg)))
-  }
-
+  s.update(hexToBytes(serializedScript))
   const digest = s.digest('hex')
   return digest as string
 }
+
+export const toHexInLittleEndian = (int: number, paddingBytes: number = 4) =>
+  (+int)
+    .toString(16)
+    .replace(/^(.(..)*)$/, '0$1')
+    .padEnd(paddingBytes * 2, '0')
