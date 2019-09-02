@@ -23,8 +23,6 @@
   "scripts": {
     "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   },
-  "devDependencies": {
-    "@types/crypto-js": "3.1.43"
-  },
+  "devDependencies": {},
   "gitHead": "94daf197d31ea697adcdcdf0b2d6875ce8946066"
 }

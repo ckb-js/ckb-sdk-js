@@ -41,9 +41,8 @@
     "inquirer": "6.2.1"
   },
   "devDependencies": {
-    "@types/blessed": "0.1.11",
-    "@types/crypto-js": "3.1.43",
-    "@types/inquirer": "6.0.0"
+    "@types/blessed": "0.1.12",
+    "@types/inquirer": "6.5.0"
   },
   "gitHead": "94daf197d31ea697adcdcdf0b2d6875ce8946066"
 }
