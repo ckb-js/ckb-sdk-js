@@ -15,6 +15,7 @@ const {
   hexToUtf8,
   scriptToHash,
   PERSONAL,
+  toHexInLittleEndian,
 } = ckbUtils
 
 describe('format', () => {
@@ -52,6 +53,21 @@ describe('format', () => {
     const byBuffer = Buffer.from(hexStr, 'hex').toString('utf8')
     const byUtils = hexToUtf8(hexStr)
     expect(byUtils).toBe(byBuffer)
+  })
+
+  describe('Test toHexInLittleEndian', () => {
+    it('convert number to hex in little endian', () => {
+      expect(toHexInLittleEndian('0x3e8')).toBe('03e80000')
+    })
+
+    it('convert number to hex in little endian', () => {
+      expect(toHexInLittleEndian(0x3e8)).toBe('03e80000')
+    })
+    it('throw an error when received a input unable to be converted into a number', () => {
+      expect(() => toHexInLittleEndian('invalid number')).toThrow(
+        new TypeError('The input cannot be converted to a number')
+      )
+    })
   })
   /* eslint-enable max-len */
 })
