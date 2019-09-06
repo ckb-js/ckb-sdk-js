@@ -151,9 +151,7 @@ class Core {
     if (!transaction.outputsData) throw new Error('OutputsData is required')
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
-    const transactionHash = await (this.rpc as RPC & { computeTransactionHash: Function }).computeTransactionHash(
-      transaction
-    )
+    const transactionHash = this.utils.rawTransactionToHash(transaction)
     const signedWitnesses = await this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,

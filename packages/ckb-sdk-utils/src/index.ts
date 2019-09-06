@@ -1,9 +1,12 @@
 import * as util from 'util'
 import crypto from './crypto'
-import { serializeScript } from './serialization'
+import { serializeScript } from './serialization/script'
+import { serializeRawTransaction } from './serialization/transaction'
 
 export * from './address'
 export * from './serialization'
+export { serializeScript } from './serialization/script'
+export { serializeRawTransaction } from './serialization/transaction'
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -22,6 +25,7 @@ export const hexToBytes = (rawhex: any) => {
   for (let c = 0; c < hex.length; c += 2) {
     bytes.push(parseInt(hex.substr(c, 2), 16))
   }
+
   return new Uint8Array(bytes)
 }
 
@@ -53,8 +57,29 @@ export const scriptToHash = (script: CKBComponents.Script) => {
   return digest as string
 }
 
-export const toHexInLittleEndian = (int: number, paddingBytes: number = 4) =>
-  (+int)
-    .toString(16)
-    .replace(/^(.(..)*)$/, '0$1')
+export const rawTransactionToHash = (rawTransaction: CKBComponents.RawTransaction) => {
+  if (!rawTransaction) throw new Error('Raw transaction is required')
+  const serializedRawTransaction = serializeRawTransaction(rawTransaction)
+  const s = blake2b(32, null, null, PERSONAL)
+  s.update(hexToBytes(serializedRawTransaction))
+  const digest = s.digest('hex')
+  return digest as string
+}
+
+const reverseString = (str: string) =>
+  str
+    .split('')
+    .reverse()
+    .join('')
+export const toHexInLittleEndian = (int: number | string, paddingBytes: number = 4) => {
+  if (Number.isNaN(+int)) {
+    throw new TypeError('The input cannot be converted to a number')
+  }
+  const hex = (+int).toString(16)
+  const reversedHex = reverseString(hex)
+  const frags = reversedHex.match(/\w{1,2}/g) || []
+  return frags
+    .map(frag => reverseString(frag.padEnd(2, '0')))
+    .join('')
     .padEnd(paddingBytes * 2, '0')
+}
