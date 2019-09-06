@@ -62,9 +62,9 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
     throw new TypeError('The fixed vector to be serialized should be a string or an array of bytes')
   }
   const vec = typeof fixVec === 'string' ? [...hexToBytes(fixVec)].map(b => `0x${b.toString(16)}`) : fixVec
-  const serializedArgVec = vec.map(serializeArray)
-  const header = toHexInLittleEndian(serializedArgVec.length)
-  return `${header}${serializedArgVec.join('')}`
+  const serializedItemVec = vec.map(item => serializeArray(item))
+  const header = toHexInLittleEndian(serializedItemVec.length)
+  return `${header}${serializedItemVec.join('')}`
 }
 
 /**
@@ -79,15 +79,15 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
   if (!Array.isArray(dynVec)) {
     throw new TypeError('The dynamic vector to be serialized should be an array of bytes')
   }
-  const serializedArgVec = dynVec.map(arg => serializeArray(arg))
-  const body = serializedArgVec.join('')
+  const serializedItemVec = dynVec.map(item => serializeArray(item))
+  const body = serializedItemVec.join('')
   let offsets = ''
-  if (serializedArgVec.length) {
-    offsets = getOffsets(serializedArgVec.map(serializedArg => serializedArg.length / 2))
+  if (serializedItemVec.length) {
+    offsets = getOffsets(serializedItemVec.map(item => item.length / 2))
       .map(offset => toHexInLittleEndian(offset))
       .join('')
   }
-  const headerLength = fullLengthSize + offsetSize * serializedArgVec.length
+  const headerLength = fullLengthSize + offsetSize * serializedItemVec.length
   const fullLength = toHexInLittleEndian(headerLength + body.length / 2)
   return `${fullLength}${offsets}${body}`
 }
