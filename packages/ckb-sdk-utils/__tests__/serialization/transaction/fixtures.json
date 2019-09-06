@@ -73,6 +73,13 @@
     {
       "headerDeps": [],
       "expected": "00000000"
+    },
+    {
+      "headerDeps": [
+        "0xc12386705b5cbb312b693874f3edf45c43a274482e27b8df0fd80c8d3f5feb8b",
+        "0x0fb4945d52baf91e0dee2a686cdd9d84cad95b566a1d7409b970ee0a0f364f60"
+      ],
+      "expected": "02000000c12386705b5cbb312b693874f3edf45c43a274482e27b8df0fd80c8d3f5feb8b0fb4945d52baf91e0dee2a686cdd9d84cad95b566a1d7409b970ee0a0f364f60"
     }
   ],
   "serializeInputs": [
