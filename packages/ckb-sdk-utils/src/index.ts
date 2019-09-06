@@ -66,14 +66,6 @@ export const rawTransactionToHash = (rawTransaction: CKBComponents.RawTransactio
   return digest as string
 }
 
-export const transactionToHash = (rawTransaction: CKBComponents.RawTransaction) => {
-  const serializedScript = serializeRawTransaction(rawTransaction)
-  const s = blake2b(32, null, null, PERSONAL)
-  s.update(hexToBytes(serializedScript))
-  const digest = s.digest('hex')
-  return digest as string
-}
-
 const reverseString = (str: string) =>
   str
     .split('')
