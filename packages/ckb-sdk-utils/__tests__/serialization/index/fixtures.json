@@ -56,7 +56,7 @@
       "expected": "ab030201"
     }
   ],
-  "serializeFixVex": [
+  "serializeFixVec": [
     {
       "fixvec": [],
       "expected": "00000000"
