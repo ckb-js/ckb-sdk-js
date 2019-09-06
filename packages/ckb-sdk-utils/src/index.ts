@@ -5,10 +5,8 @@ import { serializeRawTransaction } from './serialization/transaction'
 
 export * from './address'
 export * from './serialization'
-// export { serializeScript } from './serialization/script'
-// export { serializeRawTransaction } from './serialization/transaction'
-export * from './serialization/script'
-export * from './serialization/transaction'
+export { serializeScript } from './serialization/script'
+export { serializeRawTransaction } from './serialization/transaction'
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -55,6 +53,15 @@ export const scriptToHash = (script: CKBComponents.Script) => {
   const serializedScript = serializeScript(script)
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(serializedScript))
+  const digest = s.digest('hex')
+  return digest as string
+}
+
+export const rawTransactionToHash = (rawTransaction: CKBComponents.RawTransaction) => {
+  if (!rawTransaction) throw new Error('Raw transaction is required')
+  const serializedRawTransaction = serializeRawTransaction(rawTransaction)
+  const s = blake2b(32, null, null, PERSONAL)
+  s.update(hexToBytes(serializedRawTransaction))
   const digest = s.digest('hex')
   return digest as string
 }

@@ -1,5 +1,6 @@
-const ckbUtils = require('../lib')
+const ckbUtils = require('../../lib')
 const bech32Fixtures = require('./bech32-fixtures.json')
+const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 
 const {
   blake2b,
@@ -14,6 +15,7 @@ const {
   utf8ToHex,
   hexToUtf8,
   scriptToHash,
+  rawTransactionToHash,
   PERSONAL,
   toHexInLittleEndian,
 } = ckbUtils
@@ -57,11 +59,11 @@ describe('format', () => {
 
   describe('Test toHexInLittleEndian', () => {
     it('convert number to hex in little endian', () => {
-      expect(toHexInLittleEndian('0x3e8')).toBe('03e80000')
+      expect(toHexInLittleEndian('0x3e8')).toBe('e8030000')
     })
 
     it('convert number to hex in little endian', () => {
-      expect(toHexInLittleEndian(0x3e8)).toBe('03e80000')
+      expect(toHexInLittleEndian(0x3e8)).toBe('e8030000')
     })
     it('throw an error when received a input unable to be converted into a number', () => {
       expect(() => toHexInLittleEndian('invalid number')).toThrow(
@@ -169,6 +171,20 @@ describe('scriptToHash', () => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
+  })
+})
+
+describe('rawTransactionToHash', () => {
+  const fixtureTable = rawTransactionToHashFixtures.rawTransactionToHash.map(({ rawTransaction, expected }) => [
+    rawTransaction,
+    expected,
+  ])
+
+  test.each(fixtureTable)('%j => %s', (rawTransaction, expected) => {
+    expect(rawTransactionToHash(rawTransaction)).toBe(expected)
+  })
+  it('throw an error if the raw transaction is not missing', () => {
+    expect(() => rawTransactionToHash(undefined)).toThrow(new Error('Raw transaction is required'))
   })
 })
 
