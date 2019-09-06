@@ -29,7 +29,7 @@ describe('Test General Serialization', () => {
   })
 
   describe('Serialize Fixed Vector', () => {
-    const fixtureTable = fixtures.serializeFixVex.map(({ fixvec, expected }) => [fixvec, expected])
+    const fixtureTable = fixtures.serializeFixVec.map(({ fixvec, expected }) => [fixvec, expected])
     test.each(fixtureTable)('%s => %s', (fixvec, expected) => {
       expect(serializeFixVec(fixvec)).toBe(expected)
     })
