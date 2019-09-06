@@ -32,7 +32,7 @@
   "dependencies": {
     "@nervosnetwork/ckb-types": "0.19.1",
     "blake2b-wasm": "1.1.7",
-    "elliptic": "6.4.1"
+    "elliptic": "6.5.0"
   },
   "devDependencies": {
     "@types/bitcoinjs-lib": "4.0.1",
