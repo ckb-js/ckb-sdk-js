@@ -15,9 +15,10 @@ export enum RPCMethods {
   GetTipBlockNumber = 'getTipBlockNumber',
   SendTransaction = 'sendTransaction',
 }
+
 const choices = Object.keys(RPCMethods)
-  .filter(k => typeof RPCMethods[k as any] === 'number')
-  .map(k => RPCMethods[k as any])
+  .filter(k => typeof RPCMethods[k as keyof typeof RPCMethods] === 'number')
+  .map(k => RPCMethods[k as keyof typeof RPCMethods])
 
 const questions: Question[] = [
   {

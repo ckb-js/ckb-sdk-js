@@ -32,7 +32,6 @@ module.exports = {
     "no-console": [0],
     "no-unused-vars": [0],
     "arrow-parens": [0],
-    "import/no-extraneous-dependencies": ['./'],
     "indent": ["error", 2],
     "no-mixed-operators": [0],
     "implicit-arrow-linebreak": [0],
@@ -40,7 +39,12 @@ module.exports = {
     "no-plusplus": [0],
     "no-bitwise": [0],
     "no-control-regex": [0],
-    "operator-linebreak": [2, "after"],
+    "operator-linebreak": [2, "after", {
+      "overrides": {
+        "?": "before",
+        ":": "before"
+      }
+    }],
     "max-len": [2, 120],
     "object-curly-newline": ["error", {
       "ObjectExpression": {

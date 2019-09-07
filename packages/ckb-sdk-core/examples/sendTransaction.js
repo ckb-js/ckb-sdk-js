@@ -29,7 +29,7 @@ const bootstrap = async () => {
    * calculate the lockHash by the address identifier
    * 1. the identifier of the address is required in the args field of lock script
    * 2. compose the lock script with the code hash(as a miner, we use blockAssemblerCodeHash here), and args
-   * 3. calculate the hash of lock script via core.rpc.computeScriptHash method
+   * 3. calculate the hash of lock script via core.utils.scriptToHash method
    */
 
   const lockScript = {
@@ -42,7 +42,7 @@ const bootstrap = async () => {
    */
   // console.log(JSON.stringify(lockScript, null, 2))
 
-  const lockHash = await core.rpc.computeScriptHash(lockScript)
+  const lockHash = `0x${core.utils.scriptToHash(lockScript)}`
   /**
    * to see the lock hash
    */

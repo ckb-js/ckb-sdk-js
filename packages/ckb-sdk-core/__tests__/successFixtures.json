@@ -33,6 +33,7 @@
     "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
     "transaction": {
       "cellDeps": [],
+      "headerDeps": [],
       "inputs": [
         {
           "previousOutput": {
@@ -59,6 +60,7 @@
     },
     "target": {
       "cellDeps": [],
+      "headerDeps": [],
       "inputs": [
         {
           "previousOutput": {
@@ -84,7 +86,7 @@
       "witnesses": [
         {
           "data": [
-            "0xf69acebe08cc4e6cbfea1a7b3e2e0b73c72ff62158e82ba40411d44eb06d374567c0ec8f12c6619457cea64aa507d9d3e8158e5af3d0dd3b0514d3d578dccbe800"
+            "0x9f626950d515cb7829467646a5cab7c66c873c542a4ad4c6420fde4ea9eda14d23404d26a114a7e989bf6ca7e11d6ec8777fa4410fa88c55ace33ed7ba45f5c800"
           ]
         }
       ]

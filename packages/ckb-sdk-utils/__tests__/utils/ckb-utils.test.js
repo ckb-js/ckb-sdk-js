@@ -1,5 +1,6 @@
-const ckbUtils = require('../lib')
+const ckbUtils = require('../../lib')
 const bech32Fixtures = require('./bech32-fixtures.json')
+const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 
 const {
   blake2b,
@@ -14,7 +15,9 @@ const {
   utf8ToHex,
   hexToUtf8,
   scriptToHash,
+  rawTransactionToHash,
   PERSONAL,
+  toHexInLittleEndian,
 } = ckbUtils
 
 describe('format', () => {
@@ -52,6 +55,21 @@ describe('format', () => {
     const byBuffer = Buffer.from(hexStr, 'hex').toString('utf8')
     const byUtils = hexToUtf8(hexStr)
     expect(byUtils).toBe(byBuffer)
+  })
+
+  describe('Test toHexInLittleEndian', () => {
+    it('convert number to hex in little endian', () => {
+      expect(toHexInLittleEndian('0x3e8')).toBe('e8030000')
+    })
+
+    it('convert number to hex in little endian', () => {
+      expect(toHexInLittleEndian(0x3e8)).toBe('e8030000')
+    })
+    it('throw an error when received a input unable to be converted into a number', () => {
+      expect(() => toHexInLittleEndian('invalid number')).toThrow(
+        new TypeError('The input cannot be converted to a number')
+      )
+    })
   })
   /* eslint-enable max-len */
 })
@@ -128,15 +146,9 @@ describe('scriptToHash', () => {
       script: {
         codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         args: [],
+        hashType: 'data',
       },
-      scriptHash: 'c371c8d6a0aed6018e91202d047c35055cfb0228e6709f1cd1d5f756525628b9',
-    },
-    'Script with default hash type of data': {
-      script: {
-        codeHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
-        args: ['0x01'],
-      },
-      scriptHash: 'cd5b0c29b8f5528d3a75e3918576db4d962a1d4b315dff7d3c50818cc373b3f5',
+      scriptHash: 'bd7e6000ffb8e983a6023809037e0c4cedbc983637c46d74621fd28e5f15fe4f',
     },
     'Script with hash type of data': {
       script: {
@@ -144,7 +156,7 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'data',
       },
-      scriptHash: 'cd5b0c29b8f5528d3a75e3918576db4d962a1d4b315dff7d3c50818cc373b3f5',
+      scriptHash: '5a2b913dfb1b79136fc72a575fd8e93ae080b504463c0066fea086482bfc3a94',
     },
     'Script with hash type of type': {
       script: {
@@ -152,13 +164,27 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'type',
       },
-      scriptHash: '7bc53ae03b219a1cb520fce8ac2299092958147db23d92d3a97b3a9dec748d94',
+      scriptHash: '3d7e565f3831955f0f5cfecdadddeef7e0d106af84ceb0c2f4dbb6ddff88c9bc',
     },
   }
   test.each(Object.keys(fixtures))('%s', fixtureName => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
+  })
+})
+
+describe('rawTransactionToHash', () => {
+  const fixtureTable = rawTransactionToHashFixtures.rawTransactionToHash.map(({ rawTransaction, expected }) => [
+    rawTransaction,
+    expected,
+  ])
+
+  test.each(fixtureTable)('%j => %s', (rawTransaction, expected) => {
+    expect(rawTransactionToHash(rawTransaction)).toBe(expected)
+  })
+  it('throw an error if the raw transaction is not missing', () => {
+    expect(() => rawTransactionToHash(undefined)).toThrow(new Error('Raw transaction is required'))
   })
 })
 
