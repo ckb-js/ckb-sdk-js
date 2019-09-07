@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-utils",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "description": "Utils module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -30,7 +30,7 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-types": "0.19.1",
+    "@nervosnetwork/ckb-types": "0.20.0",
     "blake2b-wasm": "1.1.7",
     "elliptic": "6.4.1"
   },
@@ -39,5 +39,5 @@
     "@types/elliptic": "6.4.8",
     "@types/utf8": "2.1.6"
   },
-  "gitHead": "94daf197d31ea697adcdcdf0b2d6875ce8946066"
+  "gitHead": "478433630dd40501f1f67dc259bf9d252c56fcd3"
 }

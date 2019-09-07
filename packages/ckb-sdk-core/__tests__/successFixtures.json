@@ -60,6 +60,7 @@
     },
     "target": {
       "cellDeps": [],
+      "headerDeps": [],
       "inputs": [
         {
           "previousOutput": {
