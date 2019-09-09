@@ -1,0 +1,22 @@
+name: Bundle and minify
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  bundle:
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        node-version: 12.x
+    
+    steps:
+    - name: Create empty file
+      run: touch index.js
+    - name: Expose Core SDK in the bundle.js
+      run: echo "const Core = require('@nervosnetwork/ckb-sdk-js').default; if (globalThis) {globalThis.Core = Core} else if (window) {window.Core = Core};" |> index.js
+    - name: Bundle
+      run: npx browserify index.js -o bundle.js
+    - name: Check file
+      run: cat bundle.js
