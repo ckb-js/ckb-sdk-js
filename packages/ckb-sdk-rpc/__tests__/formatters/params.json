@@ -1,5 +1,15 @@
 {
   "success": {
+    "toNumber": [
+      {
+        "source": "0x1",
+        "target": "0x1"
+      },
+      {
+        "source": 20,
+        "target": "0x14"
+      }
+    ],
     "toHash": [
       {
         "source": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
@@ -18,11 +28,11 @@
       {
         "source": {
           "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "index": "4294967295"
+          "index": "0xffffffff"
         },
         "target": {
           "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "index": "4294967295"
+          "index": "0xffffffff"
         }
       },
       {
@@ -77,23 +87,17 @@
         "source": {
           "outPoint": {
             "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
+            "index": "0xffffffff"
           },
           "depType": "code"
         },
         "target": {
           "out_point": {
             "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
+            "index": "0xffffffff"
           },
           "dep_type": "code"
         }
-      }
-    ],
-    "toNumber": [
-      {
-        "source": "1",
-        "target": "1"
       }
     ],
 
@@ -109,23 +113,23 @@
         },
         "target": {
           "previous_output": null,
-          "since": 0
+          "since": "0x0"
         }
       },
       {
         "source": {
           "previousOutput": {
             "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
+            "index": "0xffffffff"
           },
-          "since": "0"
+          "since": "0x0"
         },
         "target": {
           "previous_output": {
             "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "index": "4294967295"
+            "index": "0xffffffff"
           },
-          "since": "0"
+          "since": "0x0"
         }
       }
     ],
@@ -136,7 +140,7 @@
       },
       {
         "source": {
-          "capacity": "5000000000000",
+          "capacity": "0x48c27395000",
           "data": "0x",
           "lock": {
             "args": [],
@@ -146,7 +150,7 @@
           "type": null
         },
         "target": {
-          "capacity": "5000000000000",
+          "capacity": "0x48c27395000",
           "data": "0x",
           "lock": {
             "args": [],
@@ -158,7 +162,7 @@
       },
       {
         "source": {
-          "capacity": "5000000000000",
+          "capacity": "0x48c27395000",
           "data": "0x",
           "lock": {
             "args": [],
@@ -167,7 +171,7 @@
           }
         },
         "target": {
-          "capacity": "5000000000000",
+          "capacity": "0x48c27395000",
           "data": "0x",
           "lock": {
             "args": [],
@@ -185,10 +189,10 @@
       },
       {
         "source": {
-          "version": "0"
+          "version": "0x0"
         },
         "target": {
-          "version": "0",
+          "version": "0x0",
           "cell_deps": [],
           "header_deps": [],
           "inputs": [],
@@ -202,7 +206,7 @@
             {
               "outPoint": {
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "index": "4294967295"
+                "index": "0xffffffff"
               },
               "depType": "code"
             }
@@ -211,19 +215,19 @@
           "inputs": [
             {
               "previousOutput": null,
-              "since": 0
+              "since": "0x0"
             },
             {
               "previousOutput": {
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "index": "4294967295"
+                "index": "0xffffffff"
               },
-              "since": "0"
+              "since": "0x0"
             }
           ],
           "outputs": [
             {
-              "capacity": "5000000000000",
+              "capacity": "0x48c27395000",
               "data": "0x",
               "lock": {
                 "args": [],
@@ -233,7 +237,7 @@
               "type": null
             }
           ],
-          "version": "0",
+          "version": "0x0",
           "outputsData": ["0x"]
         },
         "target": {
@@ -241,7 +245,7 @@
             {
               "out_point": {
                 "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "index": "4294967295"
+                "index": "0xffffffff"
               },
               "dep_type": "code"
             }
@@ -250,19 +254,19 @@
           "inputs": [
             {
               "previous_output": null,
-              "since": 0
+              "since": "0x0"
             },
             {
               "previous_output": {
                 "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "index": "4294967295"
+                "index": "0xffffffff"
               },
-              "since": "0"
+              "since": "0x0"
             }
           ],
           "outputs": [
             {
-              "capacity": "5000000000000",
+              "capacity": "0x48c27395000",
               "data": "0x",
               "lock": {
                 "args": [],
@@ -272,35 +276,35 @@
               "type": null
             }
           ],
-          "version": "0",
+          "version": "0x0",
           "outputs_data": ["0x"]
         }
       }
     ],
     "toPageNumber": [
       {
-        "source": "12",
-        "target": "12"
+        "source": "0x12",
+        "target": "0x12"
       },
       {
         "source": 12,
-        "target": "12"
+        "target": "0xc"
       },
       {
-        "target": "1"
+        "target": "0x1"
       }
     ],
     "toPageSize": [
       {
-        "source": "12",
-        "target": "12"
+        "source": "0x12",
+        "target": "0x12"
       },
       {
         "source": 12,
-        "target": "12"
+        "target": "0xc"
       },
       {
-        "target": "50"
+        "target": "0x32"
       }
     ],
     "toReverseOrder": [
@@ -318,6 +322,22 @@
     ]
   },
   "failure": {
+    "toHash": [
+      {
+        "source": 1,
+        "error": "Hash 1 should be type of string"
+      }
+    ],
+    "toNumber": [
+      {
+        "source": null,
+        "error": "The number null should be a number or a hex string"
+      },
+      {
+        "source": "1",
+        "error": "If the number 1 is a hex string, please prefix it with 0x"
+      }
+    ],
     "toPageSize": [
       {
         "source": "-1",

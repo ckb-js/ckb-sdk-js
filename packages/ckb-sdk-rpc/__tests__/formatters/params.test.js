@@ -15,7 +15,7 @@ describe('params formatter success', () => {
 describe('param formatter failure', () => {
   test.each(Object.keys(failure))('%s', methodName => {
     failure[methodName].forEach(fixture => {
-      expect(() => paramsFmt[methodName](fixture.source)).toThrowError(fixture.error)
+      expect(() => paramsFmt[methodName](fixture.source)).toThrow(new Error(fixture.error))
     })
   })
 })

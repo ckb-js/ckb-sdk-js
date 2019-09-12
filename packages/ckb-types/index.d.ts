@@ -5,6 +5,7 @@
 declare namespace CKBComponents {
   export type DAO = string
   export type Hash = string
+  export type Number = string
   export type Hash256 = string
   export type UInt32 = number
   export type Index = string
