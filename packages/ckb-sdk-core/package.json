@@ -23,7 +23,8 @@
     "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "test": "../../node_modules/.bin/jest"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
