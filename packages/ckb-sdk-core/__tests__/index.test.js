@@ -1,6 +1,6 @@
 const fixtures = require('./fixtures.json')
 
-const Core = require('../lib').default
+const { default: Core } = require('../lib')
 
 const url = 'http://localhost:8114'
 const core = new Core(url)
@@ -20,28 +20,34 @@ describe('ckb-core', () => {
       ([title, { privateKey, message, expected, exception }]) => [title, privateKey, message, expected, exception]
     )
     test.each(fixtureTable)('%s', (_title, privateKey, message, expected, exception) => {
-      if (expected) {
+      if (undefined !== expected) {
         const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
         expect(signedWitnessesByPrivateKey).toEqual(expected)
 
         const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(privateKey))(message)
         expect(signedWitnessesByAddressObject).toEqual(expected)
       }
-      if (exception) {
+      if (undefined !== exception) {
         expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
       }
     })
   })
 
   describe('compute script hash', () => {
-    const fixtureTable = Object.entries(fixtures.computeScriptHash).map(([title, { script, expected }]) => [
+    const fixtureTable = Object.entries(fixtures.computeScriptHash).map(([title, { script, expected, exception }]) => [
       title,
       script,
       expected,
+      exception,
     ])
-    test.each(fixtureTable)('%s', async (_title, script, expected) => {
-      const computedHash = await core.rpc.computeScriptHash(script)
-      expect(computedHash).toBe(expected)
+    test.each(fixtureTable)('%s', async (_title, script, expected, exception) => {
+      if (undefined !== exception) {
+        const computedHash = await core.rpc.computeScriptHash(script)
+        expect(computedHash).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(core.rpc.computeScriptHash(script)).reject.toBe(new Error(exception))
+      }
     })
   })
 
@@ -56,13 +62,13 @@ describe('ckb-core', () => {
       ]
     )
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
-      if (expected) {
+      if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
         const signedTransactionWithAddressObj = core.signTransaction(core.generateAddress(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
         expect(signedTransactionWithAddressObj).toEqual(expected)
       }
-      if (exception) {
+      if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrow(new Error(exception))
       }
     })

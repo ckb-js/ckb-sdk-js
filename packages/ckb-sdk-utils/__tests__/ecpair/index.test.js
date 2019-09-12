@@ -1,15 +1,13 @@
-const ECPair = require('../../lib/ecpair').default
-const { HexStringShouldStartWith0x } = require('../../lib/exceptions/hexStringShouldStartWith0x')
+const { default: ECPair } = require('../../lib/ecpair')
+const { HexStringShouldStartWith0x } = require('../../lib/exceptions')
+const { instantiate: instantiateFixtures } = require('./ecpare.fixtures.json')
 const { sigFixtures, signRecoverableFixtures } = require('./signature.fixtures.json')
 const { hexToBytes } = require('../../lib')
+const { ArgumentRequired } = require('../../lib/exceptions')
 
 describe('ECPair', () => {
   it('new ecpair', () => {
-    const fixture = {
-      privateKey: '0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
-      compressed: true,
-      publicKey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-    }
+    const fixture = instantiateFixtures.basic
 
     const ecpair = new ECPair(hexToBytes(fixture.privateKey), {
       compressed: fixture.compressed,
@@ -17,16 +15,14 @@ describe('ECPair', () => {
     expect(ecpair.compressed).toBe(fixture.compressed)
     expect(ecpair.privateKey).toBe(fixture.privateKey)
     expect(ecpair.getPrivateKey('hex')).toBe(fixture.privateKey)
+    expect(ecpair.getPrivateKey('words').words).toEqual(fixture.privateKeyWords)
     expect(ecpair.publicKey).toBe(fixture.publicKey)
     expect(ecpair.getPublicKey('hex')).toBe(fixture.publicKey)
+    expect(ecpair.getPublicKey('bytes')).toEqual(fixture.publicKeyBytes)
   })
 
   it('new ecpair with empty options, default compressed should be true', () => {
-    const fixture = {
-      privateKey: '0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
-      compressed: true,
-      publicKey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-    }
+    const fixture = instantiateFixtures.withEmptyOption
 
     const ecpair = new ECPair(hexToBytes(fixture.privateKey), {})
     expect(ecpair.compressed).toBe(fixture.compressed)
@@ -35,11 +31,7 @@ describe('ECPair', () => {
   })
 
   it('new ecpair with default options which should be { compressed: true }', () => {
-    const fixture = {
-      privateKey: '0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
-      compressed: true,
-      publicKey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-    }
+    const fixture = instantiateFixtures.withDefaultOption
 
     const ecpair = new ECPair(hexToBytes(fixture.privateKey))
     expect(ecpair.compressed).toBe(fixture.compressed)
@@ -47,9 +39,13 @@ describe('ECPair', () => {
     expect(ecpair.publicKey).toBe(fixture.publicKey)
   })
 
-  it('Initialize by private key without 0x should throw an error', () => {
+  it('Instantiate with an empty private key should throw an error', () => {
+    expect(() => new ECPair()).toThrow(new ArgumentRequired('Private key'))
+  })
+
+  it('Instantiate with a private key without 0x should throw an error', () => {
     const privateKey = 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
-    expect(() => new ECPair(privateKey, {}).toThrow(new HexStringShouldStartWith0x(privateKey)))
+    expect(() => new ECPair(privateKey, {})).toThrow(new HexStringShouldStartWith0x(privateKey))
   })
 
   it('sign and verify message', () => {
@@ -68,9 +64,5 @@ describe('ECPair', () => {
       const sig = ecpair.signRecoverable(`0x${fixture.msg}`)
       expect(sig).toBe(`0x${fixture.sig}`)
     })
-  })
-
-  it('throw error if private key is absent', () => {
-    expect(() => new ECPair()).toThrow('Private key is required')
   })
 })

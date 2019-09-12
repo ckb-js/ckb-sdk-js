@@ -20,7 +20,7 @@ class ECPair {
       compressed: true,
     }
   ) {
-    if (typeof sk === 'undefined') throw new ArgumentRequired('Private key')
+    if (sk === undefined) throw new ArgumentRequired('Private key')
     if (typeof sk === 'string' && !sk.startsWith('0x')) {
       throw new HexStringShouldStartWith0x(sk)
     }

@@ -3,6 +3,7 @@ const exceptions = require('../../lib/exceptions')
 const bech32Fixtures = require('./bech32.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 const transformerFixtures = require('./transformer.fixtures.json')
+const { ArgumentRequired } = require('../../lib/exceptions')
 
 const {
   blake2b,
@@ -172,6 +173,10 @@ describe('scriptToHash', () => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
+  })
+
+  it('empty input should throw an error', () => {
+    expect(() => scriptToHash()).toThrow(new ArgumentRequired('Script'))
   })
 })
 

@@ -1,0 +1,342 @@
+{
+  "toNumber": [
+    {
+      "param": "0x1",
+      "expected": "0x1"
+    },
+    {
+      "param": 20,
+      "expected": "0x14"
+    },
+    {
+      "param": null,
+      "exception": "The number null should be a number or a hex string"
+    },
+    {
+      "param": "1",
+      "exception": "If the number 1 is a hex string, please prefix it with 0x"
+    }
+  ],
+  "toHash": [
+    {
+      "param": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
+      "expected": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1"
+    },
+    {
+      "param": "e5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1",
+      "expected": "0xe5f2d07b747f38718293987a9175764d4c03229a8a69d0bd48f7bea6c18930b1"
+    },
+    {
+      "param": 1,
+      "exception": "Hash 1 should be type of string"
+    }
+  ],
+  "toOutPoint": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "index": "0xffffffff"
+      },
+      "expected": {
+        "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "index": "0xffffffff"
+      }
+    },
+    {
+      "param": null,
+      "expected": null
+    }
+  ],
+  "toDepType": [
+    {
+      "param": "code",
+      "expected": "code"
+    },
+    {
+      "param": "depGroup",
+      "expected": "dep_group"
+    }
+  ],
+  "toCellDep": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "depType": "depGroup"
+      },
+      "expected": {
+        "out_point": null,
+        "dep_type": "dep_group"
+      }
+    },
+    {
+      "param": {
+        "outPoint": null
+      },
+      "expected": {
+        "out_point": null,
+        "dep_type": "code"
+      }
+    },
+    {
+      "param": {
+        "outPoint": null,
+        "depType": "depGroup"
+      },
+      "expected": {
+        "out_point": null,
+        "dep_type": "dep_group"
+      }
+    },
+    {
+      "param": {
+        "outPoint": {
+          "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "index": "0xffffffff"
+        },
+        "depType": "code"
+      },
+      "expected": {
+        "out_point": {
+          "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "index": "0xffffffff"
+        },
+        "dep_type": "code"
+      }
+    }
+  ],
+
+  "toInput": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "previousOutput": null,
+        "since": 0
+      },
+      "expected": {
+        "previous_output": null,
+        "since": "0x0"
+      }
+    },
+    {
+      "param": {
+        "previousOutput": {
+          "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "index": "0xffffffff"
+        },
+        "since": "0x0"
+      },
+      "expected": {
+        "previous_output": {
+          "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "index": "0xffffffff"
+        },
+        "since": "0x0"
+      }
+    }
+  ],
+  "toOutput": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": [],
+          "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hashType": "data"
+        },
+        "type": null
+      },
+      "expected": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": [],
+          "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hash_type": "data"
+        },
+        "type": null
+      }
+    },
+    {
+      "param": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": [],
+          "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hashType": "data"
+        }
+      },
+      "expected": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": [],
+          "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hash_type": "data"
+        },
+        "type": null
+      }
+    }
+  ],
+  "toRawTransaction": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "version": "0x0"
+      },
+      "expected": {
+        "version": "0x0",
+        "cell_deps": [],
+        "header_deps": [],
+        "inputs": [],
+        "outputs": [],
+        "outputs_data": []
+      }
+    },
+    {
+      "param": {
+        "cellDeps": [
+          {
+            "outPoint": {
+              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "0xffffffff"
+            },
+            "depType": "code"
+          }
+        ],
+        "headerDeps": [],
+        "inputs": [
+          {
+            "previousOutput": null,
+            "since": "0x0"
+          },
+          {
+            "previousOutput": {
+              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "0xffffffff"
+            },
+            "since": "0x0"
+          }
+        ],
+        "outputs": [
+          {
+            "capacity": "0x48c27395000",
+            "data": "0x",
+            "lock": {
+              "args": [],
+              "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "hashType": "data"
+            },
+            "type": null
+          }
+        ],
+        "version": "0x0",
+        "outputsData": ["0x"]
+      },
+      "expected": {
+        "cell_deps": [
+          {
+            "out_point": {
+              "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "0xffffffff"
+            },
+            "dep_type": "code"
+          }
+        ],
+        "header_deps": [],
+        "inputs": [
+          {
+            "previous_output": null,
+            "since": "0x0"
+          },
+          {
+            "previous_output": {
+              "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "0xffffffff"
+            },
+            "since": "0x0"
+          }
+        ],
+        "outputs": [
+          {
+            "capacity": "0x48c27395000",
+            "data": "0x",
+            "lock": {
+              "args": [],
+              "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "hash_type": "data"
+            },
+            "type": null
+          }
+        ],
+        "version": "0x0",
+        "outputs_data": ["0x"]
+      }
+    }
+  ],
+  "toPageNumber": [
+    {
+      "param": "0x12",
+      "expected": "0x12"
+    },
+    {
+      "param": 12,
+      "expected": "0xc"
+    },
+    {
+      "expected": "0x1"
+    }
+  ],
+  "toPageSize": [
+    {
+      "param": "0x12",
+      "expected": "0x12"
+    },
+    {
+      "param": 12,
+      "expected": "0xc"
+    },
+    {
+      "expected": "0x32"
+    },
+    {
+      "param": "-1",
+      "exception": "Page size is expected to be positive"
+    },
+    {
+      "param": "51",
+      "exception": "Page size is up to 50"
+    }
+  ],
+  "toReverseOrder": [
+    {
+      "param": true,
+      "expected": true
+    },
+    {
+      "param": false,
+      "expected": false
+    },
+    {
+      "expected": false
+    }
+  ]
+}

@@ -10,61 +10,104 @@ const fixtures = require('./fixtures.json')
 
 describe('Test General Serialization', () => {
   describe('Serialize Array', () => {
-    const fixtureTable = fixtures.serializeArray.map(({ array, expected }) => [array, expected])
-    test.each(fixtureTable)('%s => %s', (array, expected) => {
-      expect(serializeArray(array)).toBe(expected)
-    })
-    it('thorw errors if the array is not type of string or bytes', () => {
-      expect(() => serializeArray(undefined)).toThrow(
-        new TypeError('The array to be serialized should by type of string or bytes')
-      )
+    const fixtureTable = Object.entries(fixtures.serializeArray).map(([title, { array, expected, exception }]) => [
+      title,
+      array,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, array, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeArray(array)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeArray(array)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Struct', () => {
-    const fixtureTable = fixtures.serializeStruct.map(({ struct, expected }) => [new Map(struct), expected])
-    test.each(fixtureTable)('%s => %s', (struct, expected) => {
-      expect(serializeStruct(struct)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeStruct).map(([title, { struct, expected, exception }]) => [
+      title,
+      new Map(struct),
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, struct, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeStruct(struct)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeStruct(struct)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Fixed Vector', () => {
-    const fixtureTable = fixtures.serializeFixVec.map(({ fixvec, expected }) => [fixvec, expected])
-    test.each(fixtureTable)('%s => %s', (fixvec, expected) => {
-      expect(serializeFixVec(fixvec)).toBe(expected)
-    })
-
-    it('throw errors if the fixed vector is not an array of bytes', () => {
-      expect(() => serializeFixVec(undefined)).toThrow(
-        new TypeError('The fixed vector to be serialized should be a string or an array of bytes')
-      )
+    const fixtureTable = Object.entries(fixtures.serializeFixVec).map(([title, { fixvec, expected, exception }]) => [
+      title,
+      fixvec,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, fixvec, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeFixVec(fixvec)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeFixVec(fixvec)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Dynamic Vector', () => {
-    const fixtureTable = fixtures.serializeDynVec.map(({ dynvec, expected }) => [dynvec, expected])
-    test.each(fixtureTable)('%s => %s', (dynvec, expected) => {
-      expect(serializeDynVec(dynvec)).toBe(expected)
-    })
-
-    it('throw errors if the dynamic vector is not an array of bytes', () => {
-      expect(() => serializeDynVec(undefined)).toThrow(
-        new TypeError('The dynamic vector to be serialized should be an array of bytes')
-      )
+    const fixtureTable = Object.entries(fixtures.serializeDynVec).map(([title, { dynvec, expected, exception }]) => [
+      title,
+      dynvec,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, dynvec, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeDynVec(dynvec)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeDynVec(dynvec)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Table', () => {
-    const fixtureTable = fixtures.serializeTable.map(({ table, expected }) => [new Map(table), expected])
-    test.each(fixtureTable)('%s => %s', (table, expected) => {
-      expect(serializeTable(table)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeTable).map(([title, { table, expected, exception }]) => [
+      title,
+      new Map(table),
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, table, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeTable(table)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeTable(table)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Option', () => {
-    const fixtureTable = fixtures.serializeOption.map(({ option, expected }) => [option, expected])
-    test.each(fixtureTable)('%s => %s', (option, expected) => {
-      expect(serializeOption(option)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeOption).map(([title, { option, expected, exception }]) => [
+      title,
+      option,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, option, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeOption(option)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeOption(option)).toThrow(exception)
+      }
     })
   })
 })
