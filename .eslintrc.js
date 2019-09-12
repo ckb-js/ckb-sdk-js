@@ -47,18 +47,7 @@ module.exports = {
     }],
     "max-len": [2, 120],
     "object-curly-newline": ["error", {
-      "ObjectExpression": {
-        "minProperties": 1,
-        "multiline": true
-      },
-      "ObjectPattern": {
-        "consistent": true
-      },
-      "ImportDeclaration": "never",
-      "ExportDeclaration": {
-        "multiline": true,
-        "minProperties": 3
-      }
+      "consistent": true
     }]
   },
   "globals": {

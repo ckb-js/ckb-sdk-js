@@ -11,6 +11,7 @@ const {
   serializeOutputsData,
   serializeRawTransaction,
 } = require('../../../lib/serialization/transaction')
+const { InvalidHexString } = require('../../../lib/exceptions')
 const fixtures = require('./fixtures.json')
 
 describe('Test Transaction Serialization', () => {
@@ -21,19 +22,7 @@ describe('Test Transaction Serialization', () => {
     })
 
     it('throw an error if the version is not a string', () => {
-      expect(() => serializeVersion(undefined)).toThrow(
-        new TypeError('The version to be serialized should be the type of string')
-      )
-    })
-
-    it('throw an error if the version is a hex string', () => {
-      expect(() => serializeVersion('0x10')).toThrow(
-        new Error('The value of the version should be the type of integer')
-      )
-    })
-
-    it('throw an error if the version is unable to be converted to a integer', () => {
-      expect(() => serializeVersion('xxx')).toThrow(new Error('The value of the version should be the type of integer'))
+      expect(() => serializeVersion(undefined)).toThrow(new InvalidHexString('undefined'))
     })
   })
 

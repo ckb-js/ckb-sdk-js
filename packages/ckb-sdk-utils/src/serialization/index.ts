@@ -45,9 +45,9 @@ export const serializeArray = (array: string | Uint8Array) => {
 export const serializeStruct = (struct: Map<string, string | Uint8Array>) => {
   let res = ''
   struct.forEach(value => {
-    res += serializeArray(value)
+    res += serializeArray(value).slice(2)
   })
-  return res
+  return `0x${res}`
 }
 
 /**
@@ -62,9 +62,9 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
     throw new TypeError('The fixed vector to be serialized should be a string or an array of bytes')
   }
   const vec = typeof fixVec === 'string' ? [...hexToBytes(fixVec)].map(b => `0x${b.toString(16)}`) : fixVec
-  const serializedItemVec = vec.map(item => serializeArray(item))
-  const header = toHexInLittleEndian(serializedItemVec.length)
-  return `${header}${serializedItemVec.join('')}`
+  const serializedItemVec = vec.map(item => serializeArray(item).slice(2))
+  const header = toHexInLittleEndian(serializedItemVec.length).slice(2)
+  return `0x${header}${serializedItemVec.join('')}`
 }
 
 /**
@@ -79,17 +79,17 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
   if (!Array.isArray(dynVec)) {
     throw new TypeError('The dynamic vector to be serialized should be an array of bytes')
   }
-  const serializedItemVec = dynVec.map(item => serializeArray(item))
+  const serializedItemVec = dynVec.map(item => serializeArray(item).slice(2))
   const body = serializedItemVec.join('')
   let offsets = ''
   if (serializedItemVec.length) {
     offsets = getOffsets(serializedItemVec.map(item => item.length / 2))
-      .map(offset => toHexInLittleEndian(offset))
+      .map(offset => toHexInLittleEndian(offset).slice(2))
       .join('')
   }
   const headerLength = fullLengthSize + offsetSize * serializedItemVec.length
-  const fullLength = toHexInLittleEndian(headerLength + body.length / 2)
-  return `${fullLength}${offsets}${body}`
+  const fullLength = toHexInLittleEndian(headerLength + body.length / 2).slice(2)
+  return `0x${fullLength}${offsets}${body}`
 }
 
 // TODO: add tests
@@ -100,15 +100,15 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
 export const serializeTable = (table: Map<string, string | Uint8Array>) => {
   const bodyElms: string[] = []
   table.forEach(value => {
-    bodyElms.push(serializeArray(value))
+    bodyElms.push(serializeArray(value).slice(2))
   })
   const body = bodyElms.join('')
   const headerLength = fullLengthSize + offsetSize * table.size
-  const fullLength = toHexInLittleEndian(headerLength + body.length / 2)
+  const fullLength = toHexInLittleEndian(headerLength + body.length / 2).slice(2)
   const offsets = getOffsets(bodyElms.map(arg => arg.length / 2))
-    .map(offset => toHexInLittleEndian(offset))
+    .map(offset => toHexInLittleEndian(offset).slice(2))
     .join('')
-  return `${fullLength}${offsets}${body}`
+  return `0x${fullLength}${offsets}${body}`
 }
 
 /**

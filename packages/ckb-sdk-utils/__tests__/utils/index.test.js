@@ -1,6 +1,8 @@
 const ckbUtils = require('../../lib')
-const bech32Fixtures = require('./bech32-fixtures.json')
+const exceptions = require('../../lib/exceptions')
+const bech32Fixtures = require('./bech32.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
+const transformerFixtures = require('./transformer.fixtures.json')
 
 const {
   blake2b,
@@ -20,58 +22,57 @@ const {
   toHexInLittleEndian,
 } = ckbUtils
 
-describe('format', () => {
-  it('hex to bytes', () => {
-    const fixture = {
-      hex: 'abcd12',
-      bytes: [171, 205, 18],
-    }
-    const bytes = hexToBytes(fixture.hex)
-    expect(bytes.join(',')).toBe(fixture.bytes.join(','))
+const { HexStringShouldStartWith0x, InvalidHexString } = exceptions
+
+describe('transformer', () => {
+  describe('hex to bytes', () => {
+    const fixtureTable = transformerFixtures.hexToBytes.map(({ hex, expected }) => [hex, expected])
+    test.each(fixtureTable)('%s => %j', (hex, exptected) => {
+      expect(hexToBytes(hex).join(',')).toBe(exptected.join(','))
+    })
+
+    it('hex string without 0x should throw an error', () => {
+      expect(() => hexToBytes('abcd12')).toThrow(new HexStringShouldStartWith0x('abcd12'))
+    })
   })
 
-  it('bytes to hex', () => {
-    const fixture = {
-      bytes: [171, 205, 18],
-      hex: 'abcd12',
-    }
-    const hex = bytesToHex(fixture.bytes)
-    expect(hex).toBe(fixture.hex)
+  describe('bytes to hex', () => {
+    const fixtureTable = transformerFixtures.bytesToHex.map(({ bytes, expected }) => [bytes, expected])
+    test.each(fixtureTable)('%j => %s', (bytes, expected) => {
+      expect(bytesToHex(bytes)).toEqual(expected)
+    })
   })
 
-  /* eslint-disable max-len */
-  it('utf8 to hex', () => {
-    const utf8Str =
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-
-    const byBuffer = Buffer.from(utf8Str, 'utf8').toString('hex')
-    const byUtils = utf8ToHex(utf8Str)
-    expect(byUtils).toBe(byBuffer)
+  describe('utf8 to hex', () => {
+    const fixtureTable = transformerFixtures.utf8ToHex.map(({ utf8, expected }) => [utf8, expected])
+    test.each(fixtureTable)('%s => %s', (utf8, expected) => {
+      expect(utf8ToHex(utf8)).toBe(expected)
+    })
   })
 
-  it('hex to utf8', () => {
-    const hexStr =
-      '4c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c69742c2073656420646f20656975736d6f642074656d706f7220696e6369646964756e74207574206c61626f726520657420646f6c6f7265206d61676e6120616c697175612e20557420656e696d206164206d696e696d2076656e69616d2c2071756973206e6f737472756420657865726369746174696f6e20756c6c616d636f206c61626f726973206e69736920757420616c697175697020657820656120636f6d6d6f646f20636f6e7365717561742e2044756973206175746520697275726520646f6c6f7220696e20726570726568656e646572697420696e20766f6c7570746174652076656c697420657373652063696c6c756d20646f6c6f726520657520667567696174206e756c6c612070617269617475722e204578636570746575722073696e74206f6363616563617420637570696461746174206e6f6e2070726f6964656e742c2073756e7420696e2063756c706120717569206f666669636961206465736572756e74206d6f6c6c697420616e696d20696420657374206c61626f72756d2e'
-    const byBuffer = Buffer.from(hexStr, 'hex').toString('utf8')
-    const byUtils = hexToUtf8(hexStr)
-    expect(byUtils).toBe(byBuffer)
+  describe('hex to utf8', () => {
+    const fixtureTable = transformerFixtures.hexToUtf8.map(({ hex, expected }) => [hex, expected])
+    test.each(fixtureTable)('%s => %s', (hex, expected) => {
+      expect(hexToUtf8(hex)).toBe(expected)
+    })
+
+    it('hex string without 0x should throw an error', () => {
+      expect(() => hexToBytes('abcd')).toThrow(new HexStringShouldStartWith0x('abcd'))
+    })
   })
 
   describe('Test toHexInLittleEndian', () => {
-    it('convert number to hex in little endian', () => {
-      expect(toHexInLittleEndian('0x3e8')).toBe('e8030000')
+    const fixtureTable = transformerFixtures.toHexInLittleEndian.map(({ value, expected }) => [value, expected])
+    test.each(fixtureTable)('%s => %s', (value, expected) => {
+      expect(toHexInLittleEndian(value)).toBe(expected)
     })
-
-    it('convert number to hex in little endian', () => {
-      expect(toHexInLittleEndian(0x3e8)).toBe('e8030000')
+    it('hex string without 0x should throw an error', () => {
+      expect(() => toHexInLittleEndian('123')).toThrow(new HexStringShouldStartWith0x('123'))
     })
     it('throw an error when received a input unable to be converted into a number', () => {
-      expect(() => toHexInLittleEndian('invalid number')).toThrow(
-        new TypeError('The input cannot be converted to a number')
-      )
+      expect(() => toHexInLittleEndian('invalid number')).toThrow(new InvalidHexString('invalid number'))
     })
   })
-  /* eslint-enable max-len */
 })
 
 describe('blake', () => {
@@ -148,7 +149,7 @@ describe('scriptToHash', () => {
         args: [],
         hashType: 'data',
       },
-      scriptHash: 'bd7e6000ffb8e983a6023809037e0c4cedbc983637c46d74621fd28e5f15fe4f',
+      scriptHash: '0xbd7e6000ffb8e983a6023809037e0c4cedbc983637c46d74621fd28e5f15fe4f',
     },
     'Script with hash type of data': {
       script: {
@@ -156,7 +157,7 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'data',
       },
-      scriptHash: '5a2b913dfb1b79136fc72a575fd8e93ae080b504463c0066fea086482bfc3a94',
+      scriptHash: '0x5a2b913dfb1b79136fc72a575fd8e93ae080b504463c0066fea086482bfc3a94',
     },
     'Script with hash type of type': {
       script: {
@@ -164,7 +165,7 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'type',
       },
-      scriptHash: '3d7e565f3831955f0f5cfecdadddeef7e0d106af84ceb0c2f4dbb6ddff88c9bc',
+      scriptHash: '0x3d7e565f3831955f0f5cfecdadddeef7e0d106af84ceb0c2f4dbb6ddff88c9bc',
     },
   }
   test.each(Object.keys(fixtures))('%s', fixtureName => {
@@ -191,8 +192,8 @@ describe('rawTransactionToHash', () => {
 describe('address', () => {
   it('identifier to address payload', () => {
     const fixture = {
-      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
-      payload: '010036c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      payload: '0x010036c329ed630d6ce750712a477543672adab57f4c',
     }
     const payload = bytesToHex(toAddressPayload(fixture.identifier))
     expect(payload).toBe(fixture.payload)
@@ -200,7 +201,7 @@ describe('address', () => {
 
   it('identifier to address with prefix of ckt', () => {
     const fixture = {
-      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
@@ -212,7 +213,7 @@ describe('address', () => {
 
   it('identifier to address with prefix of ckb', () => {
     const fixture = {
-      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckb',
       address: 'ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd',
     }
@@ -222,9 +223,14 @@ describe('address', () => {
     expect(address).toBe(fixture.address)
   })
 
+  it('identifier without 0x should throw an error', () => {
+    const identifier = '36c329ed630d6ce750712a477543672adab57f4c'
+    expect(() => toAddressPayload(identifier)).toThrow(new HexStringShouldStartWith0x(identifier))
+  })
+
   it('bech32Address with empty options', () => {
     const fixture = {
-      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier, {})
@@ -233,7 +239,7 @@ describe('address', () => {
 
   it('bech32Address with default options which should be prefix: ckb, type: binIndx, code hash index: 0x00', () => {
     const fixture = {
-      identifier: '36c329ed630d6ce750712a477543672adab57f4c',
+      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
     const address = bech32Address(fixture.identifier)
@@ -242,19 +248,19 @@ describe('address', () => {
 
   const pubkeyToAddressFixtures = {
     'with configuration of { prefix: ckt }': {
-      pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: {
         prefix: 'ckt',
       },
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with empty configuration': {
-      pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: {},
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
     'with undefined configuration': {
-      pubkey: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       config: undefined,
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
@@ -273,9 +279,9 @@ describe('address', () => {
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
-    expect(parsedHex).toBe(fixture.hrp + fixture.blake160Pubkey)
+    expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
     const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
-    expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)
+    expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
   })
 
   it('parse address with default options prefix: ckt, encode: binary', () => {
@@ -286,9 +292,9 @@ describe('address', () => {
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = bytesToHex(parseAddress(fixture.addr))
-    expect(parsedHex).toBe(fixture.hrp + fixture.blake160Pubkey)
+    expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
     const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
-    expect(bytesToHex(parsedBytes)).toBe(fixture.hrp + fixture.blake160Pubkey)
+    expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
   })
 
   it('parser incorrect address', () => {

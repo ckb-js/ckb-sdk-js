@@ -4,6 +4,7 @@ const {
   serializeHashType,
   serializeScript,
 } = require('../../../lib/serialization/script')
+const { ArgumentRequired } = require('../../../lib/exceptions')
 const fixtures = require('./fixtures.json')
 
 describe('Test Script Serialization', () => {
@@ -39,7 +40,7 @@ describe('Test Script Serialization', () => {
     })
 
     it('throw errors if the script is not passed into the method', () => {
-      expect(() => serializeScript()).toThrow(new Error('Script is required'))
+      expect(() => serializeScript()).toThrow(new ArgumentRequired('Script'))
     })
   })
 })

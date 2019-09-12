@@ -2,11 +2,11 @@
   "serializeArray": [
     {
       "array": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+      "expected": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
     },
     {
-      "array": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+      "array": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
+      "expected": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
     },
     {
       "array": [
@@ -43,55 +43,55 @@
         142,
         136
       ],
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+      "expected": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
     }
   ],
   "serializeStruct": [
     {
-      "struct": [["f1", "ab"]],
-      "expected": "ab"
+      "struct": [["0xf1", "0xab"]],
+      "expected": "0xab"
     },
     {
-      "struct": [["f1", "ab"], ["f2", "0x030201"]],
-      "expected": "ab030201"
+      "struct": [["0xf1", "0xab"], ["0xf2", "0x030201"]],
+      "expected": "0xab030201"
     }
   ],
   "serializeFixVec": [
     {
       "fixvec": [],
-      "expected": "00000000"
+      "expected": "0x00000000"
     },
     {
       "fixvec": ["0x12"],
-      "expected": "0100000012"
+      "expected": "0x0100000012"
     },
     {
       "fixvec": [[18]],
-      "expected": "0100000012"
+      "expected": "0x0100000012"
     },
     {
       "fixvec": "0x1234567890abcdef",
-      "expected": "080000001234567890abcdef"
+      "expected": "0x080000001234567890abcdef"
     }
   ],
   "serializeDynVec": [
     {
       "dynvec": [],
-      "expected": "04000000"
+      "expected": "0x04000000"
     },
     {
-      "dynvec": ["020000001234"],
-      "expected": "0e00000008000000020000001234"
+      "dynvec": ["0x020000001234"],
+      "expected": "0x0e00000008000000020000001234"
     },
     {
-      "dynvec": ["020000001234", "00000000", "020000000567", "0x0100000089", "03000000abcdef"],
-      "expected": "34000000180000001e00000022000000280000002d00000002000000123400000000020000000567010000008903000000abcdef"
+      "dynvec": ["0x020000001234", "0x00000000", "0x020000000567", "0x0100000089", "0x03000000abcdef"],
+      "expected": "0x34000000180000001e00000022000000280000002d00000002000000123400000000020000000567010000008903000000abcdef"
     }
   ],
   "serializeTable": [
     {
-      "table": [["f1", "ab"], ["f2", "0x030201"]],
-      "expected": "100000000c0000000d000000ab030201"
+      "table": [["0xf1", "0xab"], ["0xf2", "0x030201"]],
+      "expected": "0x100000000c0000000d000000ab030201"
     }
   ],
   "serializeOption": [
@@ -100,8 +100,8 @@
       "expected": ""
     },
     {
-      "option": "0c0000000800000000000000",
-      "expected": "0c0000000800000000000000"
+      "option": "0x0c0000000800000000000000",
+      "expected": "0x0c0000000800000000000000"
     }
   ]
 }
