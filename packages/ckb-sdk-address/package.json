@@ -27,7 +27,7 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "../../node_modules/.bin/jest"
   },
   "bugs": {
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"

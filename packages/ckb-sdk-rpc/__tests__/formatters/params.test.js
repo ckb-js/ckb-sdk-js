@@ -1,21 +1,21 @@
-const paramsFmt = require('../../lib/paramsFormatter').default
-const fixtures = require('./params.json')
+const { default: paramsFmt } = require('../../lib/paramsFormatter')
+const fixtures = require('./params.fixtures.json')
 
-const { success, failure } = fixtures
-
-describe('params formatter success', () => {
-  test.each(Object.keys(success))('%s', metohdName => {
-    success[metohdName].forEach(fixture => {
-      const formatted = paramsFmt[metohdName](fixture.source)
-      expect(formatted).toEqual(fixture.target)
-    })
-  })
-})
-
-describe('param formatter failure', () => {
-  test.each(Object.keys(failure))('%s', methodName => {
-    failure[methodName].forEach(fixture => {
-      expect(() => paramsFmt[methodName](fixture.source)).toThrowError(fixture.error)
+describe('params formatter', () => {
+  describe.each(Object.keys(fixtures))('%s', methodName => {
+    const fixtureTable = Object.values(fixtures[methodName]).map(({ param, expected, exception }) => [
+      param,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%j => %j', (param, expected, exception) => {
+      if (undefined !== expected) {
+        const formatted = paramsFmt[methodName](param)
+        expect(formatted).toEqual(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => paramsFmt[methodName](param)).toThrow(new Error(exception))
+      }
     })
   })
 })

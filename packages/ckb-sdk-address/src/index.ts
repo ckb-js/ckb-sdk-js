@@ -2,7 +2,7 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 import { AddressOptions } from '@nervosnetwork/ckb-sdk-utils/lib/address'
 
-const { hexToBytes, pubkeyToAddress, blake160, AddressPrefix, AddressType } = utils
+const { pubkeyToAddress, blake160, AddressPrefix, AddressType } = utils
 
 class Address extends ECPair {
   public value = ''
@@ -27,13 +27,13 @@ class Address extends ECPair {
       codeHashIndex: '0x00',
     }
   ) {
-    super(typeof sk === 'string' ? hexToBytes(sk) : sk)
+    super(sk)
     this.value = addressAlgorithm(this.publicKey, {
       prefix,
       type,
       codeHashIndex,
     })
-    this.identifier = blake160(this.publicKey as string, 'hex')
+    this.identifier = `0x${blake160(this.publicKey as string, 'hex')}`
   }
 }
 

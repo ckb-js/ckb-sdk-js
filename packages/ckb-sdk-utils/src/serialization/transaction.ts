@@ -2,15 +2,7 @@ import { serializeScript } from './script'
 import { toHexInLittleEndian } from '..'
 import { serializeArray, serializeStruct, serializeTable, serializeDynVec, serializeFixVec } from '.'
 
-export const serializeVersion = (version: CKBComponents.Version) => {
-  if (typeof version !== 'string') {
-    throw new TypeError('The version to be serialized should be the type of string')
-  }
-  if (version.startsWith('0x') || Number.isNaN(+version)) {
-    throw new Error('The value of the version should be the type of integer')
-  }
-  return toHexInLittleEndian(version)
-}
+export const serializeVersion = (version: CKBComponents.Version) => toHexInLittleEndian(version)
 
 export const serializeOutPoint = (outPoint: CKBComponents.OutPoint | null) => {
   if (!outPoint) return ''
@@ -19,8 +11,8 @@ export const serializeOutPoint = (outPoint: CKBComponents.OutPoint | null) => {
 }
 
 export const serializeDepType = (type: CKBComponents.DepType) => {
-  if (type === 'code') return '00'
-  if (type === 'depGroup') return '01'
+  if (type === 'code') return '0x00'
+  if (type === 'depGroup') return '0x01'
   throw new TypeError("Dep type must be either of 'code' or 'depGroup'")
 }
 

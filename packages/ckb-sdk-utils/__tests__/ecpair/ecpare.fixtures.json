@@ -1,0 +1,67 @@
+{
+  "instantiate": {
+    "basic": {
+      "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+      "compressed": true,
+      "publicKey": "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01",
+      "privateKeyWords": [
+        4965603,
+        51553698,
+        33661175,
+        21402603,
+        30321735,
+        23384210,
+        24745325,
+        33742843,
+        34073161,
+        3794892,
+        0
+      ],
+      "publicKeyBytes": [
+        2,
+        74,
+        80,
+        30,
+        253,
+        50,
+        142,
+        6,
+        44,
+        134,
+        117,
+        242,
+        54,
+        89,
+        112,
+        114,
+        140,
+        133,
+        156,
+        89,
+        43,
+        238,
+        239,
+        214,
+        190,
+        142,
+        173,
+        61,
+        144,
+        19,
+        48,
+        188,
+        1
+      ]
+    },
+    "withEmptyOption": {
+      "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+      "compressed": true,
+      "publicKey": "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01"
+    },
+    "withDefaultOption": {
+      "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+      "compressed": true,
+      "publicKey": "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01"
+    }
+  }
+}

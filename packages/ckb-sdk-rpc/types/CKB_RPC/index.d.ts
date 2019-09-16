@@ -5,6 +5,7 @@
 /* eslint-disable camelcase */
 declare module CKB_RPC {
   export type ProposalShortId = CKBComponents.ProposalShortId
+  export type Number = CKBComponents.Number
   export type UInt32 = CKBComponents.UInt32
   export type Count = CKBComponents.Count
   export type Hash256 = CKBComponents.Hash256
