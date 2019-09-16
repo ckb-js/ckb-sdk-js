@@ -195,59 +195,59 @@ describe('rawTransactionToHash', () => {
 })
 
 describe('address', () => {
-  it('identifier to address payload', () => {
+  it('publicKeyHash to address payload', () => {
     const fixture = {
-      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
       payload: '0x010036c329ed630d6ce750712a477543672adab57f4c',
     }
-    const payload = bytesToHex(toAddressPayload(fixture.identifier))
+    const payload = bytesToHex(toAddressPayload(fixture.publicKeyHash))
     expect(payload).toBe(fixture.payload)
   })
 
-  it('identifier to address with prefix of ckt', () => {
+  it('publicKeyHash to address with prefix of ckt', () => {
     const fixture = {
-      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckt',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
-    const address = bech32Address(fixture.identifier, {
+    const address = bech32Address(fixture.publicKeyHash, {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
   })
 
-  it('identifier to address with prefix of ckb', () => {
+  it('publicKeyHash to address with prefix of ckb', () => {
     const fixture = {
-      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
       prefix: 'ckb',
       address: 'ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd',
     }
-    const address = bech32Address(fixture.identifier, {
+    const address = bech32Address(fixture.publicKeyHash, {
       prefix: fixture.prefix,
     })
     expect(address).toBe(fixture.address)
   })
 
-  it('identifier without 0x should throw an error', () => {
-    const identifier = '36c329ed630d6ce750712a477543672adab57f4c'
-    expect(() => toAddressPayload(identifier)).toThrow(new HexStringShouldStartWith0x(identifier))
+  it('publicKeyHash without 0x should throw an error', () => {
+    const publicKeyHash = '36c329ed630d6ce750712a477543672adab57f4c'
+    expect(() => toAddressPayload(publicKeyHash)).toThrow(new HexStringShouldStartWith0x(publicKeyHash))
   })
 
   it('bech32Address with empty options', () => {
     const fixture = {
-      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
-    const address = bech32Address(fixture.identifier, {})
+    const address = bech32Address(fixture.publicKeyHash, {})
     expect(address).toBe(fixture.address)
   })
 
   it('bech32Address with default options which should be prefix: ckb, type: binIndx, code hash index: 0x00', () => {
     const fixture = {
-      identifier: '0x36c329ed630d6ce750712a477543672adab57f4c',
+      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     }
-    const address = bech32Address(fixture.identifier)
+    const address = bech32Address(fixture.publicKeyHash)
     expect(address).toBe(fixture.address)
   })
 
