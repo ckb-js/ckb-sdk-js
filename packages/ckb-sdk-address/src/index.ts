@@ -7,7 +7,7 @@ const { pubkeyToAddress, blake160, AddressPrefix, AddressType } = utils
 class Address extends ECPair {
   public value = ''
 
-  public identifier = ''
+  public publicKeyHash = ''
 
   public constructor(
     sk: Uint8Array | string,
@@ -33,7 +33,7 @@ class Address extends ECPair {
       type,
       codeHashIndex,
     })
-    this.identifier = `0x${blake160(this.publicKey as string, 'hex')}`
+    this.publicKeyHash = `0x${blake160(this.publicKey as string, 'hex')}`
   }
 }
 

@@ -15,7 +15,7 @@ const bootstrap = async () => {
    * - value, the address string
    * - privateKey, the private key in hex string format
    * - publicKey, the public key in hex string format
-   * - identifier, the identifier of the public key, a blake160-ed public key is use here
+   * - publicKeyHash, the publicKeyHash of the public key, a blake160-ed public key is use here
    * - sign(msg): signature string
    * - verify(msg, signature): boolean
    */
@@ -26,8 +26,8 @@ const bootstrap = async () => {
   console.log(myAddressObj.value)
 
   /**
-   * calculate the lockHash by the address identifier
-   * 1. the identifier of the address is required in the args field of lock script
+   * calculate the lockHash by the address publicKeyHash
+   * 1. the publicKeyHash of the address is required in the args field of lock script
    * 2. compose the lock script with the code hash(as a miner, we use blockAssemblerCodeHash here), and args
    * 3. calculate the hash of lock script via core.utils.scriptToHash method
    */
@@ -35,7 +35,7 @@ const bootstrap = async () => {
   const lockScript = {
     hashType: "data",
     codeHash: blockAssemblerCodeHash,
-    args: [`0x${myAddressObj.identifier}`],
+    args: [`0x${myAddressObj.publicKeyHash}`],
   }
   /**
    * to see the lock script
@@ -105,11 +105,11 @@ const bootstrap = async () => {
   //   .then(console.log)
 
   /**
-   * @notice fill the blaked160ed public key as the identifier of the target address in the output's args,
+   * @notice fill the blaked160ed public key as the publicKeyHash of the target address in the output's args,
    *         which is used to specify the next owner of the output, namely the fresh cell.
    * @notice use bigint or big number to handle the capacity for safety
    */
-  const generateTransaction = async (targetIdentifier, capacity) => {
+  const generateTransaction = async (targetPublicKeyHash, capacity) => {
     const targetCapacity = BigInt(capacity)
 
     /**
@@ -120,7 +120,7 @@ const bootstrap = async () => {
       lock: {
         hashType: secp256k1Dep.hashType,
         codeHash: secp256k1Dep.codeHash,
-        args: [targetIdentifier],
+        args: [targetPublicKeyHash],
       },
     }
 
@@ -132,7 +132,7 @@ const bootstrap = async () => {
       lock: {
         hashType: secp256k1Dep.hashType,
         codeHash: secp256k1Dep.codeHash,
-        args: [`0x${myAddressObj.identifier}`],
+        args: [`0x${myAddressObj.publicKeyHash}`],
       },
     }
 
@@ -208,7 +208,7 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const tx = await generateTransaction(`0x${myAddressObj.identifier}`, 60000000000) // generate the raw transaction with empty witnesses
+  const tx = await generateTransaction(`0x${myAddressObj.publicKeyHash}`, 60000000000) // generate the raw transaction with empty witnesses
   const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
    * to see the signed transaction

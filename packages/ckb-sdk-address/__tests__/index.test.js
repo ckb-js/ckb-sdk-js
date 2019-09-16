@@ -11,7 +11,7 @@ describe('ckb-sdk-address', () => {
       const option = Object.keys(config).length ? config : undefined
       if (undefined !== expected) {
         const address = new Address(privateKey, option)
-        expect(address.identifier).toBe(expected.identifier)
+        expect(address.publicKeyHash).toBe(expected.publicKeyHash)
         expect(address.value).toBe(expected.address)
       }
       if (undefined !== exception) {

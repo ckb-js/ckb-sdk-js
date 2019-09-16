@@ -30,27 +30,27 @@ export const defaultAddressOptions = {
  * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
  */
 export const toAddressPayload = (
-  identifier: string | Uint8Array,
+  publicKeyHash: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
   params: CodeHashIndex = '0x00'
 ): Uint8Array => {
-  if (typeof identifier === 'string') {
-    if (!identifier.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(identifier)
+  if (typeof publicKeyHash === 'string') {
+    if (!publicKeyHash.startsWith('0x')) {
+      throw new HexStringShouldStartWith0x(publicKeyHash)
     }
-    return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...hexToBytes(identifier)])
+    return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...hexToBytes(publicKeyHash)])
   }
-  return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...identifier])
+  return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...publicKeyHash])
 }
 
 export const bech32Address = (
-  identifier: Uint8Array | string,
+  publicKeyHash: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
     type = AddressType.HashIdx,
     codeHashIndex = '0x00',
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(identifier, type, codeHashIndex)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(publicKeyHash, type, codeHashIndex)))
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
@@ -60,8 +60,8 @@ export const pubkeyToAddress = (
     codeHashIndex = '0x00' as CodeHashIndex,
   }: AddressOptions = defaultAddressOptions
 ) => {
-  const identifier = blake160(pubkey)
-  return bech32Address(identifier, {
+  const publicKeyHash = blake160(pubkey)
+  return bech32Address(publicKeyHash, {
     prefix,
     type,
     codeHashIndex,
