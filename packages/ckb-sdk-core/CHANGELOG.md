@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.20.0...v0.21.0) (2019-09-21)
+
+
+### Code Refactoring
+
+* **address** rename public key identifier to publicKeyHash ([b33c096](https://github.com/nervosnetwork/ckb-sdk-js/commit/b33c096))
+
+
+### BREAKING CHANGES
+
+* **address** rename public key identifier to publicKeyHash
+
+
+
+
+
 # [0.20.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.19.1...v0.20.0) (2019-09-07)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
