@@ -51,7 +51,7 @@ describe('ckb-core', () => {
     })
   })
 
-  describe('sign transaction', async () => {
+  describe('sign transaction', () => {
     const fixtureTable = Object.entries(fixtures.signTransaction).map(
       ([title, { privateKey, transaction, expected, exception }]) => [
         title,
