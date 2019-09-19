@@ -52,6 +52,14 @@ declare module CKB_RPC {
 
   export type Cell = CellOutput
 
+  export interface LiveCell {
+    data?: {
+      content: Hash
+      hash: Hash256
+    }
+    output: CellOutput
+  }
+
   export interface CellDep {
     out_point: OutPoint | null
     dep_type: DepType

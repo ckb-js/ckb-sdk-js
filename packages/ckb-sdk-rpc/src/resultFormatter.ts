@@ -175,11 +175,20 @@ const formatter = {
       ...rest,
     }
   },
-  toCellWithStatus: (cellWithStatus: { cell: CKB_RPC.Cell; status: string }) => {
+  toLiveCell: (liveCell: CKB_RPC.LiveCell): CKBComponents.LiveCell => {
+    if (!liveCell) return liveCell
+    const { data, output, ...rest } = liveCell
+    return {
+      data,
+      output: formatter.toOutput(output),
+      ...rest,
+    }
+  },
+  toLiveCellWithStatus: (cellWithStatus: { cell: CKB_RPC.LiveCell; status: string }) => {
     if (!cellWithStatus) return cellWithStatus
     const { cell, ...rest } = cellWithStatus
     return {
-      cell: formatter.toCell(cell),
+      cell: formatter.toLiveCell(cell),
       ...rest,
     }
   },

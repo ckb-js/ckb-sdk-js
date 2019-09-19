@@ -242,6 +242,22 @@ declare namespace CKBComponents {
   export interface Cell extends CellOutput {}
 
   /**
+   * @typeof Live Cell
+   * @property lock, the lock script of the live cell
+   * @property type, the type script of the live cell
+   * @property data, the data and data hash of the live cell
+   * @property output, the previous cell the live cell derives from
+   */
+
+  export interface LiveCell {
+    data?: {
+      content: Hash
+      hash: Hash256
+    }
+    output: CellOutput
+  }
+
+  /**
    * @typedef Cell, cell object
    * @property capacty, cell capacity
    * @property lock, lock hash
