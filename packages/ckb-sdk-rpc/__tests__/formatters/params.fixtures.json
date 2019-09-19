@@ -239,7 +239,6 @@
         "outputs": [
           {
             "capacity": "0x48c27395000",
-            "data": "0x",
             "lock": {
               "args": [],
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -249,7 +248,8 @@
           }
         ],
         "version": "0x0",
-        "outputsData": ["0x"]
+        "outputsData": ["0x"],
+        "witnesses": []
       },
       "expected": {
         "cell_deps": [
@@ -288,7 +288,8 @@
           }
         ],
         "version": "0x0",
-        "outputs_data": ["0x"]
+        "outputs_data": ["0x"],
+        "witnesses": []
       }
     }
   ],

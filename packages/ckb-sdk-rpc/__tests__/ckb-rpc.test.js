@@ -126,37 +126,39 @@ describe('ckb-rpc success', () => {
 
 describe('send transaction', () => {
   it('send transaction', async () => {
-    const blockHash = await rpc.getBlockHash('0x0')
-    const block = await rpc.getBlock(blockHash)
-    const txHash = block.transactions[0].hash
     const tx = {
-      version: '0',
-      cellDeps: [],
+      cellDeps: [
+        {
+          outPoint: {
+            txHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            index: '0x1',
+          },
+          depType: 'code',
+        },
+      ],
+      headerDeps: [],
       inputs: [
         {
           previousOutput: {
-            cell: {
-              txHash,
-              index: '0',
-            },
-            blockHash,
+            txHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            index: '0x0',
           },
-          args: [],
-          since: '0',
+          since: '0x0',
         },
       ],
       outputs: [
         {
+          capacity: '0x48c27395000',
           lock: {
             args: [],
             codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
-            hashType: 'Data',
+            hashType: 'data',
           },
           type: null,
-          capacity: '0x1',
-          data: '0x',
         },
       ],
+      version: '0x0',
+      outputsData: ['0x'],
       witnesses: [],
     }
     const hash = rpc.sendTransaction(tx)
