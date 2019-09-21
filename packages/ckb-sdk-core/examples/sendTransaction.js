@@ -4,7 +4,7 @@ const Core = require('../lib').default
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
   const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
-  const blockAssemblerCodeHash = '0x1d107ddec56ec77b79c41cd10b35a3b47434c93a604ecb8e8e73e7372fe1a794' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
+  const blockAssemblerCodeHash = '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
@@ -33,16 +33,16 @@ const bootstrap = async () => {
    */
 
   const lockScript = {
-    hashType: "data",
+    hashType: "type",
     codeHash: blockAssemblerCodeHash,
-    args: [`0x${myAddressObj.publicKeyHash}`],
+    args: [myAddressObj.publicKeyHash],
   }
   /**
    * to see the lock script
    */
   // console.log(JSON.stringify(lockScript, null, 2))
 
-  const lockHash = `0x${core.utils.scriptToHash(lockScript)}`
+  const lockHash = core.utils.scriptToHash(lockScript)
   /**
    * to see the lock hash
    */
@@ -132,7 +132,7 @@ const bootstrap = async () => {
       lock: {
         hashType: secp256k1Dep.hashType,
         codeHash: secp256k1Dep.codeHash,
-        args: [`0x${myAddressObj.publicKeyHash}`],
+        args: [myAddressObj.publicKeyHash],
       },
     }
 
@@ -146,8 +146,7 @@ const bootstrap = async () => {
       const unspentCell = unspentCells[i]
       inputs.push({
         previousOutput: unspentCell.outPoint,
-        since: '0',
-        args: [],
+        since: '0x0',
       })
       inputCapacity += BigInt(unspentCells[i].capacity)
       if (inputCapacity >= targetCapacity) {
@@ -168,21 +167,21 @@ const bootstrap = async () => {
     const outputs =
       changeOutput.capacity > 0n ? [{
           ...targetOutput,
-          capacity: targetOutput.capacity.toString(),
+          capacity: `0x${targetOutput.capacity.toString(16)}`,
         },
         {
           ...changeOutput,
-          capacity: changeOutput.capacity.toString(),
+          capacity: `0x${changeOutput.capacity.toString(16)}`,
         },
       ] : [{
         ...targetOutput,
-        capacity: targetOutput.capacity.toString(),
+        capacity: `0x${targetOutput.capacity.toString(16)}`,
       }, ]
 
     const outputsData = outputs.map(output => "0x")
 
     const tx = {
-      version: '0',
+      version: '0x0',
       cellDeps: [{
         outPoint: secp256k1Dep.outPoint,
         depType: "depGroup",
@@ -201,14 +200,14 @@ const bootstrap = async () => {
   /**
    * to see the generated transaction
    */
-  // generateTransaction(`0x${blake160edPublicKey}`, 1000000000000).then(tx => {
+  // generateTransaction(blake160edPublicKey, 1000000000000).then(tx => {
   //   console.log(JSON.stringify(tx, null, 2))
   // })
 
   /**
    * send transaction
    */
-  const tx = await generateTransaction(`0x${myAddressObj.publicKeyHash}`, 60000000000) // generate the raw transaction with empty witnesses
+  const tx = await generateTransaction(myAddressObj.publicKeyHash, 60000000000) // generate the raw transaction with empty witnesses
   const signedTx = await core.signTransaction(myAddressObj)(tx)
   /**
    * to see the signed transaction
