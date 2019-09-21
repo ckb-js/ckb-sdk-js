@@ -1,14 +1,10 @@
 {
-  "serializeArray": [
-    {
+  "serializeArray": {
+    "basic array in hex string": {
       "array": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
+      "expected": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
     },
-    {
-      "array": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
-    },
-    {
+    "basic array in bytes": {
       "array": [
         104,
         213,
@@ -43,65 +39,86 @@
         142,
         136
       ],
-      "expected": "68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
-    }
-  ],
-  "serializeStruct": [
-    {
-      "struct": [["f1", "ab"]],
-      "expected": "ab"
+      "expected": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88"
     },
-    {
+    "invalid array should throw an error": {
+      "exception": "The array to be serialized should by type of string or bytes"
+    },
+    "hex string without 0x should throw an error": {
+      "array": "ffffff",
+      "exception": "Hex string ffffff should start with 0x"
+    }
+  },
+  "serializeStruct": {
+    "basic struct": {
+      "struct": [["f1", "0xab"], ["f2", "0x030201"]],
+      "expected": "0xab030201"
+    },
+    "invalid struct": {
       "struct": [["f1", "ab"], ["f2", "0x030201"]],
-      "expected": "ab030201"
+      "exception": "Hex string ab should start with 0x"
     }
-  ],
-  "serializeFixVec": [
-    {
+  },
+  "serializeFixVec": {
+    "empty vector": {
       "fixvec": [],
-      "expected": "00000000"
+      "expected": "0x00000000"
     },
-    {
+    "hex string in vector": {
       "fixvec": ["0x12"],
-      "expected": "0100000012"
+      "expected": "0x0100000012"
     },
-    {
+    "bytes in vector": {
       "fixvec": [[18]],
-      "expected": "0100000012"
+      "expected": "0x0100000012"
     },
-    {
+    "vector in hex string": {
       "fixvec": "0x1234567890abcdef",
-      "expected": "080000001234567890abcdef"
+      "expected": "0x080000001234567890abcdef"
+    },
+    "invalid vector": {
+      "exception": "The fixed vector to be serialized should be a string or an array of bytes"
     }
-  ],
-  "serializeDynVec": [
-    {
+  },
+  "serializeDynVec": {
+    "empty vector": {
       "dynvec": [],
-      "expected": "04000000"
+      "expected": "0x04000000"
     },
-    {
-      "dynvec": ["020000001234"],
-      "expected": "0e00000008000000020000001234"
+    "vector has one item": {
+      "dynvec": ["0x020000001234"],
+      "expected": "0x0e00000008000000020000001234"
     },
-    {
-      "dynvec": ["020000001234", "00000000", "020000000567", "0x0100000089", "03000000abcdef"],
-      "expected": "34000000180000001e00000022000000280000002d00000002000000123400000000020000000567010000008903000000abcdef"
+    "vector has multiple items": {
+      "dynvec": ["0x020000001234", "0x00000000", "0x020000000567", "0x0100000089", "0x03000000abcdef"],
+      "expected": "0x34000000180000001e00000022000000280000002d00000002000000123400000000020000000567010000008903000000abcdef"
+    },
+    "vector in invalid format should throw an error": {
+      "exception": "The dynamic vector to be serialized should be an array of bytes"
+    },
+    "vector has invalid item should throw an error": {
+      "dynvec": ["020000001234", "0x00000000", "0x020000000567", "0x0100000089", "0x03000000abcdef"],
+      "exception": "Hex string 020000001234 should start with 0x"
     }
-  ],
-  "serializeTable": [
-    {
+  },
+  "serializeTable": {
+    "basic table": {
+      "table": [["f1", "0xab"], ["f2", "0x030201"]],
+      "expected": "0x100000000c0000000d000000ab030201"
+    },
+    "table has invalid field should throw an error": {
       "table": [["f1", "ab"], ["f2", "0x030201"]],
-      "expected": "100000000c0000000d000000ab030201"
+      "exception": "Hex string ab should start with 0x"
     }
-  ],
-  "serializeOption": [
-    {
+  },
+  "serializeOption": {
+    "empty option": {
       "option": "",
       "expected": ""
     },
-    {
-      "option": "0c0000000800000000000000",
-      "expected": "0c0000000800000000000000"
+    "basic option": {
+      "option": "0x0c0000000800000000000000",
+      "expected": "0x0c0000000800000000000000"
     }
-  ]
+  }
 }

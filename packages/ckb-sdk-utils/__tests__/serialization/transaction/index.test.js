@@ -15,105 +15,175 @@ const fixtures = require('./fixtures.json')
 
 describe('Test Transaction Serialization', () => {
   describe('Serialize Version', () => {
-    const fixtureTable = fixtures.serializeVersion.map(({ version, expected }) => [version, expected])
-    test.each(fixtureTable)('%s => %s', (version, expected) => {
-      expect(serializeVersion(version)).toBe(expected)
-    })
-
-    it('throw an error if the version is not a string', () => {
-      expect(() => serializeVersion(undefined)).toThrow(
-        new TypeError('The version to be serialized should be the type of string')
-      )
-    })
-
-    it('throw an error if the version is a hex string', () => {
-      expect(() => serializeVersion('0x10')).toThrow(
-        new Error('The value of the version should be the type of integer')
-      )
-    })
-
-    it('throw an error if the version is unable to be converted to a integer', () => {
-      expect(() => serializeVersion('xxx')).toThrow(new Error('The value of the version should be the type of integer'))
+    const fixtureTable = Object.entries(fixtures.serializeVersion).map(([title, { version, expected, exception }]) => [
+      title,
+      version,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, version, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeVersion(version)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeVersion(version)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize OutPoint', () => {
-    const fixtureTable = fixtures.serializeOutPoint.map(({ outPoint, expected }) => [outPoint, expected])
+    const fixtureTable = Object.entries(fixtures.serializeOutPoint).map(
+      ([title, { outPoint, expected, exception }]) => [title, outPoint, expected, exception]
+    )
 
-    test.each(fixtureTable)('%s => %s', (outPoint, expected) => {
-      expect(serializeOutPoint(outPoint)).toBe(expected)
+    test.each(fixtureTable)('%s', (_title, outPoint, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeOutPoint(outPoint)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeOutPoint(outPoint)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize DepType', () => {
-    const fixtureTable = fixtures.serializeDepType.map(({ depType, expected }) => [depType, expected])
-    test.each(fixtureTable)('%s => %s', (depType, expected) => {
-      expect(serializeDepType(depType)).toBe(expected)
-    })
-
-    it("throw an error if the dep type is neither of 'data' nor 'depGroup'", () => {
-      expect(() => serializeDepType('unknown type')).toThrow(
-        new TypeError("Dep type must be either of 'code' or 'depGroup'")
-      )
+    const fixtureTable = Object.entries(fixtures.serializeDepType).map(([title, { depType, expected, exception }]) => [
+      title,
+      depType,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, depType, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeDepType(depType)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeDepType(depType)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize CellDep', () => {
-    const fixtureTable = fixtures.serializeCellDep.map(({ cellDep, expected }) => [cellDep, expected])
-    test.each(fixtureTable)('%s => %s', (cellDep, expected) => {
-      expect(serializeCellDep(cellDep)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeCellDep).map(([title, { cellDep, expected, exception }]) => [
+      title,
+      cellDep,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%s', (_title, cellDep, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeCellDep(cellDep)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeCellDep(cellDep)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize CellDeps', () => {
-    const fixtureTable = fixtures.serializeCellDeps.map(({ cellDeps, expected }) => [cellDeps, expected])
-    test.each(fixtureTable)('%j => %s', (cellDeps, expected) => {
-      expect(serializeCellDeps(cellDeps)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeCellDeps).map(
+      ([title, { cellDeps, expected, exception }]) => [title, cellDeps, expected, exception]
+    )
+    test.each(fixtureTable)('%j', (_title, cellDeps, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeCellDeps(cellDeps)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeCellDeps(cellDeps)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize HeaderDeps', () => {
-    const fixtureTable = fixtures.serializeHeaderDeps.map(({ headerDeps, expected }) => [headerDeps, expected])
-    test.each(fixtureTable)('%j => %s', (headerDeps, expected) => {
-      expect(serializeHeaderDeps(headerDeps)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeHeaderDeps).map(
+      ([title, { headerDeps, expected, exception }]) => [title, headerDeps, expected, exception]
+    )
+    test.each(fixtureTable)('%j', (_title, headerDeps, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeHeaderDeps(headerDeps)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeHeaderDeps(headerDeps)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Inputs', () => {
-    const fixtureTable = fixtures.serializeInputs.map(({ inputs, expected }) => [inputs, expected])
-    test.each(fixtureTable)('%j => %s', (inputs, expected) => {
-      expect(serializeInputs(inputs)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeInputs).map(([title, { inputs, expected, exception }]) => [
+      title,
+      inputs,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%j', (_title, inputs, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeInputs(inputs)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeInputs(inputs)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Output', () => {
-    const fixtureTable = fixtures.serializeOutput.map(({ output, expected }) => [output, expected])
-    test.each(fixtureTable)('%j => %s', (output, expected) => {
-      expect(serializeOutput(output)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeOutput).map(([title, { output, expected, exception }]) => [
+      title,
+      output,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%j', (_title, output, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeOutput(output)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeOutput(output)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize Outputs', () => {
-    const fixtureTable = fixtures.serializeOutputs.map(({ outputs, expected }) => [outputs, expected])
-    test.each(fixtureTable)('%j => %s', (outputs, expected) => {
-      expect(serializeOutputs(outputs)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeOutputs).map(([title, { outputs, expected, exception }]) => [
+      title,
+      outputs,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%j', (_title, outputs, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeOutputs(outputs)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeOutputs(outputs)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize OutputsData', () => {
-    const fixtureTable = fixtures.serializeOutputsData.map(({ outputsData, expected }) => [outputsData, expected])
-    test.each(fixtureTable)('%j => %s', (outputsData, expected) => {
-      expect(serializeOutputsData(outputsData)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeOutputsData).map(
+      ([title, { outputsData, expected, exception }]) => [title, outputsData, expected, exception]
+    )
+    test.each(fixtureTable)('%j', (_title, outputsData, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeOutputsData(outputsData)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeOutputsData(outputsData)).toThrow(new Error(exception))
+      }
     })
   })
 
   describe('Serialize RawTransaction', () => {
-    const fixtureTable = fixtures.serializeRawTransaction.map(({ rawTransaction, expected }) => [
-      rawTransaction,
-      expected,
-    ])
-    test.each(fixtureTable)('%j => %s', (rawTransaction, expected) => {
-      expect(serializeRawTransaction(rawTransaction)).toBe(expected)
+    const fixtureTable = Object.entries(fixtures.serializeRawTransaction).map(
+      ([title, { rawTransaction, expected, exception }]) => [title, rawTransaction, expected, exception]
+    )
+    test.each(fixtureTable)('%j', (_title, rawTransaction, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeRawTransaction(rawTransaction)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeRawTransaction(rawTransaction)).toThrow(new Error(exception))
+      }
     })
   })
 })

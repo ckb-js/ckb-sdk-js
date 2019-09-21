@@ -5,6 +5,7 @@
 declare namespace CKBComponents {
   export type DAO = string
   export type Hash = string
+  export type Number = string
   export type Hash256 = string
   export type UInt32 = number
   export type Index = string
@@ -239,6 +240,22 @@ declare namespace CKBComponents {
    * @property lock, lock hash
    */
   export interface Cell extends CellOutput {}
+
+  /**
+   * @typeof Live Cell
+   * @property lock, the lock script of the live cell
+   * @property type, the type script of the live cell
+   * @property data, the data and data hash of the live cell
+   * @property output, the previous cell the live cell derives from
+   */
+
+  export interface LiveCell {
+    data?: {
+      content: Hash
+      hash: Hash256
+    }
+    output: CellOutput
+  }
 
   /**
    * @typedef Cell, cell object

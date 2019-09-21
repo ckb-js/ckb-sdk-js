@@ -41,7 +41,7 @@ const defaultRPC: CKBComponents.Method[] = [
     name: 'getLiveCell',
     method: 'get_live_cell',
     paramsFormatters: [paramsFmts.toOutPoint],
-    resultFormatters: resultFmts.toCellWithStatus,
+    resultFormatters: resultFmts.toLiveCellWithStatus,
   },
   {
     name: 'getTipBlockNumber',
@@ -231,10 +231,12 @@ export class DefaultRPC {
    * @description rpc to get a cell by outPoint, the meaning of outPoint could be found in ckb-types,
    *              please distinguish outPoint and cellOutPoint
    * @param {object} outPoint - cell's outPoint
+   * @param {boolean} withData - set withData to true to return cell data and data hash if the cell is live
    * @return {Promise<object>} cellWithStatus
    */
   public getLiveCell!: (
-    outPoint: CKBComponents.OutPoint
+    outPoint: CKBComponents.OutPoint,
+    withData: boolean
   ) => Promise<{
     cell: CKBComponents.Cell
     status: CKBComponents.CellStatus

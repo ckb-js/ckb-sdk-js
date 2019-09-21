@@ -86,7 +86,7 @@ class Core {
      * cell list
      * @link https://github.com/nervosnetwork/ckb/blob/dbadf484cea6bdba0329d58102726068be997a50/docs/hashes.toml
      */
-    const block = await this.rpc.getBlockByNumber('0')
+    const block = await this.rpc.getBlockByNumber('0x0')
     if (!block) throw new Error('Cannot load the genesis block')
     const secp256k1CodeTx = block.transactions[0]
     if (!secp256k1CodeTx) throw new Error('Cannot load the transaction which has the secp256k1 code cell')
@@ -97,7 +97,7 @@ class Core {
       throw new Error('Secp256k1 type script not found in the cell')
     }
 
-    const secp256k1TypeHash = `0x${this.utils.scriptToHash(secp256k1CodeTx.outputs[1].type)}`
+    const secp256k1TypeHash = this.utils.scriptToHash(secp256k1CodeTx.outputs[1].type)
 
     const secp256k1DepTx = block.transactions[1]
     if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -110,7 +110,7 @@ class Core {
       codeHash: secp256k1TypeHash,
       outPoint: {
         txHash: secp256k1DepTx.hash,
-        index: '0',
+        index: '0x0',
       },
     }
     return this.config.secp256k1Dep
@@ -130,12 +130,12 @@ class Core {
     const signedWitnesses = witnesses.map(witness => {
       const oldData = witness.data || []
       const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-      s.update(this.utils.hexToBytes(transactionHash.replace(/^0x/, '')))
+      s.update(this.utils.hexToBytes(transactionHash))
       oldData.forEach(datum => {
         s.update(this.utils.hexToBytes(datum))
       })
-      const message = s.digest('hex')
-      const data = [`0x${addrObj.signRecoverable(message)}`, ...oldData]
+      const message = `0x${s.digest('hex')}`
+      const data = [addrObj.signRecoverable(message), ...oldData]
       return {
         data,
       }
@@ -143,7 +143,7 @@ class Core {
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | Address) => async (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | Address) => (transaction: CKBComponents.RawTransaction) => {
     if (!key) throw new Error('Private key or address object is required')
     if (!transaction) throw new Error('Transaction is required')
     if (!transaction.witnesses) throw new Error('Witnesses is required')
@@ -152,7 +152,7 @@ class Core {
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
-    const signedWitnesses = await this.signWitnesses(key)({
+    const signedWitnesses = this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
     })

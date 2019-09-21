@@ -35,7 +35,7 @@ describe('ckb-rpc success', () => {
   })
 
   it('get block hash and get block of genesis block', async () => {
-    const hash = await rpc.getBlockHash('0')
+    const hash = await rpc.getBlockHash('0x0')
     expect(hash.length).toBe(66)
     const block = await rpc.getBlock(hash)
     expect(block.header.hash).toBe(hash)
@@ -52,7 +52,7 @@ describe('ckb-rpc success', () => {
   })
 
   it('get transaction', async () => {
-    const hash = await rpc.getBlockHash('0')
+    const hash = await rpc.getBlockHash('0x0')
     const block = await rpc.getBlock(hash)
     const { transactions } = block
     if (transactions.length) {
@@ -71,15 +71,15 @@ describe('ckb-rpc success', () => {
   it('get live cell', async () => {
     const outPoint = {
       txHash: '0xff5a36107851d244e1543821f9f039c3d4eb69d9968750b0b0e82e78da86c987',
-      index: '0',
+      index: '0x0',
     }
-    const cellRes = await rpc.getLiveCell(outPoint)
+    const cellRes = await rpc.getLiveCell(outPoint, true)
     expect(cellRes.status).toBe('unknown')
   })
 
   it('get cells by lock hash', async () => {
     const lockHash = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
-    const cells = await rpc.getCellsByLockHash(lockHash, '0', '100')
+    const cells = await rpc.getCellsByLockHash(lockHash, '0x0', '0x64')
     expect(Array.isArray(cells)).toBeTruthy()
   })
 
@@ -109,7 +109,7 @@ describe('ckb-rpc success', () => {
   })
 
   it('get header', async () => {
-    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlock = await rpc.getBlockByNumber('0x0')
     const zeroBlockHeader = zeroBlock.header
     const zeroBlockHash = zeroBlockHeader.hash
     const header = await rpc.getHeader(zeroBlockHash)
@@ -117,46 +117,48 @@ describe('ckb-rpc success', () => {
   })
 
   it('get header by number', async () => {
-    const zeroBlock = await rpc.getBlockByNumber('0')
+    const zeroBlock = await rpc.getBlockByNumber('0x0')
     const zeroBlockHeader = zeroBlock.header
-    const header = await rpc.getHeaderByNumber('0')
+    const header = await rpc.getHeaderByNumber('0x0')
     expect(header).toEqual(zeroBlockHeader)
   })
 })
 
 describe('send transaction', () => {
   it('send transaction', async () => {
-    const blockHash = await rpc.getBlockHash('0')
-    const block = await rpc.getBlock(blockHash)
-    const txHash = block.transactions[0].hash
     const tx = {
-      version: '0',
-      cellDeps: [],
+      cellDeps: [
+        {
+          outPoint: {
+            txHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            index: '0x1',
+          },
+          depType: 'code',
+        },
+      ],
+      headerDeps: [],
       inputs: [
         {
           previousOutput: {
-            cell: {
-              txHash,
-              index: '0',
-            },
-            blockHash,
+            txHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            index: '0x0',
           },
-          args: [],
-          since: '0',
+          since: '0x0',
         },
       ],
       outputs: [
         {
+          capacity: '0x48c27395000',
           lock: {
             args: [],
             codeHash: '0x0000000000000000000000000000000000000000000000000000000000000001',
-            hashType: 'Data',
+            hashType: 'data',
           },
           type: null,
-          capacity: '1',
-          data: '0x',
         },
       ],
+      version: '0x0',
+      outputsData: ['0x'],
       witnesses: [],
     }
     const hash = rpc.sendTransaction(tx)

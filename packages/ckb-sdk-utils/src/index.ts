@@ -1,4 +1,5 @@
 import * as util from 'util'
+import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
 import { serializeRawTransaction } from './serialization/transaction'
@@ -15,7 +16,11 @@ const textEncoder = new (typeof TextEncoder !== 'undefined' ? TextEncoder : util
 const textDecoder = new (typeof TextDecoder !== 'undefined' ? TextDecoder : util.TextDecoder)()
 export const PERSONAL = textEncoder.encode('ckb-default-hash')
 
-export const hexToBytes = (rawhex: any) => {
+export const hexToBytes = (rawhex: string | number) => {
+  if (rawhex === '') return new Uint8Array()
+  if (typeof rawhex === 'string' && !rawhex.startsWith('0x')) {
+    throw new HexStringShouldStartWith0x(rawhex)
+  }
   let hex = rawhex.toString(16)
 
   hex = hex.replace(/^0x/i, '')
@@ -37,7 +42,7 @@ export const bytesToHex = (bytes: Uint8Array): string => {
     hex.push((bytes[i] & 0xf).toString(16))
   }
   /* eslint-enabled */
-  return hex.join('')
+  return `0x${hex.join('')}`
 }
 
 export const bytesToUtf8 = (bytes: Uint8Array) => textDecoder.decode(bytes)
@@ -49,21 +54,21 @@ export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
 export const scriptToHash = (script: CKBComponents.Script) => {
-  if (!script) throw new Error('Script is required')
+  if (!script) throw new ArgumentRequired('Script')
   const serializedScript = serializeScript(script)
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(serializedScript))
   const digest = s.digest('hex')
-  return digest as string
+  return `0x${digest}` as string
 }
 
 export const rawTransactionToHash = (rawTransaction: CKBComponents.RawTransaction) => {
-  if (!rawTransaction) throw new Error('Raw transaction is required')
+  if (!rawTransaction) throw new ArgumentRequired('Raw transaction')
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(serializedRawTransaction))
   const digest = s.digest('hex')
-  return digest as string
+  return `0x${digest}` as string
 }
 
 const reverseString = (str: string) =>
@@ -71,15 +76,20 @@ const reverseString = (str: string) =>
     .split('')
     .reverse()
     .join('')
+
 export const toHexInLittleEndian = (int: number | string, paddingBytes: number = 4) => {
   if (Number.isNaN(+int)) {
-    throw new TypeError('The input cannot be converted to a number')
+    throw new InvalidHexString(`${int}`)
+  }
+  if (typeof int === 'string' && !int.startsWith('0x')) {
+    throw new HexStringShouldStartWith0x(int)
   }
   const hex = (+int).toString(16)
   const reversedHex = reverseString(hex)
   const frags = reversedHex.match(/\w{1,2}/g) || []
-  return frags
+  const hexInLittleEndian = frags
     .map(frag => reverseString(frag.padEnd(2, '0')))
     .join('')
     .padEnd(paddingBytes * 2, '0')
+  return `0x${hexInLittleEndian}`
 }

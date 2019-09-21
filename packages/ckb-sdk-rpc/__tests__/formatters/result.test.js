@@ -1,13 +1,21 @@
-const resultFmt = require('../../lib/resultFormatter').default
-const fixtures = require('./result.json')
+const { default: resultFmt } = require('../../lib/resultFormatter')
+const fixtures = require('./result.fixtures.json')
 
-const { success } = fixtures
-
-describe('result formatter success', () => {
-  test.each(Object.keys(success))('%s', methodName => {
-    success[methodName].forEach(fixture => {
-      const formatted = resultFmt[methodName](fixture.source)
-      expect(formatted).toEqual(fixture.target)
+describe('result formatter', () => {
+  describe.each(Object.keys(fixtures))('%s', methodName => {
+    const fixtureTable = Object.values(fixtures[methodName]).map(({ result, expected, exception }) => [
+      result,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)('%j => %j', (result, expected, exception) => {
+      if (undefined !== expected) {
+        const formatted = resultFmt[methodName](result)
+        expect(formatted).toEqual(expected)
+      }
+      if (undefined !== exception) {
+        expect(resultFmt[methodName](result)).toThrow(new Error(exception))
+      }
     })
   })
 })

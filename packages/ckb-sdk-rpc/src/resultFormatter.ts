@@ -153,7 +153,7 @@ const formatter = {
       ...rest,
     }
   },
-  toPeers: (nodes: CKB_RPC.NodeInfo[] = []): CKBComponents.NodeInfo[] => {
+  toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => {
     if (!Array.isArray(nodes)) return []
     return nodes.map(formatter.toNodeInfo)
   },
@@ -175,15 +175,24 @@ const formatter = {
       ...rest,
     }
   },
-  toCellWithStatus: (cellWithStatus: { cell: CKB_RPC.Cell; status: string }) => {
-    if (!cellWithStatus) return cellWithStatus
-    const { cell, ...rest } = cellWithStatus
+  toLiveCell: (liveCell: CKB_RPC.LiveCell): CKBComponents.LiveCell => {
+    if (!liveCell) return liveCell
+    const { data, output, ...rest } = liveCell
     return {
-      cell: formatter.toCell(cell),
+      data,
+      output: formatter.toOutput(output),
       ...rest,
     }
   },
-  toCells: (cells: CKB_RPC.Cell[] = []): CKBComponents.Cell[] => {
+  toLiveCellWithStatus: (cellWithStatus: { cell: CKB_RPC.LiveCell; status: string }) => {
+    if (!cellWithStatus) return cellWithStatus
+    const { cell, ...rest } = cellWithStatus
+    return {
+      cell: formatter.toLiveCell(cell),
+      ...rest,
+    }
+  },
+  toCells: (cells: CKB_RPC.Cell[]): CKBComponents.Cell[] => {
     if (!Array.isArray(cells)) return []
     return cells.map(formatter.toCell)
   },
@@ -196,7 +205,7 @@ const formatter = {
       ...rest,
     }
   },
-  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[] = []): CKBComponents.CellIncludingOutPoint[] => {
+  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[]): CKBComponents.CellIncludingOutPoint[] => {
     if (!Array.isArray(cells)) return []
     return cells.map(formatter.toCellIncludingOutPoint)
   },
