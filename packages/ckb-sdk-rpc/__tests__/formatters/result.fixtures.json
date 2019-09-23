@@ -770,6 +770,7 @@
     },
     {
       "result": {
+        "block_hash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
         "lock": {
           "code_hash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
           "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
@@ -783,6 +784,7 @@
         }
       },
       "expected": {
+        "blockHash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
         "lock": {
           "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
           "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
@@ -837,6 +839,7 @@
     {
       "result": [
         {
+          "block_hash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
           "lock": {
             "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
             "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
@@ -852,6 +855,7 @@
       ],
       "expected": [
         {
+          "blockHash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
           "lock": {
             "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
             "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],

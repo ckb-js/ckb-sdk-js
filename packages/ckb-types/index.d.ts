@@ -265,6 +265,7 @@ declare namespace CKBComponents {
    */
 
   export interface CellIncludingOutPoint {
+    blockHash: Hash256
     capacity: Capacity
     lock: Script
     outPoint: OutPoint | null

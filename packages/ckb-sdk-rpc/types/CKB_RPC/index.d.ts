@@ -66,6 +66,7 @@ declare module CKB_RPC {
   }
 
   export interface CellIncludingOutPoint {
+    block_hash: Hash256
     capacity: Capacity
     lock: Script
     out_point: OutPoint | null
