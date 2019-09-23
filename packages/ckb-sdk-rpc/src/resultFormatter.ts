@@ -198,8 +198,9 @@ const formatter = {
   },
   toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
-    const { lock, out_point, ...rest } = cell
+    const { lock, block_hash: blockHash, out_point, ...rest } = cell
     return {
+      blockHash,
       lock: formatter.toScript(lock),
       outPoint: formatter.toOutPoint(out_point),
       ...rest,
