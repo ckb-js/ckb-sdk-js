@@ -172,7 +172,7 @@ export class DefaultRPC {
    * @param {string} number - the block number of the target block
    * @returns {Promise<object>} block object
    */
-  public getBlockByNumber!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Block>
+  public getBlockByNumber!: (number: CKBComponents.BlockNumber | number) => Promise<CKBComponents.Block>
 
   /**
    * @method getBlockByNumber
@@ -199,7 +199,7 @@ export class DefaultRPC {
    * @param {string} hash - block hash
    * @return {Promise<string>} block hash
    */
-  public getBlockHash!: (number: CKBComponents.BlockNumber) => Promise<CKBComponents.Hash>
+  public getBlockHash!: (number: CKBComponents.BlockNumber | number) => Promise<CKBComponents.Hash>
 
   /**
    * @method getTipHeader
@@ -221,8 +221,8 @@ export class DefaultRPC {
    */
   public getCellsByLockHash!: (
     hash: CKBComponents.Hash256,
-    from: CKBComponents.BlockNumber,
-    to: CKBComponents.BlockNumber
+    from: CKBComponents.BlockNumber | number,
+    to: CKBComponents.BlockNumber | number
   ) => Promise<CKBComponents.CellIncludingOutPoint[]>
 
   /**
@@ -317,7 +317,7 @@ export class DefaultRPC {
    * @description rpc to get the epoch info by its number
    * @return {Promise<object>} epoch info
    */
-  public getEpochByNumber!: (epoch: string) => Promise<CKBComponents.Epoch>
+  public getEpochByNumber!: (epoch: string | number) => Promise<CKBComponents.Epoch>
 
   /**
    * @method dryRunTransaction
@@ -352,8 +352,8 @@ export class DefaultRPC {
    */
   public getLiveCellsByLockHash!: (
     lockHash: CKBComponents.Hash256,
-    pageNumber: string,
-    pageSize: string,
+    pageNumber: string | number,
+    pageSize: string | number,
     reverseOrder?: boolean
   ) => Promise<CKBComponents.LiveCellsByLockHash>
 
@@ -378,8 +378,8 @@ export class DefaultRPC {
    */
   public getTransactionsByLockHash!: (
     lockHash: CKBComponents.Hash256,
-    pageNumber: string,
-    pageSize: string,
+    pageNumber: string | number,
+    pageSize: string | number,
     reverseOrder?: boolean
   ) => Promise<CKBComponents.TransactionsByLockHash>
 
@@ -438,7 +438,7 @@ export class DefaultRPC {
    * @description Returns the information about a block header by block number
    * @params {string} block number
    */
-  public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber) => Promise<CKBComponents.BlockHeader>
+  public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber | number) => Promise<CKBComponents.BlockHeader>
 
   /**
    * @method getCellbaseOutputCapacityDetails
