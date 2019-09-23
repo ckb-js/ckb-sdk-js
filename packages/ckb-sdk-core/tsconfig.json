@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
+    "lib": ["es6", "esnext.array"],
     "types": ["@nervosnetwork/ckb-types", "@nervosnetwork/ckb-sdk-utils"]
   },
   "include": ["./src"]
