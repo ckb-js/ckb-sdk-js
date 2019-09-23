@@ -75,11 +75,15 @@ class Core {
       codeHashIndex: '0x00',
     }
   ) =>
-    new Address(privateKey, {
-      prefix,
-      type,
-      codeHashIndex,
-    })
+    new Address(
+      privateKey,
+      {
+        prefix,
+        type,
+        codeHashIndex,
+      },
+      this.rpc
+    )
 
   public loadSecp256k1Dep = async () => {
     /**
@@ -114,52 +118,6 @@ class Core {
       },
     }
     return this.config.secp256k1Dep
-  }
-
-  public signWitnesses = (key: string | Address) => ({
-    transactionHash,
-    witnesses = [],
-  }: {
-    transactionHash: string
-    witnesses: CKBComponents.Witness[]
-  }) => {
-    if (!key) throw new Error('Private key or address object is required')
-    if (!transactionHash) throw new Error('Transaction hash is required')
-
-    const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
-    const signedWitnesses = witnesses.map(witness => {
-      const oldData = witness.data || []
-      const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-      s.update(this.utils.hexToBytes(transactionHash))
-      oldData.forEach(datum => {
-        s.update(this.utils.hexToBytes(datum))
-      })
-      const message = `0x${s.digest('hex')}`
-      const data = [addrObj.signRecoverable(message), ...oldData]
-      return {
-        data,
-      }
-    })
-    return signedWitnesses
-  }
-
-  public signTransaction = (key: string | Address) => (transaction: CKBComponents.RawTransaction) => {
-    if (!key) throw new Error('Private key or address object is required')
-    if (!transaction) throw new Error('Transaction is required')
-    if (!transaction.witnesses) throw new Error('Witnesses is required')
-    if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
-    if (!transaction.outputsData) throw new Error('OutputsData is required')
-    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
-
-    const transactionHash = this.utils.rawTransactionToHash(transaction)
-    const signedWitnesses = this.signWitnesses(key)({
-      transactionHash,
-      witnesses: transaction.witnesses,
-    })
-    return {
-      ...transaction,
-      witnesses: signedWitnesses,
-    }
   }
 }
 
