@@ -128,7 +128,7 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'indexLockHash',
     method: 'index_lock_hash',
-    paramsFormatters: [paramsFmts.toHash],
+    paramsFormatters: [paramsFmts.toHash, paramsFmts.toOptional(paramsFmts.toNumber)],
     resultFormatters: resultFmts.toLockHashIndexState,
   },
   {
