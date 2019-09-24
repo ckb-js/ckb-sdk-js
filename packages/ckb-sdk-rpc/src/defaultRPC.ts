@@ -232,13 +232,13 @@ export class DefaultRPC {
    *              please distinguish outPoint and cellOutPoint
    * @param {object} outPoint - cell's outPoint
    * @param {boolean} withData - set withData to true to return cell data and data hash if the cell is live
-   * @return {Promise<object>} cellWithStatus
+   * @return {Promise<object>} liveCellWithStatus
    */
   public getLiveCell!: (
     outPoint: CKBComponents.OutPoint,
     withData: boolean
   ) => Promise<{
-    cell: CKBComponents.Cell
+    cell: CKBComponents.LiveCell
     status: CKBComponents.CellStatus
   }>
 
