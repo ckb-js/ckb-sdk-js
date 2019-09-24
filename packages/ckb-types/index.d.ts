@@ -243,8 +243,6 @@ declare namespace CKBComponents {
 
   /**
    * @typeof Live Cell
-   * @property lock, the lock script of the live cell
-   * @property type, the type script of the live cell
    * @property data, the data and data hash of the live cell
    * @property output, the previous cell the live cell derives from
    */
