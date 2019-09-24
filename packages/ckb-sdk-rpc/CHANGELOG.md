@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.21.0...v0.21.1) (2019-09-24)
+
+
+### Bug Fixes
+
+* **rpc:** add a parser for optional parameters ([274268e](https://github.com/nervosnetwork/ckb-sdk-js/commit/274268e))
+* **rpc:** update the returned cell type of getLiveCell from cell to liveCell ([4a69d85](https://github.com/nervosnetwork/ckb-sdk-js/commit/4a69d85))
+
+
+
+
+
 # [0.21.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.20.0...v0.21.0) (2019-09-21)
 
 
