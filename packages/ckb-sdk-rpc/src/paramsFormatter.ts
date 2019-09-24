@@ -1,11 +1,5 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toOptional: (format?: Function) => (arg: any) => {
-    if (!format || arg === undefined || arg === null) {
-      return arg
-    }
-    return format(arg)
-  },
   toHash: (hash: string): CKB_RPC.Hash256 => {
     if (typeof hash !== 'string') {
       throw new TypeError(`Hash ${hash} should be type of string`)

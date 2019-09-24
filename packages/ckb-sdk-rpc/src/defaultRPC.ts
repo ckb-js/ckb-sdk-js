@@ -128,7 +128,7 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'indexLockHash',
     method: 'index_lock_hash',
-    paramsFormatters: [paramsFmts.toHash, paramsFmts.toOptional(paramsFmts.toNumber)],
+    paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toLockHashIndexState,
   },
   {
@@ -232,13 +232,13 @@ export class DefaultRPC {
    *              please distinguish outPoint and cellOutPoint
    * @param {object} outPoint - cell's outPoint
    * @param {boolean} withData - set withData to true to return cell data and data hash if the cell is live
-   * @return {Promise<object>} liveCellWithStatus
+   * @return {Promise<object>} cellWithStatus
    */
   public getLiveCell!: (
     outPoint: CKBComponents.OutPoint,
     withData: boolean
   ) => Promise<{
-    cell: CKBComponents.LiveCell
+    cell: CKBComponents.Cell
     status: CKBComponents.CellStatus
   }>
 
