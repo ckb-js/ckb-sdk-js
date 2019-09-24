@@ -1,35 +1,76 @@
 const fixtures = require('./fixtures.json')
+const rpc = require('../__mocks__/rpc')
 
 const { default: Core } = require('../lib')
 
-const url = 'http://localhost:8114'
-const core = new Core(url)
-
 describe('ckb-core', () => {
-  it('load the secp256k1 dep', async () => {
-    jest.setTimeout(50000)
-    const fixture = fixtures.loadSecp256k1Dep
-    expect(core.config.loadSecp256k1Dep).toEqual(undefined)
-
-    const secp256k1Dep = await core.loadSecp256k1Dep()
-    expect(secp256k1Dep).toEqual(fixture.target)
+  const url = 'http://localhost:8114'
+  let core
+  beforeEach(() => {
+    core = new Core(url)
   })
 
-  describe('sign witnesses', () => {
-    const fixtureTable = Object.entries(fixtures.signWitnesses).map(
-      ([title, { privateKey, message, expected, exception }]) => [title, privateKey, message, expected, exception]
-    )
-    test.each(fixtureTable)('%s', (_title, privateKey, message, expected, exception) => {
-      if (undefined !== expected) {
-        const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
-        expect(signedWitnessesByPrivateKey).toEqual(expected)
+  describe('load data', () => {
+    it('load the secp256k1 dep', async () => {
+      core.rpc = rpc
+      jest.setTimeout(50000)
+      const fixture = fixtures.loadSecp256k1Dep
+      expect(core.config.loadSecp256k1Dep).toEqual(undefined)
 
-        const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(privateKey))(message)
-        expect(signedWitnessesByAddressObject).toEqual(expected)
-      }
-      if (undefined !== exception) {
-        expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
-      }
+      const secp256k1Dep = await core.loadSecp256k1Dep()
+      expect(secp256k1Dep).toEqual(fixture.target)
+    })
+
+    it('load cells', async () => {
+      core.rpc = rpc
+      const lockHash = '0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a'
+      const cells = await core.loadCells({
+        lockHash,
+        end: 100,
+        step: 100,
+        save: true,
+      })
+      expect(cells).toHaveLength(100)
+      expect(core.cells.size).toBe(1)
+      expect(core.cells.get(lockHash)).toHaveLength(100)
+    })
+  })
+
+  describe('set node', () => {
+    const newURL = 'http://localhost:8080'
+    it('has url set by instantication', () => {
+      expect(core.node.url).toBe(url)
+      expect(core.rpc.node.url).toBe(url)
+    })
+    it('set node with url', () => {
+      core.setNode(newURL)
+      expect(core.node.url).toBe(newURL)
+      expect(core.rpc.node.url).toBe(newURL)
+    })
+    it('set node with node object', () => {
+      core.setNode({
+        url,
+      })
+      expect(core.node.url).toBe(url)
+      expect(core.node.url).toBe(url)
+    })
+  })
+
+  describe('generate lockHash', () => {
+    const params = {
+      publicKeyHash: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
+      deps: {
+        hashType: 'type',
+        codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',
+      },
+    }
+    it('generate lock hash', () => {
+      const lockHash = core.generateLockHash(params.publicKeyHash, params.deps)
+      expect(lockHash).toBe('0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a')
+    })
+
+    it('lack fo deps should throw an error', () => {
+      expect(() => core.generateLockHash(params.publicKeyHash)).toThrowError('deps is required')
     })
   })
 
@@ -46,7 +87,25 @@ describe('ckb-core', () => {
         expect(computedHash).toBe(expected)
       }
       if (undefined !== exception) {
-        expect(core.rpc.computeScriptHash(script)).reject.toBe(new Error(exception))
+        expect(core.rpc.computeScriptHash(script)).reject.toThrowError(exception)
+      }
+    })
+  })
+
+  describe('sign witnesses', () => {
+    const fixtureTable = Object.entries(fixtures.signWitnesses).map(
+      ([title, { privateKey, message, expected, exception }]) => [title, privateKey, message, expected, exception]
+    )
+    test.each(fixtureTable)('%s', (_title, privateKey, message, expected, exception) => {
+      if (undefined !== expected) {
+        const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
+        expect(signedWitnessesByPrivateKey).toEqual(expected)
+
+        const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(privateKey))(message)
+        expect(signedWitnessesByAddressObject).toEqual(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
       }
     })
   })
@@ -69,7 +128,22 @@ describe('ckb-core', () => {
         expect(signedTransactionWithAddressObj).toEqual(expected)
       }
       if (undefined !== exception) {
-        expect(() => core.signTransaction(privateKey)(transaction)).toThrow(new Error(exception))
+        expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
+      }
+    })
+  })
+
+  describe('generate raw transactin', () => {
+    const fixtureTable = Object.entries(fixtures.generateRawTransaction).map(
+      ([title, { params, expected, exception }]) => [title, params, expected, exception]
+    )
+
+    test.each(fixtureTable)('%s', async (_title, params, expected, exception) => {
+      if (undefined === exception) {
+        const rawTransaction = await core.generateRawTransaction(params)
+        expect(rawTransaction).toEqual(expected)
+      } else {
+        expect(core.generateRawTransaction(params)).rejects.toThrowError(exception)
       }
     })
   })

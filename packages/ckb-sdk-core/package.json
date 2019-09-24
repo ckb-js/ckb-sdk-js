@@ -30,7 +30,6 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-address": "0.21.1",
     "@nervosnetwork/ckb-sdk-rpc": "0.21.1",
     "@nervosnetwork/ckb-sdk-utils": "0.21.1",
     "@nervosnetwork/ckb-types": "0.21.1"

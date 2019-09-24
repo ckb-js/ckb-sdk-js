@@ -1,0 +1,123 @@
+{
+  "basic": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": 1,
+      "end": 300,
+      "STEP": 100
+    },
+    "expectedCells": 300,
+    "expectedCalls": [
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 1, 101],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 102, 201],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 202, 300]
+    ]
+  },
+  "hex string": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": "0x1",
+      "end": "0x12c",
+      "STEP": 100
+    },
+    "expectedCells": 300,
+    "expectedCalls": [
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 1, 101],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 102, 201],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 202, 300]
+    ]
+  },
+  "default params": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "end": 300
+    },
+    "expectedCells": 300,
+    "expectedCalls": [
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 0, 100],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 101, 200],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 201, 300]
+    ]
+  },
+  "STEP = 30": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "end": 285,
+      "STEP": 30
+    },
+    "expectedCells": 1000,
+    "expectedCalls": [
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 0, 30],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 31, 60],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 61, 90],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 91, 120],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 121, 150],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 151, 180],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 181, 210],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 211, 240],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 241, 270],
+      ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 271, 285]
+    ]
+  },
+  "start === end": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": 300,
+      "end": 300
+    },
+    "expectedCells": 100,
+    "expectedCalls": [["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6", 300, 300]]
+  },
+  "parameters without lockHash should throw an error": {
+    "params": {
+      "end": 300,
+      "STEP": 30
+    },
+    "exception": "lockHash is required"
+  },
+  "parameters including invalid hex-string of start should throw an error": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": "1",
+      "end": "0x12c",
+      "STEP": 100
+    },
+    "exception": "Hex string 1 should start with 0x"
+  },
+  "parameters including invalid hex-string of end should throw an error": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": "0x1",
+      "end": "12c",
+      "STEP": 100
+    },
+    "exception": "Hex string 12c should start with 0x"
+  },
+  "parameters including invalid integer of start should throw an error": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": 1.1,
+      "end": "0x12c",
+      "STEP": 100
+    },
+    "exception": "1.1 cannot be converted into an integer"
+  },
+  "parameters including invalid integer of end should throw an error": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": "0x1",
+      "end": 1.1,
+      "STEP": 100
+    },
+    "exception": "1.1 cannot be converted into an integer"
+  },
+  "end less than start should throw an error": {
+    "params": {
+      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+      "start": 300,
+      "end": 299,
+      "STEP": 100
+    },
+    "exception": "start(300) should not be less than end(299)"
+  }
+}
