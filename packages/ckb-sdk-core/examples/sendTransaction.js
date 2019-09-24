@@ -49,166 +49,30 @@ const bootstrap = async () => {
   // console.log(lockHash)
 
   // method to fetch all unspent cells by lock hash
-  const STEP = 100
-  const cellsGroup = []
-  const getUnspentCells = (_lockHash, from, to, cb) =>
-    new Promise((resolve, reject) => {
-      if (from + STEP < to) {
-        return core.rpc
-          .getCellsByLockHash(_lockHash, from, from + STEP)
-          .then(cells => {
-            if (cells.length) {
-              console.log(`Fetched from ${from} to ${from + STEP} with ${cells.length} cells`)
-            }
-            cellsGroup.push(cells)
-            return getUnspentCells(_lockHash, from + STEP + 1, to, cb)
-          })
-          .catch(reject)
-      }
-      return core.rpc
-        .getCellsByLockHash(_lockHash, from, to)
-        .then(cells => {
-          if (cells.length) {
-            console.log(`Fetched from ${from} to ${to} with ${cells.length} cells`)
-          }
-          cellsGroup.push(cells)
-          resolve(cellsGroup)
-        })
-        .catch(reject)
-    })
-    .then(group => group.flat())
-    .then(cells => {
-      /**
-       * too see the cells
-       */
-      // console.log(cells)
-      if (cb) cb(cells)
-    })
-
-  // load the unspent cells in Promise method, just an optimiztion of code.
-  const loadCells = () =>
-    new Promise((resolve, reject) => {
-      core.rpc
-        .getTipBlockNumber()
-        .then(tipNumber =>
-          getUnspentCells(lockHash, 0, tipNumber, resolve)
-        )
-        .catch(reject)
-    })
+  const unspentCells = await core.loadCells({
+    lockHash
+  })
 
   /**
    * to see the unspent cells
    */
-  // core.rpc
-  //   .getTipBlockNumber()
-  //   .then(tipNumber => loadCells(lockHash, 0, tipNumber))
-  //   .then(console.log)
-
-  /**
-   * @notice fill the blaked160ed public key as the publicKeyHash of the target address in the output's args,
-   *         which is used to specify the next owner of the output, namely the fresh cell.
-   * @notice use bigint or big number to handle the capacity for safety
-   */
-  const generateTransaction = async (targetPublicKeyHash, capacity) => {
-    const targetCapacity = BigInt(capacity)
-
-    /**
-     * the new cell for next owner
-     */
-    const targetOutput = {
-      capacity: targetCapacity,
-      lock: {
-        hashType: secp256k1Dep.hashType,
-        codeHash: secp256k1Dep.codeHash,
-        args: [targetPublicKeyHash],
-      },
-    }
-
-    /**
-     * the new cell as a change
-     */
-    const changeOutput = {
-      capacity: 0n,
-      lock: {
-        hashType: secp256k1Dep.hashType,
-        codeHash: secp256k1Dep.codeHash,
-        args: [myAddressObj.publicKeyHash],
-      },
-    }
-
-    const unspentCells = await loadCells()
-    const inputs = []
-    let inputCapacity = 0n
-    /**
-     * pick inputs
-     */
-    for (let i = 0; i < unspentCells.length; i++) {
-      const unspentCell = unspentCells[i]
-      inputs.push({
-        previousOutput: unspentCell.outPoint,
-        since: '0x0',
-      })
-      inputCapacity += BigInt(unspentCells[i].capacity)
-      if (inputCapacity >= targetCapacity) {
-        break
-      }
-    }
-    if (inputCapacity < targetCapacity) {
-      throw new Error('inputCapacity is not enough')
-    }
-    if (inputCapacity > targetCapacity) {
-      changeOutput.capacity = inputCapacity - targetCapacity
-    }
-
-    /**
-     * compose the raw transaction which has an empty witnesses
-     */
-
-    const outputs =
-      changeOutput.capacity > 0n ? [{
-          ...targetOutput,
-          capacity: `0x${targetOutput.capacity.toString(16)}`,
-        },
-        {
-          ...changeOutput,
-          capacity: `0x${changeOutput.capacity.toString(16)}`,
-        },
-      ] : [{
-        ...targetOutput,
-        capacity: `0x${targetOutput.capacity.toString(16)}`,
-      }, ]
-
-    const outputsData = outputs.map(output => "0x")
-
-    const tx = {
-      version: '0x0',
-      cellDeps: [{
-        outPoint: secp256k1Dep.outPoint,
-        depType: "depGroup",
-      }, ],
-      headerDeps: [],
-      inputs,
-      outputs,
-      witnesses: [{
-        data: [],
-      }, ],
-      outputsData,
-    }
-    return tx
-  }
-
-  /**
-   * to see the generated transaction
-   */
-  // generateTransaction(blake160edPublicKey, 1000000000000).then(tx => {
-  //   console.log(JSON.stringify(tx, null, 2))
-  // })
+  // console.log(unspentCells)
 
   /**
    * send transaction
    */
-  const tx = await generateTransaction(myAddressObj.publicKeyHash, 60000000000) // generate the raw transaction with empty witnesses
-  const signedTx = await core.signTransaction(myAddressObj)(tx)
+  const toAddress = core.generateAddress("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff").value
+  const rawTransaction = await core.generateRawTransaction({
+    fromAddress: myAddressObj.value,
+    toAddress,
+    capacity: 60000000000,
+    safeMode: true,
+    cells: unspentCells,
+    deps: core.config.secp256k1Dep,
+    isMainnet: false
+  })
+
+  const signedTx = core.signTransaction(myAddressObj)(rawTransaction)
   /**
    * to see the signed transaction
    */
@@ -218,7 +82,7 @@ const bootstrap = async () => {
   /**
    * to see the real transaction hash
    */
-  // console.log(`The real transaction hash is: ${realTxHash}`)
+  console.log(`The real transaction hash is: ${realTxHash}`)
 }
 
 bootstrap()
