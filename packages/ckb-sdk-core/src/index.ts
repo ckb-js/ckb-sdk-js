@@ -208,7 +208,6 @@ class Core {
     safeMode = true,
     cells = [],
     deps = this.config.secp256k1Dep!,
-    isMainnet = false,
   }: {
     fromAddress: string
     toAddress: string
@@ -216,11 +215,9 @@ class Core {
     safeMode: boolean
     cells: CachedCell[]
     deps: DepCellInfo
-    isMainnet: boolean
   }) => {
-    const prefix = isMainnet ? this.utils.AddressPrefix.Mainnet : this.utils.AddressPrefix.Testnet
     const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
-      const addressPayload = this.utils.parseAddress(addr, prefix, 'hex')
+      const addressPayload = this.utils.parseAddress(addr, 'hex')
       return `0x${addressPayload.slice(hrpSize)}`
     })
 

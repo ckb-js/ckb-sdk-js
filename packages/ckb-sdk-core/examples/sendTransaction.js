@@ -69,7 +69,6 @@ const bootstrap = async () => {
     safeMode: true,
     cells: unspentCells,
     deps: core.config.secp256k1Dep,
-    isMainnet: false
   })
 
   const signedTx = core.signTransaction(myAddressObj)(rawTransaction)
