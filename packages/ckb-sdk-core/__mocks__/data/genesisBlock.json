@@ -1,16 +1,15 @@
 {
   "header": {
     "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "transactionsRoot": "0x4d4d325247a64014ae5725dd562df408299687fc4dbd16e7ebb1d0a884b3b8ea",
+    "transactionsRoot": "0x38b4c90bde0edb55596ec9e5cff789ecc5fadcfa1ebd62b80d1c0e0a6e4379f1",
     "proposalsHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "witnessesRoot": "0xfd973862f00e91dc5d54a05ef167ea92ff30a7010f98bed36d321e47a86f6b9c",
+    "witnessesRoot": "0x507d20cfc103c97a4a5494291dbed6379396097e42348446709a8ac6ea796cb4",
     "unclesHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
     "unclesCount": "0x0",
-    "chain_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
     "dao": "0x01000000000000000000c16ff2862300009145139e840700008b54d27c7a0100",
     "difficulty": "0x100",
     "epoch": "0x0",
-    "hash": "0x18be8d57863c8f548c5772ed07912aaf731f367e048765f1c3c0a6f76c55c54c",
+    "hash": "0x7e08e99706bc47864c506f3425fadd51a7f708c45ecc6c4e2a49722ed255607c",
     "nonce": "0x0",
     "number": "0x0",
     "timestamp": "0x0",
@@ -124,8 +123,9 @@
           "capacity": "0x1c6bf52634000"
         }
       ],
+      "outputsData": [],
       "headerDeps": [],
-      "hash": "0x6ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f",
+      "hash": "0x234abf25a6f2117021f90c165897c19890ae056ea559ebb609fbf1bfbbe3f76a",
       "version": "0x0",
       "witnesses": [
         {
@@ -140,14 +140,14 @@
       "cellDeps": [
         {
           "outPoint": {
-            "txHash": "0x6ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f",
+            "txHash": "0x234abf25a6f2117021f90c165897c19890ae056ea559ebb609fbf1bfbbe3f76a",
             "index": "0x3"
           },
           "depType": "code"
         },
         {
           "outPoint": {
-            "txHash": "0x6ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f",
+            "txHash": "0x234abf25a6f2117021f90c165897c19890ae056ea559ebb609fbf1bfbbe3f76a",
             "index": "0x1"
           },
           "depType": "code"
@@ -156,7 +156,7 @@
       "inputs": [
         {
           "previousOutput": {
-            "txHash": "0x6ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f",
+            "txHash": "0x234abf25a6f2117021f90c165897c19890ae056ea559ebb609fbf1bfbbe3f76a",
             "index": "0x5"
           },
           "since": "0x0"
@@ -182,17 +182,14 @@
           "capacity": "0x2b95fd500"
         }
       ],
-      "outputsData": [
-        "0x020000006ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f030000006ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f01000000",
-        "0x020000006ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f030000006ad2e9bddef6b99665f2cf69368a5aeb5f4d9f26615cf91b4637254980d32b0f04000000"
-      ],
+      "outputsData": [],
       "headerDeps": [],
-      "hash": "0x6347ee7ce5fc6828133590558b867097b895149a66e51cf353c361f7128e2091",
+      "hash": "0x5b88ad98883ba700e5f6b50bf66ca39fcea1e001efdefec691c52c91ad98bf54",
       "version": "0x0",
       "witnesses": [
         {
           "data": [
-            "0xd3e22911399a15898967cd64fabcae132046e359e1dc151bbb9e5199bfe166e056936c051cef17d6ac2d5bb1d61148d9879d5b84a1f479332e021038e6feea2c01"
+            "0x32ee5f643edafd72e1f8944eabf046e92ec952d1f56aaafde27f6d261e8464014590d4d906f3145133194f294d0e96b6ce36f90e19ffc0a7036d57dbb539162300"
           ]
         }
       ]
