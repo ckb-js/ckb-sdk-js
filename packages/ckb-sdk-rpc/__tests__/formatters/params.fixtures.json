@@ -6,15 +6,15 @@
     },
     {
       "param": 20,
-      "expected": "0x14"
+      "exception": "The number 20 should be a bigint or a hex string"
     },
     {
       "param": null,
-      "exception": "The number null should be a number or a hex string"
+      "exception": "The number null should be a bigint or a hex string"
     },
     {
       "param": "1",
-      "exception": "If the number 1 is a hex string, please prefix it with 0x"
+      "exception": "Hex string 1 should start with 0x"
     }
   ],
   "toHash": [
@@ -120,7 +120,7 @@
     {
       "param": {
         "previousOutput": null,
-        "since": 0
+        "since": "0x0"
       },
       "expected": {
         "previous_output": null,
@@ -298,10 +298,6 @@
       "expected": "0x12"
     },
     {
-      "param": 12,
-      "expected": "0xc"
-    },
-    {
       "expected": "0x1"
     }
   ],
@@ -311,18 +307,22 @@
       "expected": "0x12"
     },
     {
-      "param": 12,
-      "expected": "0xc"
-    },
-    {
       "expected": "0x32"
     },
     {
-      "param": "-1",
-      "exception": "Page size is expected to be positive"
+      "param": 0,
+      "expected": "0x0"
     },
     {
-      "param": "51",
+      "param": -1,
+      "exception": "Page size is expected to be non-negative"
+    },
+    {
+      "param": 50,
+      "expected": "0x32"
+    },
+    {
+      "param": 51,
       "exception": "Page size is up to 50"
     }
   ],

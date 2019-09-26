@@ -21,7 +21,7 @@ describe('params formatter', () => {
 
   describe('toOptional', () => {
     it('toOptional with other format should return the formatted value', () => {
-      expect(paramsFmt.toOptional(paramsFmt.toNumber)(20)).toBe('0x14')
+      expect(paramsFmt.toOptional(paramsFmt.toNumber)(BigInt(20))).toBe('0x14')
     })
 
     it("toOptional with other format should return the raw value if it's undefined or null", () => {
@@ -34,9 +34,7 @@ describe('params formatter', () => {
     })
 
     it('toOptional should throw errors which are thrown from other format', () => {
-      expect(() => paramsFmt.toOptional(paramsFmt.toNumber)('20')).toThrow(
-        'If the number 20 is a hex string, please prefix it with 0x'
-      )
+      expect(() => paramsFmt.toOptional(paramsFmt.toNumber)('20')).toThrow('Hex string 20 should start with 0x')
     })
   })
 })

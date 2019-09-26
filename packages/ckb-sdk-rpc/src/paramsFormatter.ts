@@ -1,3 +1,4 @@
+import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 /* eslint-disable camelcase */
 const formatter = {
   toOptional: (format?: Function) => (arg: any) => {
@@ -12,15 +13,15 @@ const formatter = {
     }
     return hash.startsWith('0x') ? hash : `0x${hash}`
   },
-  toNumber: (number: CKBComponents.Number | number): CKB_RPC.Number => {
-    if (typeof number === 'number') {
+  toNumber: (number: CKBComponents.Number | bigint): CKB_RPC.Number => {
+    if (typeof number === 'bigint') {
       return `0x${number.toString(16)}`
     }
     if (typeof number !== 'string') {
-      throw new TypeError(`The number ${number} should be a number or a hex string`)
+      throw new TypeError(`The number ${number} should be a bigint or a hex string`)
     }
     if (!number.startsWith('0x')) {
-      throw new Error(`If the number ${number} is a hex string, please prefix it with 0x`)
+      throw new HexStringShouldStartWith0x(number)
     }
     return number
   },
@@ -100,11 +101,11 @@ const formatter = {
     }
     return tx
   },
-  toPageNumber: (pageNo: string | number = '0x1') => formatter.toNumber(pageNo),
-  toPageSize: (pageSize: string | number = 50) => {
-    const size = +pageSize || 50
-    if (size > 50) throw new Error('Page size is up to 50')
-    if (size < 0) throw new Error('Page size is expected to be positive')
+  toPageNumber: (pageNo: string | bigint = '0x1') => formatter.toNumber(pageNo),
+  toPageSize: (pageSize: string | bigint = '0x32') => {
+    const size = BigInt(pageSize)
+    if (size > BigInt(50)) throw new Error('Page size is up to 50')
+    if (size < BigInt(0)) throw new Error('Page size is expected to be non-negative')
     return formatter.toNumber(size)
   },
   toReverseOrder: (reverse: boolean = false) => !!reverse,
