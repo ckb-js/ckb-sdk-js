@@ -184,7 +184,10 @@ const formatter = {
       ...rest,
     }
   },
-  toLiveCellWithStatus: (cellWithStatus: { cell: CKB_RPC.LiveCell; status: string }) => {
+  toLiveCellWithStatus: (cellWithStatus: {
+    cell: CKB_RPC.LiveCell
+    status: string
+  }): { cell: CKBComponents.LiveCell; status: string } => {
     if (!cellWithStatus) return cellWithStatus
     const { cell, ...rest } = cellWithStatus
     return {

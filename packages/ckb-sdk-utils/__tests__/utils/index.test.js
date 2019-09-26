@@ -279,34 +279,24 @@ describe('address', () => {
   it('parse address', () => {
     const fixture = {
       addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-      prefix: 'ckt',
       hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
-    const parsedHex = parseAddress(fixture.addr, fixture.prefix, 'hex')
+    const parsedHex = parseAddress(fixture.addr, 'hex')
     expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-    const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
+    const parsedBytes = parseAddress(fixture.addr, 'binary')
     expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
   })
 
-  it('parse address with default options prefix: ckt, encode: binary', () => {
+  it('parse address with default options encode: binary', () => {
     const fixture = {
       addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-      prefix: 'ckt',
       hrp: '0100',
       blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
     }
     const parsedHex = bytesToHex(parseAddress(fixture.addr))
     expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-    const parsedBytes = parseAddress(fixture.addr, fixture.prefix)
+    const parsedBytes = parseAddress(fixture.addr)
     expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-  })
-
-  it('parser incorrect address', () => {
-    const fixture = {
-      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-      incorrectPrefix: 'ckb',
-    }
-    expect(() => parseAddress(fixture.addr, fixture.incorrectPrefix)).toThrow('Prefix not matched')
   })
 })
