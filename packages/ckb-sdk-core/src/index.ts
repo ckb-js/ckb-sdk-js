@@ -96,7 +96,7 @@ class Core {
     return this.utils.scriptToHash({
       hashType: deps.hashType,
       codeHash: deps.codeHash,
-      args: [publicKeyHash],
+      args: publicKeyHash,
     })
   }
 
@@ -167,17 +167,13 @@ class Core {
 
     const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
     const signedWitnesses = witnesses.map(witness => {
-      const oldData = witness.data || []
       const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
+      const witnessBytes = this.utils.hexToBytes(witness)
       s.update(this.utils.hexToBytes(transactionHash))
-      oldData.forEach(datum => {
-        s.update(this.utils.hexToBytes(datum))
-      })
+      s.update(witnessBytes)
       const message = `0x${s.digest('hex')}`
-      const data = [addrObj.signRecoverable(message), ...oldData]
-      return {
-        data,
-      }
+      const data = [...this.utils.hexToBytes(addrObj.signRecoverable(message)), ...witnessBytes]
+      return this.utils.bytesToHex(new Uint8Array(data))
     })
     return signedWitnesses
   }
@@ -226,7 +222,7 @@ class Core {
       const lockHash = this.utils.scriptToHash({
         codeHash: deps.codeHash,
         hashType: deps.hashType,
-        args: [fromPublicKeyHash],
+        args: fromPublicKeyHash,
       })
       const cachedCells = this.cells.get(lockHash)
       if (cachedCells && cachedCells.length) {

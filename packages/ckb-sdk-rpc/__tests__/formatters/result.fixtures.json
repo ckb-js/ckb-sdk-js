@@ -18,12 +18,12 @@
     },
     {
       "result": {
-        "args": [],
+        "args": "0x",
         "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
         "hash_type": "data"
       },
       "expected": {
-        "args": [],
+        "args": "0x",
         "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
         "hashType": "data"
       }
@@ -33,6 +33,16 @@
     {
       "result": null,
       "expected": null
+    },
+    {
+      "result": {
+        "previous_output": null,
+        "since": "0"
+      },
+      "expected": {
+        "previousOutput": null,
+        "since": "0"
+      }
     },
     {
       "result": {
@@ -60,12 +70,12 @@
       "result": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "data"
         },
         "type": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "type"
         }
@@ -73,12 +83,12 @@
       "expected": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "data"
         },
         "type": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "type"
         }
@@ -88,7 +98,7 @@
       "result": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "data"
         },
@@ -97,7 +107,7 @@
       "expected": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "data"
         },
@@ -194,7 +204,7 @@
           {
             "capacity": "5000000000000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
               "hash_type": "data"
             },
@@ -223,7 +233,7 @@
             "capacity": "5000000000000",
 
             "lock": {
-              "args": [],
+              "args": "0x",
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
               "hashType": "data"
             },
@@ -342,7 +352,7 @@
                 "capacity": "5000000000000",
 
                 "lock": {
-                  "args": [],
+                  "args": "0x",
                   "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
                   "hash_type": "data"
                 },
@@ -393,7 +403,7 @@
                 "capacity": "5000000000000",
 
                 "lock": {
-                  "args": [],
+                  "args": "0x",
                   "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
                   "hashType": "data"
                 },
@@ -656,12 +666,12 @@
       "result": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "data"
         },
         "type": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "type"
         }
@@ -669,12 +679,12 @@
       "expected": {
         "capacity": "5000000000000",
         "lock": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "data"
         },
         "type": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "type"
         }
@@ -695,7 +705,7 @@
         "output": {
           "capacity": "0x802665800",
           "lock": {
-            "args": [],
+            "args": "0x",
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "hash_type": "data"
           },
@@ -710,7 +720,7 @@
         "output": {
           "capacity": "0x802665800",
           "lock": {
-            "args": [],
+            "args": "0x",
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "hashType": "data"
           },
@@ -734,7 +744,7 @@
           "output": {
             "capacity": "0x802665800",
             "lock": {
-              "args": [],
+              "args": "0x",
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "hash_type": "data"
             },
@@ -752,7 +762,7 @@
           "output": {
             "capacity": "0x802665800",
             "lock": {
-              "args": [],
+              "args": "0x",
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "hashType": "data"
             },
@@ -773,7 +783,7 @@
         "block_hash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
         "lock": {
           "code_hash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
-          "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
+          "args": "0x7f52f0fccdd1d11391c441adfb174f87bca612b0",
           "hash_type": "data"
         },
         "type": null,
@@ -787,7 +797,7 @@
         "blockHash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
         "lock": {
           "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
-          "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
+          "args": "0x7f52f0fccdd1d11391c441adfb174f87bca612b0",
           "hashType": "data"
         },
         "type": null,
@@ -810,7 +820,7 @@
           "capacity": "5000000000000",
 
           "lock": {
-            "args": [],
+            "args": "0x",
             "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
             "hash_type": "data"
           },
@@ -822,7 +832,7 @@
           "capacity": "5000000000000",
 
           "lock": {
-            "args": [],
+            "args": "0x",
             "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
             "hashType": "data"
           },
@@ -842,7 +852,7 @@
           "block_hash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
           "lock": {
             "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
-            "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
+            "args": "0x7f52f0fccdd1d11391c441adfb174f87bca612b0",
             "hashType": "data"
           },
           "type": null,
@@ -858,7 +868,7 @@
           "blockHash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
           "lock": {
             "codeHash": "0x9e3b3557f11b2b3532ce352bfe8017e9fd11d154c4c7f9b7aaaa1e621b539a08",
-            "args": ["0x7f52f0fccdd1d11391c441adfb174f87bca612b0"],
+            "args": "0x7f52f0fccdd1d11391c441adfb174f87bca612b0",
             "hashType": "data"
           },
           "type": null,
@@ -935,7 +945,7 @@
             {
               "capacity": "5000000000000",
               "lock": {
-                "args": [],
+                "args": "0x",
                 "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
                 "hash_type": "data"
               },
@@ -969,7 +979,7 @@
             {
               "capacity": "5000000000000",
               "lock": {
-                "args": [],
+                "args": "0x",
                 "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
                 "hashType": "data"
               },
@@ -1035,16 +1045,16 @@
         {
           "consumed_by": null,
           "created_by": {
-            "block_number": "1",
-            "index": "0",
+            "block_number": "0x1",
+            "index": "0x0",
             "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         },
         {
           "consumed_by": null,
           "created_by": {
-            "block_number": "2",
-            "index": "0",
+            "block_number": "0x2",
+            "index": "0x0",
             "tx_hash": "0x46ab01ddbbabef1af701f0843e11c7cfc0ce53f9aa9b554af74cadf8e3257d89"
           }
         }
@@ -1053,17 +1063,45 @@
         {
           "consumedBy": null,
           "createdBy": {
-            "blockNumber": "1",
-            "index": "0",
+            "blockNumber": "0x1",
+            "index": "0x0",
             "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         },
         {
           "consumedBy": null,
           "createdBy": {
-            "blockNumber": "2",
-            "index": "0",
+            "blockNumber": "0x2",
+            "index": "0x0",
             "txHash": "0x46ab01ddbbabef1af701f0843e11c7cfc0ce53f9aa9b554af74cadf8e3257d89"
+          }
+        }
+      ]
+    },
+    {
+      "result": [
+        {
+          "consumed_by": {
+            "block_number": "0x1",
+            "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          },
+          "created_by": {
+            "block_number": "0x1",
+            "index": "0x0",
+            "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "consumedBy": {
+            "blockNumber": "0x1",
+            "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          },
+          "createdBy": {
+            "blockNumber": "0x1",
+            "index": "0x0",
+            "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         }
       ]
@@ -1080,7 +1118,7 @@
           "cell_output": {
             "capacity": "50000000000000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "code_hash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5"
             },
             "type": null
@@ -1095,7 +1133,7 @@
           "cell_output": {
             "capacity": "50000000000000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "code_hash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5"
             },
             "type": null
@@ -1112,7 +1150,7 @@
           "cellOutput": {
             "capacity": "50000000000000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "codeHash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5"
             },
             "type": null
@@ -1128,7 +1166,7 @@
             "capacity": "50000000000000",
 
             "lock": {
-              "args": [],
+              "args": "0x",
               "codeHash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5"
             },
             "type": null

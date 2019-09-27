@@ -66,7 +66,7 @@ describe('ckb-core', () => {
     }
     it('generate lock hash', () => {
       const lockHash = core.generateLockHash(params.publicKeyHash, params.deps)
-      expect(lockHash).toBe('0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a')
+      expect(lockHash).toBe('0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b')
     })
 
     it('lack fo deps should throw an error', () => {

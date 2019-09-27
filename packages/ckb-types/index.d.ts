@@ -55,14 +55,19 @@ declare namespace CKBComponents {
   /* eslint-disable max-len */
   /**
    * @typedef Script, lock or type script
-   * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment. Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`. CKB will concat `signed_args` and `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution. Upon termination, the executed `main` function here will provide a return code, `0` means the script execution succeeds, other values mean the execution fails.
+   * @description Script, the script model in CKB. CKB scripts use UNIX standard execution environment.
+   *              Each script binary should contain a main function with the following signature `int main(int argc, char* argv[]);`.
+   *              CKB will concat  `args`, then use the concatenated array to fill `argc/argv` part, then start the script execution.
+   *              Upon termination, the executed `main` function here will provide a return code,
+   *              `0` means the script execution succeeds, other values mean the execution fails.
    * @property args, arguments.
-   * @property codeHash, point to its dependency, if the referred dependency is listed in the deps field in a transaction, the codeHash means the hash of the referred cell's data.
+   * @property codeHash, point to its dependency, if the referred dependency is listed in the deps field in a transaction,
+   *                     the codeHash means the hash of the referred cell's data.
    * @property hashType, a enumerate indicates the type of the code which is referened by the code hash
    */
   /* eslint-enable max-len */
   export interface Script {
-    args: Bytes[]
+    args: Bytes
     codeHash: Hash256
     hashType: ScriptHashType
   }
@@ -110,9 +115,7 @@ declare namespace CKBComponents {
     depType: DepType
   }
 
-  export interface Witness {
-    data: Hash[]
-  }
+  export type Witness = Bytes
 
   /**
    * @typedef RawTransaction, raw transaction object

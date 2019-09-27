@@ -10,7 +10,7 @@
           "lock": {
             "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
             "hashType": "type",
-            "args": ["0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"]
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
           },
           "type": null,
           "capacity": "0x1fd9e09516"

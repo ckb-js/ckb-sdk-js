@@ -29,7 +29,7 @@ declare module CKB_RPC {
   export type DepType = 'code' | 'dep_group'
 
   export interface Script {
-    args: Bytes[]
+    args: Bytes
     code_hash: Hash256
     hash_type: ScriptHashType
   }
