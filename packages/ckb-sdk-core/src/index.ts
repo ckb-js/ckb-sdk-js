@@ -96,7 +96,7 @@ class Core {
     return this.utils.scriptToHash({
       hashType: deps.hashType,
       codeHash: deps.codeHash,
-      args: [publicKeyHash],
+      args: publicKeyHash,
     })
   }
 
@@ -222,7 +222,7 @@ class Core {
       const lockHash = this.utils.scriptToHash({
         codeHash: deps.codeHash,
         hashType: deps.hashType,
-        args: [fromPublicKeyHash],
+        args: fromPublicKeyHash,
       })
       const cachedCells = this.cells.get(lockHash)
       if (cachedCells && cachedCells.length) {

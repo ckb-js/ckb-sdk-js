@@ -30,7 +30,7 @@ const generateRawTransaction = async ({
   const lockScript = {
     codeHash: deps.codeHash,
     hashType: deps.hashType,
-    args: [fromPublicKeyHash],
+    args: fromPublicKeyHash,
   }
 
   /**
@@ -41,7 +41,7 @@ const generateRawTransaction = async ({
     lock: {
       hashType: deps.hashType,
       codeHash: deps.codeHash,
-      args: [toPublicKeyHash],
+      args: toPublicKeyHash,
     },
   }
 

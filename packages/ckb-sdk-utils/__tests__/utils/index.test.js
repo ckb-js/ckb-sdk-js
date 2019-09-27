@@ -150,7 +150,7 @@ describe('scriptToHash', () => {
         args: [],
         hashType: 'data',
       },
-      scriptHash: '0xbd7e6000ffb8e983a6023809037e0c4cedbc983637c46d74621fd28e5f15fe4f',
+      scriptHash: '0x77c93b0632b5b6c3ef922c5b7cea208fb0a7c427a13d50e13d3fefad17e0c590',
     },
     'Script with hash type of data': {
       script: {
@@ -158,7 +158,7 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'data',
       },
-      scriptHash: '0x5a2b913dfb1b79136fc72a575fd8e93ae080b504463c0066fea086482bfc3a94',
+      scriptHash: '0x67951b34bce20cb71b7e235c1f8cda259628d99d94825bffe549c23b4dd2930f',
     },
     'Script with hash type of type': {
       script: {
@@ -166,7 +166,7 @@ describe('scriptToHash', () => {
         args: ['0x01'],
         hashType: 'type',
       },
-      scriptHash: '0x3d7e565f3831955f0f5cfecdadddeef7e0d106af84ceb0c2f4dbb6ddff88c9bc',
+      scriptHash: '0xd39f84d4702f53cf8625da4411be1640b961715cb36816501798fedb70b6e0fb',
     },
   }
   test.each(Object.keys(fixtures))('%s', fixtureName => {

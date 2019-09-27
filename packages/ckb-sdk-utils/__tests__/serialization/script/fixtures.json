@@ -1,16 +1,16 @@
 {
   "serializeArgs": {
     "empty args": {
-      "args": [],
-      "expected": "0x04000000"
+      "args": "",
+      "expected": "0x00000000"
     },
-    "args has multiple items": {
-      "args": ["0x10", "0x01"],
-      "expected": "0x160000000c0000001100000001000000100100000001"
+    "basic args": {
+      "args": "0x8536c9d5d908bd89fc70099e4284870708b6632356aad98734fcf43f6f71c304",
+      "expected": "0x200000008536c9d5d908bd89fc70099e4284870708b6632356aad98734fcf43f6f71c304"
     },
-    "args has one item": {
-      "args": ["0x3954acece65096bfa81258983ddb83915fc56bd8"],
-      "expected": "0x2000000008000000140000003954acece65096bfa81258983ddb83915fc56bd8"
+    "args without 0x": {
+      "args": "8536c9d5d908bd89fc70099e4284870708b6632356aad98734fcf43f6f71c304",
+      "exception": "Hex string 8536c9d5d908bd89fc70099e4284870708b6632356aad98734fcf43f6f71c304 should start with 0x"
     }
   },
   "serializeCodeHash": {
@@ -37,17 +37,17 @@
     "basic script": {
       "script": {
         "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-        "args": ["0x3954acece65096bfa81258983ddb83915fc56bd8"],
+        "args": "0x3954acece65096bfa81258983ddb83915fc56bd8",
         "hashType": "type"
       },
-      "expected": "0x5100000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88012000000008000000140000003954acece65096bfa81258983ddb83915fc56bd8"
+      "expected": "0x4900000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e8801140000003954acece65096bfa81258983ddb83915fc56bd8"
     },
     "default args should be an empty arary": {
       "script": {
         "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
         "hashType": "type"
       },
-      "expected": "0x3500000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e880104000000"
+      "expected": "0x3500000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e880100000000"
     },
     "undefined script should throw an error": {
       "script": null,
