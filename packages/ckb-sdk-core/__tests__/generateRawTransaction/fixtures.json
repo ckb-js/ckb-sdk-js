@@ -241,11 +241,7 @@
       ],
       "outputsData": ["0x", "0x"],
       "version": "0x0",
-      "witnesses": [
-        {
-          "data": []
-        }
-      ]
+      "witnesses": []
     }
   },
   "unsafe transaction": {
@@ -490,11 +486,7 @@
       ],
       "outputsData": ["0x", "0x"],
       "version": "0x0",
-      "witnesses": [
-        {
-          "data": []
-        }
-      ]
+      "witnesses": []
     }
   }
 }

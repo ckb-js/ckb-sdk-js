@@ -55,11 +55,7 @@
         ],
         "outputsData": ["0x", "0x"],
         "witnesses": [
-          {
-            "data": [
-              "0x82df73581bcd08cb9aa270128d15e79996229ce8ea9e4f985b49fbf36762c5c37936caf3ea3784ee326f60b8992924fcf496f9503c907982525a3436f01ab32900"
-            ]
-          }
+          "0x82df73581bcd08cb9aa270128d15e79996229ce8ea9e4f985b49fbf36762c5c37936caf3ea3784ee326f60b8992924fcf496f9503c907982525a3436f01ab32900"
         ],
         "hash": "0x9d1bf801b235ce62812844f01381a070c0cc72876364861e00492eac1d8b54e7"
       },

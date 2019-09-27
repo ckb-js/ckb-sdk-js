@@ -110,9 +110,7 @@ declare namespace CKBComponents {
     depType: DepType
   }
 
-  export interface Witness {
-    data: Hash[]
-  }
+  export type Witness = Bytes
 
   /**
    * @typedef RawTransaction, raw transaction object

@@ -104,11 +104,7 @@ const generateRawTransaction = async ({
     headerDeps: [],
     inputs,
     outputs,
-    witnesses: [
-      {
-        data: [],
-      },
-    ],
+    witnesses: [],
     outputsData,
   }
   return tx
