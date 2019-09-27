@@ -36,6 +36,16 @@
     },
     {
       "result": {
+        "previous_output": null,
+        "since": "0"
+      },
+      "expected": {
+        "previousOutput": null,
+        "since": "0"
+      }
+    },
+    {
+      "result": {
         "previous_output": {
           "hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "index": "4294967295"
@@ -1035,16 +1045,16 @@
         {
           "consumed_by": null,
           "created_by": {
-            "block_number": "1",
-            "index": "0",
+            "block_number": "0x1",
+            "index": "0x0",
             "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         },
         {
           "consumed_by": null,
           "created_by": {
-            "block_number": "2",
-            "index": "0",
+            "block_number": "0x2",
+            "index": "0x0",
             "tx_hash": "0x46ab01ddbbabef1af701f0843e11c7cfc0ce53f9aa9b554af74cadf8e3257d89"
           }
         }
@@ -1053,17 +1063,45 @@
         {
           "consumedBy": null,
           "createdBy": {
-            "blockNumber": "1",
-            "index": "0",
+            "blockNumber": "0x1",
+            "index": "0x0",
             "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         },
         {
           "consumedBy": null,
           "createdBy": {
-            "blockNumber": "2",
-            "index": "0",
+            "blockNumber": "0x2",
+            "index": "0x0",
             "txHash": "0x46ab01ddbbabef1af701f0843e11c7cfc0ce53f9aa9b554af74cadf8e3257d89"
+          }
+        }
+      ]
+    },
+    {
+      "result": [
+        {
+          "consumed_by": {
+            "block_number": "0x1",
+            "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          },
+          "created_by": {
+            "block_number": "0x1",
+            "index": "0x0",
+            "tx_hash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "consumedBy": {
+            "blockNumber": "0x1",
+            "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
+          },
+          "createdBy": {
+            "blockNumber": "0x1",
+            "index": "0x0",
+            "txHash": "0x41524669872de0ce874f926a9799b6944198571094fe94dc7ffa623a97c4f19f"
           }
         }
       ]
