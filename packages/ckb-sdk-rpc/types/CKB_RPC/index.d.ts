@@ -178,7 +178,7 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    difficulty: string
+    compact_target: Hash
     length: string
     number: string
     start_number: string

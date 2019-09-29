@@ -988,13 +988,13 @@
     },
     {
       "result": {
-        "difficulty": "0x100",
+        "compact_target": "0x100",
         "length": "1000",
         "number": "0",
         "start_number": "0"
       },
       "expected": {
-        "difficulty": "0x100",
+        "compactTarget": "0x100",
         "length": "1000",
         "number": "0",
         "startNumber": "0"

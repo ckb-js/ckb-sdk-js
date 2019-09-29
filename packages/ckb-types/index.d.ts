@@ -326,7 +326,7 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    difficulty: String
+    compactTarget: Hash
     length: String
     number: String
     startNumber: String

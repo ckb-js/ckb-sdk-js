@@ -222,8 +222,9 @@ const formatter = {
   },
   toEpoch: (epoch: CKB_RPC.Epoch): CKBComponents.Epoch => {
     if (!epoch) return epoch
-    const { start_number: startNumber, ...rest } = epoch
+    const { start_number: startNumber, compact_target: compactTarget, ...rest } = epoch
     return {
+      compactTarget,
       startNumber,
       ...rest,
     }
