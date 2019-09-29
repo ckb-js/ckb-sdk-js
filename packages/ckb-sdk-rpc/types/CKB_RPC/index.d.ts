@@ -113,8 +113,8 @@ declare module CKB_RPC {
   export type LiveCellsByLockHash = LiveCellByLockHash[]
 
   export interface Header {
+    compact_target: Hash
     dao: DAO
-    difficulty: Difficulty
     epoch: EpochInHeader
     hash: Hash256
     number: BlockNumber
@@ -123,9 +123,7 @@ declare module CKB_RPC {
     nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
-    uncles_count: Count
     uncles_hash: Hash256
-    witnesses_root: Hash256
     version: Version
   }
 
