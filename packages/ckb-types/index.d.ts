@@ -180,8 +180,8 @@ declare namespace CKBComponents {
 
   /**
    * @typedef BlockHeader, header of a block
+   * @property compactTarget
    * @property dao
-   * @property difficulty
    * @property epoch
    * @property hash
    * @property number
@@ -190,14 +190,12 @@ declare namespace CKBComponents {
    * @property nonce
    * @property timestamp
    * @property transactionsRoot
-   * @property unclesCount
    * @property unclesHash
-   * @property witnessesRoot
    * @property version
    */
   export interface BlockHeader {
+    compactTarget: Hash
     dao: DAO
-    difficulty: Difficulty
     epoch: EpochInHeader
     hash: Hash256
     number: BlockNumber
@@ -206,9 +204,7 @@ declare namespace CKBComponents {
     nonce: Nonce
     timestamp: Timestamp
     transactionsRoot: Hash256
-    unclesCount: Count
     unclesHash: Hash256
-    witnessesRoot: Hash256
     version: Version
   }
 
@@ -330,7 +326,7 @@ declare namespace CKBComponents {
   }
 
   export interface Epoch {
-    difficulty: String
+    compactTarget: Hash
     length: String
     number: String
     startNumber: String
