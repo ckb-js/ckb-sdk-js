@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.21.1...v0.22.0) (2019-10-05)
+
+
+### Features
+
+* **rpc:** update rpc signatures ([201901d](https://github.com/nervosnetwork/ckb-sdk-js/commit/201901d))
+* **rpc:** use bigint instead of number in the interfaces of rpc methods ([c8d994b](https://github.com/nervosnetwork/ckb-sdk-js/commit/c8d994b))
+* **type:** update the fields of BlockHeader ([55de626](https://github.com/nervosnetwork/ckb-sdk-js/commit/55de626))
+* **type:** update the result of getCellsByLockHash method ([31eb97e](https://github.com/nervosnetwork/ckb-sdk-js/commit/31eb97e))
+* **type:** update the structure of Epoch ([76770f4](https://github.com/nervosnetwork/ckb-sdk-js/commit/76770f4))
+* **type:** update the type of args ([09d649a](https://github.com/nervosnetwork/ckb-sdk-js/commit/09d649a))
+
+
+### BREAKING CHANGES
+
+* **type:** replace difficulty with compactTarget in Epoch
+* **type:** 1. remove unclesCount
+2. merge witnessesRoot and transactionRoot
+3. replace difficulty with compactTarget
+* **type:** change the type of args from string[] to string
+* **rpc:** use bigint instead of number in the interfaces of rpc methods
+* **type:** update the result of getCellsByLockHash method
+
+
+
+
+
 ## [0.21.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.21.0...v0.21.1) (2019-09-24)
 
 

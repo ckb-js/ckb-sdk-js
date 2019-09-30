@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.21.1...v0.22.0) (2019-10-05)
+
+
+### Features
+
+* **address:** enable address to load cells and generate signed transactions ([2e5803c](https://github.com/nervosnetwork/ckb-sdk-js/commit/2e5803c))
+* **cli:** deprive this repo of the ckb-cli ([2befcff](https://github.com/nervosnetwork/ckb-sdk-js/commit/2befcff))
+* **core:** move the address module into the core module ([10dd017](https://github.com/nervosnetwork/ckb-sdk-js/commit/10dd017))
+* **rpc:** update rpc signatures ([201901d](https://github.com/nervosnetwork/ckb-sdk-js/commit/201901d))
+* **rpc:** use bigint instead of number in the interfaces of rpc methods ([c8d994b](https://github.com/nervosnetwork/ckb-sdk-js/commit/c8d994b))
+* **type:** update the fields of BlockHeader ([55de626](https://github.com/nervosnetwork/ckb-sdk-js/commit/55de626))
+* **type:** update the result of getCellsByLockHash method ([31eb97e](https://github.com/nervosnetwork/ckb-sdk-js/commit/31eb97e))
+* **type:** update the structure of Epoch ([76770f4](https://github.com/nervosnetwork/ckb-sdk-js/commit/76770f4))
+* **type:** update the type of args ([09d649a](https://github.com/nervosnetwork/ckb-sdk-js/commit/09d649a))
+* **type:** update the type of witness ([71f53b0](https://github.com/nervosnetwork/ckb-sdk-js/commit/71f53b0))
+* **utils:** update the interface of utils.parseAddress ([90feb91](https://github.com/nervosnetwork/ckb-sdk-js/commit/90feb91))
+
+
+### BREAKING CHANGES
+
+* **type:** replace difficulty with compactTarget in Epoch
+* **type:** 1. remove unclesCount
+2. merge witnessesRoot and transactionRoot
+3. replace difficulty with compactTarget
+* **type:** change the type of args from string[] to string
+* **type:** change the type of witnes from { data: string[] } to string
+* **rpc:** use bigint instead of number in the interfaces of rpc methods
+* **utils:** remove the prefix from the parameter list of utils.parseAddress
+* **core:** move the address module into the core module
+* **type:** update the result of getCellsByLockHash method
+
+
+
+
+
 ## [0.21.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.21.0...v0.21.1) (2019-09-24)
 
 
