@@ -73,16 +73,16 @@ class Core {
 
   public generateAddress = (
     privateKey: string,
-    { prefix = utils.AddressPrefix.Testnet, type = utils.AddressType.HashIdx, codeHashIndex = '0x00' } = {
+    { prefix = utils.AddressPrefix.Testnet, type = utils.AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' } = {
       prefix: utils.AddressPrefix.Testnet,
       type: utils.AddressType.HashIdx,
-      codeHashIndex: '0x00',
+      codeHashOrCodeHashIndex: '0x00',
     }
   ) =>
     new Address(privateKey, {
       prefix,
       type,
-      codeHashIndex,
+      codeHashOrCodeHashIndex,
     })
 
   public generateLockHash = (

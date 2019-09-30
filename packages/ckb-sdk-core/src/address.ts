@@ -13,7 +13,7 @@ class Address extends ECPair {
       addressAlgorithm = pubkeyToAddress,
       prefix = AddressPrefix.Testnet,
       type = AddressType.HashIdx,
-      codeHashIndex = '0x00',
+      codeHashOrCodeHashIndex = '0x00',
     }: Partial<
       {
         addressAlgorithm: Function
@@ -22,14 +22,14 @@ class Address extends ECPair {
       addressAlgorithm: pubkeyToAddress,
       prefix: AddressPrefix.Testnet,
       type: AddressType.HashIdx,
-      codeHashIndex: '0x00',
+      codeHashOrCodeHashIndex: '0x00',
     }
   ) {
     super(sk)
     this.value = addressAlgorithm(this.publicKey, {
       prefix,
       type,
-      codeHashIndex,
+      codeHashOrCodeHashIndex,
     })
     this.publicKeyHash = `0x${blake160(this.publicKey as string, 'hex')}`
   }
