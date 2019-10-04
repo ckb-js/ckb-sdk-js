@@ -29,24 +29,24 @@ export const defaultAddressOptions = {
 
 /**
  * @function toAddressPayload
- * @description payload = type(01) | code hash index(00) | blake160-formatted pubkey
+ * @description payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
  * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
- * @param {string | Uint8Array} arg, use as the identifier of an address, usually the public key hash is used.
+ * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
  * @param {string} type, used to indicate which format is adopted to compose the address.
  * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to
  */
 export const toAddressPayload = (
-  arg: string | Uint8Array,
+  args: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
   codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00'
 ): Uint8Array => {
-  if (typeof arg === 'string') {
-    if (!arg.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(arg)
+  if (typeof args === 'string') {
+    if (!args.startsWith('0x')) {
+      throw new HexStringShouldStartWith0x(args)
     }
-    return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(arg)])
+    return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(args)])
   }
-  return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...arg])
+  return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...args])
 }
 
 /**
