@@ -24,9 +24,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * **type:** replace difficulty with compactTarget in Epoch
-* **type:** 1. remove unclesCount
-2. merge witnessesRoot and transactionRoot
-3. replace difficulty with compactTarget
+* **type:** 
+    1. remove unclesCount
+    2. merge witnessesRoot and transactionRoot
+    3. replace difficulty with compactTarget
 * **type:** change the type of args from string[] to string
 * **type:** change the type of witnes from { data: string[] } to string
 * **rpc:** use bigint instead of number in the interfaces of rpc methods
