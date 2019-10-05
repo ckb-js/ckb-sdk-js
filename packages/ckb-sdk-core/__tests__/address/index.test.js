@@ -1,7 +1,7 @@
-const { default: Address } = require('../lib')
+const { default: Address } = require('../../lib/address')
 const { generateAddress: generateAddressFixtures } = require('./fixtures.json')
 
-describe('ckb-sdk-address', () => {
+describe('address', () => {
   describe('generate address', () => {
     const fixtureTable = Object.entries(generateAddressFixtures).map(
       ([title, { privateKey, expected, exception, ...config }]) => [title, privateKey, config, expected, exception]
@@ -15,7 +15,7 @@ describe('ckb-sdk-address', () => {
         expect(address.value).toBe(expected.address)
       }
       if (undefined !== exception) {
-        expect(() => new Address(privateKey, option)).toThrow(new Error(exception))
+        expect(() => new Address(privateKey, option)).toThrowError(exception)
       }
     })
   })

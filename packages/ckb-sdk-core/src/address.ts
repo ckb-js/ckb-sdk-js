@@ -1,8 +1,6 @@
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
-import * as utils from '@nervosnetwork/ckb-sdk-utils'
+import { pubkeyToAddress, blake160, AddressPrefix, AddressType } from '@nervosnetwork/ckb-sdk-utils'
 import { AddressOptions } from '@nervosnetwork/ckb-sdk-utils/lib/address'
-
-const { pubkeyToAddress, blake160, AddressPrefix, AddressType } = utils
 
 class Address extends ECPair {
   public value = ''

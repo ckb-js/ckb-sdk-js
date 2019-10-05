@@ -6,15 +6,15 @@
     },
     {
       "param": 20,
-      "expected": "0x14"
+      "exception": "The number 20 should be a bigint or a hex string"
     },
     {
       "param": null,
-      "exception": "The number null should be a number or a hex string"
+      "exception": "The number null should be a bigint or a hex string"
     },
     {
       "param": "1",
-      "exception": "If the number 1 is a hex string, please prefix it with 0x"
+      "exception": "Hex string 1 should start with 0x"
     }
   ],
   "toHash": [
@@ -120,7 +120,7 @@
     {
       "param": {
         "previousOutput": null,
-        "since": 0
+        "since": "0x0"
       },
       "expected": {
         "previous_output": null,
@@ -154,7 +154,7 @@
         "capacity": "0x48c27395000",
         "data": "0x",
         "lock": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "data"
         },
@@ -164,7 +164,7 @@
         "capacity": "0x48c27395000",
         "data": "0x",
         "lock": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "data"
         },
@@ -176,7 +176,7 @@
         "capacity": "0x48c27395000",
         "data": "0x",
         "lock": {
-          "args": [],
+          "args": "0x",
           "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hashType": "data"
         }
@@ -185,11 +185,41 @@
         "capacity": "0x48c27395000",
         "data": "0x",
         "lock": {
-          "args": [],
+          "args": "0x",
           "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
           "hash_type": "data"
         },
         "type": null
+      }
+    },
+    {
+      "param": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": "0x",
+          "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hashType": "data"
+        },
+        "type": {
+          "args": "0x",
+          "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hashType": "data"
+        }
+      },
+      "expected": {
+        "capacity": "0x48c27395000",
+        "data": "0x",
+        "lock": {
+          "args": "0x",
+          "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hash_type": "data"
+        },
+        "type": {
+          "args": "0x",
+          "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hash_type": "data"
+        }
       }
     }
   ],
@@ -240,7 +270,7 @@
           {
             "capacity": "0x48c27395000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
               "hashType": "data"
             },
@@ -279,7 +309,7 @@
           {
             "capacity": "0x48c27395000",
             "lock": {
-              "args": [],
+              "args": "0x",
               "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
               "hash_type": "data"
             },
@@ -298,10 +328,6 @@
       "expected": "0x12"
     },
     {
-      "param": 12,
-      "expected": "0xc"
-    },
-    {
       "expected": "0x1"
     }
   ],
@@ -311,18 +337,22 @@
       "expected": "0x12"
     },
     {
-      "param": 12,
-      "expected": "0xc"
-    },
-    {
       "expected": "0x32"
     },
     {
-      "param": "-1",
-      "exception": "Page size is expected to be positive"
+      "param": 0,
+      "expected": "0x0"
     },
     {
-      "param": "51",
+      "param": -1,
+      "exception": "Page size is expected to be non-negative"
+    },
+    {
+      "param": 50,
+      "expected": "0x32"
+    },
+    {
+      "param": 51,
       "exception": "Page size is up to 50"
     }
   ],

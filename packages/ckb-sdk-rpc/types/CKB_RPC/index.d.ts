@@ -29,7 +29,7 @@ declare module CKB_RPC {
   export type DepType = 'code' | 'dep_group'
 
   export interface Script {
-    args: Bytes[]
+    args: Bytes
     code_hash: Hash256
     hash_type: ScriptHashType
   }
@@ -66,6 +66,7 @@ declare module CKB_RPC {
   }
 
   export interface CellIncludingOutPoint {
+    block_hash: Hash256
     capacity: Capacity
     lock: Script
     out_point: OutPoint | null
@@ -112,8 +113,8 @@ declare module CKB_RPC {
   export type LiveCellsByLockHash = LiveCellByLockHash[]
 
   export interface Header {
+    compact_target: Hash
     dao: DAO
-    difficulty: Difficulty
     epoch: EpochInHeader
     hash: Hash256
     number: BlockNumber
@@ -122,9 +123,7 @@ declare module CKB_RPC {
     nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
-    uncles_count: Count
     uncles_hash: Hash256
-    witnesses_root: Hash256
     version: Version
   }
 
@@ -179,7 +178,7 @@ declare module CKB_RPC {
   }
 
   export interface Epoch {
-    difficulty: string
+    compact_target: Hash
     length: string
     number: string
     start_number: string

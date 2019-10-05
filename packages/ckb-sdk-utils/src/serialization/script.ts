@@ -1,4 +1,4 @@
-import { serializeDynVec, serializeArray, serializeTable, serializeFixVec } from '.'
+import { serializeArray, serializeTable, serializeFixVec } from '.'
 import { ArgumentRequired } from '../exceptions'
 
 export const serializeCodeHash = (codeHash: CKBComponents.Hash256) => serializeArray(codeHash)
@@ -9,11 +9,11 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   throw new TypeError("Hash type must be either of 'data' or 'type'")
 }
 
-export const serializeArgs = (args: string[]) => serializeDynVec(args.map(arg => serializeFixVec(arg)))
+export const serializeArgs = (args: string) => serializeFixVec(args)
 
 export const serializeScript = (script: CKBComponents.Script) => {
   if (!script) throw new ArgumentRequired('Script')
-  const { codeHash = '', hashType, args = [] } = script
+  const { codeHash = '', hashType, args = '' } = script
   const serializedCodeHash = serializeCodeHash(codeHash)
   const serializedHashType = serializeHashType(hashType)
   const serializedArgs = serializeArgs(args)

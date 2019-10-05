@@ -4,22 +4,13 @@ const formatter = {
   toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: (header: CKB_RPC.Header): CKBComponents.BlockHeader => {
     if (!header) return header
-    const {
-      transactions_root,
-      proposals_hash,
-      witnesses_root,
-      uncles_hash,
-      uncles_count,
-      parent_hash,
-      ...rest
-    } = header
+    const { compact_target, transactions_root, proposals_hash, uncles_hash, parent_hash, ...rest } = header
     return {
+      compactTarget: compact_target,
       parentHash: parent_hash,
       transactionsRoot: transactions_root,
       proposalsHash: proposals_hash,
-      witnessesRoot: witnesses_root,
       unclesHash: uncles_hash,
-      unclesCount: uncles_count,
       ...rest,
     }
   },
@@ -184,7 +175,10 @@ const formatter = {
       ...rest,
     }
   },
-  toLiveCellWithStatus: (cellWithStatus: { cell: CKB_RPC.LiveCell; status: string }) => {
+  toLiveCellWithStatus: (cellWithStatus: {
+    cell: CKB_RPC.LiveCell
+    status: string
+  }): { cell: CKBComponents.LiveCell; status: string } => {
     if (!cellWithStatus) return cellWithStatus
     const { cell, ...rest } = cellWithStatus
     return {
@@ -198,8 +192,9 @@ const formatter = {
   },
   toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
-    const { lock, out_point, ...rest } = cell
+    const { lock, block_hash: blockHash, out_point, ...rest } = cell
     return {
+      blockHash,
       lock: formatter.toScript(lock),
       outPoint: formatter.toOutPoint(out_point),
       ...rest,
@@ -227,8 +222,9 @@ const formatter = {
   },
   toEpoch: (epoch: CKB_RPC.Epoch): CKBComponents.Epoch => {
     if (!epoch) return epoch
-    const { start_number: startNumber, ...rest } = epoch
+    const { start_number: startNumber, compact_target: compactTarget, ...rest } = epoch
     return {
+      compactTarget,
       startNumber,
       ...rest,
     }

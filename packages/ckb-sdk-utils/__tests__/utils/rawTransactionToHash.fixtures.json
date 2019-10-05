@@ -34,12 +34,12 @@
             "capacity": "0x174876e800",
             "lock": {
               "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-              "args": ["0x59a27ef3ba84f061517d13f42cf44ed020610061"],
+              "args": "0x59a27ef3ba84f061517d13f42cf44ed020610061",
               "hashType": "type"
             },
             "type": {
               "codeHash": "0xece45e0979030e2f8909f76258631c42333b1e906fd9701ec3600a464a90b8f6",
-              "args": [],
+              "args": "0x",
               "hashType": "data"
             }
           },
@@ -47,7 +47,7 @@
             "capacity": "0x59e1416a5000",
             "lock": {
               "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
-              "args": ["0x59a27ef3ba84f061517d13f42cf44ed020610061"],
+              "args": "0x59a27ef3ba84f061517d13f42cf44ed020610061",
               "hashType": "type"
             },
             "type": null
@@ -55,15 +55,11 @@
         ],
         "outputsData": ["0x", "0x"],
         "witnesses": [
-          {
-            "data": [
-              "0x82df73581bcd08cb9aa270128d15e79996229ce8ea9e4f985b49fbf36762c5c37936caf3ea3784ee326f60b8992924fcf496f9503c907982525a3436f01ab32900"
-            ]
-          }
+          "0x82df73581bcd08cb9aa270128d15e79996229ce8ea9e4f985b49fbf36762c5c37936caf3ea3784ee326f60b8992924fcf496f9503c907982525a3436f01ab32900"
         ],
         "hash": "0x9d1bf801b235ce62812844f01381a070c0cc72876364861e00492eac1d8b54e7"
       },
-      "expected": "0x09ce2223304a5f48d5ce2b6ee2777d96503591279671460fa39ae894ea9e2b87"
+      "expected": "0xe765f9912b06c72552dae11779f6371309236e968aa045ae3b8f426d8ec8ca05"
     }
   ]
 }

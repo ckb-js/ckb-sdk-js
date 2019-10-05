@@ -2,7 +2,7 @@
   "extends": "./node_modules/@cryptape/sdk-ts-config/tsconfig.json",
   "compilerOptions": {
     "target": "es6",
-    "lib": ["es6", "dom"],
+    "lib": ["es6"],
     "esModuleInterop": true,
     "moduleResolution": "node",
     "sourceMap": true

@@ -77,25 +77,6 @@ This SDK includes several modules:
 
 <details>
 <summary>
-  Address <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-address" alt="address">Code</a>
-</summary>
-<dd>
-
-Used to create an address object, whose value is the address we are going to use.
-
-Default `address algorithm` is the `pubkeyToAddress` in utils module, which generates address in bech32 format.
-
-Default rule to generate the address from a public key is:
-
-- Blake160(public key): blake2b(public key) then trauncate it for fist 20 bytes.
-- Specify options used: Address Type, Address Bin Index, Prefix. The options will be explained in an RFC.
-- Bech32 the blake160ed public key with specified options: bech32Address(blake160Pubkey, {prefix, type, binIndex})
-
-</dd>
-</details>
-
-<details>
-<summary>
   RPC <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-rpc" alt="rpc">Code</a>
 </summary>
 <dd>
