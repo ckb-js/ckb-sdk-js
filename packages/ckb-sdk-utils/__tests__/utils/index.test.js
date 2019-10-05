@@ -21,6 +21,8 @@ const {
   rawTransactionToHash,
   PERSONAL,
   toHexInLittleEndian,
+  AddressType,
+  fullPayloadToAddress,
 } = ckbUtils
 
 const { HexStringShouldStartWith0x, InvalidHexString } = exceptions
@@ -202,6 +204,46 @@ describe('address', () => {
     }
     const payload = bytesToHex(toAddressPayload(fixture.publicKeyHash))
     expect(payload).toBe(fixture.payload)
+  })
+
+  it('fullPayloadToAddress with hash type of Data', () => {
+    const fixture = {
+      params: {
+        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        type: AddressType.DataCodeHash,
+        prefix: 'ckt',
+        codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
+      },
+      expected: 'ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac',
+    }
+    const address = fullPayloadToAddress(fixture.params)
+    expect(address).toBe(fixture.expected)
+  })
+
+  it('fullPayloadToAddress with hash type of Type', () => {
+    const fixture = {
+      params: {
+        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        type: AddressType.TypeCodeHash,
+        prefix: 'ckt',
+        codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',
+      },
+      expected: 'ckt1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5c02auef',
+    }
+    const address = fullPayloadToAddress(fixture.params)
+    expect(address).toBe(fixture.expected)
+  })
+
+  it('fullPayloadToAddress with default params of type = AddressType.DataCodeHash and prefix = ckt', () => {
+    const fixture = {
+      params: {
+        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
+      },
+      expected: 'ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac',
+    }
+    const address = fullPayloadToAddress(fixture.params)
+    expect(address).toBe(fixture.expected)
   })
 
   it('publicKeyHash to address with prefix of ckt', () => {

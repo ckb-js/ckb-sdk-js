@@ -1,7 +1,5 @@
 const ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 
-const LIMIT = 90
-
 const SEPARATOR = '1'
 
 const alphabetMap = new Map<string, number>()
@@ -47,10 +45,8 @@ const prefixChecksum = (prefix: string) => {
   return checksum
 }
 
-export const encode = (prefix: string, words: Uint8Array, limit: number = LIMIT) => {
+export const encode = (prefix: string, words: Uint8Array) => {
   const formattedPrefix = prefix.toLowerCase()
-
-  if (formattedPrefix.length + 7 + words.length > limit) throw new TypeError('Exceeds length limit')
 
   // determine checksum mod
   let checksum = prefixChecksum(formattedPrefix)
@@ -80,7 +76,7 @@ export const encode = (prefix: string, words: Uint8Array, limit: number = LIMIT)
   return result
 }
 
-export const decode = (encoded: string, limit: number = LIMIT) => {
+export const decode = (encoded: string) => {
   const lowered = encoded.toLowerCase()
 
   const uppered = encoded.toUpperCase()
@@ -90,8 +86,6 @@ export const decode = (encoded: string, limit: number = LIMIT) => {
   const str = lowered
 
   if (str.length < 8) throw new TypeError(`${str} too short`)
-
-  if (str.length > limit) throw new TypeError('Exceeds length limit')
 
   const split = str.lastIndexOf(SEPARATOR)
 

@@ -8,7 +8,9 @@ export enum AddressPrefix {
 
 export enum AddressType {
   BinHash = '0x00',
-  HashIdx = '0x01',
+  HashIdx = '0x01', // short version for locks with popular codehash
+  DataCodeHash = '0x02', // full version with hash type 'Data'
+  TypeCodeHash = '0x04', // full version with hash type 'Type'
 }
 
 export type CodeHashIndex = '0x00' | string
@@ -16,55 +18,93 @@ export type CodeHashIndex = '0x00' | string
 export interface AddressOptions {
   prefix: AddressPrefix
   type: AddressType
-  codeHashIndex: CodeHashIndex
+  codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256
 }
 
 export const defaultAddressOptions = {
   prefix: AddressPrefix.Testnet,
   type: AddressType.HashIdx,
-  codeHashIndex: '0x00',
+  codeHashOrCodeHashIndex: '0x00',
 }
 
 /**
- * @description payload = type(01) | code hash index(00) | blake160-formatted pubkey
- * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
+ * @function toAddressPayload
+ * @description payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
+ * @see https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md
+ * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
+ * @param {string} type, used to indicate which format is adopted to compose the address.
+ * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to
  */
 export const toAddressPayload = (
-  publicKeyHash: string | Uint8Array,
+  args: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
-  params: CodeHashIndex = '0x00'
+  codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00'
 ): Uint8Array => {
-  if (typeof publicKeyHash === 'string') {
-    if (!publicKeyHash.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(publicKeyHash)
+  if (typeof args === 'string') {
+    if (!args.startsWith('0x')) {
+      throw new HexStringShouldStartWith0x(args)
     }
-    return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...hexToBytes(publicKeyHash)])
+    return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(args)])
   }
-  return new Uint8Array([...hexToBytes(type), ...hexToBytes(params), ...publicKeyHash])
+  return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...args])
 }
 
+/**
+ * @name bech32Address
+ * @description generate the address by bech32 algorithm
+ * @param arg, used as the identifier of an address, usually the public key hash is used.
+ * @param {string} prefix, the prefix precedes the address.
+ * @param {string} type, used to indicate which format is adopted to compose the address.
+ * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to.
+ */
 export const bech32Address = (
-  publicKeyHash: Uint8Array | string,
+  arg: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
     type = AddressType.HashIdx,
-    codeHashIndex = '0x00',
+    codeHashOrCodeHashIndex = '0x00',
   }: AddressOptions = defaultAddressOptions
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(publicKeyHash, type, codeHashIndex)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(arg, type, codeHashOrCodeHashIndex)))
+
+/**
+ * @name fullPayloadToAddress
+ * @description generate the address with payload in full version format.
+ * @param {string} arg, used as the identifier of an address.
+ * @param {string} prefix, the prefix precedes the address.
+ * @param {string} type, used to indicate which format the address conforms to,
+ *                       with hash type of Data or with hash type of Type.
+ * @param {string} codeHash, the code hash used in the full version payload.
+ */
+export const fullPayloadToAddress = ({
+  arg,
+  prefix = AddressPrefix.Testnet,
+  type = AddressType.DataCodeHash,
+  codeHash,
+}: {
+  arg: string
+  prefix: AddressPrefix
+  type: AddressType.DataCodeHash | AddressType.TypeCodeHash
+  codeHash: CKBComponents.Hash256
+}) =>
+  bech32Address(arg, {
+    prefix,
+    type,
+    codeHashOrCodeHashIndex: codeHash,
+  })
 
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
   {
     prefix = AddressPrefix.Testnet,
     type = AddressType.HashIdx,
-    codeHashIndex = '0x00' as CodeHashIndex,
+    codeHashOrCodeHashIndex = '0x00' as CodeHashIndex,
   }: AddressOptions = defaultAddressOptions
 ) => {
   const publicKeyHash = blake160(pubkey)
   return bech32Address(publicKeyHash, {
     prefix,
     type,
-    codeHashIndex,
+    codeHashOrCodeHashIndex,
   })
 }
 
