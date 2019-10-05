@@ -30,7 +30,7 @@ export const defaultAddressOptions = {
 /**
  * @function toAddressPayload
  * @description payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
- * @see https://github.com/nervosnetwork/ckb/wiki/Common-Address-Format
+ * @see https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md
  * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
  * @param {string} type, used to indicate which format is adopted to compose the address.
  * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to
