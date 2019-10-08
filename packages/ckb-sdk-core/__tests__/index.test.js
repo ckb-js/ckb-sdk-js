@@ -147,4 +147,33 @@ describe('ckb-core', () => {
       }
     })
   })
+
+  describe('sign transaction with multiple private keys', () => {
+    const fixtureTable = Object.entries(fixtures.generateTransactionBuilder).map(
+      ([title, { privateKey, index, inputs, outputs, options, expected, exception }]) => [
+        title,
+        privateKey,
+        index,
+        inputs,
+        outputs,
+        options,
+        expected,
+        exception,
+      ]
+    )
+    test.each(fixtureTable)('%s', (_title, privateKey, index, inputs, outputs, options, expected, exception) => {
+      const transactionBuilder = core.generateTransactionBuilder({
+        inputs,
+        outputs,
+        ...options,
+      })
+      if (undefined !== expected) {
+        transactionBuilder.signInput(index, privateKey)
+        expect(transactionBuilder.rawTransaction).toEqual(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => transactionBuilder.signInput(index, privateKey)).toThrowError(exception)
+      }
+    })
+  })
 })
