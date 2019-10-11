@@ -137,15 +137,15 @@ class Core {
 
   public loadCells = async ({
     lockHash,
-    start = 0,
+    start = BigInt(0),
     end,
-    STEP = 100,
+    STEP = BigInt(100),
     save = false,
   }: {
     lockHash: string
-    start?: string | number
-    end?: string | number
-    STEP?: number
+    start?: string | bigint
+    end?: string | bigint
+    STEP?: bigint
     save?: boolean
   }) => {
     const cells = await loadCells({ lockHash, start, end, STEP, rpc: this.rpc })

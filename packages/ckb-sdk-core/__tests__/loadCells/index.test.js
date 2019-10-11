@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const { default: loadCells } = require('../../lib/loadCells')
 const rpc = require('../../__mocks__/rpc')
 const fixtures = require('./fixtures.json')
@@ -11,6 +12,20 @@ describe('load cells', () => {
     exception,
   ])
   test.each(fixtureTable)('%s case: %j', async (_title, params, expectedCells, expectedCalls, exception) => {
+    Object.keys(params).forEach(key => {
+      if (typeof params[key] === 'number') {
+        params[key] = BigInt(params[key])
+      }
+    })
+    if (expectedCalls) {
+      expectedCalls.forEach(call => {
+        call.forEach((v, i) => {
+          if (typeof v === 'number') {
+            call[i] = BigInt(v)
+          }
+        })
+      })
+    }
     rpc.getCellsByLockHash.mockClear()
     if (undefined === exception) {
       const cells = await loadCells({
