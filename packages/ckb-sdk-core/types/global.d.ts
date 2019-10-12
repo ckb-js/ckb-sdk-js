@@ -8,3 +8,11 @@ interface CachedCell extends CKBComponents.CellIncludingOutPoint {
   status: string
   dataHash: string
 }
+
+interface TransactionBuilderInitParams {
+  inputs?: CKBComponents.CellInput[]
+  outputs?: CKBComponents.CellOutput[]
+  cellDeps?: CKBComponents.CellDep[]
+  headerDeps?: string[]
+  witnesses?: string[]
+}

@@ -1,0 +1,57 @@
+{
+  "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+  "inputs": [
+    {
+      "previousOutput": {
+        "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "index": "0xffffffff"
+      },
+      "since": "0x0"
+    }
+  ],
+  "outputs": [
+    {
+      "capacity": "0x48c27395000",
+      "lock": {
+        "args": "0x",
+        "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "hashType": "data"
+      },
+      "type": null
+    }
+  ],
+  "options": {
+    "outputsData": ["0x"],
+    "version": "0x0",
+    "witnesses": ["0x"]
+  },
+  "signedTransactin": {
+    "cellDeps": [],
+    "headerDeps": [],
+    "inputs": [
+      {
+        "previousOutput": {
+          "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "index": "0xffffffff"
+        },
+        "since": "0x0"
+      }
+    ],
+    "outputs": [
+      {
+        "capacity": "0x48c27395000",
+        "lock": {
+          "args": "0x",
+          "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "hashType": "data"
+        },
+        "type": null
+      }
+    ],
+    "outputsData": ["0x"],
+    "version": "0x0",
+    "witnesses": [
+      "0x993ab9cc92ea4936354155ed891a5d85a669872b9048b97c8eb05e155ddb1b4942aa3d9defffb8eb929956b2ec9eaf499d03fcf89957f1246a7ecc51b0eb002e00"
+    ]
+  }
+}

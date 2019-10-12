@@ -3,9 +3,11 @@ import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
+import TransactionBuilder from './transactionBuilder'
 
 import Address from './address'
 import loadCells from './loadCells'
+import signWitness from './signWitness'
 
 const hrpSize = 6
 
@@ -166,15 +168,7 @@ class Core {
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
     const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
-    const signedWitnesses = witnesses.map(witness => {
-      const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-      const witnessBytes = this.utils.hexToBytes(witness)
-      s.update(this.utils.hexToBytes(transactionHash))
-      s.update(witnessBytes)
-      const message = `0x${s.digest('hex')}`
-      const data = [...this.utils.hexToBytes(addrObj.signRecoverable(message)), ...witnessBytes]
-      return this.utils.bytesToHex(new Uint8Array(data))
-    })
+    const signedWitnesses = witnesses.map(witness => signWitness(addrObj, transactionHash, witness))
     return signedWitnesses
   }
 
@@ -242,6 +236,8 @@ class Core {
       deps,
     })
   }
+
+  public generateTransactionBuilder = (params: TransactionBuilderInitParams) => new TransactionBuilder(params)
 }
 
 export default Core
