@@ -1,17 +1,19 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { HexStringShouldStartWith0x, ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 
+const getMinBigInt = (x: bigint, y: bigint) => (x > y ? y : x)
+
 const loadCells = async ({
   lockHash,
-  start = 0,
+  start = BigInt(0),
   end,
-  STEP = 100,
+  STEP = BigInt(100),
   rpc,
 }: {
   lockHash: string
-  start?: string | number
-  end?: string | number
-  STEP?: number
+  start?: string | bigint
+  end?: string | bigint
+  STEP?: bigint
   rpc: RPC
 }) => {
   if (!lockHash) {
@@ -28,19 +30,12 @@ const loadCells = async ({
     throw new HexStringShouldStartWith0x(end)
   }
 
-  const from = +start
-  if (!Number.isInteger(from)) {
-    throw new Error(`${start} cannot be converted into an integer`)
-  }
+  const from = BigInt(start)
   const tipBlockNumber = await rpc.getTipBlockNumber()
 
-  let to = end === undefined ? +tipBlockNumber : Math.min(+end, +tipBlockNumber)
+  let to = end === undefined ? BigInt(tipBlockNumber) : getMinBigInt(BigInt(end), BigInt(tipBlockNumber))
 
-  if (!Number.isInteger(to)) {
-    throw new Error(`${end} cannot be converted into an integer`)
-  }
-
-  to = Math.min(to, +tipBlockNumber)
+  to = getMinBigInt(to, BigInt(tipBlockNumber))
 
   if (to < from) {
     throw new Error(`start(${start}) should not be less than end(${end})`)
@@ -49,9 +44,9 @@ const loadCells = async ({
   const range = to - from
 
   const groups = range
-    ? Array.from({ length: Math.ceil(range / STEP) }, (_, idx) => [
-      from + idx * STEP + (idx ? 1 : 0),
-      Math.min(from + (idx + 1) * STEP, to),
+    ? Array.from({ length: Math.ceil(Number(range) / Number(STEP)) }, (_, idx) => [
+      from + BigInt(idx) * STEP + (idx ? BigInt(1) : BigInt(0)),
+      getMinBigInt(from + BigInt(idx + 1) * STEP, to),
     ])
     : [[from, to]]
 
