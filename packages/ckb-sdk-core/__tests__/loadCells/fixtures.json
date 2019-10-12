@@ -93,24 +93,6 @@
     },
     "exception": "Hex string 12c should start with 0x"
   },
-  "parameters including invalid integer of start should throw an error": {
-    "params": {
-      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
-      "start": 1.1,
-      "end": "0x12c",
-      "STEP": 100
-    },
-    "exception": "1.1 cannot be converted into an integer"
-  },
-  "parameters including invalid integer of end should throw an error": {
-    "params": {
-      "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
-      "start": "0x1",
-      "end": 1.1,
-      "STEP": 100
-    },
-    "exception": "1.1 cannot be converted into an integer"
-  },
   "end less than start should throw an error": {
     "params": {
       "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
