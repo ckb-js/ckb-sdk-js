@@ -1,4 +1,6 @@
 import * as util from 'util'
+import ECPair from './ecpair'
+import { pubkeyToAddress, AddressOptions } from './address'
 import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
@@ -93,3 +95,11 @@ export const toHexInLittleEndian = (int: number | string, paddingBytes: number =
     .padEnd(paddingBytes * 2, '0')
   return `0x${hexInLittleEndian}`
 }
+
+export const privateKeyToPublicKey = (privateKey: string) => {
+  const keyPair = new ECPair(privateKey)
+  return keyPair.publicKey
+}
+
+export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
+  pubkeyToAddress(privateKeyToPublicKey(privateKey), options)

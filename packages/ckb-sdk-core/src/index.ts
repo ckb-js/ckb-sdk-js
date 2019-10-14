@@ -1,11 +1,11 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
 import TransactionBuilder from './transactionBuilder'
 
-import KeyPair from './keyPair'
 import loadCells from './loadCells'
 import signWitness from './signWitness'
 
@@ -72,18 +72,6 @@ class Core {
   public get node(): CKBComponents.Node {
     return this._node
   }
-
-  public generateKeyPair = (
-    privateKey: string,
-    { type = utils.AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' } = {
-      type: utils.AddressType.HashIdx,
-      codeHashOrCodeHashIndex: '0x00',
-    }
-  ) =>
-    new KeyPair(privateKey, {
-      type,
-      codeHashOrCodeHashIndex,
-    })
 
   public generateLockHash = (
     publicKeyHash: string,
@@ -155,7 +143,7 @@ class Core {
     return cells
   }
 
-  public signWitnesses = (key: string | KeyPair) => ({
+  public signWitnesses = (key: string | ECPair) => ({
     transactionHash,
     witnesses = [],
   }: {
@@ -165,12 +153,12 @@ class Core {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
-    const keyPair = typeof key === 'string' ? this.generateKeyPair(key) : key
+    const keyPair = typeof key === 'string' ? new ECPair(key) : key
     const signedWitnesses = witnesses.map(witness => signWitness(keyPair, transactionHash, witness))
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | KeyPair) => (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransaction) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')

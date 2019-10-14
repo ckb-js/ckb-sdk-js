@@ -1,7 +1,7 @@
+import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import { rawTransactionToHash } from '@nervosnetwork/ckb-sdk-utils'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitness from './signWitness'
-import KeyPair from './keyPair'
 
 class TransactionBuilder {
   public hash: CKBComponents.Hash256 = ''
@@ -45,7 +45,7 @@ class TransactionBuilder {
     return this.hash
   }
 
-  public signInput = (index: number, key: string | KeyPair) => {
+  public signInput = (index: number, key: string | ECPair) => {
     if (undefined === index) {
       throw new ArgumentRequired('Index of input')
     }
@@ -56,7 +56,7 @@ class TransactionBuilder {
       this.updateTransactionHash()
     }
 
-    const keyPair = typeof key === 'string' ? new KeyPair(key) : key
+    const keyPair = typeof key === 'string' ? new ECPair(key) : key
     this.rawTransaction.witnesses[index] = signWitness(keyPair, this.hash, this.rawTransaction.witnesses[index])
   }
 }

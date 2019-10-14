@@ -1,3 +1,4 @@
+const { default: ECPair } = require('@nervosnetwork/ckb-sdk-utils/lib/ecpair')
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
 
@@ -101,8 +102,8 @@ describe('ckb-core', () => {
         const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
         expect(signedWitnessesByPrivateKey).toEqual(expected)
 
-        const signedWitnessesByKeyPair = core.signWitnesses(core.generateKeyPair(privateKey))(message)
-        expect(signedWitnessesByKeyPair).toEqual(expected)
+        const signedWitnessesByECPair = core.signWitnesses(new ECPair(privateKey))(message)
+        expect(signedWitnessesByECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
@@ -123,9 +124,9 @@ describe('ckb-core', () => {
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
-        const signedTransactionWithKeyPair = core.signTransaction(core.generateKeyPair(privateKey))(transaction)
+        const signedTransactionWithECPair = core.signTransaction(new ECPair(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-        expect(signedTransactionWithKeyPair).toEqual(expected)
+        expect(signedTransactionWithECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
