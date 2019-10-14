@@ -101,8 +101,8 @@ describe('ckb-core', () => {
         const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
         expect(signedWitnessesByPrivateKey).toEqual(expected)
 
-        const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(privateKey))(message)
-        expect(signedWitnessesByAddressObject).toEqual(expected)
+        const signedWitnessesByKeyPair = core.signWitnesses(core.generateKeyPair(privateKey))(message)
+        expect(signedWitnessesByKeyPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
@@ -123,9 +123,9 @@ describe('ckb-core', () => {
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
-        const signedTransactionWithAddressObj = core.signTransaction(core.generateAddress(privateKey))(transaction)
+        const signedTransactionWithKeyPair = core.signTransaction(core.generateKeyPair(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-        expect(signedTransactionWithAddressObj).toEqual(expected)
+        expect(signedTransactionWithKeyPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)

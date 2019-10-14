@@ -5,7 +5,7 @@ import * as utils from '@nervosnetwork/ckb-sdk-utils'
 import generateRawTransaction from './generateRawTransaction'
 import TransactionBuilder from './transactionBuilder'
 
-import Address from './address'
+import KeyPair from './keyPair'
 import loadCells from './loadCells'
 import signWitness from './signWitness'
 
@@ -73,16 +73,14 @@ class Core {
     return this._node
   }
 
-  public generateAddress = (
+  public generateKeyPair = (
     privateKey: string,
-    { prefix = utils.AddressPrefix.Testnet, type = utils.AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' } = {
-      prefix: utils.AddressPrefix.Testnet,
+    { type = utils.AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' } = {
       type: utils.AddressType.HashIdx,
       codeHashOrCodeHashIndex: '0x00',
     }
   ) =>
-    new Address(privateKey, {
-      prefix,
+    new KeyPair(privateKey, {
       type,
       codeHashOrCodeHashIndex,
     })
@@ -157,7 +155,7 @@ class Core {
     return cells
   }
 
-  public signWitnesses = (key: string | Address) => ({
+  public signWitnesses = (key: string | KeyPair) => ({
     transactionHash,
     witnesses = [],
   }: {
@@ -167,12 +165,12 @@ class Core {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
-    const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
-    const signedWitnesses = witnesses.map(witness => signWitness(addrObj, transactionHash, witness))
+    const keyPair = typeof key === 'string' ? this.generateKeyPair(key) : key
+    const signedWitnesses = witnesses.map(witness => signWitness(keyPair, transactionHash, witness))
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | Address) => (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | KeyPair) => (transaction: CKBComponents.RawTransaction) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')

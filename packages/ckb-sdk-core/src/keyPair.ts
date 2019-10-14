@@ -2,8 +2,10 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import { pubkeyToAddress, blake160, AddressPrefix, AddressType } from '@nervosnetwork/ckb-sdk-utils'
 import { AddressOptions } from '@nervosnetwork/ckb-sdk-utils/lib/address'
 
-class Address extends ECPair {
-  public value = ''
+class KeyPair extends ECPair {
+  public testnetAddress = ''
+
+  public mainnetAddress = ''
 
   public publicKeyHash = ''
 
@@ -11,7 +13,6 @@ class Address extends ECPair {
     sk: Uint8Array | string,
     {
       addressAlgorithm = pubkeyToAddress,
-      prefix = AddressPrefix.Testnet,
       type = AddressType.HashIdx,
       codeHashOrCodeHashIndex = '0x00',
     }: Partial<
@@ -20,14 +21,18 @@ class Address extends ECPair {
       } & AddressOptions
     > = {
       addressAlgorithm: pubkeyToAddress,
-      prefix: AddressPrefix.Testnet,
       type: AddressType.HashIdx,
       codeHashOrCodeHashIndex: '0x00',
     }
   ) {
     super(sk)
-    this.value = addressAlgorithm(this.publicKey, {
-      prefix,
+    this.testnetAddress = addressAlgorithm(this.publicKey, {
+      prefix: AddressPrefix.Testnet,
+      type,
+      codeHashOrCodeHashIndex,
+    })
+    this.mainnetAddress = addressAlgorithm(this.privateKey, {
+      prefix: AddressPrefix.Mainnet,
       type,
       codeHashOrCodeHashIndex,
     })
@@ -35,4 +40,4 @@ class Address extends ECPair {
   }
 }
 
-export default Address
+export default KeyPair
