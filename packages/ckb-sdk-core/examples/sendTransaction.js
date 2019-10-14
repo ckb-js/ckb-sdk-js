@@ -46,7 +46,7 @@ const bootstrap = async () => {
   const lockScript = {
     hashType: "type",
     codeHash: blockAssemblerCodeHash,
-    args: [publicKeyHash],
+    args: publicKeyHash,
   }
   /**
    * to see the lock script
