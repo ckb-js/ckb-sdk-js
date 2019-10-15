@@ -11,6 +11,8 @@ const {
   bech32,
   bech32Address,
   toAddressPayload,
+  privateKeyToPublicKey,
+  privateKeyToAddress,
   pubkeyToAddress,
   parseAddress,
   hexToBytes,
@@ -194,6 +196,28 @@ describe('rawTransactionToHash', () => {
   it('throw an error if the raw transaction is not missing', () => {
     expect(() => rawTransactionToHash(undefined)).toThrow(new Error('Raw transaction is required'))
   })
+})
+
+describe('privateKeyToPublicKey', () => {
+  const fixture = {
+    privateKey: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    publicKey: '0x03a706ad8f73115f90500266f273f7571df9429a4cfb4bbfbcd825227202dabad1',
+  }
+  expect(privateKeyToPublicKey(fixture.privateKey)).toBe(fixture.publicKey)
+})
+
+describe('privateKeyToAddress', () => {
+  const fixture = {
+    privateKey: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    mainnetAddress: 'ckb1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqqm3w53',
+    testnetAddress: 'ckt1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqa703cd',
+  }
+  expect(privateKeyToAddress(fixture.privateKey)).toBe(fixture.testnetAddress)
+  expect(
+    privateKeyToAddress(fixture.privateKey, {
+      prefix: 'ckb',
+    })
+  ).toBe(fixture.mainnetAddress)
 })
 
 describe('address', () => {

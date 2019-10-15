@@ -1,5 +1,5 @@
 const { default: TransactionBuilder } = require('../../lib/transactionBuilder')
-const { default: Address } = require('../../lib/address')
+const { default: KeyPair } = require('../../lib/keyPair')
 const { privateKey, inputs, outputs, options, signedTransactin } = require('./fixtures.json')
 
 describe('Transaction builder', () => {
@@ -59,8 +59,8 @@ describe('Transaction builder', () => {
       transactionBuilder.addOutput(output)
     })
     transactionBuilder.updateOptions(JSON.parse(JSON.stringify(options)))
-    const addrObj = new Address(privateKey)
-    transactionBuilder.signInput(0, addrObj)
+    const keyPair = new KeyPair(privateKey)
+    transactionBuilder.signInput(0, keyPair)
     expect(transactionBuilder.rawTransaction).toEqual(signedTransactin)
   })
 

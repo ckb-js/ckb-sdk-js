@@ -10,20 +10,31 @@ const bootstrap = async () => {
 
   const secp256k1Dep = await core.loadSecp256k1Dep() // load the dependencies of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
+  const publicKey = core.utils.privateKeyToPublicKey(privateKey)
   /**
-   * genereat address object, who has peroperties like private key, public key, sign method and verify mehtod
-   * - value, the address string
-   * - privateKey, the private key in hex string format
-   * - publicKey, the public key in hex string format
-   * - publicKeyHash, the publicKeyHash of the public key, a blake160-ed public key is use here
-   * - sign(msg): signature string
-   * - verify(msg, signature): boolean
+   * to see the public key
    */
-  const myAddressObj = core.generateAddress(privateKey)
+  // console.log(`Public key: ${publicKey}`)
+
+  const publicKeyHash = `0x${core.utils.blake160(publicKey, 'hex')}`
   /**
-   * to see the address
+   * to see the public key hash
    */
-  console.log(myAddressObj.value)
+  // console.log(`Public key hash: ${publicKeyHash}`)
+
+  const addresses = {
+    mainnetAddress: core.utils.pubkeyToAddress(publicKey, {
+      prefix: 'ckb'
+    }),
+    testnetAddress: core.utils.pubkeyToAddress(publicKey, {
+      prefix: 'ckt'
+    })
+  }
+
+  /**
+   * to see the addresses
+   */
+  // console.log(JSON.stringify(addresses, null, 2))
 
   /**
    * calculate the lockHash by the address publicKeyHash
@@ -35,7 +46,7 @@ const bootstrap = async () => {
   const lockScript = {
     hashType: "type",
     codeHash: blockAssemblerCodeHash,
-    args: [myAddressObj.publicKeyHash],
+    args: publicKeyHash,
   }
   /**
    * to see the lock script
@@ -61,9 +72,12 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const toAddress = core.generateAddress("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff").value
+  const toAddress = core.utils.privateKeyToAddress("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", {
+    prefix: 'ckt'
+  })
+
   const rawTransaction = await core.generateRawTransaction({
-    fromAddress: myAddressObj.value,
+    fromAddress: addresses.testnetAddress,
     toAddress,
     capacity: 60000000000,
     safeMode: true,
@@ -71,7 +85,9 @@ const bootstrap = async () => {
     deps: core.config.secp256k1Dep,
   })
 
-  const signedTx = core.signTransaction(myAddressObj)(rawTransaction)
+  rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
+
+  const signedTx = core.signTransaction(privateKey)(rawTransaction)
   /**
    * to see the signed transaction
    */
