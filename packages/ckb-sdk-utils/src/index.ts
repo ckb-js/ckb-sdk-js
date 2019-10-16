@@ -103,3 +103,19 @@ export const privateKeyToPublicKey = (privateKey: string) => {
 
 export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
   pubkeyToAddress(privateKeyToPublicKey(privateKey), options)
+
+/**
+ * @function calculateMinTransactionFee
+ * @description calculate the mininum transaction fee by transaction size and mininum fee rate
+ * @param {bigint} transactionSize, the bytes of transaction
+ * @param {biging} minFeeRate, the minimum fee rate with unit of shannons/KB
+ */
+export const calculateMinTransactionFee = (transactionSize: bigint, minFeeRate: bigint) => {
+  const ratio = BigInt(1000)
+  const base = transactionSize * minFeeRate
+  const fee = base / ratio
+  if (fee * ratio < base) {
+    return fee + BigInt(1)
+  }
+  return fee
+}
