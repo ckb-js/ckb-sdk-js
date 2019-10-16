@@ -68,6 +68,11 @@ export const serializeOutputsData = (outputsData: CKBComponents.Hash[]) => {
   return serializeDynVec(serializedOutputsDatumList)
 }
 
+export const serializeWitnesses = (witnesses: CKBComponents.Witness[]) => {
+  const serializedWitnessList = witnesses.map(witness => serializeFixVec(witness))
+  return serializeDynVec(serializedWitnessList)
+}
+
 export const serializeRawTransaction = (rawTransaction: CKBComponents.RawTransaction) => {
   const serializedVersion = serializeVersion(rawTransaction.version)
   const serializedCellDeps = serializeCellDeps(rawTransaction.cellDeps)
@@ -85,5 +90,13 @@ export const serializeRawTransaction = (rawTransaction: CKBComponents.RawTransac
     ['outputsData', serializedOutputsData],
   ])
 
+  return serializeTable(table)
+}
+
+export const serializeTransaction = (rawTransaction: CKBComponents.RawTransaction) => {
+  const serializedRawTransaction = serializeRawTransaction(rawTransaction)
+  const serializedWitnesses = serializeWitnesses(rawTransaction.witnesses || [])
+
+  const table = new Map([['raw', serializedRawTransaction], ['witnesses', serializedWitnesses]])
   return serializeTable(table)
 }

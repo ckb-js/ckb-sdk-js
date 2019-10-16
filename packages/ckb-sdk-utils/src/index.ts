@@ -4,12 +4,11 @@ import { pubkeyToAddress, AddressOptions } from './address'
 import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
-import { serializeRawTransaction } from './serialization/transaction'
+import { serializeRawTransaction, serializeTransaction } from './serialization/transaction'
 
 export * from './address'
 export * from './serialization'
-export { serializeScript } from './serialization/script'
-export { serializeRawTransaction } from './serialization/transaction'
+export { serializeScript, serializeRawTransaction, serializeTransaction }
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -118,4 +117,10 @@ export const calculateMinTransactionFee = (transactionSize: bigint, minFeeRate: 
     return fee + BigInt(1)
   }
   return fee
+}
+
+export const calculateTransactionSize = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
+  const EXTRA_SIZE = 4
+  const serializedTransaction = serializeTransaction(transaction)
+  return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE
 }
