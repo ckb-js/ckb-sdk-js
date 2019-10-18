@@ -27,7 +27,7 @@ const {
   toHexInLittleEndian,
   AddressType,
   fullPayloadToAddress,
-  calculateMinTransactionFee,
+  calculateTransactionFee,
   calculateTransactionSize,
 } = ckbUtils
 
@@ -373,20 +373,20 @@ describe('address', () => {
 
 describe('transaction fee', () => {
   const fixtureTable = Object.entries(transactionFeeFixtures).map(
-    ([title, { transactionSize, minFeeRate, expected, exception }]) => [
+    ([title, { transactionSize, feeRate, expected, exception }]) => [
       title,
       BigInt(transactionSize),
-      BigInt(minFeeRate),
+      BigInt(feeRate),
       BigInt(expected),
       exception,
     ]
   )
-  test.each(fixtureTable)('%s', (_title, transactionSize, minFeeRate, expected, exception) => {
+  test.each(fixtureTable)('%s', (_title, transactionSize, feeRate, expected, exception) => {
     if (undefined !== expected) {
-      expect(calculateMinTransactionFee(transactionSize, minFeeRate)).toBe(expected)
+      expect(calculateTransactionFee(transactionSize, feeRate)).toBe(expected)
     }
     if (undefined !== exception) {
-      expect(() => calculateMinTransactionFee(transactionSize, minFeeRate)).toThrowError(exception)
+      expect(() => calculateTransactionFee(transactionSize, feeRate)).toThrowError(exception)
     }
   })
 })

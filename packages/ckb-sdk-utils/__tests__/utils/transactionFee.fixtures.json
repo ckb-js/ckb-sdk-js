@@ -1,12 +1,12 @@
 {
   "cell the fee": {
     "transactionSize": 1035,
-    "minFeeRate": 900,
+    "feeRate": 900,
     "expected": 932
   },
   "uncell the fee": {
     "transactionSize": 900,
-    "minFeeRate": 900,
+    "feeRate": 900,
     "expected": 810
   }
 }
