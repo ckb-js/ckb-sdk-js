@@ -28,7 +28,7 @@ const {
   AddressType,
   fullPayloadToAddress,
   calculateTransactionFee,
-  calculateTransactionSize,
+  calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
 const { HexStringShouldStartWith0x, InvalidHexString } = exceptions
@@ -393,5 +393,5 @@ describe('transaction fee', () => {
 
 describe('transaction size', () => {
   const { transaction, expected } = transactionSizeFixture
-  expect(calculateTransactionSize(transaction)).toBe(expected)
+  expect(calculateSerializedTxSizeInBlock(transaction)).toBe(expected)
 })

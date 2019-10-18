@@ -119,8 +119,8 @@ export const calculateTransactionFee = (transactionSize: bigint, feeRate: bigint
   return fee
 }
 
-export const calculateTransactionSize = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
-  const EXTRA_SIZE = 4
+export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
+  const EXTRA_SIZE_IN_BLOCK = 4
   const serializedTransaction = serializeTransaction(transaction)
-  return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE
+  return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE_IN_BLOCK
 }
