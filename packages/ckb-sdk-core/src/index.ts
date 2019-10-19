@@ -1,11 +1,13 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
+import TransactionBuilder from './transactionBuilder'
 
-import Address from './address'
 import loadCells from './loadCells'
+import signWitness from './signWitness'
 
 const hrpSize = 6
 
@@ -70,20 +72,6 @@ class Core {
   public get node(): CKBComponents.Node {
     return this._node
   }
-
-  public generateAddress = (
-    privateKey: string,
-    { prefix = utils.AddressPrefix.Testnet, type = utils.AddressType.HashIdx, codeHashIndex = '0x00' } = {
-      prefix: utils.AddressPrefix.Testnet,
-      type: utils.AddressType.HashIdx,
-      codeHashIndex: '0x00',
-    }
-  ) =>
-    new Address(privateKey, {
-      prefix,
-      type,
-      codeHashIndex,
-    })
 
   public generateLockHash = (
     publicKeyHash: string,
@@ -155,7 +143,7 @@ class Core {
     return cells
   }
 
-  public signWitnesses = (key: string | Address) => ({
+  public signWitnesses = (key: string | ECPair) => ({
     transactionHash,
     witnesses = [],
   }: {
@@ -165,20 +153,12 @@ class Core {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
-    const addrObj = typeof key === 'string' ? this.generateAddress(key) : key
-    const signedWitnesses = witnesses.map(witness => {
-      const s = this.utils.blake2b(32, null, null, this.utils.PERSONAL)
-      const witnessBytes = this.utils.hexToBytes(witness)
-      s.update(this.utils.hexToBytes(transactionHash))
-      s.update(witnessBytes)
-      const message = `0x${s.digest('hex')}`
-      const data = [...this.utils.hexToBytes(addrObj.signRecoverable(message)), ...witnessBytes]
-      return this.utils.bytesToHex(new Uint8Array(data))
-    })
+    const keyPair = typeof key === 'string' ? new ECPair(key) : key
+    const signedWitnesses = witnesses.map(witness => signWitness(keyPair, transactionHash, witness))
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | Address) => (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransaction) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
@@ -242,6 +222,8 @@ class Core {
       deps,
     })
   }
+
+  public generateTransactionBuilder = (params: TransactionBuilderInitParams) => new TransactionBuilder(params)
 }
 
 export default Core

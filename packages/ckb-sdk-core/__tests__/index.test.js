@@ -1,3 +1,4 @@
+const { default: ECPair } = require('@nervosnetwork/ckb-sdk-utils/lib/ecpair')
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
 
@@ -101,8 +102,8 @@ describe('ckb-core', () => {
         const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
         expect(signedWitnessesByPrivateKey).toEqual(expected)
 
-        const signedWitnessesByAddressObject = core.signWitnesses(core.generateAddress(privateKey))(message)
-        expect(signedWitnessesByAddressObject).toEqual(expected)
+        const signedWitnessesByECPair = core.signWitnesses(new ECPair(privateKey))(message)
+        expect(signedWitnessesByECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
@@ -123,9 +124,9 @@ describe('ckb-core', () => {
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
-        const signedTransactionWithAddressObj = core.signTransaction(core.generateAddress(privateKey))(transaction)
+        const signedTransactionWithECPair = core.signTransaction(new ECPair(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-        expect(signedTransactionWithAddressObj).toEqual(expected)
+        expect(signedTransactionWithECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
@@ -144,6 +145,35 @@ describe('ckb-core', () => {
         expect(rawTransaction).toEqual(expected)
       } else {
         expect(core.generateRawTransaction(params)).rejects.toThrowError(exception)
+      }
+    })
+  })
+
+  describe('sign transaction with multiple private keys', () => {
+    const fixtureTable = Object.entries(fixtures.generateTransactionBuilder).map(
+      ([title, { privateKey, index, inputs, outputs, options, expected, exception }]) => [
+        title,
+        privateKey,
+        index,
+        inputs,
+        outputs,
+        options,
+        expected,
+        exception,
+      ]
+    )
+    test.each(fixtureTable)('%s', (_title, privateKey, index, inputs, outputs, options, expected, exception) => {
+      const transactionBuilder = core.generateTransactionBuilder({
+        inputs,
+        outputs,
+        ...options,
+      })
+      if (undefined !== expected) {
+        transactionBuilder.signInput(index, privateKey)
+        expect(transactionBuilder.rawTransaction).toEqual(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => transactionBuilder.signInput(index, privateKey)).toThrowError(exception)
       }
     })
   })

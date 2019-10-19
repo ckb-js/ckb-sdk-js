@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.22.1...v0.23.0) (2019-10-19)
+
+
+### Features
+
+* **address:** add support to addresses in full version format ([a385821](https://github.com/nervosnetwork/ckb-sdk-js/commit/a385821))
+* **core:** add transaction builder for signing transactions with multiple private keys ([d5d69c0](https://github.com/nervosnetwork/ckb-sdk-js/commit/d5d69c0))
+* **core:** remove address module ([#369](https://github.com/nervosnetwork/ckb-sdk-js/issues/369)) ([e467427](https://github.com/nervosnetwork/ckb-sdk-js/commit/e467427))
+
+
+### BREAKING CHANGES
+
+* **core:** remove address module and add key pair module
+    * ci: add codecov config for a tolerant threshold
+    * feat(utils): add some util methods for getting public keys and addresses from private keys
+        * add a method of core.utils.privateKeytoPublicKey
+        * add a method of core.utils.privateKeyToAddress
+
+* **core:** KeyPair from the core module
+    * fix(core): fix the lock script in the sending transactions example
+    
+* **address:** rename an parameter in bech32Address method from codeHash to codeHashOrCodeHashIndex
+
+
+
+
+
 ## [0.22.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.22.0...v0.22.1) (2019-10-12)
 
 
