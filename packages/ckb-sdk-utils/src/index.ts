@@ -4,12 +4,11 @@ import { pubkeyToAddress, AddressOptions } from './address'
 import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
-import { serializeRawTransaction } from './serialization/transaction'
+import { serializeRawTransaction, serializeTransaction } from './serialization/transaction'
 
 export * from './address'
 export * from './serialization'
-export { serializeScript } from './serialization/script'
-export { serializeRawTransaction } from './serialization/transaction'
+export { serializeScript, serializeRawTransaction, serializeTransaction }
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -103,3 +102,25 @@ export const privateKeyToPublicKey = (privateKey: string) => {
 
 export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
   pubkeyToAddress(privateKeyToPublicKey(privateKey), options)
+
+/**
+ * @function calculateTransactionFee
+ * @description calculate the transaction fee by transaction size and fee rate
+ * @param {bigint} transactionSize, the bytes of transaction
+ * @param {bigint} feeRate, the fee rate with unit of shannons/KB
+ */
+export const calculateTransactionFee = (transactionSize: bigint, feeRate: bigint) => {
+  const ratio = BigInt(1000)
+  const base = transactionSize * feeRate
+  const fee = base / ratio
+  if (fee * ratio < base) {
+    return fee + BigInt(1)
+  }
+  return fee
+}
+
+export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
+  const EXTRA_SIZE_IN_BLOCK = 4
+  const serializedTransaction = serializeTransaction(transaction)
+  return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE_IN_BLOCK
+}
