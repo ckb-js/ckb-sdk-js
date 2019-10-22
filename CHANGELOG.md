@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.0...v0.23.1) (2019-10-22)
+
+
+### Features
+
+* **utils** add methods for calculating transaction fee ([1dd82a4](https://github.com/nervosnetwork/ckb-sdk-js/commit/1dd82a4afba22f547406953444aa59df7e3a86bd))
+    1. add utils.serializeTransaction method to serialize a full transaction;
+    2. add utils.calculateTrasnactionSize to get the size of a full transaction
+
+
+
+
+
 # [0.23.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.22.1...v0.23.0) (2019-10-19)
 
 

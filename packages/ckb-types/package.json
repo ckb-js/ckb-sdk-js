@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-types",
-  "version": "0.23.0",
+  "version": "0.23.1",
   "description": "Type module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
