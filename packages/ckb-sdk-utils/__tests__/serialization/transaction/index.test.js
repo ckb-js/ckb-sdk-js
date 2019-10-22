@@ -9,7 +9,9 @@ const {
   serializeOutput,
   serializeOutputs,
   serializeOutputsData,
+  serializeWitnesses,
   serializeRawTransaction,
+  serializeTransaction,
 } = require('../../../lib/serialization/transaction')
 const fixtures = require('./fixtures.json')
 
@@ -173,6 +175,20 @@ describe('Test Transaction Serialization', () => {
     })
   })
 
+  describe('Serialize Witnesses', () => {
+    const fixtureTable = Object.entries(fixtures.serializeWitnesses).map(
+      ([title, { witnesses, expected, exception }]) => [title, witnesses, expected, exception]
+    )
+    test.each(fixtureTable)('%s', (_title, witnesses, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeWitnesses(witnesses)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeWitnesses(witnesses)).toThrowError(exception)
+      }
+    })
+  })
+
   describe('Serialize RawTransaction', () => {
     const fixtureTable = Object.entries(fixtures.serializeRawTransaction).map(
       ([title, { rawTransaction, expected, exception }]) => [title, rawTransaction, expected, exception]
@@ -183,6 +199,20 @@ describe('Test Transaction Serialization', () => {
       }
       if (undefined !== exception) {
         expect(() => serializeRawTransaction(rawTransaction)).toThrow(new Error(exception))
+      }
+    })
+  })
+
+  describe('Serialize Transaction', () => {
+    const fixtureTable = Object.entries(fixtures.serializeTransaction).map(
+      ([title, { transaction, expected, exception }]) => [title, transaction, expected, exception]
+    )
+    test.each(fixtureTable)('%j', (_title, transaction, expected, exception) => {
+      if (undefined !== expected) {
+        expect(serializeTransaction(transaction)).toBe(expected)
+      }
+      if (undefined !== exception) {
+        expect(() => serializeTransaction(transaction)).toThrow(new Error(exception))
       }
     })
   })

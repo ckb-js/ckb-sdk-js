@@ -3,6 +3,8 @@ const exceptions = require('../../lib/exceptions')
 const bech32Fixtures = require('./bech32.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 const transformerFixtures = require('./transformer.fixtures.json')
+const transactionFeeFixtures = require('./transactionFee.fixtures.json')
+const transactionSizeFixture = require('./transactionSize.fixture.json')
 const { ArgumentRequired } = require('../../lib/exceptions')
 
 const {
@@ -25,6 +27,8 @@ const {
   toHexInLittleEndian,
   AddressType,
   fullPayloadToAddress,
+  calculateTransactionFee,
+  calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
 const { HexStringShouldStartWith0x, InvalidHexString } = exceptions
@@ -365,4 +369,29 @@ describe('address', () => {
     const parsedBytes = parseAddress(fixture.addr)
     expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
   })
+})
+
+describe('transaction fee', () => {
+  const fixtureTable = Object.entries(transactionFeeFixtures).map(
+    ([title, { transactionSize, feeRate, expected, exception }]) => [
+      title,
+      BigInt(transactionSize),
+      BigInt(feeRate),
+      BigInt(expected),
+      exception,
+    ]
+  )
+  test.each(fixtureTable)('%s', (_title, transactionSize, feeRate, expected, exception) => {
+    if (undefined !== expected) {
+      expect(calculateTransactionFee(transactionSize, feeRate)).toBe(expected)
+    }
+    if (undefined !== exception) {
+      expect(() => calculateTransactionFee(transactionSize, feeRate)).toThrowError(exception)
+    }
+  })
+})
+
+describe('transaction size', () => {
+  const { transaction, expected } = transactionSizeFixture
+  expect(calculateSerializedTxSizeInBlock(transaction)).toBe(expected)
 })
