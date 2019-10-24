@@ -1,5 +1,5 @@
+const { default: KeyPair } = require('@nervosnetwork/ckb-sdk-utils/lib/ecpair')
 const { default: TransactionBuilder } = require('../../lib/transactionBuilder')
-const { default: KeyPair } = require('../../lib/keyPair')
 const { privateKey, inputs, outputs, options, signedTransactin } = require('./fixtures.json')
 
 describe('Transaction builder', () => {
