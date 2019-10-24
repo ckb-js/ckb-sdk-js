@@ -122,6 +122,11 @@ describe('ckb-rpc success', () => {
     const header = await rpc.getHeaderByNumber('0x0')
     expect(header).toEqual(zeroBlockHeader)
   })
+
+  it('estimate fee rate', async () => {
+    const feeRate = await rpc.estimateFeeRate('0x11')
+    expect(feeRate).toBeTruthy()
+  })
 })
 
 describe('send transaction', () => {

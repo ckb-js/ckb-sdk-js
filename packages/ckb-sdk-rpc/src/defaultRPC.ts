@@ -160,6 +160,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toCellbaseOutputCapacityDetails,
   },
+  {
+    name: 'estimateFeeRate',
+    method: 'estimate_fee_rate',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toFeeRate,
+  },
 ]
 
 export class DefaultRPC {
@@ -450,6 +456,15 @@ export class DefaultRPC {
   public getCellbaseOutputCapacityDetails!: (
     blockHash: CKBComponents.Hash
   ) => Promise<CKBComponents.CellbaseOutputCapacityDetails>
+
+  /**
+   * @method estimateFeeRate
+   * @memberof DefaultRPC
+   * @description Estimate a fee rate(shannons/kB) for a transaction that to be committed in expected blocks
+   * @param {string} expectedBlocks, the expected range in blocks therein transactions will be committed
+   *                                 the range is [3, 1000]
+   */
+  public estimateFeeRate!: (expectedBlocks: CKBComponents.BlockNumber) => Promise<CKBComponents.FeeRate>
 }
 
 export default DefaultRPC

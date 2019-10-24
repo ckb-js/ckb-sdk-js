@@ -207,5 +207,9 @@ declare module CKB_RPC {
     total: string
     tx_fee: string
   }
+
+  export interface FeeRate {
+    fee_rate: Number
+  }
 }
 /* eslint-enable camelcase */
