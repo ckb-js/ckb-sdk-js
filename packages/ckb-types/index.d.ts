@@ -360,4 +360,8 @@ declare namespace CKBComponents {
     total: string
     txFee: string
   }
+
+  export interface FeeRate {
+    feeRate: Number
+  }
 }

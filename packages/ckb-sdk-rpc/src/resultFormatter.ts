@@ -291,6 +291,17 @@ const formatter = {
       ...rest,
     }
   },
+
+  toFeeRate: (feeRateObj: CKB_RPC.FeeRate): CKBComponents.FeeRate => {
+    if (!feeRateObj) {
+      return feeRateObj
+    }
+    const { fee_rate: feeRate, ...rest } = feeRateObj
+    return {
+      feeRate,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

@@ -1269,5 +1269,19 @@
         "txFee": "0"
       }
     }
+  ],
+  "toFeeRate": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "fee_rate": "0x7d0"
+      },
+      "expected": {
+        "feeRate": "0x7d0"
+      }
+    }
   ]
 }
