@@ -2,7 +2,7 @@ import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exc
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
-const generateRawTransaction = async ({
+const generateRawTransaction = ({
   fromPublicKeyHash,
   toPublicKeyHash,
   capacity,
@@ -18,7 +18,7 @@ const generateRawTransaction = async ({
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
-}) => {
+}): CKBComponents.RawTransaction => {
   if (!deps) {
     throw new Error('The deps is not loaded')
   }
@@ -103,7 +103,7 @@ const generateRawTransaction = async ({
     cellDeps: [
       {
         outPoint: deps.outPoint,
-        depType: 'depGroup',
+        depType: 'depGroup' as CKBComponents.DepType,
       },
     ],
     headerDeps: [],

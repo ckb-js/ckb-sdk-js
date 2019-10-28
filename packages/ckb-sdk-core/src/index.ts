@@ -260,6 +260,52 @@ class Core {
       deps,
     })
   }
+
+  public generateDaoDepositTx = async ({
+    fromAddress,
+    capacity,
+    cells = [],
+  }: any) => {
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
+
+    const addrPayload = this.utils.parseAddress(fromAddress, 'hex')
+    const fromPublicKeyHash = `0x${addrPayload.slice(hrpSize)}`
+
+    let availableCells = cells
+    if (!availableCells.length && this.config.secp256k1Dep) {
+      const lockHash = this.utils.scriptToHash({
+        codeHash: this.config.secp256k1Dep.codeHash,
+        hashType: this.config.secp256k1Dep.hashType,
+        args: fromPublicKeyHash,
+      })
+      const cachedCells = this.cells.get(lockHash)
+      if (cachedCells && cachedCells.length) {
+        availableCells = cachedCells
+      } else {
+        const fetchedCells = await this.loadCells({ lockHash, save: true })
+        availableCells = fetchedCells
+      }
+    }
+
+    const rawTrasnaction = generateRawTransaction({
+      fromPublicKeyHash,
+      toPublicKeyHash: fromPublicKeyHash,
+      capacity,
+      safeMode: true,
+      cells,
+      deps: this.config.daoDep!,
+    })
+
+    rawTrasnaction.outputs[0].type = {
+      codeHash: this.config.daoDep!.codeHash,
+      args: '0x',
+      hashType: this.config.daoDep!.hashType,
+    }
+
+    return rawTrasnaction
+  }
 }
 
 export default Core
