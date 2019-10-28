@@ -21,6 +21,7 @@ class Core {
 
   public config: {
     secp256k1Dep?: DepCellInfo
+    daoDep?: DepCellInfo
   } = {}
 
   constructor(nodeUrl: string) {
@@ -88,11 +89,11 @@ class Core {
   }
 
   public loadSecp256k1Dep = async () => {
-    const block = await this.rpc.getBlockByNumber('0x0')
+    const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
     /* eslint-disable */
-    const secp256k1DepTxHash = block?.transactions[1].hash
-    const typeScript = block?.transactions[0]?.outputs[1]?.type
+    const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
     /* eslint-enable */
 
     if (!secp256k1DepTxHash) {
@@ -114,6 +115,45 @@ class Core {
       },
     }
     return this.config.secp256k1Dep
+  }
+
+  public loadDaoDep = async () => {
+    const genesisBlock = await this.rpc.getBlockByNumber('0x0')
+
+    /* eslint-disable */
+    const daoDepTxHash = genesisBlock?.transactions[0].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
+    const data = genesisBlock?.transactions[0]?.outputsData[2]
+    /* eslint-enable */
+
+    if (!daoDepTxHash) {
+      throw new Error('Cannot load the transaction which has the dao dep cell')
+    }
+
+    if (!typeScript) {
+      throw new Error('DAO type script not found')
+    }
+
+    if (!data) {
+      throw new Error('DAO data not found')
+    }
+
+    const daoTypeHash = this.utils.scriptToHash(typeScript)
+
+    const s = utils.blake2b(32, null, null, utils.PERSONAL)
+    s.update(utils.hexToBytes(data))
+    const codeHash = `0x${s.digest('hex')}`
+
+    this.config.daoDep = {
+      hashType: 'type',
+      codeHash,
+      typeHash: daoTypeHash,
+      outPoint: {
+        txHash: daoDepTxHash,
+        index: '0x2',
+      },
+    }
+    return this.config.daoDep
   }
 
   public loadCells = async ({
