@@ -148,10 +148,15 @@ declare namespace CKBComponents {
 
   export interface TransactionWithStatus {
     transaction: Transaction
-    txStatus: {
-      blockHash: Hash256 | null
-      status: TransactionStatus
-    }
+    txStatus:
+      | {
+          blockHash: Hash256
+          status: TransactionStatus.Committed
+        }
+      | {
+          blockHash: null
+          status: TransactionStatus.Pending | TransactionStatus.Proposed
+        }
   }
 
   /**

@@ -88,10 +88,15 @@ declare module CKB_RPC {
 
   export interface TransactionWithStatus {
     transaction: Transaction
-    tx_status: {
-      block_hash: Hash256 | null
-      status: TransactionStatus
-    }
+    tx_status:
+      | {
+          block_hash: Hash256
+          status: TransactionStatus.Committed
+        }
+      | {
+          block_hash: null
+          status: TransactionStatus.Pending | TransactionStatus.Proposed
+        }
   }
 
   export interface TransactionPoint {

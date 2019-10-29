@@ -122,7 +122,7 @@ class Core {
 
     /* eslint-disable */
     const daoDepTxHash = genesisBlock?.transactions[0].hash
-    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
+    const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type
     const data = genesisBlock?.transactions[0]?.outputsData[2]
     /* eslint-enable */
 
@@ -138,7 +138,7 @@ class Core {
       throw new Error('DAO data not found')
     }
 
-    const daoTypeHash = this.utils.scriptToHash(typeScript)
+    const typeHash = this.utils.scriptToHash(typeScript)
 
     const s = utils.blake2b(32, null, null, utils.PERSONAL)
     s.update(utils.hexToBytes(data))
@@ -147,7 +147,7 @@ class Core {
     this.config.daoDep = {
       hashType: 'type',
       codeHash,
-      typeHash: daoTypeHash,
+      typeHash,
       outPoint: {
         txHash: daoDepTxHash,
         index: '0x2',
@@ -264,8 +264,14 @@ class Core {
   public generateDaoDepositTx = async ({
     fromAddress,
     capacity,
+    fee,
     cells = [],
-  }: any) => {
+  }: {
+    fromAddress: string,
+    capacity: bigint,
+    fee: bigint,
+    cells: CachedCell[],
+  }) => {
     if (!this.config.daoDep) {
       await this.loadDaoDep()
     }
@@ -293,6 +299,7 @@ class Core {
       fromPublicKeyHash,
       toPublicKeyHash: fromPublicKeyHash,
       capacity,
+      fee,
       safeMode: true,
       cells,
       deps: this.config.daoDep!,
@@ -300,12 +307,85 @@ class Core {
 
     rawTrasnaction.outputs[0].type = {
       codeHash: this.config.daoDep!.codeHash,
-      args: '0x',
+      args: '0x0000000000000000',
       hashType: this.config.daoDep!.hashType,
     }
 
     return rawTrasnaction
   }
+
+  public generateDaoWithdrawStartTx = async ({ outPoint }: {
+    outPoint: CKBComponents.OutPoint
+  }) => {
+    const DAO_LOCK_PERIOD_EPOCHS = 180
+
+    const DAO_MATURITY_BLOCKS = 5
+
+    const cellStatus = await this.rpc.getLiveCell(outPoint, false)
+    if (cellStatus.status !== 'live') {
+      throw new Error('Cell is not live yet.')
+    }
+
+    const tx = await this.rpc.getTransaction(outPoint.txHash)
+    if (tx.txStatus.status !== 'committed') {
+      throw new Error('Transaction is not committed yet')
+    }
+
+    if (tx.txStatus.blockHash === null) {
+      throw new Error('The cell is not a NervosDAO cell')
+    }
+
+    const depositBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header)
+    const depositBlockNumber = depositBlockHeader.number
+
+    const outputData = this.utils.toHexInLittleEndian(depositBlockNumber, 8)
+
+    const changeOutput = {
+      capacity: BigInt(0),
+      lock: ownerLockScript,
+    }
+
+    const changeOutputData = '0x'
+
+
+    // const [depositBlockHeader, currentBlockHeader] = await Promise.all([
+    //   this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header),
+    //   this.rpc.getTipHeader(),
+    // ])
+
+    // if (depositBlockHeader.number === currentBlockHeader.number) {
+    //   throw new Error('You need to at least wait for a block before generating DAO withdraw transaction!')
+    // }
+
+    // const [depositEpoch, currentEpoch] = [depositBlockHeader, currentBlockHeader].map(header => this.utils.parseEpoch(header.epoch))
+
+    // const depositFraction = depositEpoch.index * depositEpoch.length
+    // const withdrawFraction = currentEpoch.index * currentEpoch.length
+
+    // let depositedEpoches = currentEpoch.number - depositEpoch.number
+
+    // if (withdrawFraction > depositFraction) {
+    //   depositedEpoches += 1
+    // }
+
+    // const lockEpoches = Math.floor((depositedEpoches + DAO_LOCK_PERIOD_EPOCHS - 1) / DAO_LOCK_PERIOD_EPOCHS) * DAO_LOCK_PERIOD_EPOCHS
+
+    // const minimalSinceEpochNumber = depositEpoch.number
+    // const minimalSinceEpochIndex = depositEpoch.index
+    // const minimalSinceEpochLength = depositEpoch.length
+
+    // const minimalSince = this.epochSince(minimalSinceEpochLength, minimalSinceEpochIndex, minimalSinceEpochNumber)
+
+    // // hex string
+    // const outputCapacity = this.calculateDaoMinimumWithdraw(outPoint, currentBlockHeader.hash)
+
+    // const newOutPoint: CKBComponents.OutPoint = {
+    //   txHash: outPoint.txHash,
+    //   index: outPoint.index,
+    // }
+  }
+
+  private epochSince = (length: number, index: number, number: number) => `0b10000${'0'.repeat(56)}${length.toString(2) + '0'.repeat(40)}${index.toString(2) + '0'.repeat(24)}${number}`
 }
 
 export default Core
