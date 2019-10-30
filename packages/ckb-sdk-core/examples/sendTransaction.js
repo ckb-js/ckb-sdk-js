@@ -80,6 +80,7 @@ const bootstrap = async () => {
     fromAddress: addresses.testnetAddress,
     toAddress,
     capacity: 60000000000,
+    fee: 100000,
     safeMode: true,
     cells: unspentCells,
     deps: core.config.secp256k1Dep,

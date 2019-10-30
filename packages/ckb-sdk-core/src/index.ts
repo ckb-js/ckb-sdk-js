@@ -175,6 +175,7 @@ class Core {
     fromAddress,
     toAddress,
     capacity,
+    fee,
     safeMode = true,
     cells = [],
     deps = this.config.secp256k1Dep!,
@@ -182,6 +183,7 @@ class Core {
     fromAddress: string
     toAddress: string
     capacity: string | bigint
+    fee: string | bigint
     safeMode: boolean
     cells: CachedCell[]
     deps: DepCellInfo
@@ -211,6 +213,7 @@ class Core {
       fromPublicKeyHash,
       toPublicKeyHash,
       capacity,
+      fee,
       safeMode,
       cells: availableCells,
       deps,
