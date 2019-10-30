@@ -3,7 +3,8 @@
     "params": {
       "fromPublicKeyHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
       "toPublicKeyHash": "0xddbd7f09eb480450c1b1ed2c8696248de91c6802",
-      "capacity": 783602013670,
+      "capacity": 783602000000,
+      "fee": 13670,
       "safeMode": true,
       "cells": [
         {
@@ -223,7 +224,7 @@
       ],
       "outputs": [
         {
-          "capacity": "0xb67251d5e6",
+          "capacity": "0xb67251a080",
           "lock": {
             "args": "0xddbd7f09eb480450c1b1ed2c8696248de91c6802",
             "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
@@ -248,7 +249,8 @@
     "params": {
       "fromPublicKeyHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
       "toPublicKeyHash": "0xddbd7f09eb480450c1b1ed2c8696248de91c6802",
-      "capacity": 783602013670,
+      "capacity": 783602000000,
+      "fee": 13670,
       "safeMode": false,
       "cells": [
         {
@@ -468,7 +470,7 @@
       ],
       "outputs": [
         {
-          "capacity": "0xb67251d5e6",
+          "capacity": "0xb67251a080",
           "lock": {
             "args": "0xddbd7f09eb480450c1b1ed2c8696248de91c6802",
             "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
