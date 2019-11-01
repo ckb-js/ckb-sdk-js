@@ -118,7 +118,7 @@ export const serializeTable = (table: Map<string, string | Uint8Array>) => {
  *           1. if it's empty, there is zero bytes(the size is 0)
  *           2. if it's not empty, just serialize the inner item(the size is same as the inner item's size)
  */
-export const serializeOption = (innerItem: string | (string | Uint8Array)[]) => innerItem || ''
+export const serializeOption = (innerItem?: string) => (!innerItem ? '0x' : innerItem)
 // TODO: serialize union
 
 // TODO: serialize with schema

@@ -9,6 +9,7 @@ const {
   serializeOutput,
   serializeOutputs,
   serializeOutputsData,
+  serializeWitnessArgs,
   serializeWitnesses,
   serializeRawTransaction,
   serializeTransaction,
@@ -172,6 +173,17 @@ describe('Test Transaction Serialization', () => {
       if (undefined !== exception) {
         expect(() => serializeOutputsData(outputsData)).toThrow(new Error(exception))
       }
+    })
+  })
+
+  describe('Serialize WitnessArgs', () => {
+    const fixtureTable = Object.entries(fixtures.serializeWitnessArgs).map(([title, { args, expected }]) => [
+      title,
+      args,
+      expected,
+    ])
+    test.each(fixtureTable)('%s', (_title, args, expected) => {
+      expect(serializeWitnessArgs(args)).toBe(expected)
     })
   })
 

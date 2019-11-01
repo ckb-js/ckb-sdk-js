@@ -178,6 +178,24 @@
       "expected": "0x140000000c000000100000000000000000000000"
     }
   },
+  "serializeWitnessArgs": {
+    "empty args": {
+      "args": {
+        "lock": "",
+        "inputType": "0x",
+        "outputType": ""
+      },
+      "expected": "0x10000000100000001000000010000000"
+    },
+    "basic args": {
+      "args": {
+        "lock": "0x",
+        "inputType": "0x10",
+        "outputType": "0x20"
+      },
+      "expected": "0x1a00000010000000100000001500000001000000100100000020"
+    }
+  },
   "serializeWitnesses": {
     "empty witnesses": {
       "witnesses": [],

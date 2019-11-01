@@ -364,4 +364,16 @@ declare namespace CKBComponents {
   export interface FeeRate {
     feeRate: Number
   }
+
+  export type BytesOpt = Bytes | undefined
+
+  export interface WitnessArgs {
+    lock: BytesOpt // witness for lock script
+    inputType: BytesOpt // witness for type script in input
+    outputType: BytesOpt // witness for type script in output
+  }
+
+  export interface RawTransactionToSign extends Omit<RawTransaction, 'witnesses'> {
+    witnesses: (WitnessArgs | Witness)[]
+  }
 }

@@ -87,6 +87,11 @@ const bootstrap = async () => {
   })
 
   rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
+  rawTransaction.witnesses[0] = {
+    lock: '',
+    inputType: '',
+    outputType: ''
+  }
 
   const signedTx = core.signTransaction(privateKey)(rawTransaction)
   /**

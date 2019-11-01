@@ -4,11 +4,11 @@ import { pubkeyToAddress, AddressOptions } from './address'
 import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
-import { serializeRawTransaction, serializeTransaction } from './serialization/transaction'
+import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
 
 export * from './address'
 export * from './serialization'
-export { serializeScript, serializeRawTransaction, serializeTransaction }
+export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs }
 
 declare const TextDecoder: any // will be removed when Node@11 becomes LTS
 declare const TextEncoder: any // will be removed when Node@11 becomes LTS
@@ -63,7 +63,7 @@ export const scriptToHash = (script: CKBComponents.Script) => {
   return `0x${digest}` as string
 }
 
-export const rawTransactionToHash = (rawTransaction: CKBComponents.RawTransaction) => {
+export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTransaction, 'witnesses'>) => {
   if (!rawTransaction) throw new ArgumentRequired('Raw transaction')
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
   const s = blake2b(32, null, null, PERSONAL)
