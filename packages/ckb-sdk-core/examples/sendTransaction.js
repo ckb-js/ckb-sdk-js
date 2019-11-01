@@ -79,7 +79,7 @@ const bootstrap = async () => {
   const rawTransaction = await core.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
     toAddress,
-    capacity: 60000000000,
+    capacity: 600000000000,
     fee: 100000,
     safeMode: true,
     cells: unspentCells,
@@ -94,6 +94,7 @@ const bootstrap = async () => {
   }
 
   const signedTx = core.signTransaction(privateKey)(rawTransaction)
+  console.log(JSON.stringify(signedTx))
   /**
    * to see the signed transaction
    */
