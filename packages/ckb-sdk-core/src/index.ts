@@ -4,7 +4,6 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
-import TransactionBuilder from './transactionBuilder'
 
 import loadCells from './loadCells'
 import signWitnessGroup from './signWitnessGroup'
@@ -221,8 +220,6 @@ class Core {
       deps,
     })
   }
-
-  public generateTransactionBuilder = (params: TransactionBuilderInitParams) => new TransactionBuilder(params)
 }
 
 export default Core
