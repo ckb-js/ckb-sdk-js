@@ -368,7 +368,7 @@ declare namespace CKBComponents {
   export type BytesOpt = Bytes | undefined
 
   export interface WitnessArgs {
-    lock: BytesOpt // witness for lock script
+    lock: BytesOpt // witness for lock script in input
     inputType: BytesOpt // witness for type script in input
     outputType: BytesOpt // witness for type script in output
   }
