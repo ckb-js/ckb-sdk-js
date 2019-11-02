@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.1...v0.24.0) (2019-11-02)
+
+
+### Features
+
+* **rpc:** add a rpc method ([928aaf9](https://github.com/nervosnetwork/ckb-sdk-js/commit/928aaf905bbc73165044f05c5c94c316665a773a))
+
+
+
+
+
 ## [0.23.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.0...v0.23.1) (2019-10-22)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc

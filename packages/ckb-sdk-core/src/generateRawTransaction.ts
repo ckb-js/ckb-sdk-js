@@ -6,6 +6,7 @@ const generateRawTransaction = async ({
   fromPublicKeyHash,
   toPublicKeyHash,
   capacity,
+  fee = BigInt(0),
   safeMode = true,
   cells: unspentCells = [],
   deps,
@@ -13,8 +14,9 @@ const generateRawTransaction = async ({
   fromPublicKeyHash: string
   toPublicKeyHash: string
   capacity: bigint | string | number
+  fee?: bigint | string | number
   safeMode: boolean
-  cells: CachedCell[]
+  cells?: CachedCell[]
   deps: DepCellInfo
 }) => {
   if (!deps) {
@@ -26,6 +28,9 @@ const generateRawTransaction = async ({
   }
 
   const targetCapacity = typeof capacity !== 'bigint' ? BigInt(capacity) : capacity
+  const realFee = typeof fee !== 'bigint' ? BigInt(fee) : fee
+
+  const costCapacity = targetCapacity + realFee
 
   const lockScript = {
     codeHash: deps.codeHash,
@@ -69,16 +74,16 @@ const generateRawTransaction = async ({
         since: '0x0',
       })
       inputCapacity += BigInt(unspentCells[i].capacity)
-      if (inputCapacity >= targetCapacity) {
+      if (inputCapacity >= costCapacity) {
         break
       }
     }
   }
-  if (inputCapacity < targetCapacity) {
+  if (inputCapacity < costCapacity) {
     throw new Error('Input capacity is not enough')
   }
-  if (inputCapacity > targetCapacity) {
-    changeOutput.capacity = inputCapacity - targetCapacity
+  if (inputCapacity > costCapacity) {
+    changeOutput.capacity = inputCapacity - costCapacity
   }
 
   /**

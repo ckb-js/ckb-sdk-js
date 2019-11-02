@@ -79,13 +79,19 @@ const bootstrap = async () => {
   const rawTransaction = await core.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
     toAddress,
-    capacity: 60000000000,
+    capacity: 600000000000,
+    fee: 100000,
     safeMode: true,
     cells: unspentCells,
     deps: core.config.secp256k1Dep,
   })
 
   rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
+  rawTransaction.witnesses[0] = {
+    lock: '',
+    inputType: '',
+    outputType: ''
+  }
 
   const signedTx = core.signTransaction(privateKey)(rawTransaction)
   /**

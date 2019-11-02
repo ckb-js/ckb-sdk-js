@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.1...v0.24.0) (2019-11-02)
+
+
+### Features
+
+* **core:** include fee in generateTransaction method ([03153f6](https://github.com/nervosnetwork/ckb-sdk-js/commit/03153f6ee17f202e31ac0972318a10d8b71e76eb))
+* **core:** sign inputs in group ([294f59c](https://github.com/nervosnetwork/ckb-sdk-js/commit/294f59cb9505d90aa5e8faa00a63a39fab58fd0b))
+
+
+### BREAKING CHANGES
+
+* **core:** sign inputs in group
+
+
+
+
+
 ## [0.23.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.0...v0.23.1) (2019-10-22)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core

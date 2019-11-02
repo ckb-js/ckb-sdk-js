@@ -4,10 +4,9 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
-import TransactionBuilder from './transactionBuilder'
 
 import loadCells from './loadCells'
-import signWitness from './signWitness'
+import signWitnessGroup from './signWitnessGroup'
 
 const hrpSize = 6
 
@@ -75,7 +74,7 @@ class Core {
 
   public generateLockHash = (
     publicKeyHash: string,
-    deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep
+    deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
   ) => {
     if (!deps) {
       throw new ArgumentRequired('deps')
@@ -89,34 +88,28 @@ class Core {
   }
 
   public loadSecp256k1Dep = async () => {
-    /**
-     * cell list
-     * @link https://github.com/nervosnetwork/ckb/blob/dbadf484cea6bdba0329d58102726068be997a50/docs/hashes.toml
-     */
     const block = await this.rpc.getBlockByNumber('0x0')
-    if (!block) throw new Error('Cannot load the genesis block')
-    const secp256k1CodeTx = block.transactions[0]
-    if (!secp256k1CodeTx) throw new Error('Cannot load the transaction which has the secp256k1 code cell')
-    if (!secp256k1CodeTx.outputs[1]) {
-      throw new Error('Cannot load the secp256k1 cell because the specific output is not found')
-    }
-    if (!secp256k1CodeTx.outputs[1].type) {
-      throw new Error('Secp256k1 type script not found in the cell')
+
+    /* eslint-disable */
+    const secp256k1DepTxHash = block?.transactions[1].hash
+    const typeScript = block?.transactions[0]?.outputs[1]?.type
+    /* eslint-enable */
+
+    if (!secp256k1DepTxHash) {
+      throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
     }
 
-    const secp256k1TypeHash = this.utils.scriptToHash(secp256k1CodeTx.outputs[1].type)
-
-    const secp256k1DepTx = block.transactions[1]
-    if (!secp256k1DepTx) throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
-    if (!secp256k1DepTx.outputs[0]) {
-      throw new Error('Cannot load the secp256k1 dep because the specific output is not found')
+    if (!typeScript) {
+      throw new Error('Secp256k1 type script not found')
     }
+
+    const secp256k1TypeHash = this.utils.scriptToHash(typeScript)
 
     this.config.secp256k1Dep = {
       hashType: 'type',
       codeHash: secp256k1TypeHash,
       outPoint: {
-        txHash: secp256k1DepTx.hash,
+        txHash: secp256k1DepTxHash,
         index: '0x0',
       },
     }
@@ -148,21 +141,23 @@ class Core {
     witnesses = [],
   }: {
     transactionHash: string
-    witnesses: CKBComponents.Witness[]
+    witnesses: (CKBComponents.WitnessArgs | CKBComponents.Witness)[]
   }) => {
+    // CAUTIONS: Now we consider witnesses as a single group
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
     const keyPair = typeof key === 'string' ? new ECPair(key) : key
-    const signedWitnesses = witnesses.map(witness => signWitness(keyPair, transactionHash, witness))
+    const signedWitnesses = signWitnessGroup(keyPair, transactionHash, witnesses)
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | ECPair) => (
+    transaction: CKBComponents.RawTransactionToSign,
+  ) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
-    if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
     if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
@@ -181,6 +176,7 @@ class Core {
     fromAddress,
     toAddress,
     capacity,
+    fee,
     safeMode = true,
     cells = [],
     deps = this.config.secp256k1Dep!,
@@ -188,6 +184,7 @@ class Core {
     fromAddress: string
     toAddress: string
     capacity: string | bigint
+    fee: string | bigint
     safeMode: boolean
     cells: CachedCell[]
     deps: DepCellInfo
@@ -217,13 +214,12 @@ class Core {
       fromPublicKeyHash,
       toPublicKeyHash,
       capacity,
+      fee,
       safeMode,
       cells: availableCells,
       deps,
     })
   }
-
-  public generateTransactionBuilder = (params: TransactionBuilderInitParams) => new TransactionBuilder(params)
 }
 
 export default Core

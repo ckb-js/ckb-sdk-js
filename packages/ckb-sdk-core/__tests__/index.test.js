@@ -93,24 +93,6 @@ describe('ckb-core', () => {
     })
   })
 
-  describe('sign witnesses', () => {
-    const fixtureTable = Object.entries(fixtures.signWitnesses).map(
-      ([title, { privateKey, message, expected, exception }]) => [title, privateKey, message, expected, exception]
-    )
-    test.each(fixtureTable)('%s', (_title, privateKey, message, expected, exception) => {
-      if (undefined !== expected) {
-        const signedWitnessesByPrivateKey = core.signWitnesses(privateKey)(message)
-        expect(signedWitnessesByPrivateKey).toEqual(expected)
-
-        const signedWitnessesByECPair = core.signWitnesses(new ECPair(privateKey))(message)
-        expect(signedWitnessesByECPair).toEqual(expected)
-      }
-      if (undefined !== exception) {
-        expect(() => core.signWitnesses(privateKey)(message)).toThrowError(exception)
-      }
-    })
-  })
-
   describe('sign transaction', () => {
     const fixtureTable = Object.entries(fixtures.signTransaction).map(
       ([title, { privateKey, transaction, expected, exception }]) => [
@@ -145,35 +127,6 @@ describe('ckb-core', () => {
         expect(rawTransaction).toEqual(expected)
       } else {
         expect(core.generateRawTransaction(params)).rejects.toThrowError(exception)
-      }
-    })
-  })
-
-  describe('sign transaction with multiple private keys', () => {
-    const fixtureTable = Object.entries(fixtures.generateTransactionBuilder).map(
-      ([title, { privateKey, index, inputs, outputs, options, expected, exception }]) => [
-        title,
-        privateKey,
-        index,
-        inputs,
-        outputs,
-        options,
-        expected,
-        exception,
-      ]
-    )
-    test.each(fixtureTable)('%s', (_title, privateKey, index, inputs, outputs, options, expected, exception) => {
-      const transactionBuilder = core.generateTransactionBuilder({
-        inputs,
-        outputs,
-        ...options,
-      })
-      if (undefined !== expected) {
-        transactionBuilder.signInput(index, privateKey)
-        expect(transactionBuilder.rawTransaction).toEqual(expected)
-      }
-      if (undefined !== exception) {
-        expect(() => transactionBuilder.signInput(index, privateKey)).toThrowError(exception)
       }
     })
   })
