@@ -112,9 +112,13 @@
     }
   },
   "serializeOption": {
-    "empty option": {
+    "empty string":{
       "option": "",
-      "expected": ""
+      "expected": "0x"
+    },
+    "empty option": {
+      "option": "0x",
+      "expected": "0x"
     },
     "basic option": {
       "option": "0x0c0000000800000000000000",

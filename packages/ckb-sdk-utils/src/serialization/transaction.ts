@@ -1,6 +1,6 @@
 import { serializeScript } from './script'
 import { toHexInLittleEndian } from '..'
-import { serializeArray, serializeStruct, serializeTable, serializeDynVec, serializeFixVec } from '.'
+import { serializeArray, serializeStruct, serializeTable, serializeDynVec, serializeFixVec, serializeOption } from '.'
 
 export const serializeVersion = (version: CKBComponents.Version) => toHexInLittleEndian(version)
 
@@ -68,12 +68,37 @@ export const serializeOutputsData = (outputsData: CKBComponents.Hash[]) => {
   return serializeDynVec(serializedOutputsDatumList)
 }
 
+export const serializeWitnessArgs = (witnessArgs: CKBComponents.WitnessArgs) => {
+  const [serializedLock, serializedInputType, serializedOutputType] = [
+    witnessArgs.lock,
+    witnessArgs.inputType,
+    witnessArgs.outputType,
+  ].map(args => {
+    if (serializeOption(args) === '0x') {
+      return '0x'
+    }
+    return serializeFixVec(args!)
+  })
+
+  const table = new Map([
+    ['lock', serializedLock],
+    ['inputType', serializedInputType],
+    ['outputType', serializedOutputType],
+  ])
+  return serializeTable(table)
+}
+
 export const serializeWitnesses = (witnesses: CKBComponents.Witness[]) => {
   const serializedWitnessList = witnesses.map(witness => serializeFixVec(witness))
   return serializeDynVec(serializedWitnessList)
 }
 
-export const serializeRawTransaction = (rawTransaction: CKBComponents.RawTransaction) => {
+export const serializeRawTransaction = (
+  rawTransaction: Pick<
+    CKBComponents.RawTransaction,
+    'version' | 'cellDeps' | 'headerDeps' | 'inputs' | 'outputs' | 'outputsData'
+  >
+) => {
   const serializedVersion = serializeVersion(rawTransaction.version)
   const serializedCellDeps = serializeCellDeps(rawTransaction.cellDeps)
   const serializedHeaderDeps = serializeHeaderDeps(rawTransaction.headerDeps)

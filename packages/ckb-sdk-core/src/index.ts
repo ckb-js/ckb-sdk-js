@@ -4,10 +4,9 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
-import TransactionBuilder from './transactionBuilder'
 
 import loadCells from './loadCells'
-import signWitness from './signWitness'
+import signWitnessGroup from './signWitnessGroup'
 
 const hrpSize = 6
 
@@ -142,21 +141,23 @@ class Core {
     witnesses = [],
   }: {
     transactionHash: string
-    witnesses: CKBComponents.Witness[]
+    witnesses: (CKBComponents.WitnessArgs | CKBComponents.Witness)[]
   }) => {
+    // CAUTIONS: Now we consider witnesses as a single group
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transactionHash) throw new ArgumentRequired('Transaction hash')
 
     const keyPair = typeof key === 'string' ? new ECPair(key) : key
-    const signedWitnesses = witnesses.map(witness => signWitness(keyPair, transactionHash, witness))
+    const signedWitnesses = signWitnessGroup(keyPair, transactionHash, witnesses)
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransaction) => {
+  public signTransaction = (key: string | ECPair) => (
+    transaction: CKBComponents.RawTransactionToSign,
+  ) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
-    if (transaction.witnesses.length < transaction.inputs.length) throw new Error('Invalid count of witnesses')
     if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
@@ -219,8 +220,6 @@ class Core {
       deps,
     })
   }
-
-  public generateTransactionBuilder = (params: TransactionBuilderInitParams) => new TransactionBuilder(params)
 }
 
 export default Core
