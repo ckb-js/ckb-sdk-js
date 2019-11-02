@@ -94,7 +94,6 @@ const bootstrap = async () => {
   }
 
   const signedTx = core.signTransaction(privateKey)(rawTransaction)
-  console.log(JSON.stringify(signedTx))
   /**
    * to see the signed transaction
    */
