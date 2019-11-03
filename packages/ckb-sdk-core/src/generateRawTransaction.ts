@@ -4,30 +4,37 @@ const EMPTY_DATA_HASH = '0x00000000000000000000000000000000000000000000000000000
 
 const generateRawTransaction = async ({
   fromPublicKeyHash,
-  toPublicKeyHash,
-  capacity,
   fee = BigInt(0),
   safeMode = true,
   cells: unspentCells = [],
   deps,
+  outputs,
+  outputsData,
 }: {
   fromPublicKeyHash: string
-  toPublicKeyHash: string
-  capacity: bigint | string | number
   fee?: bigint | string | number
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
+  outputs: Output[]
+  outputsData: string[]
 }) => {
   if (!deps) {
     throw new Error('The deps is not loaded')
   }
 
-  if (typeof capacity === 'string' && !capacity.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(capacity)
+  outputsData.forEach(data => {
+    if (!data.startsWith('0x')) {
+      throw new HexStringShouldStartWith0x(data)
+    }
+  })
+
+  let targetCapacity = BigInt(0)
+  for (let i = 0; i < outputs.length; i++) {
+    const currOutput = outputs[i]
+    targetCapacity += BigInt(currOutput.capacity)
   }
 
-  const targetCapacity = typeof capacity !== 'bigint' ? BigInt(capacity) : capacity
   const realFee = typeof fee !== 'bigint' ? BigInt(fee) : fee
 
   const costCapacity = targetCapacity + realFee
@@ -36,18 +43,6 @@ const generateRawTransaction = async ({
     codeHash: deps.codeHash,
     hashType: deps.hashType,
     args: fromPublicKeyHash,
-  }
-
-  /**
-   * the new cell for next owner
-   */
-  const toOutput = {
-    capacity: targetCapacity,
-    lock: {
-      hashType: deps.hashType,
-      codeHash: deps.codeHash,
-      args: toPublicKeyHash,
-    },
   }
 
   /**
@@ -90,13 +85,13 @@ const generateRawTransaction = async ({
    * compose the raw transaction which has an empty witnesses
    */
 
-  const outputs = [{ ...toOutput, capacity: `0x${toOutput.capacity.toString(16)}` }]
-
   if (changeOutput.capacity > BigInt(0)) {
-    outputs.push({ ...changeOutput, capacity: `0x${changeOutput.capacity.toString(16)}` })
+    outputs.push({ ...changeOutput, capacity: changeOutput.capacity })
+    outputsData.push('0x')
   }
 
-  const outputsData = outputs.map(() => '0x')
+  let realOutputs = outputs.slice()
+  realOutputs = outputs.map(out => ({ ...out, capacity: `0x${out.capacity.toString(16)}` }))
 
   const tx = {
     version: '0x0',
@@ -108,7 +103,7 @@ const generateRawTransaction = async ({
     ],
     headerDeps: [],
     inputs,
-    outputs,
+    outputs: realOutputs,
     witnesses: [],
     outputsData,
   }

@@ -174,26 +174,22 @@ class Core {
 
   public generateRawTransaction = async ({
     fromAddress,
-    toAddress,
-    capacity,
     fee,
     safeMode = true,
     cells = [],
     deps = this.config.secp256k1Dep!,
+    outputs,
+    outputsData,
   }: {
     fromAddress: string
-    toAddress: string
-    capacity: string | bigint
     fee: string | bigint
     safeMode: boolean
     cells: CachedCell[]
     deps: DepCellInfo
+    outputs: Output[]
+    outputsData: string[]
   }) => {
-    const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
-      const addressPayload = this.utils.parseAddress(addr, 'hex')
-      return `0x${addressPayload.slice(hrpSize)}`
-    })
-
+    const fromPublicKeyHash = `0x${this.utils.parseAddress(fromAddress, 'hex').slice(hrpSize)}`
     let availableCells = cells
     if (!availableCells.length && deps) {
       const lockHash = this.utils.scriptToHash({
@@ -212,12 +208,12 @@ class Core {
 
     return generateRawTransaction({
       fromPublicKeyHash,
-      toPublicKeyHash,
-      capacity,
       fee,
       safeMode,
       cells: availableCells,
       deps,
+      outputs,
+      outputsData,
     })
   }
 }

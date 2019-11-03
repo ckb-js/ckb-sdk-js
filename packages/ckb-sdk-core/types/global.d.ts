@@ -16,3 +16,9 @@ interface TransactionBuilderInitParams {
   headerDeps?: string[]
   witnesses?: string[]
 }
+
+interface Output {
+  capacity: integer | string
+  lock: CKBComponents.Script
+  type?: CKBComponents.Script | null
+}

@@ -3,8 +3,8 @@ const Core = require('../lib').default
 
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
-  const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
-  const blockAssemblerCodeHash = '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
+  const privateKey = process.env.PRIV_KEY || '0xd00c06bfd800d27397002dca6fb0993d5ba6399b4238b2f29ee9deb97593d2bc' // example private key
+  const blockAssemblerCodeHash = "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8" // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
 
   const core = new Core(nodeUrl) // instantiate the JS SDK with provided node url
 
@@ -64,6 +64,7 @@ const bootstrap = async () => {
     lockHash
   })
 
+
   /**
    * to see the unspent cells
    */
@@ -72,18 +73,26 @@ const bootstrap = async () => {
   /**
    * send transaction
    */
-  const toAddress = core.utils.privateKeyToAddress("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", {
-    prefix: 'ckt'
-  })
 
+
+  const recipientPubKey = core.utils.privateKeyToPublicKey("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+  const recipientPubKeyHash = `0x${core.utils.blake160(recipientPubKey, 'hex')}`
   const rawTransaction = await core.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
-    toAddress,
-    capacity: 600000000000,
     fee: 100000,
     safeMode: true,
     cells: unspentCells,
     deps: core.config.secp256k1Dep,
+    outputs: [{
+      capacity: 600000000000,
+      lock: {
+        hashType: "type",
+        codeHash: blockAssemblerCodeHash,
+        args: recipientPubKeyHash
+      },
+      type: null
+    }],
+    outputsData: ["0x"]
   })
 
   rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
