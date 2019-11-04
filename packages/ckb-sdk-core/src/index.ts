@@ -219,14 +219,14 @@ class Core {
     fee,
     safeMode = true,
     cells = [],
-    deps = this.config.secp256k1Dep!,
+    deps,
   }: {
     fromAddress: string
     toAddress: string
     capacity: string | bigint
     fee: string | bigint
-    safeMode: boolean
-    cells: CachedCell[]
+    safeMode?: boolean
+    cells?: CachedCell[]
     deps: DepCellInfo
   }) => {
     const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
@@ -276,116 +276,82 @@ class Core {
       await this.loadDaoDep()
     }
 
-    const addrPayload = this.utils.parseAddress(fromAddress, 'hex')
-    const fromPublicKeyHash = `0x${addrPayload.slice(hrpSize)}`
-
-    let availableCells = cells
-    if (!availableCells.length && this.config.secp256k1Dep) {
-      const lockHash = this.utils.scriptToHash({
-        codeHash: this.config.secp256k1Dep.codeHash,
-        hashType: this.config.secp256k1Dep.hashType,
-        args: fromPublicKeyHash,
-      })
-      const cachedCells = this.cells.get(lockHash)
-      if (cachedCells && cachedCells.length) {
-        availableCells = cachedCells
-      } else {
-        const fetchedCells = await this.loadCells({ lockHash, save: true })
-        availableCells = fetchedCells
-      }
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
     }
 
-    const rawTrasnaction = generateRawTransaction({
-      fromPublicKeyHash,
-      toPublicKeyHash: fromPublicKeyHash,
+    const rawTx = await this.generateRawTransaction({
+      fromAddress,
+      toAddress: fromAddress,
       capacity,
       fee,
       safeMode: true,
       cells,
-      deps: this.config.daoDep!,
+      deps: this.config.secp256k1Dep!,
     })
 
-    rawTrasnaction.outputs[0].type = {
-      codeHash: this.config.daoDep!.codeHash,
-      args: '0x0000000000000000',
+
+    rawTx.outputs[0].type = {
+      codeHash: this.config.daoDep!.typeHash!,
+      args: '0x',
       hashType: this.config.daoDep!.hashType,
     }
 
-    return rawTrasnaction
+    rawTx.outputsData[0] = '0x0000000000000000'
+
+    rawTx.cellDeps.push({
+      outPoint: this.config.daoDep!.outPoint,
+      depType: 'depGroup',
+    })
+    rawTx.witnesses.unshift({ lock: '', inputType: '', outputType: '' })
+
+    return rawTx
   }
 
-  public generateDaoWithdrawStartTx = async ({ outPoint }: {
-    outPoint: CKBComponents.OutPoint
+  public generateDaoWithdrawStartTx = async ({ outPoint, fee }: {
+    outPoint: CKBComponents.OutPoint,
+    fee: bigint | string
   }) => {
-    const DAO_LOCK_PERIOD_EPOCHS = 180
-
-    const DAO_MATURITY_BLOCKS = 5
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
+    }
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
-    if (cellStatus.status !== 'live') {
-      throw new Error('Cell is not live yet.')
-    }
+    if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
 
     const tx = await this.rpc.getTransaction(outPoint.txHash)
-    if (tx.txStatus.status !== 'committed') {
-      throw new Error('Transaction is not committed yet')
-    }
-
-    if (tx.txStatus.blockHash === null) {
-      throw new Error('The cell is not a NervosDAO cell')
-    }
+    if (tx.txStatus.blockHash === null) throw new Error('The cell is not a NervosDAO cell')
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     const depositBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header)
-    const depositBlockNumber = depositBlockHeader.number
+    const encodedBlockNumber = this.utils.toHexInLittleEndian(depositBlockHeader.number, 8)
 
-    const outputData = this.utils.toHexInLittleEndian(depositBlockNumber, 8)
+    const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
 
-    const changeOutput = {
-      capacity: BigInt(0),
-      lock: ownerLockScript,
-    }
+    const rawTx = await this.generateRawTransaction({
+      fromAddress,
+      toAddress: fromAddress,
+      capacity: '0x0',
+      fee,
+      safeMode: true,
+      deps: this.config.secp256k1Dep!,
+    })
 
-    const changeOutputData = '0x'
-
-
-    // const [depositBlockHeader, currentBlockHeader] = await Promise.all([
-    //   this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header),
-    //   this.rpc.getTipHeader(),
-    // ])
-
-    // if (depositBlockHeader.number === currentBlockHeader.number) {
-    //   throw new Error('You need to at least wait for a block before generating DAO withdraw transaction!')
-    // }
-
-    // const [depositEpoch, currentEpoch] = [depositBlockHeader, currentBlockHeader].map(header => this.utils.parseEpoch(header.epoch))
-
-    // const depositFraction = depositEpoch.index * depositEpoch.length
-    // const withdrawFraction = currentEpoch.index * currentEpoch.length
-
-    // let depositedEpoches = currentEpoch.number - depositEpoch.number
-
-    // if (withdrawFraction > depositFraction) {
-    //   depositedEpoches += 1
-    // }
-
-    // const lockEpoches = Math.floor((depositedEpoches + DAO_LOCK_PERIOD_EPOCHS - 1) / DAO_LOCK_PERIOD_EPOCHS) * DAO_LOCK_PERIOD_EPOCHS
-
-    // const minimalSinceEpochNumber = depositEpoch.number
-    // const minimalSinceEpochIndex = depositEpoch.index
-    // const minimalSinceEpochLength = depositEpoch.length
-
-    // const minimalSince = this.epochSince(minimalSinceEpochLength, minimalSinceEpochIndex, minimalSinceEpochNumber)
-
-    // // hex string
-    // const outputCapacity = this.calculateDaoMinimumWithdraw(outPoint, currentBlockHeader.hash)
-
-    // const newOutPoint: CKBComponents.OutPoint = {
-    //   txHash: outPoint.txHash,
-    //   index: outPoint.index,
-    // }
+    rawTx.inputs.unshift({ previousOutput: outPoint, since: '0x0' })
+    rawTx.outputs.unshift(tx.transaction.outputs[+outPoint.index])
+    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'depGroup' })
+    rawTx.headerDeps.push(depositBlockHeader.hash)
+    rawTx.outputsData.unshift(encodedBlockNumber)
+    rawTx.witnesses.unshift({
+      lock: '',
+      inputType: '',
+      outputType: '',
+    })
+    return rawTx
   }
-
-  private epochSince = (length: number, index: number, number: number) => `0b10000${'0'.repeat(56)}${length.toString(2) + '0'.repeat(40)}${index.toString(2) + '0'.repeat(24)}${number}`
 }
 
 export default Core

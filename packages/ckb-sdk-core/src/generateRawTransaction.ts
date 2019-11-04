@@ -20,7 +20,7 @@ const generateRawTransaction = ({
   cells?: CachedCell[]
   deps: DepCellInfo
   cellCapacityThreshold?: bigint | string | number
-}): CKBComponents.RawTransaction => {
+}): CKBComponents.RawTransactionToSign => {
   if (!deps) {
     throw new Error('The deps is not loaded')
   }
