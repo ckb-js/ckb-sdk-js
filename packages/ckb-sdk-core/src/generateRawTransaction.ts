@@ -10,6 +10,7 @@ const generateRawTransaction = ({
   safeMode = true,
   cells: unspentCells = [],
   deps,
+  cellCapacityThreshold = BigInt(61_00_000_000),
 }: {
   fromPublicKeyHash: string
   toPublicKeyHash: string
@@ -18,6 +19,7 @@ const generateRawTransaction = ({
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
+  cellCapacityThreshold?: bigint | string | number
 }): CKBComponents.RawTransaction => {
   if (!deps) {
     throw new Error('The deps is not loaded')
@@ -27,10 +29,19 @@ const generateRawTransaction = ({
     throw new HexStringShouldStartWith0x(capacity)
   }
 
-  const targetCapacity = typeof capacity !== 'bigint' ? BigInt(capacity) : capacity
-  const realFee = typeof fee !== 'bigint' ? BigInt(fee) : fee
+  if (typeof cellCapacityThreshold === 'string' && !cellCapacityThreshold.startsWith('0x')) {
+    throw new HexStringShouldStartWith0x(cellCapacityThreshold)
+  }
 
-  const costCapacity = targetCapacity + realFee
+  const targetCapacity = BigInt(capacity)
+  const realFee = BigInt(fee)
+  const threshold = BigInt(cellCapacityThreshold)
+
+  if (targetCapacity < threshold) {
+    throw new Error(`Capacity should not be less than ${threshold} shannon`)
+  }
+
+  const costCapacity = targetCapacity + realFee + threshold
 
   const lockScript = {
     codeHash: deps.codeHash,
@@ -82,8 +93,8 @@ const generateRawTransaction = ({
   if (inputCapacity < costCapacity) {
     throw new Error('Input capacity is not enough')
   }
-  if (inputCapacity > costCapacity) {
-    changeOutput.capacity = inputCapacity - costCapacity
+  if (inputCapacity > targetCapacity + realFee) {
+    changeOutput.capacity = inputCapacity - targetCapacity - realFee
   }
 
   /**
