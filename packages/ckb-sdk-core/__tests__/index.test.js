@@ -130,4 +130,46 @@ describe('ckb-core', () => {
       }
     })
   })
+
+  describe('nervos dao', () => {
+    beforeEach(() => {
+      core.config.secp256k1Dep = {
+        hashType: 'type',
+        codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
+        outPoint: {
+          txHash: '0xcb77d6dd01abde6dde8cd3fffaa9811399309ae47e18162096b7ae45e5e69f14',
+          index: '0x0',
+        },
+      }
+      core.config.daoDep = {
+        hashType: 'type',
+        codeHash: '0x516be0333273bbe12a723f3be583c524f0b6089326f89c49fc61e24d1f56be21',
+        typeHash: '0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e',
+        outPoint: {
+          txHash: '0xb5724acb4f5f82afb717c3ec3fe025d3b6e45ff48f4ffbb6162c950399cbcabe',
+          index: '0x2',
+        },
+      }
+    })
+    it('generate deposit transaction', async () => {
+      const { params, expected } = fixtures.generateDaoDepositTransaction
+      const tx = await core.generateDaoDepositTransaction({
+        fromAddress: params.fromAddress,
+        capacity: BigInt(params.capacity),
+        fee: BigInt(params.fee),
+        cells: params.cells,
+      })
+      expect(tx).toEqual(expected)
+    })
+
+    it.skip('generate start withdraw transaction', async () => {
+      const { params, expected } = fixtures.generateDaoWithdrawStartTransaction
+      const tx = await core.generateDaoWithdrawStartTransaction({
+        outPoint: params.outPoint,
+        fee: BigInt(params.fee),
+        cells: params.cells,
+      })
+      expect(tx).toEqual(expected)
+    })
+  })
 })

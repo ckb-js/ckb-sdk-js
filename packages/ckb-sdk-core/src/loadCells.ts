@@ -64,6 +64,7 @@ const loadCells = async ({
           ...digest,
           dataHash: cellDetailInRange[idx].cell.data!.hash,
           status: cellDetailInRange[idx].status,
+          type: cellDetailInRange[idx].cell.output.type,
         }))
         .filter(cell => cell.status === 'live')
     )

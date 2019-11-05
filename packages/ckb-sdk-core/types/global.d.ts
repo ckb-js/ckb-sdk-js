@@ -8,6 +8,7 @@ interface DepCellInfo {
 interface CachedCell extends CKBComponents.CellIncludingOutPoint {
   status: string
   dataHash: string
+  type: CKBComponent.Script | null
 }
 
 interface TransactionBuilderInitParams {

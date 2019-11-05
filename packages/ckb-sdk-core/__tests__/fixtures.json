@@ -418,5 +418,127 @@
         "witnesses": []
       }
     }
+  },
+  "generateDaoDepositTransaction": {
+    "params": {
+      "fromAddress": "ckt1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqa703cd",
+      "capacity": "0x174876e800",
+      "fee": "0x186a0",
+      "cells": [
+        {
+          "blockHash": "0xf15ea2efcee00a41afadabbb71d4ac4b614e602628d6d542bde9084f1c8b7107",
+          "lock": {
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          },
+          "outPoint": {
+            "txHash": "0x2da368a15fc31bbf0108bfb119b10a50742d9607530c64ca6f6f41d79621772e",
+            "index": "0x0"
+          },
+          "capacity": "0x2f766e9925",
+          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "status": "live",
+          "type": null
+        }
+      ]
+    },
+    "expected": {
+      "version": "0x0",
+      "cellDeps": [
+        {
+          "outPoint": {
+            "txHash": "0xcb77d6dd01abde6dde8cd3fffaa9811399309ae47e18162096b7ae45e5e69f14",
+            "index": "0x0"
+          },
+          "depType": "depGroup"
+        },
+        {
+          "outPoint": {
+            "txHash": "0xb5724acb4f5f82afb717c3ec3fe025d3b6e45ff48f4ffbb6162c950399cbcabe",
+            "index": "0x2"
+          },
+          "depType": "code"
+        }
+      ],
+      "headerDeps": [],
+      "inputs": [
+        {
+          "previousOutput": {
+            "txHash": "0x2da368a15fc31bbf0108bfb119b10a50742d9607530c64ca6f6f41d79621772e",
+            "index": "0x0"
+          },
+          "since": "0x0"
+        }
+      ],
+      "outputs": [
+        {
+          "capacity": "0x174876e800",
+          "lock": {
+            "hashType": "type",
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          },
+          "type": {
+            "codeHash": "0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e",
+            "args": "0x",
+            "hashType": "type"
+          }
+        },
+        {
+          "capacity": "0x182df62a85",
+          "lock": {
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          }
+        }
+      ],
+      "witnesses": [{ "lock": "", "inputType": "", "outputType": "" }],
+      "outputsData": ["0x0000000000000000", "0x"]
+    }
+  },
+  "generateDaoWithdrawStartTransaction": {
+    "params": {
+      "outPoint": {
+        "txHash": "0xe5f1f754d0f032edf073187d2b69c6d1b81cf91528f2aaf2d2aa658db4b556fd",
+        "index": "0x0"
+      },
+      "fee": "1000",
+      "cells": [
+        {
+          "blockHash": "0x7790fbe20bea5037c753caa8ee3c5a7937687b32bdcf73ebfa8abafb8108ffd4",
+          "lock": {
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          },
+          "outPoint": {
+            "txHash": "0xe5f1f754d0f032edf073187d2b69c6d1b81cf91528f2aaf2d2aa658db4b556fd",
+            "index": "0x1"
+          },
+          "capacity": "0x182df62a85",
+          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "status": "live",
+          "type": null
+        },
+        {
+          "blockHash": "0xb8171c6953e55f56b92935b554fe2923358452970a143bdcb539a19ee0b30447",
+          "lock": {
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          },
+          "outPoint": {
+            "txHash": "0x0e8d950607252dc0beaf879c2fd8ee989f28d8a5309d35061424212be1c07eb6",
+            "index": "0x0"
+          },
+          "capacity": "0x2f765892a5",
+          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "status": "live",
+          "type": null
+        }
+      ]
+    }
   }
 }

@@ -10,7 +10,8 @@ const generateRawTransaction = ({
   safeMode = true,
   cells: unspentCells = [],
   deps,
-  cellCapacityThreshold = BigInt(61_00_000_000),
+  capacityThreshold = BigInt(61_00_000_000),
+  changeThreshold = BigInt(61_00_000_000),
 }: {
   fromPublicKeyHash: string
   toPublicKeyHash: string
@@ -19,7 +20,8 @@ const generateRawTransaction = ({
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
-  cellCapacityThreshold?: bigint | string | number
+  capacityThreshold?: bigint | string | number
+  changeThreshold?: bigint | string | number
 }): CKBComponents.RawTransactionToSign => {
   if (!deps) {
     throw new Error('The deps is not loaded')
@@ -29,19 +31,24 @@ const generateRawTransaction = ({
     throw new HexStringShouldStartWith0x(capacity)
   }
 
-  if (typeof cellCapacityThreshold === 'string' && !cellCapacityThreshold.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(cellCapacityThreshold)
+  if (typeof capacityThreshold === 'string' && !capacityThreshold.startsWith('0x')) {
+    throw new HexStringShouldStartWith0x(capacityThreshold)
+  }
+
+  if (typeof changeThreshold === 'string' && !changeThreshold.startsWith('0x')) {
+    throw new HexStringShouldStartWith0x(changeThreshold)
   }
 
   const targetCapacity = BigInt(capacity)
-  const realFee = BigInt(fee)
-  const threshold = BigInt(cellCapacityThreshold)
+  const targetFee = BigInt(fee)
+  const minCapacity = BigInt(capacityThreshold)
+  const minChange = BigInt(changeThreshold)
 
-  if (targetCapacity < threshold) {
-    throw new Error(`Capacity should not be less than ${threshold} shannon`)
+  if (targetCapacity < minCapacity) {
+    throw new Error(`Capacity should not be less than ${minCapacity} shannon`)
   }
 
-  const costCapacity = targetCapacity + realFee + threshold
+  const costCapacity = targetCapacity + targetFee + minChange
 
   const lockScript = {
     codeHash: deps.codeHash,
@@ -79,7 +86,7 @@ const generateRawTransaction = ({
    */
   for (let i = 0; i < unspentCells.length; i++) {
     const unspentCell = unspentCells[i]
-    if (!safeMode || unspentCell.dataHash === EMPTY_DATA_HASH) {
+    if (!safeMode || (unspentCell.dataHash === EMPTY_DATA_HASH && !unspentCell.type)) {
       inputs.push({
         previousOutput: unspentCell.outPoint,
         since: '0x0',
@@ -93,8 +100,8 @@ const generateRawTransaction = ({
   if (inputCapacity < costCapacity) {
     throw new Error('Input capacity is not enough')
   }
-  if (inputCapacity > targetCapacity + realFee) {
-    changeOutput.capacity = inputCapacity - targetCapacity - realFee
+  if (inputCapacity > targetCapacity + targetFee) {
+    changeOutput.capacity = inputCapacity - targetCapacity - targetFee
   }
 
   /**

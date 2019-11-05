@@ -220,6 +220,8 @@ class Core {
     safeMode = true,
     cells = [],
     deps,
+    capacityThreshold,
+    changeThreshold,
   }: {
     fromAddress: string
     toAddress: string
@@ -228,6 +230,8 @@ class Core {
     safeMode?: boolean
     cells?: CachedCell[]
     deps: DepCellInfo
+    capacityThreshold?: string | bigint
+    changeThreshold?: string | bigint
   }) => {
     const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
       const addressPayload = this.utils.parseAddress(addr, 'hex')
@@ -258,10 +262,12 @@ class Core {
       safeMode,
       cells: availableCells,
       deps,
+      capacityThreshold,
+      changeThreshold,
     })
   }
 
-  public generateDaoDepositTx = async ({
+  public generateDaoDepositTransaction = async ({
     fromAddress,
     capacity,
     fee,
@@ -270,7 +276,7 @@ class Core {
     fromAddress: string,
     capacity: bigint,
     fee: bigint,
-    cells: CachedCell[],
+    cells?: CachedCell[],
   }) => {
     if (!this.config.daoDep) {
       await this.loadDaoDep()
@@ -301,16 +307,17 @@ class Core {
 
     rawTx.cellDeps.push({
       outPoint: this.config.daoDep!.outPoint,
-      depType: 'depGroup',
+      depType: 'code',
     })
     rawTx.witnesses.unshift({ lock: '', inputType: '', outputType: '' })
 
     return rawTx
   }
 
-  public generateDaoWithdrawStartTx = async ({ outPoint, fee }: {
+  public generateDaoWithdrawStartTransaction = async ({ outPoint, fee, cells = [] }: {
     outPoint: CKBComponents.OutPoint,
-    fee: bigint | string
+    fee: bigint | string,
+    cells?: CachedCell[]
   }) => {
     if (!this.config.secp256k1Dep) {
       await this.loadSecp256k1Dep()
@@ -338,11 +345,16 @@ class Core {
       fee,
       safeMode: true,
       deps: this.config.secp256k1Dep!,
+      capacityThreshold: BigInt(0),
+      cells,
     })
+
+    rawTx.outputs.splice(0, 1)
+    rawTx.outputsData.splice(0, 1)
 
     rawTx.inputs.unshift({ previousOutput: outPoint, since: '0x0' })
     rawTx.outputs.unshift(tx.transaction.outputs[+outPoint.index])
-    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'depGroup' })
+    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'code' })
     rawTx.headerDeps.push(depositBlockHeader.hash)
     rawTx.outputsData.unshift(encodedBlockNumber)
     rawTx.witnesses.unshift({
@@ -352,6 +364,100 @@ class Core {
     })
     return rawTx
   }
+
+  public generateDaoWithdrawTransaction = async ({
+    depositOutPoint,
+    withdrawOutPoint,
+    fee,
+  }: {
+    depositOutPoint: CKBComponents.OutPoint
+    withdrawOutPoint: CKBComponents.OutPoint
+    fee: bigint | string
+  }): Promise<CKBComponents.RawTransactionToSign> => {
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
+    }
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
+
+    const DAO_LOCK_PERIOD_EPOCHS = 180
+    const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
+    if (cellStatus.status !== 'live') throw new Error('Cell is not live yet')
+
+    const tx = await this.rpc.getTransaction(withdrawOutPoint.txHash)
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+
+    /* eslint-disable */
+    const depositBlockNumber = +this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
+    /* eslint-enable */
+
+    const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
+    const depositEpoch = this.utils.parseEpoch(depositBlockHeader.epoch)
+
+    const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
+    const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
+
+    const withdrawFraction = withdrawEpoch.index * withdrawEpoch.length
+    const depositFraction = depositEpoch.index * depositEpoch.length
+    let depositedEpochs = withdrawEpoch.number - depositEpoch.number
+    if (withdrawFraction > depositFraction) {
+      depositedEpochs += 1
+    }
+
+    const lockEpochs = Math.floor((depositedEpochs + DAO_LOCK_PERIOD_EPOCHS - 1) / 10) * 10
+    const minimalSinceEpochNumber = depositEpoch.number + lockEpochs
+    const minimalSinceEpochIndex = depositEpoch.index
+    const minimalSinceEpochLength = depositEpoch.length
+
+    const minimalSince = this.epochSince(minimalSinceEpochLength, minimalSinceEpochIndex, minimalSinceEpochNumber)
+    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
+    const targetCapacity = BigInt(outputCapacity)
+    const targetFee = BigInt(fee)
+    if (targetCapacity < targetFee) {
+      throw new Error(`The fee(${targetFee}) is too big that withdraw(${targetCapacity}) is not enough`)
+    }
+
+    const outputs: CKBComponents.CellOutput[] = [
+      {
+        capacity: `0x${(targetCapacity - targetFee).toString(16)}`,
+        lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
+      },
+    ]
+
+    const outputsData = ['0x']
+
+    return {
+      version: '0x0',
+      cellDeps: [
+        { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
+        { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
+      ],
+      headerDeps: [
+        depositBlockHeader.hash,
+        withdrawBlockHeader.hash,
+      ],
+      inputs: [
+        {
+          previousOutput: withdrawOutPoint,
+          since: minimalSince,
+        },
+      ],
+      outputs,
+      outputsData,
+      witnesses: [{
+        lock: '',
+        inputType: '0x0000000000000000',
+        outputType: '',
+      }],
+    }
+  }
+
+  private epochSince = (length: number, index: number, number: number) =>
+    '0x20' +
+    `${length.toString(16).padStart(4, '0')}` +
+    `${index.toString(16).padStart(4, '0')}` +
+    `${number.toString(16).padStart(6, '0')}`
 }
 
 export default Core
