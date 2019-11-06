@@ -91,10 +91,10 @@ class Core {
   public loadSecp256k1Dep = async () => {
     const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
-    /* eslint-disable */
+    /* eslint-disable prettier/prettier, no-undef */
     const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
     const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
-    /* eslint-enable */
+    /* eslint-enable prettier/prettier, no-undef */
 
     if (!secp256k1DepTxHash) {
       throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -120,11 +120,11 @@ class Core {
   public loadDaoDep = async () => {
     const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
-    /* eslint-disable */
+    /* eslint-disable prettier/prettier, no-undef */
     const daoDepTxHash = genesisBlock?.transactions[0].hash
     const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type
     const data = genesisBlock?.transactions[0]?.outputsData[2]
-    /* eslint-enable */
+    /* eslint-enable prettier/prettier, no-undef */
 
     if (!daoDepTxHash) {
       throw new Error('Cannot load the transaction which has the dao dep cell')
