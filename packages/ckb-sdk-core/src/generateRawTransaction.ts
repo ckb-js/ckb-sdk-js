@@ -15,13 +15,13 @@ const generateRawTransaction = ({
 }: {
   fromPublicKeyHash: string
   toPublicKeyHash: string
-  capacity: bigint | string | number
-  fee?: bigint | string | number
+  capacity: bigint | string
+  fee?: bigint | string
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
-  capacityThreshold?: bigint | string | number
-  changeThreshold?: bigint | string | number
+  capacityThreshold?: bigint | string
+  changeThreshold?: bigint | string
 }): CKBComponents.RawTransactionToSign => {
   if (!deps) {
     throw new Error('The deps is not loaded')
