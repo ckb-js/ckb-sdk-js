@@ -27,8 +27,8 @@ describe('ckb-core', () => {
       const lockHash = '0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a'
       const cells = await core.loadCells({
         lockHash,
-        end: 100,
-        step: 100,
+        end: BigInt(100),
+        step: BigInt(100),
         save: true,
       })
       expect(cells).toHaveLength(100)
@@ -123,7 +123,11 @@ describe('ckb-core', () => {
 
     test.each(fixtureTable)('%s', async (_title, params, expected, exception) => {
       if (undefined === exception) {
-        const rawTransaction = await core.generateRawTransaction(params)
+        const rawTransaction = await core.generateRawTransaction({
+          ...params,
+          capacity: BigInt(params.capacity),
+          fee: BigInt(params.fee || 0),
+        })
         expect(rawTransaction).toEqual(expected)
       } else {
         expect(core.generateRawTransaction(params)).rejects.toThrowError(exception)

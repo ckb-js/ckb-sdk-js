@@ -17,7 +17,11 @@ describe('generate raw transaction', () => {
 
   test.each(fixtureTable)('%s', (title, params, expected, exception) => {
     if (undefined === exception) {
-      const rawTransaction = generateRawTransaction(params)
+      const rawTransaction = generateRawTransaction({
+        ...params,
+        capacity: BigInt(params.capacity),
+        fee: BigInt(params.fee || 0),
+      })
       expect(rawTransaction).toEqual(expected)
     } else {
       expect(generateRawTransaction(params)).rejects.toThrowError(exception)

@@ -1,4 +1,4 @@
-import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
@@ -26,18 +26,9 @@ const generateRawTransaction = ({
   if (!deps) {
     throw new Error('The deps is not loaded')
   }
-
-  if (typeof capacity === 'string' && !capacity.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(capacity)
-  }
-
-  if (typeof capacityThreshold === 'string' && !capacityThreshold.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(capacityThreshold)
-  }
-
-  if (typeof changeThreshold === 'string' && !changeThreshold.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(changeThreshold)
-  }
+  assertToBeHexStringOrBigint(capacity)
+  assertToBeHexStringOrBigint(capacityThreshold)
+  assertToBeHexStringOrBigint(changeThreshold)
 
   const targetCapacity = BigInt(capacity)
   const targetFee = BigInt(fee)
