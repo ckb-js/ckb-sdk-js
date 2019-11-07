@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.0...v0.24.1) (2019-11-07)
+
+
+### Bug Fixes
+
+* **utils:** fix the precision-lost in toHexInLittleEndian ([9658a76](https://github.com/nervosnetwork/ckb-sdk-js/commit/9658a769e34344617c64d832322d8c85b72daea7))
+
+
+
+
+
 # [0.24.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.23.1...v0.24.0) (2019-11-02)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils
