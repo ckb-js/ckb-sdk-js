@@ -330,7 +330,6 @@ class Core {
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
 
     const tx = await this.rpc.getTransaction(outPoint.txHash)
-    if (tx.txStatus.blockHash === null) throw new Error('The cell is not a NervosDAO cell')
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     const depositBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header)
