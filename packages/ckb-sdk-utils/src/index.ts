@@ -85,7 +85,7 @@ export const toHexInLittleEndian = (int: number | string, paddingBytes: number =
   if (typeof int === 'string' && !int.startsWith('0x')) {
     throw new HexStringShouldStartWith0x(int)
   }
-  const hex = (+int).toString(16)
+  const hex = BigInt(int).toString(16)
   const reversedHex = reverseString(hex)
   const frags = reversedHex.match(/\w{1,2}/g) || []
   const hexInLittleEndian = frags

@@ -116,13 +116,13 @@
       "inputs": [
         {
           "previousOutput": {
-            "txHash": "0x31f695263423a4b05045dd25ce6692bb55d7bba2965d8be16b036e138e72cc65",
-            "index": "0x1"
+            "txHash": "0xca4b23ebeafde1b92fb0b848fc26e140c8e457b1ce2f7816da5b7bf9a07aa15f",
+            "index": "0x0"
           },
-          "since": "0x0"
+          "since": "0x2003e8018c000168"
         }
       ],
-      "expected": "0x01000000000000000000000031f695263423a4b05045dd25ce6692bb55d7bba2965d8be16b036e138e72cc6501000000"
+      "expected": "0x010000006801008c01e80320ca4b23ebeafde1b92fb0b848fc26e140c8e457b1ce2f7816da5b7bf9a07aa15f00000000"
     }
   },
   "serializeOutput": {
