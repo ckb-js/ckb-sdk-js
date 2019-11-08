@@ -168,7 +168,11 @@ class Core {
     })
     return {
       ...transaction,
-      witnesses: signedWitnesses,
+      witnesses: signedWitnesses.map(
+        witness => (
+          typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness)
+        )
+      ),
     }
   }
 

@@ -27,7 +27,7 @@ const signWitnessGroup = (
   s.update(serializedEmptyWitnessBytes)
 
   witnessGroup.slice(1).forEach(w => {
-    const bytes = typeof w === 'string' ? hexToBytes(w) : serializeWitnessArgs(w)
+    const bytes = hexToBytes(typeof w === 'string' ? w : serializeWitnessArgs(w))
     s.update(hexToBytes(toHexInLittleEndian(bytes.length, 8)))
     s.update(bytes)
   })
