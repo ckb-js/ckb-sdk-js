@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.1...v0.24.2) (2019-11-08)
+
+
+### Bug Fixes
+
+* **core:** serialize the witnesses after it's signed ([6d4bcdc](https://github.com/nervosnetwork/ckb-sdk-js/commit/6d4bcdca2f5076449ea4f75611ec4f3bcd467662))
+
+
+
+
+
 ## [0.24.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.0...v0.24.1) (2019-11-07)
 
 
