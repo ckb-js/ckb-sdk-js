@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 const formatter = {
-  toNumber: (number: CKB_RPC.BlockNumber): CKBComponents.BlockNumber => number.toString(),
-  toHash: (hash: CKB_RPC.Hash256): CKBComponents.Hash256 => hash,
-  toHeader: (header: CKB_RPC.Header): CKBComponents.BlockHeader => {
+  toNumber: (number: RPC.BlockNumber): CKBComponents.BlockNumber => number.toString(),
+  toHash: (hash: RPC.Hash256): CKBComponents.Hash256 => hash,
+  toHeader: (header: RPC.Header): CKBComponents.BlockHeader => {
     if (!header) return header
     const { compact_target, transactions_root, proposals_hash, uncles_hash, parent_hash, ...rest } = header
     return {
@@ -14,7 +14,7 @@ const formatter = {
       ...rest,
     }
   },
-  toScript: (script: CKB_RPC.Script): CKBComponents.Script => {
+  toScript: (script: RPC.Script): CKBComponents.Script => {
     if (!script) return script
     const { code_hash: codeHash, hash_type: hashType, ...rest } = script
     return {
@@ -23,7 +23,7 @@ const formatter = {
       ...rest,
     }
   },
-  toInput: (input: CKB_RPC.CellInput): CKBComponents.CellInput => {
+  toInput: (input: RPC.CellInput): CKBComponents.CellInput => {
     if (!input) return input
     const { previous_output: previousOutput, ...rest } = input
     return {
@@ -31,7 +31,7 @@ const formatter = {
       ...rest,
     }
   },
-  toOutput: (output: CKB_RPC.CellOutput): CKBComponents.CellOutput => {
+  toOutput: (output: RPC.CellOutput): CKBComponents.CellOutput => {
     if (!output) return output
     const { lock, type, ...rest } = output
     return {
@@ -40,7 +40,7 @@ const formatter = {
       ...rest,
     }
   },
-  toOutPoint: (outPoint: CKB_RPC.OutPoint | null): CKBComponents.OutPoint | null => {
+  toOutPoint: (outPoint: RPC.OutPoint | null): CKBComponents.OutPoint | null => {
     if (!outPoint) return outPoint
     const { tx_hash: txHash, ...rest } = outPoint
     return {
@@ -48,14 +48,14 @@ const formatter = {
       ...rest,
     }
   },
-  toDepType: (type: CKB_RPC.DepType) => {
+  toDepType: (type: RPC.DepType) => {
     if (type === 'dep_group') {
       return 'depGroup'
     }
     return type
   },
 
-  toCellDep: (cellDep: CKB_RPC.CellDep): CKBComponents.CellDep => {
+  toCellDep: (cellDep: RPC.CellDep): CKBComponents.CellDep => {
     if (!cellDep) return cellDep
     const { out_point: outPoint = null, dep_type = 'code', ...rest } = cellDep
     return {
@@ -64,7 +64,7 @@ const formatter = {
       ...rest,
     }
   },
-  toTransaction: (tx: CKB_RPC.Transaction): CKBComponents.Transaction => {
+  toTransaction: (tx: RPC.Transaction): CKBComponents.Transaction => {
     if (!tx) return tx
     const {
       cell_deps: cellDeps = [],
@@ -83,7 +83,7 @@ const formatter = {
       ...rest,
     }
   },
-  toUncleBlock: (uncleBlock: CKB_RPC.UncleBlock): CKBComponents.UncleBlock => {
+  toUncleBlock: (uncleBlock: RPC.UncleBlock): CKBComponents.UncleBlock => {
     if (!uncleBlock) return uncleBlock
     const { header, ...rest } = uncleBlock
     return {
@@ -92,7 +92,7 @@ const formatter = {
     }
   },
 
-  toBlock: (block: CKB_RPC.Block): CKBComponents.Block => {
+  toBlock: (block: RPC.Block): CKBComponents.Block => {
     if (!block) return block
     const { header, uncles = [], transactions = [], ...rest } = block
     return {
@@ -102,7 +102,7 @@ const formatter = {
       ...rest,
     }
   },
-  toAlertMessage: (alertMessage: CKB_RPC.AlertMessage): CKBComponents.AlertMessage => {
+  toAlertMessage: (alertMessage: RPC.AlertMessage): CKBComponents.AlertMessage => {
     if (!alertMessage) return alertMessage
     const { notice_until: noticeUntil, ...rest } = alertMessage
     return {
@@ -110,7 +110,7 @@ const formatter = {
       ...rest,
     }
   },
-  toBlockchainInfo: (info: CKB_RPC.BlockchainInfo): CKBComponents.BlockchainInfo => {
+  toBlockchainInfo: (info: RPC.BlockchainInfo): CKBComponents.BlockchainInfo => {
     if (!info) return info
     const { is_initial_block_download: isInitialBlockDownload, median_time: medianTime, alerts, ...rest } = info
     return {
@@ -120,7 +120,7 @@ const formatter = {
       ...rest,
     }
   },
-  toNodeInfo: (info: CKB_RPC.NodeInfo): CKBComponents.NodeInfo => {
+  toNodeInfo: (info: RPC.NodeInfo): CKBComponents.NodeInfo => {
     if (!info) return info
     const { node_id: nodeId, is_outbound: isOutbound, ...rest } = info
     return {
@@ -129,7 +129,7 @@ const formatter = {
       ...rest,
     }
   },
-  toTxPoolInfo: (info: CKB_RPC.TxPoolInfo): CKBComponents.TxPoolInfo => {
+  toTxPoolInfo: (info: RPC.TxPoolInfo): CKBComponents.TxPoolInfo => {
     if (!info) return info
     const {
       last_txs_updated_at: lastTxsUpdatedAt,
@@ -144,11 +144,11 @@ const formatter = {
       ...rest,
     }
   },
-  toPeers: (nodes: CKB_RPC.NodeInfo[]): CKBComponents.NodeInfo[] => {
+  toPeers: (nodes: RPC.NodeInfo[]): CKBComponents.NodeInfo[] => {
     if (!Array.isArray(nodes)) return []
     return nodes.map(formatter.toNodeInfo)
   },
-  toPeersState: (state: CKB_RPC.PeersState): CKBComponents.PeersState => {
+  toPeersState: (state: RPC.PeersState): CKBComponents.PeersState => {
     if (!state) return state
     const { last_updated: lastUpdated, blocks_in_flight: blocksInFlight, ...rest } = state
     return {
@@ -157,7 +157,7 @@ const formatter = {
       ...rest,
     }
   },
-  toCell: (cell: CKB_RPC.Cell): CKBComponents.Cell => {
+  toCell: (cell: RPC.Cell): CKBComponents.Cell => {
     if (!cell) return cell
     const { lock, type, ...rest } = cell
     return {
@@ -166,7 +166,7 @@ const formatter = {
       ...rest,
     }
   },
-  toLiveCell: (liveCell: CKB_RPC.LiveCell): CKBComponents.LiveCell => {
+  toLiveCell: (liveCell: RPC.LiveCell): CKBComponents.LiveCell => {
     if (!liveCell) return liveCell
     const { data, output, ...rest } = liveCell
     return {
@@ -176,7 +176,7 @@ const formatter = {
     }
   },
   toLiveCellWithStatus: (cellWithStatus: {
-    cell: CKB_RPC.LiveCell
+    cell: RPC.LiveCell
     status: string
   }): { cell: CKBComponents.LiveCell; status: string } => {
     if (!cellWithStatus) return cellWithStatus
@@ -186,11 +186,11 @@ const formatter = {
       ...rest,
     }
   },
-  toCells: (cells: CKB_RPC.Cell[]): CKBComponents.Cell[] => {
+  toCells: (cells: RPC.Cell[]): CKBComponents.Cell[] => {
     if (!Array.isArray(cells)) return []
     return cells.map(formatter.toCell)
   },
-  toCellIncludingOutPoint: (cell: CKB_RPC.CellIncludingOutPoint) => {
+  toCellIncludingOutPoint: (cell: RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
     const { lock, block_hash: blockHash, out_point, ...rest } = cell
     return {
@@ -200,11 +200,11 @@ const formatter = {
       ...rest,
     }
   },
-  toCellsIncludingOutPoint: (cells: CKB_RPC.CellIncludingOutPoint[]): CKBComponents.CellIncludingOutPoint[] => {
+  toCellsIncludingOutPoint: (cells: RPC.CellIncludingOutPoint[]): CKBComponents.CellIncludingOutPoint[] => {
     if (!Array.isArray(cells)) return []
     return cells.map(formatter.toCellIncludingOutPoint)
   },
-  toTransactionWithStatus: (txWithStatus: CKB_RPC.TransactionWithStatus) => {
+  toTransactionWithStatus: (txWithStatus: RPC.TransactionWithStatus) => {
     if (!txWithStatus) return txWithStatus
     const {
       transaction,
@@ -220,7 +220,7 @@ const formatter = {
       ...rest,
     }
   },
-  toEpoch: (epoch: CKB_RPC.Epoch): CKBComponents.Epoch => {
+  toEpoch: (epoch: RPC.Epoch): CKBComponents.Epoch => {
     if (!epoch) return epoch
     const { start_number: startNumber, compact_target: compactTarget, ...rest } = epoch
     return {
@@ -229,7 +229,7 @@ const formatter = {
       ...rest,
     }
   },
-  toTransactionPoint: (transactionPoint: CKB_RPC.TransactionPoint): CKBComponents.TransactionPoint => {
+  toTransactionPoint: (transactionPoint: RPC.TransactionPoint): CKBComponents.TransactionPoint => {
     if (!transactionPoint) return transactionPoint
     const { block_number: blockNumber, tx_hash: txHash, ...rest } = transactionPoint
     return {
@@ -238,21 +238,21 @@ const formatter = {
       ...rest,
     }
   },
-  toTransactionsByLockHash: (transactions: CKB_RPC.TransactionsByLockHash): CKBComponents.TransactionsByLockHash => {
+  toTransactionsByLockHash: (transactions: RPC.TransactionsByLockHash): CKBComponents.TransactionsByLockHash => {
     if (!transactions) return transactions
     return transactions.map(tx => ({
       consumedBy: tx.consumed_by ? formatter.toTransactionPoint(tx.consumed_by) : tx.consumed_by,
       createdBy: formatter.toTransactionPoint(tx.created_by),
     }))
   },
-  toLiveCellsByLockHash: (cells: CKB_RPC.LiveCellsByLockHash): CKBComponents.LiveCellsByLockHash => {
+  toLiveCellsByLockHash: (cells: RPC.LiveCellsByLockHash): CKBComponents.LiveCellsByLockHash => {
     if (!cells) return cells
     return cells.map(cell => ({
       cellOutput: formatter.toCell(cell.cell_output),
       createdBy: formatter.toTransactionPoint(cell.created_by),
     }))
   },
-  toLockHashIndexState: (index: CKB_RPC.LockHashIndexState): CKBComponents.LockHashIndexState => {
+  toLockHashIndexState: (index: RPC.LockHashIndexState): CKBComponents.LockHashIndexState => {
     if (!index) return index
     const { block_hash: blockHash, block_number: blockNumber, lock_hash: lockHash, ...rest } = index
     return {
@@ -262,11 +262,11 @@ const formatter = {
       ...rest,
     }
   },
-  toLockHashIndexStates: (states: CKB_RPC.LockHashIndexStates): CKBComponents.LockHashIndexStates => {
+  toLockHashIndexStates: (states: RPC.LockHashIndexStates): CKBComponents.LockHashIndexStates => {
     if (!states) return states
     return states.map(formatter.toLockHashIndexState)
   },
-  toBannedAddress: (bannedAddress: CKB_RPC.BannedAddress): CKBComponents.BannedAddress => {
+  toBannedAddress: (bannedAddress: RPC.BannedAddress): CKBComponents.BannedAddress => {
     if (!bannedAddress) return bannedAddress
     const { ban_reason: banReason, ban_until: banUntil, created_at: createdAt, ...rest } = bannedAddress
     return {
@@ -276,12 +276,12 @@ const formatter = {
       ...rest,
     }
   },
-  toBannedAddresses: (bannedAddresses: CKB_RPC.BannedAddresses): CKBComponents.BannedAddresses => {
+  toBannedAddresses: (bannedAddresses: RPC.BannedAddresses): CKBComponents.BannedAddresses => {
     if (!bannedAddresses) return bannedAddresses
     return bannedAddresses.map(banAddr => formatter.toBannedAddress(banAddr))
   },
   toCellbaseOutputCapacityDetails: (
-    details: CKB_RPC.CellbaseOutputCapacityDetails
+    details: RPC.CellbaseOutputCapacityDetails
   ): CKBComponents.CellbaseOutputCapacityDetails => {
     if (!details) return details
     const { proposal_reward: proposalReward, tx_fee: txFee, ...rest } = details
@@ -292,7 +292,7 @@ const formatter = {
     }
   },
 
-  toFeeRate: (feeRateObj: CKB_RPC.FeeRate): CKBComponents.FeeRate => {
+  toFeeRate: (feeRateObj: RPC.FeeRate): CKBComponents.FeeRate => {
     if (!feeRateObj) {
       return feeRateObj
     }

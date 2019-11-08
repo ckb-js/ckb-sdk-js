@@ -4,7 +4,8 @@
     "target": "es6",
     "lib": ["es6", "dom"],
     "outDir": "./lib",
-    "types": ["@nervosnetwork/ckb-types", "@nervosnetwork/ckb-sdk-utils", "./types/CKB_RPC"]
+    "typeRoots": ["types", "node_modules/@types", "node_modules"],
+    "types": ["@nervosnetwork/ckb-types", "@nervosnetwork/ckb-sdk-utils", "rpc"]
   },
   "include": ["./src"]
 }

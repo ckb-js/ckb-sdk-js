@@ -1,3 +1,5 @@
+/// <reference types="../types/blake2b-wasm" />
+
 import * as util from 'util'
 import ECPair from './ecpair'
 import { pubkeyToAddress, AddressOptions } from './address'
