@@ -1,0 +1,8 @@
+{
+  "assertToBeHexStringOrBigint": {
+    "hexStringStartsWith0x": "0x123",
+    "hexStringStartsWithout0x": "123",
+    "bigint": "123",
+    "number": 123
+  }
+}

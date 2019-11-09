@@ -17,6 +17,7 @@ const {
   privateKeyToAddress,
   pubkeyToAddress,
   parseAddress,
+  parseEpoch,
   hexToBytes,
   bytesToHex,
   utf8ToHex,
@@ -82,6 +83,19 @@ describe('transformer', () => {
       expect(() => toHexInLittleEndian('invalid number')).toThrow(new InvalidHexString('invalid number'))
     })
   })
+})
+
+describe('parse epoch', () => {
+  const fixture = {
+    epoch: '0x1e00017000090',
+    expected: {
+      length: '0x1e0',
+      index: '0x17',
+      number: '0x90',
+    },
+  }
+
+  expect(parseEpoch(fixture.epoch)).toEqual(fixture.expected)
 })
 
 describe('blake', () => {

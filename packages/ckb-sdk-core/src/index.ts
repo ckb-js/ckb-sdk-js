@@ -21,6 +21,7 @@ class Core {
 
   public config: {
     secp256k1Dep?: DepCellInfo
+    daoDep?: DepCellInfo
   } = {}
 
   constructor(nodeUrl: string) {
@@ -88,12 +89,12 @@ class Core {
   }
 
   public loadSecp256k1Dep = async () => {
-    const block = await this.rpc.getBlockByNumber('0x0')
+    const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
-    /* eslint-disable */
-    const secp256k1DepTxHash = block?.transactions[1].hash
-    const typeScript = block?.transactions[0]?.outputs[1]?.type
-    /* eslint-enable */
+    /* eslint-disable prettier/prettier, no-undef */
+    const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
+    /* eslint-enable prettier/prettier, no-undef */
 
     if (!secp256k1DepTxHash) {
       throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -114,6 +115,45 @@ class Core {
       },
     }
     return this.config.secp256k1Dep
+  }
+
+  public loadDaoDep = async () => {
+    const genesisBlock = await this.rpc.getBlockByNumber('0x0')
+
+    /* eslint-disable prettier/prettier, no-undef */
+    const daoDepTxHash = genesisBlock?.transactions[0].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type
+    const data = genesisBlock?.transactions[0]?.outputsData[2]
+    /* eslint-enable prettier/prettier, no-undef */
+
+    if (!daoDepTxHash) {
+      throw new Error('Cannot load the transaction which has the dao dep cell')
+    }
+
+    if (!typeScript) {
+      throw new Error('DAO type script not found')
+    }
+
+    if (!data) {
+      throw new Error('DAO data not found')
+    }
+
+    const typeHash = this.utils.scriptToHash(typeScript)
+
+    const s = utils.blake2b(32, null, null, utils.PERSONAL)
+    s.update(utils.hexToBytes(data))
+    const codeHash = `0x${s.digest('hex')}`
+
+    this.config.daoDep = {
+      hashType: 'type',
+      codeHash,
+      typeHash,
+      outPoint: {
+        txHash: daoDepTxHash,
+        index: '0x2',
+      },
+    }
+    return this.config.daoDep
   }
 
   public loadCells = async ({
@@ -183,15 +223,19 @@ class Core {
     fee,
     safeMode = true,
     cells = [],
-    deps = this.config.secp256k1Dep!,
+    deps,
+    capacityThreshold,
+    changeThreshold,
   }: {
     fromAddress: string
     toAddress: string
     capacity: string | bigint
     fee: string | bigint
-    safeMode: boolean
-    cells: CachedCell[]
+    safeMode?: boolean
+    cells?: CachedCell[]
     deps: DepCellInfo
+    capacityThreshold?: string | bigint
+    changeThreshold?: string | bigint
   }) => {
     const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
       const addressPayload = this.utils.parseAddress(addr, 'hex')
@@ -222,7 +266,203 @@ class Core {
       safeMode,
       cells: availableCells,
       deps,
+      capacityThreshold,
+      changeThreshold,
     })
+  }
+
+  public generateDaoDepositTransaction = async ({
+    fromAddress,
+    capacity,
+    fee,
+    cells = [],
+  }: {
+    fromAddress: string,
+    capacity: bigint,
+    fee: bigint,
+    cells?: CachedCell[],
+  }) => {
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
+
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
+    }
+
+    const rawTx = await this.generateRawTransaction({
+      fromAddress,
+      toAddress: fromAddress,
+      capacity,
+      fee,
+      safeMode: true,
+      cells,
+      deps: this.config.secp256k1Dep!,
+    })
+
+
+    rawTx.outputs[0].type = {
+      codeHash: this.config.daoDep!.typeHash!,
+      args: '0x',
+      hashType: this.config.daoDep!.hashType,
+    }
+
+    rawTx.outputsData[0] = '0x0000000000000000'
+
+    rawTx.cellDeps.push({
+      outPoint: this.config.daoDep!.outPoint,
+      depType: 'code',
+    })
+    rawTx.witnesses.unshift({ lock: '', inputType: '', outputType: '' })
+
+    return rawTx
+  }
+
+  public generateDaoWithdrawStartTransaction = async ({ outPoint, fee, cells = [] }: {
+    outPoint: CKBComponents.OutPoint,
+    fee: bigint | string,
+    cells?: CachedCell[]
+  }) => {
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
+    }
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
+
+    const cellStatus = await this.rpc.getLiveCell(outPoint, false)
+    if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
+
+    const tx = await this.rpc.getTransaction(outPoint.txHash)
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+
+    const depositBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header)
+    const encodedBlockNumber = this.utils.toHexInLittleEndian(depositBlockHeader.number, 8)
+
+    const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
+
+    const rawTx = await this.generateRawTransaction({
+      fromAddress,
+      toAddress: fromAddress,
+      capacity: '0x0',
+      fee,
+      safeMode: true,
+      deps: this.config.secp256k1Dep!,
+      capacityThreshold: BigInt(0),
+      cells,
+    })
+
+    rawTx.outputs.splice(0, 1)
+    rawTx.outputsData.splice(0, 1)
+
+    rawTx.inputs.unshift({ previousOutput: outPoint, since: '0x0' })
+    rawTx.outputs.unshift(tx.transaction.outputs[+outPoint.index])
+    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'code' })
+    rawTx.headerDeps.push(depositBlockHeader.hash)
+    rawTx.outputsData.unshift(encodedBlockNumber)
+    rawTx.witnesses.unshift({
+      lock: '',
+      inputType: '',
+      outputType: '',
+    })
+    return rawTx
+  }
+
+  public generateDaoWithdrawTransaction = async ({
+    depositOutPoint,
+    withdrawOutPoint,
+    fee,
+  }: {
+    depositOutPoint: CKBComponents.OutPoint
+    withdrawOutPoint: CKBComponents.OutPoint
+    fee: bigint | string
+  }): Promise<CKBComponents.RawTransactionToSign> => {
+    if (!this.config.secp256k1Dep) {
+      await this.loadSecp256k1Dep()
+    }
+    if (!this.config.daoDep) {
+      await this.loadDaoDep()
+    }
+
+    const DAO_LOCK_PERIOD_EPOCHS = 180
+    const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
+    if (cellStatus.status !== 'live') throw new Error('Cell is not live yet')
+
+    const tx = await this.rpc.getTransaction(withdrawOutPoint.txHash)
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+
+    /* eslint-disable */
+    const depositBlockNumber = +this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
+    /* eslint-enable */
+
+    const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
+    const depositEpoch = this.utils.parseEpoch(depositBlockHeader.epoch)
+
+    const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
+    const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
+
+    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(withdrawEpoch.length)
+    const depositFraction = BigInt(depositEpoch.index) * BigInt(depositEpoch.length)
+    let depositedEpochs = BigInt(withdrawEpoch.number) - BigInt(depositEpoch.number)
+    if (withdrawFraction > depositFraction) {
+      depositedEpochs += BigInt(1)
+    }
+    const lockEpochs = (depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) /
+      BigInt(DAO_LOCK_PERIOD_EPOCHS) *
+      BigInt(DAO_LOCK_PERIOD_EPOCHS)
+    const minimalSince = this.absoluteEpochSince(
+      depositEpoch.number + lockEpochs,
+      depositEpoch.index,
+      depositEpoch.length
+    )
+    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
+    const targetCapacity = BigInt(outputCapacity)
+    const targetFee = BigInt(fee)
+    if (targetCapacity < targetFee) {
+      throw new Error(`The fee(${targetFee}) is too big that withdraw(${targetCapacity}) is not enough`)
+    }
+
+    const outputs: CKBComponents.CellOutput[] = [
+      {
+        capacity: `0x${(targetCapacity - targetFee).toString(16)}`,
+        lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
+      },
+    ]
+
+    const outputsData = ['0x']
+
+    return {
+      version: '0x0',
+      cellDeps: [
+        { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
+        { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
+      ],
+      headerDeps: [
+        depositBlockHeader.hash,
+        withdrawBlockHeader.hash,
+      ],
+      inputs: [
+        {
+          previousOutput: withdrawOutPoint,
+          since: minimalSince,
+        },
+      ],
+      outputs,
+      outputsData,
+      witnesses: [{
+        lock: '',
+        inputType: '0x0000000000000000',
+        outputType: '',
+      }],
+    }
+  }
+
+  private absoluteEpochSince = (length: string, index: string, number: string) => {
+    const epochSince = (BigInt(0x20) << BigInt(56)) +
+      (BigInt(length) << BigInt(40)) +
+      (BigInt(index) << BigInt(24)) +
+      BigInt(number)
+    return `0x${epochSince.toString(16)}`
   }
 }
 

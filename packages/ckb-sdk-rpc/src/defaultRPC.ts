@@ -166,6 +166,11 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toFeeRate,
   },
+  {
+    name: 'calculateDaoMaximumWithdraw',
+    method: 'calculate_dao_maximum_withdraw',
+    paramsFormatters: [paramsFmts.toOutPoint, paramsFmts.toHash],
+  },
 ]
 
 export class DefaultRPC {
@@ -465,6 +470,11 @@ export class DefaultRPC {
    *                                 the range is [3, 1000]
    */
   public estimateFeeRate!: (expectedBlocks: CKBComponents.BlockNumber) => Promise<CKBComponents.FeeRate>
+
+  public calculateDaoMaximumWithdraw!: (
+    outPoint: CKBComponents.OutPoint,
+    withdrawBlockHash: CKBComponents.Hash256
+  ) => Promise<string>
 }
 
 export default DefaultRPC

@@ -124,3 +124,9 @@ export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents
   const serializedTransaction = serializeTransaction(transaction)
   return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE_IN_BLOCK
 }
+
+export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
+  length: `0x${((BigInt(epoch) >> BigInt(40)) & BigInt(0xffff)).toString(16)}`,
+  index: `0x${((BigInt(epoch) >> BigInt(24)) & BigInt(0xffff)).toString(16)}`,
+  number: `0x${(BigInt(epoch) & BigInt(0xffffff)).toString(16)}`,
+})
