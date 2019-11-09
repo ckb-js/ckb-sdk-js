@@ -401,8 +401,8 @@ class Core {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(withdrawEpoch.length)
-    const depositFraction = BigInt(depositEpoch.index) * BigInt(depositEpoch.length)
+    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(depositEpoch.length)
+    const depositFraction = BigInt(depositEpoch.index) * BigInt(withdrawEpoch.length)
     let depositedEpochs = BigInt(withdrawEpoch.number) - BigInt(depositEpoch.number)
     if (withdrawFraction > depositFraction) {
       depositedEpochs += BigInt(1)
