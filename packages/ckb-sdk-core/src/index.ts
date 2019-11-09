@@ -397,19 +397,20 @@ class Core {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const withdrawFraction = withdrawEpoch.index * withdrawEpoch.length
-    const depositFraction = depositEpoch.index * depositEpoch.length
-    let depositedEpochs = withdrawEpoch.number - depositEpoch.number
+    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(withdrawEpoch.length)
+    const depositFraction = BigInt(depositEpoch.index) * BigInt(depositEpoch.length)
+    let depositedEpochs = BigInt(withdrawEpoch.number) - BigInt(depositEpoch.number)
     if (withdrawFraction > depositFraction) {
-      depositedEpochs += 1
+      depositedEpochs += BigInt(1)
     }
-
-    const lockEpochs = Math.floor((depositedEpochs + DAO_LOCK_PERIOD_EPOCHS - 1) / 10) * 10
-    const minimalSinceEpochNumber = depositEpoch.number + lockEpochs
-    const minimalSinceEpochIndex = depositEpoch.index
-    const minimalSinceEpochLength = depositEpoch.length
-
-    const minimalSince = this.epochSince(minimalSinceEpochLength, minimalSinceEpochIndex, minimalSinceEpochNumber)
+    const lockEpochs = (depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) /
+      BigInt(DAO_LOCK_PERIOD_EPOCHS) *
+      BigInt(DAO_LOCK_PERIOD_EPOCHS)
+    const minimalSince = this.absoluteEpochSince(
+      depositEpoch.number + lockEpochs,
+      depositEpoch.index,
+      depositEpoch.length
+    )
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
     const targetCapacity = BigInt(outputCapacity)
     const targetFee = BigInt(fee)
@@ -452,11 +453,13 @@ class Core {
     }
   }
 
-  private epochSince = (length: number, index: number, number: number) =>
-    '0x20' +
-    `${length.toString(16).padStart(4, '0')}` +
-    `${index.toString(16).padStart(4, '0')}` +
-    `${number.toString(16).padStart(6, '0')}`
+  private absoluteEpochSince = (length: string, index: string, number: string) => {
+    const epochSince = (BigInt(0x20) << BigInt(56)) +
+      (BigInt(length) << BigInt(40)) +
+      (BigInt(index) << BigInt(24)) +
+      BigInt(number)
+    return `0x${epochSince.toString(16)}`
+  }
 }
 
 export default Core

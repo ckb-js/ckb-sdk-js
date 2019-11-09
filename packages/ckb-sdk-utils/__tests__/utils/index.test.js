@@ -89,9 +89,9 @@ describe('parse epoch', () => {
   const fixture = {
     epoch: '0x1e00017000090',
     expected: {
-      length: 480,
-      index: 23,
-      number: 144,
+      length: '0x1e0',
+      index: '0x17',
+      number: '0x90',
     },
   }
 
