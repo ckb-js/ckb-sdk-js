@@ -7,13 +7,13 @@ const formatter = {
     }
     return format(arg)
   },
-  toHash: (hash: string): CKB_RPC.Hash256 => {
+  toHash: (hash: string): RPC.Hash256 => {
     if (typeof hash !== 'string') {
       throw new TypeError(`Hash ${hash} should be type of string`)
     }
     return hash.startsWith('0x') ? hash : `0x${hash}`
   },
-  toNumber: (number: CKBComponents.Number | bigint): CKB_RPC.Number => {
+  toNumber: (number: CKBComponents.Number | bigint): RPC.Number => {
     if (typeof number === 'bigint') {
       return `0x${number.toString(16)}`
     }
@@ -25,7 +25,7 @@ const formatter = {
     }
     return number
   },
-  toScript: (script: CKBComponents.Script): CKB_RPC.Script => {
+  toScript: (script: CKBComponents.Script): RPC.Script => {
     const { codeHash, hashType: hash_type, ...rest } = script
     return {
       code_hash: formatter.toHash(codeHash),
@@ -33,7 +33,7 @@ const formatter = {
       ...rest,
     }
   },
-  toOutPoint: (outPoint: CKBComponents.OutPoint | null): CKB_RPC.OutPoint | null => {
+  toOutPoint: (outPoint: CKBComponents.OutPoint | null): RPC.OutPoint | null => {
     if (!outPoint) return outPoint
     const { txHash, index, ...rest } = outPoint
     return {
@@ -42,7 +42,7 @@ const formatter = {
       ...rest,
     }
   },
-  toInput: (input: CKBComponents.CellInput): CKB_RPC.CellInput => {
+  toInput: (input: CKBComponents.CellInput): RPC.CellInput => {
     if (!input) return input
     const { previousOutput, since, ...rest } = input
     return {
@@ -51,7 +51,7 @@ const formatter = {
       ...rest,
     }
   },
-  toOutput: (output: CKBComponents.CellOutput): CKB_RPC.CellOutput => {
+  toOutput: (output: CKBComponents.CellOutput): RPC.CellOutput => {
     if (!output) return output
     const { capacity, lock, type = null, ...rest } = output
     return {
@@ -67,7 +67,7 @@ const formatter = {
     }
     return type
   },
-  toCellDep: (cellDep: CKBComponents.CellDep): CKB_RPC.CellDep => {
+  toCellDep: (cellDep: CKBComponents.CellDep): RPC.CellDep => {
     if (!cellDep) return cellDep
     const { outPoint = null, depType = 'code', ...rest } = cellDep
     return {
@@ -76,7 +76,7 @@ const formatter = {
       ...rest,
     }
   },
-  toRawTransaction: (transaction: CKBComponents.RawTransaction): CKB_RPC.RawTransaction => {
+  toRawTransaction: (transaction: CKBComponents.RawTransaction): RPC.RawTransaction => {
     if (!transaction) return transaction
     const {
       version,

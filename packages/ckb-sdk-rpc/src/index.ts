@@ -1,3 +1,5 @@
+/// <reference types="../types/rpc" />
+
 import DefaultRPC from './defaultRPC'
 import { DebugLevel } from './enum'
 import Method from './method'

@@ -3,7 +3,7 @@
  */
 
 /* eslint-disable camelcase */
-declare module CKB_RPC {
+declare module RPC {
   export type ProposalShortId = CKBComponents.ProposalShortId
   export type Number = CKBComponents.Number
   export type UInt32 = CKBComponents.UInt32

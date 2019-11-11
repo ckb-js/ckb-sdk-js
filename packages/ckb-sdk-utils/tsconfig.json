@@ -3,11 +3,10 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es6",
-    "outDir": "./lib",
+    "outDir": "lib",
     "lib": ["es2017"],
-    "typeRoots": ["./types", "./node_modules/@types"],
+    "typeRoots": ["types", "node_modules/@types", "node_modules"],
     "types": ["@nervosnetwork/ckb-types", "node", "blake2b-wasm"]
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "typings", "./types"]
+  "include": ["src"],
 }

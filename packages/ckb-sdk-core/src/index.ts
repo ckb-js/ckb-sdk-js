@@ -1,3 +1,5 @@
+/// <reference types="../types/global" />
+
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
