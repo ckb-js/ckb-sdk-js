@@ -1,16 +1,16 @@
-export class InvalidSingleSignatureAddressPayload extends Error {
+export class InvalidAddressPayload extends Error {
   constructor(payload: string) {
-    super(`${payload} is not a single signature address payload`)
+    super(`${payload} is not a single-sig address payload`)
   }
 }
 
-export class InvalidSingleSignatureAddress extends Error {
+export class InvalidAddress extends Error {
   constructor(addr: string) {
-    super(`${addr} is not a single signature address`)
+    super(`${addr} is not a single-sig address`)
   }
 }
 
 export default {
-  InvalidSingleSignatureAddressPayload,
-  InvalidSingleSignatureAddress,
+  InvalidAddressPayload,
+  InvalidAddress,
 }

@@ -10,7 +10,7 @@
     "addressWithInvalidSingleSigPayload": "ckt1qyq6jh3kt48y294mla4mxrdy380tzprcpe7sxuzm0e",
     "addressWithIncorrectSize": "ckt1qyqd39fkyvnrs7sa882eu8pn6t3cyuemtpkqm6zejn1"
   },
-  "assertToBeSingleSigAddressPayload": {
+  "assertToBeSignleSigAddressPayload": {
     "singleSigAddressPayload": "0x0100d895362326387a1d39d59e1c33d2e382733b586c",
     "payloadNotStartsWith0x0100": "0x0000d895362326387a1d39d59e1c33d2e382733b586c",
     "paylaodWithIncorrectSize": "0x0100d895362326387a1d39d59e1c33d2e382733b586c1"
