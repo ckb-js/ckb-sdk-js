@@ -394,7 +394,7 @@ class Core {
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     /* eslint-disable */
-    const depositBlockNumber = +this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
+    const depositBlockNumber = this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
     /* eslint-enable */
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
