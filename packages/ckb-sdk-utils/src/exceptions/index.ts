@@ -1,11 +1,19 @@
-import HexStringShouldStartWith0x from './hexStringShouldStartWith0x'
 import ArgumentRequired from './argumentRequired'
-import InvalidHexString from './invalidHexString'
+import { HexStringShouldStartWith0x, InvalidHexString } from './invalidHexString'
+import { InvalidSingleSignatureAddress, InvalidSingleSignatureAddressPayload } from './invalidAddress'
 
-export { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString }
+export {
+  HexStringShouldStartWith0x,
+  ArgumentRequired,
+  InvalidHexString,
+  InvalidSingleSignatureAddress,
+  InvalidSingleSignatureAddressPayload,
+}
 
 export default {
   HexStringShouldStartWith0x,
   ArgumentRequired,
   InvalidHexString,
+  InvalidSingleSignatureAddress,
+  InvalidSingleSignatureAddressPayload,
 }
