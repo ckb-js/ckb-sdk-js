@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0-alpha.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.2...v0.25.0-alpha.0) (2019-11-12)
+
+
+### Features
+
+* **core:** add generateDaoDepositTx method ([27a31f6](https://github.com/nervosnetwork/ckb-sdk-js/commit/27a31f62bdbfcad60125f51e33b78f27582d0f0a))
+* **core:** add the method of generateDaoWithdrawStartTx ([ff2163f](https://github.com/nervosnetwork/ckb-sdk-js/commit/ff2163fa0847148df7b07a6facb68fe91244ee21))
+* **core:** add the method of generateDaoWithdrawTransaction ([a375abd](https://github.com/nervosnetwork/ckb-sdk-js/commit/a375abd8db7a7b87bcc7842296af39e831488b7e))
+* **core:** add the method to load dao deps ([75e5ca7](https://github.com/nervosnetwork/ckb-sdk-js/commit/75e5ca7347a3b0f46ba26ef5316f6897c579a166))
+* **core:** allow cell capacity threshold in generateRawTransaction method ([ebbe448](https://github.com/nervosnetwork/ckb-sdk-js/commit/ebbe448d1b033486b71772af6bba4421a25df08d))
+* **rpc:** add an rpc method of calculateDaoMaximumWithdraw ([f4cd7e7](https://github.com/nervosnetwork/ckb-sdk-js/commit/f4cd7e7b53817908f8931463604ea630d1a2ec5a))
+* **utils:** add address and address payload validators ([d44effb](https://github.com/nervosnetwork/ckb-sdk-js/commit/d44effb2542bfe251c85f23d933d92f8b1c880a2))
+* **utils:** add assertToBeHexStringOrBigint method for validation ([6b16507](https://github.com/nervosnetwork/ckb-sdk-js/commit/6b165074db0a02a1263568dab6e2e543c6a225ab))
+* **utils:** add parseEpoch method ([c29aca6](https://github.com/nervosnetwork/ckb-sdk-js/commit/c29aca606bf40f9b8cb3e98080c5ad36c0d5546a))
+
+
+
+
+
 ## [0.24.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.1...v0.24.2) (2019-11-08)
 
 
