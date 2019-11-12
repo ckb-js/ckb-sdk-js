@@ -1,10 +1,9 @@
-const validators = require('../../lib/validators')
+const { assertToBeHexStringOrBigint, assertToBeAddress, assertToBeAddressPayload } = require('../../lib/validators')
 const fixtures = require('./fixtures.json')
 
 describe('validators', () => {
   describe('assert to be type of hex string or bigint', () => {
     const { assertToBeHexStringOrBigint: fixture } = fixtures
-    const { assertToBeHexStringOrBigint } = validators
 
     it('hex string starts with 0x should pass', () => {
       expect(assertToBeHexStringOrBigint(fixture.hexStringStartsWith0x)).toBe(true)
@@ -23,6 +22,46 @@ describe('validators', () => {
     it('number should throw an error', () => {
       expect(() => assertToBeHexStringOrBigint(fixture.number)).toThrow(
         new TypeError(`${fixture.number} should be type of string or bigint`)
+      )
+    })
+  })
+
+  describe('assert to be single-sig address', () => {
+    const { assertToBeSingleSigAddress: fixture } = fixtures
+
+    it('single sig address should pass', () => {
+      expect(assertToBeAddress(fixture.singleSigAddress)).toBe(true)
+    })
+
+    it('address with invalid single sig payload should throw an error', () => {
+      expect(() => assertToBeAddress(fixture.addressWithInvalidSingleSigPayload)).toThrow(
+        new Error(`${fixture.addressWithInvalidSingleSigPayload} is not a single-sig address`)
+      )
+    })
+
+    it('address has the incorrect size should throw an error', () => {
+      expect(() => assertToBeAddress(fixture.addressWithIncorrectSize)).toThrow(
+        new Error(`${fixture.addressWithIncorrectSize} is not a single-sig address`)
+      )
+    })
+  })
+
+  describe('assert to be single-sig address payload', () => {
+    const { assertToBeSignleSigAddressPayload: fixture } = fixtures
+
+    it('single sig address payload should pass', () => {
+      expect(assertToBeAddressPayload(fixture.singleSigAddressPayload)).toBe(true)
+    })
+
+    it('payload not starts with 0x0100 should throw an error', () => {
+      expect(() => assertToBeAddressPayload(fixture.payloadNotStartsWith0x0100)).toThrow(
+        new Error(`${fixture.payloadNotStartsWith0x0100} is not a single-sig address payload`)
+      )
+    })
+
+    it('payload has the incorrect size should throw an error', () => {
+      expect(() => assertToBeAddressPayload(fixture.paylaodWithIncorrectSize)).toThrow(
+        new Error(`${fixture.paylaodWithIncorrectSize} is not a single-sig address payload`)
       )
     })
   })

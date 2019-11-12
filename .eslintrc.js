@@ -51,7 +51,8 @@ module.exports = {
     }],
     "spaced-comment": ["error", "always", {
       "markers": ["/"]
-    }]
+    }],
+    "max-classes-per-file": [0]
   },
   "globals": {
     "BigInt": "readonly"
