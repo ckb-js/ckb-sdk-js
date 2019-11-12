@@ -1,11 +1,13 @@
-import HexStringShouldStartWith0x from './hexStringShouldStartWith0x'
 import ArgumentRequired from './argumentRequired'
-import InvalidHexString from './invalidHexString'
+import { HexStringShouldStartWith0x, InvalidHexString } from './invalidHexString'
+import { InvalidAddress, InvalidAddressPayload } from './invalidAddress'
 
-export { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString }
+export { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString, InvalidAddress, InvalidAddressPayload }
 
 export default {
   HexStringShouldStartWith0x,
   ArgumentRequired,
   InvalidHexString,
+  InvalidAddress,
+  InvalidAddressPayload,
 }

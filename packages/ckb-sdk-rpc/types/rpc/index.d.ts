@@ -3,7 +3,7 @@
  */
 
 /* eslint-disable camelcase */
-declare module CKB_RPC {
+declare module RPC {
   export type ProposalShortId = CKBComponents.ProposalShortId
   export type Number = CKBComponents.Number
   export type UInt32 = CKBComponents.UInt32
@@ -88,10 +88,15 @@ declare module CKB_RPC {
 
   export interface TransactionWithStatus {
     transaction: Transaction
-    tx_status: {
-      block_hash: Hash256 | null
-      status: TransactionStatus
-    }
+    tx_status:
+      | {
+          block_hash: Hash256
+          status: TransactionStatus.Committed
+        }
+      | {
+          block_hash: null
+          status: TransactionStatus.Pending | TransactionStatus.Proposed
+        }
   }
 
   export interface TransactionPoint {

@@ -1,5 +1,6 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { HexStringShouldStartWith0x, ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
+import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 
 const getMinBigInt = (x: bigint, y: bigint) => (x > y ? y : x)
 
@@ -22,12 +23,10 @@ const loadCells = async ({
   if (!rpc) {
     throw new ArgumentRequired('RPC object')
   }
-  if (typeof start === 'string' && !start.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(start)
-  }
+  assertToBeHexStringOrBigint(start)
 
-  if (typeof end === 'string' && !end.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(end)
+  if (end !== undefined) {
+    assertToBeHexStringOrBigint(end)
   }
 
   const from = BigInt(start)
@@ -64,6 +63,7 @@ const loadCells = async ({
           ...digest,
           dataHash: cellDetailInRange[idx].cell.data!.hash,
           status: cellDetailInRange[idx].status,
+          type: cellDetailInRange[idx].cell.output.type,
         }))
         .filter(cell => cell.status === 'live')
     )

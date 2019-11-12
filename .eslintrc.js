@@ -48,7 +48,11 @@ module.exports = {
     "max-len": [2, 120],
     "object-curly-newline": ["error", {
       "consistent": true
-    }]
+    }],
+    "spaced-comment": ["error", "always", {
+      "markers": ["/"]
+    }],
+    "max-classes-per-file": [0]
   },
   "globals": {
     "BigInt": "readonly"

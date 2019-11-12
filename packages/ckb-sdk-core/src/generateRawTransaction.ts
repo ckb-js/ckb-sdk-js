@@ -1,8 +1,8 @@
-import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
-const generateRawTransaction = async ({
+const generateRawTransaction = ({
   fromPublicKeyHash,
   toPublicKeyHash,
   capacity,
@@ -10,27 +10,36 @@ const generateRawTransaction = async ({
   safeMode = true,
   cells: unspentCells = [],
   deps,
+  capacityThreshold = BigInt(61_00_000_000),
+  changeThreshold = BigInt(61_00_000_000),
 }: {
   fromPublicKeyHash: string
   toPublicKeyHash: string
-  capacity: bigint | string | number
-  fee?: bigint | string | number
+  capacity: bigint | string
+  fee?: bigint | string
   safeMode: boolean
   cells?: CachedCell[]
   deps: DepCellInfo
-}) => {
+  capacityThreshold?: bigint | string
+  changeThreshold?: bigint | string
+}): CKBComponents.RawTransactionToSign => {
   if (!deps) {
     throw new Error('The deps is not loaded')
   }
+  assertToBeHexStringOrBigint(capacity)
+  assertToBeHexStringOrBigint(capacityThreshold)
+  assertToBeHexStringOrBigint(changeThreshold)
 
-  if (typeof capacity === 'string' && !capacity.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(capacity)
+  const targetCapacity = BigInt(capacity)
+  const targetFee = BigInt(fee)
+  const minCapacity = BigInt(capacityThreshold)
+  const minChange = BigInt(changeThreshold)
+
+  if (targetCapacity < minCapacity) {
+    throw new Error(`Capacity should not be less than ${minCapacity} shannon`)
   }
 
-  const targetCapacity = typeof capacity !== 'bigint' ? BigInt(capacity) : capacity
-  const realFee = typeof fee !== 'bigint' ? BigInt(fee) : fee
-
-  const costCapacity = targetCapacity + realFee
+  const costCapacity = targetCapacity + targetFee + minChange
 
   const lockScript = {
     codeHash: deps.codeHash,
@@ -68,7 +77,7 @@ const generateRawTransaction = async ({
    */
   for (let i = 0; i < unspentCells.length; i++) {
     const unspentCell = unspentCells[i]
-    if (!safeMode || unspentCell.dataHash === EMPTY_DATA_HASH) {
+    if (!safeMode || (unspentCell.dataHash === EMPTY_DATA_HASH && !unspentCell.type)) {
       inputs.push({
         previousOutput: unspentCell.outPoint,
         since: '0x0',
@@ -82,8 +91,8 @@ const generateRawTransaction = async ({
   if (inputCapacity < costCapacity) {
     throw new Error('Input capacity is not enough')
   }
-  if (inputCapacity > costCapacity) {
-    changeOutput.capacity = inputCapacity - costCapacity
+  if (inputCapacity > targetCapacity + targetFee) {
+    changeOutput.capacity = inputCapacity - targetCapacity - targetFee
   }
 
   /**
@@ -103,7 +112,7 @@ const generateRawTransaction = async ({
     cellDeps: [
       {
         outPoint: deps.outPoint,
-        depType: 'depGroup',
+        depType: 'depGroup' as CKBComponents.DepType,
       },
     ],
     headerDeps: [],
