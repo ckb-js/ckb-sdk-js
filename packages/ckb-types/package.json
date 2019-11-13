@@ -23,5 +23,5 @@
   "scripts": {
     "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   },
-  "gitHead": "a876b8ea5644dbc27b4ab992f15d09a6a20ede89"
+  "gitHead": "d26d9ce4bce06c2807bbaadd5f771e6476e0a0c3"
 }
