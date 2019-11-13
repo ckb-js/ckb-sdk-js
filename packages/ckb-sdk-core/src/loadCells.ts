@@ -37,7 +37,7 @@ const loadCells = async ({
   to = getMinBigInt(to, BigInt(tipBlockNumber))
 
   if (to < from) {
-    throw new Error(`start(${start}) should not be less than end(${end})`)
+    throw new Error(`start(${start}) should not be less than end(${to})`)
   }
 
   const range = to - from
