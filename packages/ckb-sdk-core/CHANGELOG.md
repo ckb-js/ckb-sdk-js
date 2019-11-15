@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.25.0-alpha.0...v0.25.0) (2019-11-16)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
+
+
+
+
+
+# [0.25.0-alpha.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.25.0-alpha.0...v0.25.0-alpha.1) (2019-11-13)
+
+
+### Bug Fixes
+
+* **core:** fix the minimal epoch composition in generateDaoWithdrawTx method ([c87fb6a](https://github.com/nervosnetwork/ckb-sdk-js/commit/c87fb6afe901f8b215f34c5d00117af429477596))
+
+
+
+
+
 # [0.25.0-alpha.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.24.2...v0.25.0-alpha.0) (2019-11-12)
 
 

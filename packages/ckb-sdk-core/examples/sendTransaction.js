@@ -79,8 +79,8 @@ const bootstrap = async () => {
   const rawTransaction = await core.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
     toAddress,
-    capacity: 600000000000,
-    fee: 100000,
+    capacity: BigInt(600000000000),
+    fee: BigInt(100000),
     safeMode: true,
     cells: unspentCells,
     deps: core.config.secp256k1Dep,

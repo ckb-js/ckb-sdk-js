@@ -413,9 +413,11 @@ class Core {
       BigInt(DAO_LOCK_PERIOD_EPOCHS) *
       BigInt(DAO_LOCK_PERIOD_EPOCHS)
     const minimalSince = this.absoluteEpochSince(
-      depositEpoch.number + lockEpochs,
-      depositEpoch.index,
-      depositEpoch.length
+      {
+        length: BigInt(depositEpoch.length),
+        index: BigInt(depositEpoch.index),
+        number: BigInt(BigInt(depositEpoch.number) + lockEpochs),
+      }
     )
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
     const targetCapacity = BigInt(outputCapacity)
@@ -446,7 +448,7 @@ class Core {
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: minimalSince,
+          since: `0x${minimalSince.toString(16)}`,
         },
       ],
       outputs,
@@ -459,12 +461,12 @@ class Core {
     }
   }
 
-  private absoluteEpochSince = (length: string, index: string, number: string) => {
+  private absoluteEpochSince = ({ length, index, number }: {length: bigint, index: bigint, number: bigint}): bigint => {
     const epochSince = (BigInt(0x20) << BigInt(56)) +
-      (BigInt(length) << BigInt(40)) +
-      (BigInt(index) << BigInt(24)) +
-      BigInt(number)
-    return `0x${epochSince.toString(16)}`
+      (length << BigInt(40)) +
+      (index << BigInt(24)) +
+      number
+    return epochSince
   }
 }
 
