@@ -8,6 +8,8 @@ declare module RPC {
   export type Number = CKBComponents.Number
   export type UInt32 = CKBComponents.UInt32
   export type Count = CKBComponents.Count
+  export type DAO = CKBComponents.DAO
+  export type Hash = CKBComponents.Hash
   export type Hash256 = CKBComponents.Hash256
   export type Version = CKBComponents.Version
   export type Capacity = CKBComponents.Capacity
