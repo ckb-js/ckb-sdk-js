@@ -24,7 +24,7 @@ declare module RPC {
 
   export type TransactionStatus = CKBComponents.TransactionStatus
 
-  export type ScriptHashType = 'data' | type
+  export type ScriptHashType = 'data' | 'type'
 
   export type DepType = 'code' | 'dep_group'
 
