@@ -1,11 +1,7 @@
 import { blake2b, hexToBytes, PERSONAL, toHexInLittleEndian, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 
-const signWitnessGroup = (
-  keyPair: ECPair,
-  transactionHash: string,
-  witnessGroup: (CKBComponents.WitnessArgs | CKBComponents.Witness)[]
-) => {
+const signWitnessGroup = (keyPair: ECPair, transactionHash: string, witnessGroup: StructuredWitness[]) => {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')
   }

@@ -17,11 +17,25 @@ describe('generate raw transaction', () => {
 
   test.each(fixtureTable)('%s', (title, params, expected, exception) => {
     if (undefined === exception) {
-      const rawTransaction = generateRawTransaction({
-        ...params,
-        capacity: BigInt(params.capacity),
-        fee: BigInt(params.fee || 0),
-      })
+      let fmtParams = params
+      if ('fromPublicKeyHash' in params) {
+        fmtParams = {
+          ...params,
+          capacity: BigInt(params.capacity),
+          fee: BigInt(params.fee || 0),
+        }
+      } else {
+        fmtParams = {
+          ...params,
+          receivePairs: params.receivePairs.map(pair => ({
+            ...pair,
+            capacity: BigInt(pair.capacity),
+          })),
+          cells: new Map(params.cells),
+          fee: BigInt(params.fee || 0),
+        }
+      }
+      const rawTransaction = generateRawTransaction(fmtParams)
       expect(rawTransaction).toEqual(expected)
     } else {
       expect(generateRawTransaction(params)).rejects.toThrowError(exception)

@@ -11,10 +11,4 @@ interface CachedCell extends CKBComponents.CellIncludingOutPoint {
   type: CKBComponent.Script | null
 }
 
-interface TransactionBuilderInitParams {
-  inputs?: CKBComponents.CellInput[]
-  outputs?: CKBComponents.CellOutput[]
-  cellDeps?: CKBComponents.CellDep[]
-  headerDeps?: string[]
-  witnesses?: string[]
-}
+type StructuredWitness = CKBComponents.WitnessArgs | CKBComponents.Witness

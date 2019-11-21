@@ -5,14 +5,29 @@ import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
-import generateRawTransaction from './generateRawTransaction'
+import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
 
 import loadCells from './loadCells'
-import signWitnessGroup from './signWitnessGroup'
+import signWitnesses, { isMap } from './signWitnesses'
 
-type StructuredWitness = CKBComponents.WitnessArgs | CKBComponents.Witness
+
+type Key = string | ECPair
+
+interface RawTransactionParams extends RawTransactionParamsBase {
+  fromAddress: string
+  toAddress: string
+  capacity: bigint | string
+  cells?: Cell[]
+}
+
+interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
+  fromAddresses: string[]
+  receivePairs: {address: string, capacity: bigint | string}[],
+  cells: Map<string, CachedCell[]>
+}
 
 const hrpSize = 6
+
 
 class Core {
   public cells: Map<string, CachedCell[]> = new Map()
@@ -28,7 +43,7 @@ class Core {
     daoDep?: DepCellInfo
   } = {}
 
-  constructor(nodeUrl: string) {
+  constructor (nodeUrl: string) {
     this._node = {
       url: nodeUrl,
     }
@@ -61,7 +76,7 @@ class Core {
     this.rpc.addMethod(computeScriptHashMethod)
   }
 
-  public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
+  public setNode (node: string | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -73,7 +88,7 @@ class Core {
     return this._node
   }
 
-  public get node(): CKBComponents.Node {
+  public get node (): CKBComponents.Node {
     return this._node
   }
 
@@ -180,23 +195,14 @@ class Core {
     return cells
   }
 
-  public signWitnesses = (key: string | ECPair) => ({
-    transactionHash,
-    witnesses = [],
-  }: {
-    transactionHash: string
-    witnesses: StructuredWitness[]
-  }) => {
-    // CAUTIONS: Now we consider witnesses as a single group
-    if (!key) throw new ArgumentRequired('Private key or address object')
-    if (!transactionHash) throw new ArgumentRequired('Transaction hash')
+  public signWitnesses = signWitnesses
 
-    const keyPair = typeof key === 'string' ? new ECPair(key) : key
-    const signedWitnesses = signWitnessGroup(keyPair, transactionHash, witnesses)
-    return signedWitnesses
-  }
-
-  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransactionToSign) => {
+  public signTransaction = (
+    key: Key | Map<string, Key>
+  ) => (
+    transaction: CKBComponents.RawTransactionToSign,
+    cells: CachedCell[]
+  ) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
@@ -204,9 +210,22 @@ class Core {
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
+
+    const inputCells = isMap(key) ? transaction.inputs.map(input => {
+      const outPoint = input.previousOutput
+      /* eslint-disable prettier/prettier, no-undef */
+      const cell = cells.find(c => c.outPoint?.txHash === outPoint?.txHash && c.outPoint?.index === outPoint?.index)
+      /* eslint-enable prettier/prettier, no-undef */
+      if (!cell) {
+        throw new Error(`Cell of ${JSON.stringify(outPoint)} is not found`)
+      }
+      return cell
+    }) : undefined
+
     const signedWitnesses = this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
+      inputCells,
     })
     return {
       ...transaction,
@@ -216,59 +235,60 @@ class Core {
     }
   }
 
-  public generateRawTransaction = async ({
-    fromAddress,
-    toAddress,
-    capacity,
+  public generateRawTransaction = ({
     fee,
     safeMode = true,
-    cells = [],
     deps,
     capacityThreshold,
     changeThreshold,
-  }: {
-    fromAddress: string
-    toAddress: string
-    capacity: string | bigint
-    fee: string | bigint
-    safeMode?: boolean
-    cells?: CachedCell[]
-    deps: DepCellInfo
-    capacityThreshold?: string | bigint
-    changeThreshold?: string | bigint
-  }) => {
-    const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
-      const addressPayload = this.utils.parseAddress(addr, 'hex')
-      return `0x${addressPayload.slice(hrpSize)}`
-    })
-
-    let availableCells = cells
-    if (!availableCells.length && deps) {
-      const lockHash = this.utils.scriptToHash({
-        codeHash: deps.codeHash,
-        hashType: deps.hashType,
-        args: fromPublicKeyHash,
-      })
-      const cachedCells = this.cells.get(lockHash)
-      if (cachedCells && cachedCells.length) {
-        availableCells = cachedCells
-      } else {
-        const fetchedCells = await this.loadCells({ lockHash, save: true })
-        availableCells = fetchedCells
+    ...params
+  }: RawTransactionParams | ComplexRawTransactoinParams) => {
+    if ('fromAddress' in params && 'toAddress' in params) {
+      let availableCells = params.cells || []
+      const [fromPublicKeyHash, toPublicKeyHash] = 
+        [params.fromAddress, params.toAddress].map(this.extractPayloadFromAddress)
+      if (!availableCells.length && deps) {
+        const lockHash = this.utils.scriptToHash({
+          codeHash: deps.codeHash,
+          hashType: deps.hashType,
+          args: toPublicKeyHash,
+        })
+        const cachedCells = this.cells.get(lockHash)
+        if (cachedCells && cachedCells.length) {
+          availableCells = cachedCells
+        }
       }
+      return generateRawTransaction({
+        fromPublicKeyHash,
+        toPublicKeyHash,
+        capacity: params.capacity,
+        fee,
+        safeMode,
+        cells: availableCells,
+        deps,
+        capacityThreshold,
+        changeThreshold,
+      })
     }
 
-    return generateRawTransaction({
-      fromPublicKeyHash,
-      toPublicKeyHash,
-      capacity,
-      fee,
-      safeMode,
-      cells: availableCells,
-      deps,
-      capacityThreshold,
-      changeThreshold,
-    })
+    if ('fromAddresses' in params && 'receivePairs' in params) {
+      const fromPublicKeyHashes = params.fromAddresses.map(this.extractPayloadFromAddress)
+      const receivePairs = params.receivePairs.map(pair => ({
+        publicKeyHash: this.extractPayloadFromAddress(pair.address),
+        capacity: pair.capacity,
+      }))
+      return generateRawTransaction({
+        fromPublicKeyHashes,
+        receivePairs,
+        cells: params.cells || this.cells,
+        fee,
+        safeMode,
+        deps,
+        capacityThreshold,
+        changeThreshold,
+      })
+    }
+    throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
   public generateDaoDepositTransaction = async ({
@@ -472,6 +492,11 @@ class Core {
   }): bigint => {
     const epochSince = (BigInt(0x20) << BigInt(56)) + (length << BigInt(40)) + (index << BigInt(24)) + number
     return epochSince
+  }
+
+  private extractPayloadFromAddress = (address: string) => {
+    const addressPayload = this.utils.parseAddress(address, 'hex')
+    return `0x${addressPayload.slice(hrpSize)}`
   }
 }
 
