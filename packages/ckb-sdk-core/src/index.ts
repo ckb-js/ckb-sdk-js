@@ -10,6 +10,8 @@ import generateRawTransaction from './generateRawTransaction'
 import loadCells from './loadCells'
 import signWitnessGroup from './signWitnessGroup'
 
+type StructuredWitness = CKBComponents.WitnessArgs | CKBComponents.Witness
+
 const hrpSize = 6
 
 class Core {
@@ -183,7 +185,7 @@ class Core {
     witnesses = [],
   }: {
     transactionHash: string
-    witnesses: (CKBComponents.WitnessArgs | CKBComponents.Witness)[]
+    witnesses: StructuredWitness[]
   }) => {
     // CAUTIONS: Now we consider witnesses as a single group
     if (!key) throw new ArgumentRequired('Private key or address object')
@@ -194,9 +196,7 @@ class Core {
     return signedWitnesses
   }
 
-  public signTransaction = (key: string | ECPair) => (
-    transaction: CKBComponents.RawTransactionToSign,
-  ) => {
+  public signTransaction = (key: string | ECPair) => (transaction: CKBComponents.RawTransactionToSign) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
     if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
@@ -210,10 +210,8 @@ class Core {
     })
     return {
       ...transaction,
-      witnesses: signedWitnesses.map(
-        witness => (
-          typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness)
-        )
+      witnesses: signedWitnesses.map(witness =>
+        typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness),
       ),
     }
   }
@@ -279,10 +277,10 @@ class Core {
     fee,
     cells = [],
   }: {
-    fromAddress: string,
-    capacity: bigint,
-    fee: bigint,
-    cells?: CachedCell[],
+    fromAddress: string
+    capacity: bigint
+    fee: bigint
+    cells?: CachedCell[]
   }) => {
     if (!this.config.daoDep) {
       await this.loadDaoDep()
@@ -302,7 +300,6 @@ class Core {
       deps: this.config.secp256k1Dep!,
     })
 
-
     rawTx.outputs[0].type = {
       codeHash: this.config.daoDep!.typeHash!,
       args: '0x',
@@ -320,9 +317,13 @@ class Core {
     return rawTx
   }
 
-  public generateDaoWithdrawStartTransaction = async ({ outPoint, fee, cells = [] }: {
-    outPoint: CKBComponents.OutPoint,
-    fee: bigint | string,
+  public generateDaoWithdrawStartTransaction = async ({
+    outPoint,
+    fee,
+    cells = [],
+  }: {
+    outPoint: CKBComponents.OutPoint
+    fee: bigint | string
     cells?: CachedCell[]
   }) => {
     if (!this.config.secp256k1Dep) {
@@ -394,7 +395,9 @@ class Core {
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     /* eslint-disable */
-    const depositBlockNumber = this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
+    const depositBlockNumber = this.utils.bytesToHex(
+      this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse(),
+    )
     /* eslint-enable */
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
@@ -409,16 +412,14 @@ class Core {
     if (withdrawFraction > depositFraction) {
       depositedEpochs += BigInt(1)
     }
-    const lockEpochs = (depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) /
-      BigInt(DAO_LOCK_PERIOD_EPOCHS) *
+    const lockEpochs =
+      ((depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) / BigInt(DAO_LOCK_PERIOD_EPOCHS)) *
       BigInt(DAO_LOCK_PERIOD_EPOCHS)
-    const minimalSince = this.absoluteEpochSince(
-      {
-        length: BigInt(depositEpoch.length),
-        index: BigInt(depositEpoch.index),
-        number: BigInt(BigInt(depositEpoch.number) + lockEpochs),
-      }
-    )
+    const minimalSince = this.absoluteEpochSince({
+      length: BigInt(depositEpoch.length),
+      index: BigInt(depositEpoch.index),
+      number: BigInt(BigInt(depositEpoch.number) + lockEpochs),
+    })
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
     const targetCapacity = BigInt(outputCapacity)
     const targetFee = BigInt(fee)
@@ -441,10 +442,7 @@ class Core {
         { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
         { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
       ],
-      headerDeps: [
-        depositBlockHeader.hash,
-        withdrawBlockHeader.hash,
-      ],
+      headerDeps: [depositBlockHeader.hash, withdrawBlockHeader.hash],
       inputs: [
         {
           previousOutput: withdrawOutPoint,
@@ -453,19 +451,26 @@ class Core {
       ],
       outputs,
       outputsData,
-      witnesses: [{
-        lock: '',
-        inputType: '0x0000000000000000',
-        outputType: '',
-      }],
+      witnesses: [
+        {
+          lock: '',
+          inputType: '0x0000000000000000',
+          outputType: '',
+        },
+      ],
     }
   }
 
-  private absoluteEpochSince = ({ length, index, number }: {length: bigint, index: bigint, number: bigint}): bigint => {
-    const epochSince = (BigInt(0x20) << BigInt(56)) +
-      (length << BigInt(40)) +
-      (index << BigInt(24)) +
-      number
+  private absoluteEpochSince = ({
+    length,
+    index,
+    number,
+  }: {
+    length: bigint
+    index: bigint
+    number: bigint
+  }): bigint => {
+    const epochSince = (BigInt(0x20) << BigInt(56)) + (length << BigInt(40)) + (index << BigInt(24)) + number
     return epochSince
   }
 }
