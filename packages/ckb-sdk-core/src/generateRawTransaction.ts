@@ -3,28 +3,31 @@ import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/va
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
+type LockHash = string
+type PublicKeyHash = string
+type Capacity = string | bigint
 export type Cell = Pick<CachedCell, 'dataHash' | 'type' | 'capacity' | 'outPoint'>
 
 export interface RawTransactionParamsBase {
-  fee?: bigint | string
+  fee?: Capacity
   safeMode: boolean
   deps: DepCellInfo
-  capacityThreshold?: bigint | string
-  changeThreshold?: bigint | string
-  changePublicKeyHash?: string
+  capacityThreshold?: Capacity
+  changeThreshold?: Capacity
+  changePublicKeyHash?: PublicKeyHash
 }
 
 interface RawTransactionParams extends RawTransactionParamsBase {
-  fromPublicKeyHash: string
-  toPublicKeyHash: string
-  capacity: bigint | string
+  fromPublicKeyHash: PublicKeyHash
+  toPublicKeyHash: PublicKeyHash
+  capacity: Capacity
   cells?: Cell[]
 }
 
 interface ComplexRawTransactionParams extends RawTransactionParamsBase {
-  fromPublicKeyHashes: string[]
-  receivePairs: { publicKeyHash: string; capacity: string | bigint }[]
-  cells: Map<string, CachedCell[]>
+  fromPublicKeyHashes: PublicKeyHash[]
+  receivePairs: { publicKeyHash: PublicKeyHash; capacity: Capacity }[]
+  cells: Map<LockHash, CachedCell[]>
 }
 
 const generateRawTransaction = ({
@@ -58,7 +61,7 @@ const generateRawTransaction = ({
       ? [{ publicKeyHash: params.toPublicKeyHash, capacity: params.capacity }]
       : params.receivePairs
 
-  let unspentCellsMap = new Map<string, Cell[]>()
+  let unspentCellsMap = new Map<LockHash, Cell[]>()
   if ('fromPublicKeyHash' in params) {
     const lockHash = scriptToHash({
       ...scriptBase,
