@@ -55,7 +55,7 @@ const unspentCells = [
 
 const generateRawTransaction = async () => {
   await core.loadSecp256k1Dep()
-  const rawTx = await core.generateRawTransaction({
+  const rawTx = core.generateRawTransaction({
     fromAddress: address,
     toAddress: address,
     capacity: BigInt(19999999900),

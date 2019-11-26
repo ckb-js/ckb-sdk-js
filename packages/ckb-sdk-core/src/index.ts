@@ -296,7 +296,7 @@ class Core {
     throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
-  public generateDaoDepositTransaction = async ({
+  public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
     fee,
@@ -307,15 +307,10 @@ class Core {
     fee: Capacity
     cells?: CachedCell[]
   }) => {
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity,
@@ -351,12 +346,8 @@ class Core {
     fee: Capacity
     cells?: CachedCell[]
   }) => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
@@ -369,7 +360,7 @@ class Core {
 
     const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
 
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity: '0x0',
@@ -405,12 +396,8 @@ class Core {
     withdrawOutPoint: CKBComponents.OutPoint
     fee: Capacity
   }): Promise<CKBComponents.RawTransactionToSign> => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
     const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
@@ -502,6 +489,18 @@ class Core {
   private extractPayloadFromAddress = (address: string) => {
     const addressPayload = this.utils.parseAddress(address, 'hex')
     return `0x${addressPayload.slice(hrpSize)}`
+  }
+
+  private secp256k1DepsShouldBeReady = () => {
+    if (!this.config.secp256k1Dep) {
+      throw new ArgumentRequired('Secp256k1 deps')
+    }
+  }
+
+  private DAODepsShouldBeReady = () => {
+    if (!this.config.daoDep) {
+      throw new ArgumentRequired('DAO deps')
+    }
   }
 }
 

@@ -1,4 +1,3 @@
-const { default: ECPair } = require('@nervosnetwork/ckb-sdk-utils/lib/ecpair')
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
 
@@ -101,14 +100,12 @@ describe('ckb-core', () => {
         transaction,
         expected,
         exception,
-      ]
+      ],
     )
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
-        const signedTransactionWithECPair = core.signTransaction(new ECPair(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-        expect(signedTransactionWithECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
@@ -118,12 +115,12 @@ describe('ckb-core', () => {
 
   describe('generate raw transactin', () => {
     const fixtureTable = Object.entries(fixtures.generateRawTransaction).map(
-      ([title, { params, expected, exception }]) => [title, params, expected, exception]
+      ([title, { params, expected, exception }]) => [title, params, expected, exception],
     )
 
-    test.each(fixtureTable)('%s', async (_title, params, expected, exception) => {
+    test.each(fixtureTable)('%s', (_title, params, expected, exception) => {
       if (undefined === exception) {
-        const rawTransaction = await core.generateRawTransaction({
+        const rawTransaction = core.generateRawTransaction({
           ...params,
           capacity: BigInt(params.capacity),
           fee: BigInt(params.fee || 0),
