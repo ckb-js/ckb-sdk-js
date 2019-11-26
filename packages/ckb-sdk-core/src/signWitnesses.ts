@@ -2,7 +2,7 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 
 import signWitnessGroup from './signWitnessGroup'
-import groupInputs from './groupInputs'
+import groupScripts from './groupScripts'
 
 type Key = string | ECPair
 
@@ -41,8 +41,8 @@ const signWitnesses: SignWitnesses = (key: Key | Map<string, Key>) => ({
   if (isMap(key)) {
     const rawWitnesses = witnesses
     const restWitnesses = witnesses.slice(inputCells.length)
-    const groupedInputs = groupInputs(inputCells)
-    groupedInputs.forEach((indices, lockhash) => {
+    const groupedScripts = groupScripts(inputCells)
+    groupedScripts.forEach((indices, lockhash) => {
       const sk = key.get(lockhash)
       if (!sk) {
         throw new Error(`The private key to sign lockhash ${lockhash} is not found`)

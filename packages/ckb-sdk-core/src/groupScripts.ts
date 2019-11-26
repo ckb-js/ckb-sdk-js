@@ -1,7 +1,7 @@
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 
 type Cell = Pick<CachedCell, 'lock'>
-export const groupInputs = (inputCells: Cell[]) => {
+export const groupScripts = (inputCells: Cell[]) => {
   const groups = new Map<string, number[]>()
   inputCells.forEach((cell, i) => {
     const lockhash = scriptToHash(cell.lock)
@@ -11,4 +11,4 @@ export const groupInputs = (inputCells: Cell[]) => {
   return groups
 }
 
-export default groupInputs
+export default groupScripts
