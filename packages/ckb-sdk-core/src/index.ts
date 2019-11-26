@@ -493,13 +493,13 @@ class Core {
 
   private secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
-      throw new ArgumentRequired('Secp256k1 deps')
+      throw new ArgumentRequired('Secp256k1 dep')
     }
   }
 
   private DAODepsShouldBeReady = () => {
     if (!this.config.daoDep) {
-      throw new ArgumentRequired('DAO deps')
+      throw new ArgumentRequired('Dao dep')
     }
   }
 }
