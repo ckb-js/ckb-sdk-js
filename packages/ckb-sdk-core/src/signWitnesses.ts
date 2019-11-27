@@ -36,6 +36,7 @@ const signWitnesses: SignWitnesses = (key: Key | Map<LockHash, Key>) => ({
 }) => {
   if (!key) throw new ArgumentRequired('Private key')
   if (!transactionHash) throw new ArgumentRequired('Transaction hash')
+  if (!witnesses.length) throw new Error('Witnesses is empty')
 
   if (isMap(key)) {
     const rawWitnesses = witnesses

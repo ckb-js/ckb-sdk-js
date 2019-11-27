@@ -181,5 +181,10 @@
       }
     ],
     "exception": "The private key to sign lockhash 0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b is not found"
+  },
+  "witnesses cannot be empty": {
+    "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "exception": "Witnesses is empty"
   }
 }
