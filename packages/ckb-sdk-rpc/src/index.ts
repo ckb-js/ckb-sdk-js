@@ -1,7 +1,6 @@
 /// <reference types="../types/rpc" />
 
 import DefaultRPC from './defaultRPC'
-import { DebugLevel } from './enum'
 import Method from './method'
 
 import paramsFormatter from './paramsFormatter'
@@ -17,10 +16,6 @@ class CKBRPC extends DefaultRPC {
   public paramsFormatter = paramsFormatter
 
   public resultFormatter = resultFormatter
-
-  public setDebugLevel = (level: DebugLevel) => {
-    Method.debugLevel = level
-  }
 
   constructor(url: string) {
     super()
