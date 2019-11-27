@@ -20,7 +20,7 @@ install:
 
 script:
   - lerna run tsc
-  - yarn run test utils formatters core
+  - yarn run test utils formatters
 
 after_success:
   - yarn run docs
