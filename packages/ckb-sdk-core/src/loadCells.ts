@@ -17,6 +17,7 @@ const loadCells = async ({
   STEP?: bigint
   rpc: RPC
 }) => {
+  console.warn(`This method is only for demo, don't use it in production`)
   if (!lockHash) {
     throw new ArgumentRequired('lockHash')
   }
@@ -55,7 +56,7 @@ const loadCells = async ({
   for (let i = 0; i < groups.length; i++) {
     const cellDigestsInRange = await rpc.getCellsByLockHash(lockHash, groups[i][0], groups[i][1])
     const cellDetailInRange = await Promise.all(
-      cellDigestsInRange.map(cellDigest => rpc!.getLiveCell(cellDigest.outPoint!, true))
+      cellDigestsInRange.map(cellDigest => rpc!.getLiveCell(cellDigest.outPoint!, true)),
     )
     cells.push(
       ...cellDigestsInRange
@@ -65,7 +66,7 @@ const loadCells = async ({
           status: cellDetailInRange[idx].status,
           type: cellDetailInRange[idx].cell.output.type,
         }))
-        .filter(cell => cell.status === 'live')
+        .filter(cell => cell.status === 'live'),
     )
   }
   /* eslint-enable no-await-in-loop */
