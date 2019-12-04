@@ -1,32 +1,31 @@
-import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
-
 import signWitnessGroup from './signWitnessGroup'
 import groupScripts from './groupScripts'
 
-type Key = string | ECPair
-
+type Key = string
+type LockHash = string
+type TransactionHash = string
 type CachedLock = Pick<CachedCell, 'lock'>
 
 export interface SignWitnesses {
-  (key: Key): (params: { transactionHash: string; witnesses: StructuredWitness[] }) => StructuredWitness[]
-  (key: Map<string, Key>): (params: {
-    transactionHash: string
+  (key: Key): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => StructuredWitness[]
+  (key: Map<LockHash, Key>): (params: {
+    transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
   }) => StructuredWitness[]
-  (key: Key | Map<string, Key>): (params: {
-    transactionHash: string
+  (key: Key | Map<LockHash, Key>): (params: {
+    transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
   }) => StructuredWitness[]
 }
 
-export const isMap = (val: any): val is Map<any, any> => {
+export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
 }
 
-const signWitnesses: SignWitnesses = (key: Key | Map<string, Key>) => ({
+const signWitnesses: SignWitnesses = (key: Key | Map<LockHash, Key>) => ({
   transactionHash,
   witnesses = [],
   inputCells = [],
@@ -37,6 +36,7 @@ const signWitnesses: SignWitnesses = (key: Key | Map<string, Key>) => ({
 }) => {
   if (!key) throw new ArgumentRequired('Private key')
   if (!transactionHash) throw new ArgumentRequired('Transaction hash')
+  if (!witnesses.length) throw new Error('Witnesses is empty')
 
   if (isMap(key)) {
     const rawWitnesses = witnesses
@@ -49,18 +49,13 @@ const signWitnesses: SignWitnesses = (key: Key | Map<string, Key>) => ({
       }
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
 
-      const witnessIncludeSignature = signWitnessGroup(
-        typeof sk === 'string' ? new ECPair(sk) : sk,
-        transactionHash,
-        ws,
-      )[0]
+      const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
       rawWitnesses[indices[0]] = witnessIncludeSignature
     })
     return rawWitnesses
   }
 
-  const keyPair = typeof key === 'string' ? new ECPair(key) : key
-  const signedWitnesses = signWitnessGroup(keyPair, transactionHash, witnesses)
+  const signedWitnesses = signWitnessGroup(key, transactionHash, witnesses)
   return signedWitnesses
 }
 

@@ -1,4 +1,3 @@
-const { default: ECPair } = require('@nervosnetwork/ckb-sdk-utils/lib/ecpair')
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
 
@@ -11,6 +10,13 @@ describe('ckb-core', () => {
     core = new Core(url)
   })
 
+  describe('instantiate with default configuration', () => {
+    it('default url is http://localhost:8114', () => {
+      const c = new Core()
+      expect(c.node.url).toBe('http://localhost:8114')
+    })
+  })
+
   describe('load data', () => {
     it('load the secp256k1 dep', async () => {
       core.rpc = rpc
@@ -20,6 +26,15 @@ describe('ckb-core', () => {
 
       const secp256k1Dep = await core.loadSecp256k1Dep()
       expect(secp256k1Dep).toEqual(fixture.target)
+    })
+
+    it('load the dao dep', async () => {
+      core.rpc = rpc
+      jest.setTimeout(50000)
+      const fixture = fixtures.loadDaoDep
+      expect(core.config.loadDaoDep).toEqual(undefined)
+      const daoDep = await core.loadDaoDep()
+      expect(daoDep).toEqual(fixture.target)
     })
 
     it('load cells', async () => {
@@ -101,14 +116,12 @@ describe('ckb-core', () => {
         transaction,
         expected,
         exception,
-      ]
+      ],
     )
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
         const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
-        const signedTransactionWithECPair = core.signTransaction(new ECPair(privateKey))(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-        expect(signedTransactionWithECPair).toEqual(expected)
       }
       if (undefined !== exception) {
         expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
@@ -118,51 +131,38 @@ describe('ckb-core', () => {
 
   describe('generate raw transactin', () => {
     const fixtureTable = Object.entries(fixtures.generateRawTransaction).map(
-      ([title, { params, expected, exception }]) => [title, params, expected, exception]
+      ([title, { params, expected, exception }]) => [title, params, expected, exception],
     )
 
-    test.each(fixtureTable)('%s', async (_title, params, expected, exception) => {
+    test.each(fixtureTable)('%s', (_title, params, expected, exception) => {
       if (undefined === exception) {
-        const rawTransaction = await core.generateRawTransaction({
+        const rawTransaction = core.generateRawTransaction({
           ...params,
           capacity: BigInt(params.capacity),
           fee: BigInt(params.fee || 0),
         })
         expect(rawTransaction).toEqual(expected)
       } else {
-        expect(core.generateRawTransaction(params)).rejects.toThrowError(exception)
+        expect(() => core.generateRawTransaction(params)).toThrowError(exception)
       }
     })
   })
 
   describe('nervos dao', () => {
-    beforeEach(() => {
-      core.config.secp256k1Dep = {
-        hashType: 'type',
-        codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-        outPoint: {
-          txHash: '0xcb77d6dd01abde6dde8cd3fffaa9811399309ae47e18162096b7ae45e5e69f14',
-          index: '0x0',
-        },
-      }
-      core.config.daoDep = {
-        hashType: 'type',
-        codeHash: '0x516be0333273bbe12a723f3be583c524f0b6089326f89c49fc61e24d1f56be21',
-        typeHash: '0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e',
-        outPoint: {
-          txHash: '0xb5724acb4f5f82afb717c3ec3fe025d3b6e45ff48f4ffbb6162c950399cbcabe',
-          index: '0x2',
-        },
-      }
-    })
     it('generate deposit transaction', async () => {
+      core.rpc = rpc
       const { params, expected } = fixtures.generateDaoDepositTransaction
-      const tx = await core.generateDaoDepositTransaction({
+      const p = {
         fromAddress: params.fromAddress,
         capacity: BigInt(params.capacity),
         fee: BigInt(params.fee),
         cells: params.cells,
-      })
+      }
+      expect(() => core.generateDaoDepositTransaction(p)).toThrowError('Secp256k1 dep is required')
+      await core.loadSecp256k1Dep()
+      expect(() => core.generateDaoDepositTransaction(p)).toThrowError('Dao dep is required')
+      await core.loadDaoDep()
+      const tx = await core.generateDaoDepositTransaction(p)
       expect(tx).toEqual(expected)
     })
 

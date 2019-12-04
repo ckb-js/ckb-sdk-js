@@ -4,7 +4,8 @@
       "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
       "start": 1,
       "end": 300,
-      "STEP": 100
+      "STEP": 100,
+      "save": true
     },
     "expectedCells": 300,
     "expectedCalls": [
@@ -18,7 +19,8 @@
       "lockHash": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
       "start": "0x1",
       "end": "0x12c",
-      "STEP": 100
+      "STEP": 100,
+      "save": false
     },
     "expectedCells": 300,
     "expectedCalls": [

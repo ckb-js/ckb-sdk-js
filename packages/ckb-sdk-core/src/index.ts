@@ -2,7 +2,6 @@
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
-import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
@@ -11,26 +10,32 @@ import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
 
 
-type Key = string | ECPair
+type Key = string
+type Address = string
+type LockHash = string
+type PublicKeyHash = string
+type Capacity = bigint | string
+type URL = string
+type BlockNumber = bigint | string
 
 interface RawTransactionParams extends RawTransactionParamsBase {
-  fromAddress: string
-  toAddress: string
-  capacity: bigint | string
+  fromAddress: Address
+  toAddress: Address
+  capacity: Capacity
   cells?: Cell[]
 }
 
 interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
-  fromAddresses: string[]
-  receivePairs: {address: string, capacity: bigint | string}[],
-  cells: Map<string, CachedCell[]>
+  fromAddresses: Address[]
+  receivePairs: {address: Address, capacity: Capacity}[],
+  cells: Map<LockHash, CachedCell[]>
 }
 
 const hrpSize = 6
 
 
 class Core {
-  public cells: Map<string, CachedCell[]> = new Map()
+  public cells: Map<LockHash, CachedCell[]> = new Map()
 
   public rpc: RPC
 
@@ -43,7 +48,7 @@ class Core {
     daoDep?: DepCellInfo
   } = {}
 
-  constructor (nodeUrl: string) {
+  constructor (nodeUrl: URL = 'http://localhost:8114') {
     this._node = {
       url: nodeUrl,
     }
@@ -76,7 +81,7 @@ class Core {
     this.rpc.addMethod(computeScriptHashMethod)
   }
 
-  public setNode (node: string | CKBComponents.Node): CKBComponents.Node {
+  public setNode (node: URL | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -93,7 +98,7 @@ class Core {
   }
 
   public generateLockHash = (
-    publicKeyHash: string,
+    publicKeyHash: PublicKeyHash,
     deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
   ) => {
     if (!deps) {
@@ -182,9 +187,9 @@ class Core {
     STEP = BigInt(100),
     save = false,
   }: {
-    lockHash: string
-    start?: string | bigint
-    end?: string | bigint
+    lockHash: LockHash
+    start?: BlockNumber
+    end?: BlockNumber
     STEP?: bigint
     save?: boolean
   }) => {
@@ -198,7 +203,7 @@ class Core {
   public signWitnesses = signWitnesses
 
   public signTransaction = (
-    key: Key | Map<string, Key>
+    key: Key | Map<LockHash, Key>
   ) => (
     transaction: CKBComponents.RawTransactionToSign,
     cells: CachedCell[]
@@ -245,7 +250,7 @@ class Core {
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
     if ('fromAddress' in params && 'toAddress' in params) {
       let availableCells = params.cells || []
-      const [fromPublicKeyHash, toPublicKeyHash] = 
+      const [fromPublicKeyHash, toPublicKeyHash] =
         [params.fromAddress, params.toAddress].map(this.extractPayloadFromAddress)
       if (!availableCells.length && deps) {
         const lockHash = this.utils.scriptToHash({
@@ -291,26 +296,21 @@ class Core {
     throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
-  public generateDaoDepositTransaction = async ({
+  public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
     fee,
     cells = [],
   }: {
-    fromAddress: string
-    capacity: bigint
-    fee: bigint
+    fromAddress: Address
+    capacity: Capacity
+    fee: Capacity
     cells?: CachedCell[]
   }) => {
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity,
@@ -343,15 +343,11 @@ class Core {
     cells = [],
   }: {
     outPoint: CKBComponents.OutPoint
-    fee: bigint | string
+    fee: Capacity
     cells?: CachedCell[]
   }) => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
@@ -364,7 +360,7 @@ class Core {
 
     const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
 
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity: '0x0',
@@ -398,14 +394,10 @@ class Core {
   }: {
     depositOutPoint: CKBComponents.OutPoint
     withdrawOutPoint: CKBComponents.OutPoint
-    fee: bigint | string
+    fee: Capacity
   }): Promise<CKBComponents.RawTransactionToSign> => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
     const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
@@ -497,6 +489,18 @@ class Core {
   private extractPayloadFromAddress = (address: string) => {
     const addressPayload = this.utils.parseAddress(address, 'hex')
     return `0x${addressPayload.slice(hrpSize)}`
+  }
+
+  private secp256k1DepsShouldBeReady = () => {
+    if (!this.config.secp256k1Dep) {
+      throw new ArgumentRequired('Secp256k1 dep')
+    }
+  }
+
+  private DAODepsShouldBeReady = () => {
+    if (!this.config.daoDep) {
+      throw new ArgumentRequired('Dao dep')
+    }
   }
 }
 

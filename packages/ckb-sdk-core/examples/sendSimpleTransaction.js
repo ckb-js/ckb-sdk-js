@@ -76,7 +76,7 @@ const bootstrap = async () => {
     prefix: 'ckt'
   })
 
-  const rawTransaction = await core.generateRawTransaction({
+  const rawTransaction = core.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
     toAddress,
     capacity: BigInt(600000000000),
