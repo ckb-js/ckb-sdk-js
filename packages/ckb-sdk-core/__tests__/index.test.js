@@ -1,74 +1,74 @@
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
 
-const { default: Core } = require('../lib')
+const { default: CKB } = require('../lib')
 
-describe('ckb-core', () => {
+describe('ckb', () => {
   const url = 'http://localhost:8114'
-  let core
+  let ckb
   beforeEach(() => {
-    core = new Core(url)
+    ckb = new CKB(url)
   })
 
   describe('instantiate with default configuration', () => {
     it('default url is http://localhost:8114', () => {
-      const c = new Core()
+      const c = new CKB()
       expect(c.node.url).toBe('http://localhost:8114')
     })
   })
 
   describe('load data', () => {
     it('load the secp256k1 dep', async () => {
-      core.rpc = rpc
+      ckb.rpc = rpc
       jest.setTimeout(50000)
       const fixture = fixtures.loadSecp256k1Dep
-      expect(core.config.loadSecp256k1Dep).toEqual(undefined)
+      expect(ckb.config.loadSecp256k1Dep).toEqual(undefined)
 
-      const secp256k1Dep = await core.loadSecp256k1Dep()
+      const secp256k1Dep = await ckb.loadSecp256k1Dep()
       expect(secp256k1Dep).toEqual(fixture.target)
     })
 
     it('load the dao dep', async () => {
-      core.rpc = rpc
+      ckb.rpc = rpc
       jest.setTimeout(50000)
       const fixture = fixtures.loadDaoDep
-      expect(core.config.loadDaoDep).toEqual(undefined)
-      const daoDep = await core.loadDaoDep()
+      expect(ckb.config.loadDaoDep).toEqual(undefined)
+      const daoDep = await ckb.loadDaoDep()
       expect(daoDep).toEqual(fixture.target)
     })
 
     it('load cells', async () => {
-      core.rpc = rpc
+      ckb.rpc = rpc
       const lockHash = '0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a'
-      const cells = await core.loadCells({
+      const cells = await ckb.loadCells({
         lockHash,
         end: BigInt(100),
         step: BigInt(100),
         save: true,
       })
       expect(cells).toHaveLength(100)
-      expect(core.cells.size).toBe(1)
-      expect(core.cells.get(lockHash)).toHaveLength(100)
+      expect(ckb.cells.size).toBe(1)
+      expect(ckb.cells.get(lockHash)).toHaveLength(100)
     })
   })
 
   describe('set node', () => {
     const newURL = 'http://localhost:8080'
     it('has url set by instantication', () => {
-      expect(core.node.url).toBe(url)
-      expect(core.rpc.node.url).toBe(url)
+      expect(ckb.node.url).toBe(url)
+      expect(ckb.rpc.node.url).toBe(url)
     })
     it('set node with url', () => {
-      core.setNode(newURL)
-      expect(core.node.url).toBe(newURL)
-      expect(core.rpc.node.url).toBe(newURL)
+      ckb.setNode(newURL)
+      expect(ckb.node.url).toBe(newURL)
+      expect(ckb.rpc.node.url).toBe(newURL)
     })
     it('set node with node object', () => {
-      core.setNode({
+      ckb.setNode({
         url,
       })
-      expect(core.node.url).toBe(url)
-      expect(core.node.url).toBe(url)
+      expect(ckb.node.url).toBe(url)
+      expect(ckb.node.url).toBe(url)
     })
   })
 
@@ -81,12 +81,12 @@ describe('ckb-core', () => {
       },
     }
     it('generate lock hash', () => {
-      const lockHash = core.generateLockHash(params.publicKeyHash, params.deps)
+      const lockHash = ckb.generateLockHash(params.publicKeyHash, params.deps)
       expect(lockHash).toBe('0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b')
     })
 
     it('lack fo deps should throw an error', () => {
-      expect(() => core.generateLockHash(params.publicKeyHash)).toThrowError('deps is required')
+      expect(() => ckb.generateLockHash(params.publicKeyHash)).toThrowError('deps is required')
     })
   })
 
@@ -99,11 +99,11 @@ describe('ckb-core', () => {
     ])
     test.each(fixtureTable)('%s', async (_title, script, expected, exception) => {
       if (undefined !== exception) {
-        const computedHash = await core.rpc.computeScriptHash(script)
+        const computedHash = await ckb.rpc.computeScriptHash(script)
         expect(computedHash).toBe(expected)
       }
       if (undefined !== exception) {
-        expect(core.rpc.computeScriptHash(script)).reject.toThrowError(exception)
+        expect(ckb.rpc.computeScriptHash(script)).reject.toThrowError(exception)
       }
     })
   })
@@ -120,11 +120,11 @@ describe('ckb-core', () => {
     )
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       if (undefined !== expected) {
-        const signedTransactionWithPrivateKey = core.signTransaction(privateKey)(transaction)
+        const signedTransactionWithPrivateKey = ckb.signTransaction(privateKey)(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
       }
       if (undefined !== exception) {
-        expect(() => core.signTransaction(privateKey)(transaction)).toThrowError(exception)
+        expect(() => ckb.signTransaction(privateKey)(transaction)).toThrowError(exception)
       }
     })
   })
@@ -136,21 +136,21 @@ describe('ckb-core', () => {
 
     test.each(fixtureTable)('%s', (_title, params, expected, exception) => {
       if (undefined === exception) {
-        const rawTransaction = core.generateRawTransaction({
+        const rawTransaction = ckb.generateRawTransaction({
           ...params,
           capacity: BigInt(params.capacity),
           fee: BigInt(params.fee || 0),
         })
         expect(rawTransaction).toEqual(expected)
       } else {
-        expect(() => core.generateRawTransaction(params)).toThrowError(exception)
+        expect(() => ckb.generateRawTransaction(params)).toThrowError(exception)
       }
     })
   })
 
   describe('nervos dao', () => {
     it('generate deposit transaction', async () => {
-      core.rpc = rpc
+      ckb.rpc = rpc
       const { params, expected } = fixtures.generateDaoDepositTransaction
       const p = {
         fromAddress: params.fromAddress,
@@ -158,17 +158,17 @@ describe('ckb-core', () => {
         fee: BigInt(params.fee),
         cells: params.cells,
       }
-      expect(() => core.generateDaoDepositTransaction(p)).toThrowError('Secp256k1 dep is required')
-      await core.loadSecp256k1Dep()
-      expect(() => core.generateDaoDepositTransaction(p)).toThrowError('Dao dep is required')
-      await core.loadDaoDep()
-      const tx = await core.generateDaoDepositTransaction(p)
+      expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Secp256k1 dep is required')
+      await ckb.loadSecp256k1Dep()
+      expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Dao dep is required')
+      await ckb.loadDaoDep()
+      const tx = await ckb.generateDaoDepositTransaction(p)
       expect(tx).toEqual(expected)
     })
 
     it.skip('generate start withdraw transaction', async () => {
       const { params, expected } = fixtures.generateDaoWithdrawStartTransaction
-      const tx = await core.generateDaoWithdrawStartTransaction({
+      const tx = await ckb.generateDaoWithdrawStartTransaction({
         outPoint: params.outPoint,
         fee: BigInt(params.fee),
         cells: params.cells,

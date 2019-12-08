@@ -1,21 +1,21 @@
 /* eslint-disable */
-const Core = require('../lib').default
+const CKB = require('../lib').default
 const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
 
-const core = new Core(nodeUrl)
+const ckb = new CKB(nodeUrl)
 
 const sk = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
-const pk = core.utils.privateKeyToPublicKey(sk)
+const pk = ckb.utils.privateKeyToPublicKey(sk)
 
-const pkh = `0x${core.utils.blake160(pk, 'hex')}`
-const addr = core.utils.privateKeyToAddress(sk)
+const pkh = `0x${ckb.utils.blake160(pk, 'hex')}`
+const addr = ckb.utils.privateKeyToAddress(sk)
 
 const loadCells = async () => {
-  await core.loadSecp256k1Dep()
-  const lockHash = core.generateLockHash(
+  await ckb.loadSecp256k1Dep()
+  const lockHash = ckb.generateLockHash(
     pkh
   )
-  await core.loadCells({
+  await ckb.loadCells({
     lockHash,
     start: BigInt(0),
     end: BigInt(1000),
@@ -25,14 +25,14 @@ const loadCells = async () => {
 
 const deposit = async () => {
   await loadCells()
-  const depositTx = await core.generateDaoDepositTransaction({
+  const depositTx = await ckb.generateDaoDepositTransaction({
     fromAddress: addr,
     capacity: BigInt(10200000000),
     fee: BigInt(100000)
   })
-  const signed = core.signTransaction(sk)(depositTx)
+  const signed = ckb.signTransaction(sk)(depositTx)
 
-  const txHash = await core.rpc.sendTransaction(signed)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const depositOutPoint = {
     txHash,
     index: '0x0'
@@ -46,11 +46,11 @@ const depositOutPoint = {
 }
 
 const logDepositEpoch = async () => {
-  const tx = await core.rpc.getTransaction(depositOutPoint.txHash)
+  const tx = await ckb.rpc.getTransaction(depositOutPoint.txHash)
   if (tx.txStatus.blockHash) {
-    const b = await core.rpc.getBlock(tx.txStatus.blockHash)
+    const b = await ckb.rpc.getBlock(tx.txStatus.blockHash)
     const epoch = b.header.epoch
-    console.log(`const depositEpoch = ${JSON.stringify(core.utils.parseEpoch(epoch), null, 2)}`)
+    console.log(`const depositEpoch = ${JSON.stringify(ckb.utils.parseEpoch(epoch), null, 2)}`)
   } else {
     console.log('not committed')
   }
@@ -64,12 +64,12 @@ const depositEpoch = {
 
 const starWithdrawing = async () => {
   await loadCells()
-  const tx = await core.generateDaoWithdrawStartTransaction({
+  const tx = await ckb.generateDaoWithdrawStartTransaction({
     outPoint: depositOutPoint,
     fee: 10000
   })
-  const signed = core.signTransaction(sk)(tx)
-  const txHash = await core.rpc.sendTransaction(signed)
+  const signed = ckb.signTransaction(sk)(tx)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
     index: '0x0'
@@ -83,11 +83,11 @@ const startWithDrawOutPoint = {
 }
 
 const logStartWithdrawingEpoch = async () => {
-  const tx = await core.rpc.getTransaction(startWithDrawOutPoint.txHash)
+  const tx = await ckb.rpc.getTransaction(startWithDrawOutPoint.txHash)
   if (tx.txStatus.blockHash) {
-    const b = await core.rpc.getBlock(tx.txStatus.blockHash)
+    const b = await ckb.rpc.getBlock(tx.txStatus.blockHash)
     const epoch = b.header.epoch
-    console.log(`const startWithdrawingEpoch = ${JSON.stringify(core.utils.parseEpoch(epoch), null, 2)}`)
+    console.log(`const startWithdrawingEpoch = ${JSON.stringify(ckb.utils.parseEpoch(epoch), null, 2)}`)
   } else {
     console.log('not committed')
   }
@@ -100,20 +100,20 @@ const startWithdrawingEpoch = {
 }
 
 const logCurrentEpoch = async () => {
-  core.rpc.getTipHeader().then(h => console.log(core.utils.parseEpoch(h.epoch)))
+  ckb.rpc.getTipHeader().then(h => console.log(ckb.utils.parseEpoch(h.epoch)))
 }
 
 const withdraw = async () => {
-  await core.loadDaoDep()
-  await core.loadSecp256k1Dep()
+  await ckb.loadDaoDep()
+  await ckb.loadSecp256k1Dep()
   await loadCells()
-  const tx = await core.generateDaoWithdrawTransaction({
+  const tx = await ckb.generateDaoWithdrawTransaction({
     depositOutPoint,
     withdrawOutPoint: startWithDrawOutPoint,
     fee: BigInt(100000)
   })
-  const signed = core.signTransaction(sk)(tx)
-  const txHash = await core.rpc.sendTransaction(signed)
+  const signed = ckb.signTransaction(sk)(tx)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
     index: '0x0'
