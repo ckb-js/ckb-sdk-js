@@ -34,7 +34,7 @@ interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
 const hrpSize = 6
 
 
-class Core {
+class CKB {
   public cells: Map<LockHash, CachedCell[]> = new Map()
 
   public rpc: RPC
@@ -504,4 +504,4 @@ class Core {
   }
 }
 
-export default Core
+export default CKB

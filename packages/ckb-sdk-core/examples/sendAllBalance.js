@@ -1,13 +1,13 @@
 /* eslint-disable */
-const Core = require("../lib").default
+const CKB = require("../lib").default
 const nodeUrl = process.env.NODE_URL || "http://localhost:8114" // example node url
-const core = new Core(nodeUrl)
+const ckb = new CKB(nodeUrl)
 
 const privateKey =
   process.env.PRIV_KEY ||
   "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" // example private key
 
-const address = core.utils.privateKeyToAddress(privateKey)
+const address = ckb.utils.privateKeyToAddress(privateKey)
 
 const unspentCells = [
   {
@@ -54,15 +54,15 @@ const unspentCells = [
 ]
 
 const generateRawTransaction = async () => {
-  await core.loadSecp256k1Dep()
-  const rawTx = core.generateRawTransaction({
+  await ckb.loadSecp256k1Dep()
+  const rawTx = ckb.generateRawTransaction({
     fromAddress: address,
     toAddress: address,
     capacity: BigInt(19999999900),
     fee: BigInt(100),
     safeMode: true,
     cells: unspentCells,
-    deps: core.config.secp256k1Dep,
+    deps: ckb.config.secp256k1Dep,
     changeThreshold: BigInt(0),
   })
   console.group("generate raw tx")
@@ -96,10 +96,10 @@ const sendAllBalance = async () => {
     inputType: "",
     outputType: "",
   }
-  const signedTx = core.signTransaction(privateKey)(rawTx)
+  const signedTx = ckb.signTransaction(privateKey)(rawTx)
   // console.group('sign and send tx')
   // console.info(`signed tx: ${JSON.stringify(signedTx, null, 2)}`)
-  // const realTxHash = await core.rpc.sendTransaction(signedTx)
+  // const realTxHash = await ckb.rpc.sendTransaction(signedTx)
   // console.info(`real tx hash: ${realTxHash}`)
   // return realTxHash
   // console.groupEnd()
