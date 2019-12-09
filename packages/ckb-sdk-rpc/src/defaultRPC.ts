@@ -233,7 +233,7 @@ export class DefaultRPC {
   public getCellsByLockHash!: (
     hash: CKBComponents.Hash256,
     from: CKBComponents.BlockNumber | bigint,
-    to: CKBComponents.BlockNumber | bigint
+    to: CKBComponents.BlockNumber | bigint,
   ) => Promise<CKBComponents.CellIncludingOutPoint[]>
 
   /**
@@ -247,7 +247,7 @@ export class DefaultRPC {
    */
   public getLiveCell!: (
     outPoint: CKBComponents.OutPoint,
-    withData: boolean
+    withData: boolean,
   ) => Promise<{
     cell: CKBComponents.LiveCell
     status: CKBComponents.CellStatus
@@ -365,7 +365,7 @@ export class DefaultRPC {
     lockHash: CKBComponents.Hash256,
     pageNumber: string | bigint,
     pageSize: string | bigint,
-    reverseOrder?: boolean
+    reverseOrder?: boolean,
   ) => Promise<CKBComponents.LiveCellsByLockHash>
 
   /**
@@ -391,7 +391,7 @@ export class DefaultRPC {
     lockHash: CKBComponents.Hash256,
     pageNumber: string | bigint,
     pageSize: string | bigint,
-    reverseOrder?: boolean
+    reverseOrder?: boolean,
   ) => Promise<CKBComponents.TransactionsByLockHash>
 
   /**
@@ -404,7 +404,7 @@ export class DefaultRPC {
    */
   public indexLockHash!: (
     lockHash: CKBComponents.Hash,
-    indexFrom?: CKBComponents.BlockNumber
+    indexFrom?: CKBComponents.BlockNumber,
   ) => Promise<CKBComponents.LockHashIndexState>
 
   /**
@@ -432,7 +432,7 @@ export class DefaultRPC {
     command: 'insert' | 'delete',
     banTime: string | null,
     absolute?: boolean,
-    reason?: string
+    reason?: string,
   ) => Promise<null>
 
   /**
@@ -459,7 +459,7 @@ export class DefaultRPC {
    * @param {string} blockHash
    */
   public getCellbaseOutputCapacityDetails!: (
-    blockHash: CKBComponents.Hash
+    blockHash: CKBComponents.Hash,
   ) => Promise<CKBComponents.CellbaseOutputCapacityDetails>
 
   /**
@@ -473,7 +473,7 @@ export class DefaultRPC {
 
   public calculateDaoMaximumWithdraw!: (
     outPoint: CKBComponents.OutPoint,
-    withdrawBlockHash: CKBComponents.Hash256
+    withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
 }
 

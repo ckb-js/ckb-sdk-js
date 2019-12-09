@@ -72,6 +72,8 @@ declare module RPC {
     capacity: Capacity
     lock: Script
     out_point: OutPoint | null
+    cellbase: boolean
+    output_data_len: string
   }
 
   export interface RawTransaction {
