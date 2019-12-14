@@ -1,6 +1,7 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
+import { assertToBeHexString} from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
@@ -182,15 +183,15 @@ class CKB {
 
   public loadCells = async ({
     lockHash,
-    start = BigInt(0),
+    start = '0x0',
     end,
-    STEP = BigInt(100),
+    STEP = '0x64',
     save = false,
   }: {
     lockHash: LockHash
     start?: BlockNumber
     end?: BlockNumber
-    STEP?: bigint
+    STEP?: bigint | string
     save?: boolean
   }) => {
     const cells = await loadCells({ lockHash, start, end, STEP, rpc: this.rpc })
@@ -367,7 +368,7 @@ class CKB {
       fee,
       safeMode: true,
       deps: this.config.secp256k1Dep!,
-      capacityThreshold: BigInt(0),
+      capacityThreshold: '0x0',
       cells,
     })
 
@@ -398,6 +399,7 @@ class CKB {
   }): Promise<CKBComponents.RawTransactionToSign> => {
     this.secp256k1DepsShouldBeReady()
     this.DAODepsShouldBeReady()
+    const { JSBI } = this.utils
 
     const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
@@ -418,30 +420,35 @@ class CKB {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(depositEpoch.length)
-    const depositFraction = BigInt(depositEpoch.index) * BigInt(withdrawEpoch.length)
-    let depositedEpochs = BigInt(withdrawEpoch.number) - BigInt(depositEpoch.number)
-    if (withdrawFraction > depositFraction) {
-      depositedEpochs += BigInt(1)
+    const withdrawFraction = JSBI.multiply(JSBI.BigInt(withdrawEpoch.index), JSBI.BigInt(depositEpoch.length))
+    const depositFraction = JSBI.multiply(JSBI.BigInt(depositEpoch.index) , JSBI.BigInt(withdrawEpoch.length))
+    let depositedEpochs = JSBI.subtract(JSBI.BigInt(withdrawEpoch.number) , JSBI.BigInt(depositEpoch.number))
+    if (JSBI.greaterThan(withdrawFraction, depositFraction)) {
+      depositedEpochs = JSBI.add(depositedEpochs, JSBI.BigInt(1))
     }
-    const lockEpochs =
-      ((depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) / BigInt(DAO_LOCK_PERIOD_EPOCHS)) *
-      BigInt(DAO_LOCK_PERIOD_EPOCHS)
+    const lockEpochs = JSBI.multiply(
+      JSBI.divide(
+        JSBI.add(
+          depositedEpochs, JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)
+        ),
+        JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
+      ), JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
+    )
     const minimalSince = this.absoluteEpochSince({
-      length: BigInt(depositEpoch.length),
-      index: BigInt(depositEpoch.index),
-      number: BigInt(BigInt(depositEpoch.number) + lockEpochs),
+      length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
+      index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
+      number: `0x${JSBI.add(JSBI.BigInt(depositEpoch.number), lockEpochs).toString(16)}`,
     })
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
-    const targetCapacity = BigInt(outputCapacity)
-    const targetFee = BigInt(fee)
-    if (targetCapacity < targetFee) {
+    const targetCapacity = JSBI.BigInt(outputCapacity)
+    const targetFee = JSBI.BigInt(`${fee}`)
+    if (JSBI.lessThan(targetCapacity, targetFee)) {
       throw new Error(`The fee(${targetFee}) is too big that withdraw(${targetCapacity}) is not enough`)
     }
 
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: `0x${(targetCapacity - targetFee).toString(16)}`,
+        capacity: `0x${(JSBI.subtract(targetCapacity , targetFee)).toString(16)}`,
         lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
       },
     ]
@@ -458,7 +465,7 @@ class CKB {
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: `0x${minimalSince.toString(16)}`,
+          since: minimalSince,
         },
       ],
       outputs,
@@ -478,12 +485,25 @@ class CKB {
     index,
     number,
   }: {
-    length: bigint
-    index: bigint
-    number: bigint
-  }): bigint => {
-    const epochSince = (BigInt(0x20) << BigInt(56)) + (length << BigInt(40)) + (index << BigInt(24)) + number
-    return epochSince
+    length: string
+    index: string
+    number: string
+  }): string => {
+    const {JSBI} = this.utils
+    assertToBeHexString(length)
+    assertToBeHexString(index)
+    assertToBeHexString(number)
+    const epochSince = JSBI.add(
+      JSBI.add(
+        JSBI.add(
+          JSBI.leftShift(JSBI.BigInt(0x20), JSBI.BigInt(56)), JSBI.leftShift(JSBI.BigInt(length), JSBI.BigInt(40))
+        ),
+        JSBI.leftShift(JSBI.BigInt(index), JSBI.BigInt(24)),
+      ),
+      JSBI.BigInt(number),
+    )
+
+    return `0x${epochSince.toString(16)}`
   }
 
   private extractPayloadFromAddress = (address: string) => {

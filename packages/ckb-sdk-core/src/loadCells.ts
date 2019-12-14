@@ -1,20 +1,23 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
+import { JSBI } from '@nervosnetwork/ckb-sdk-utils'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 
-const getMinBigInt = (x: bigint, y: bigint) => (x > y ? y : x)
+const getMinBigInt = (x: JSBI, y: JSBI) => {
+  return JSBI.greaterThan(x, y) ? y : x
+}
 
 const loadCells = async ({
   lockHash,
-  start = BigInt(0),
+  start = '0x0',
   end,
-  STEP = BigInt(100),
+  STEP = '0x64',
   rpc,
 }: {
   lockHash: string
   start?: string | bigint
   end?: string | bigint
-  STEP?: bigint
+  STEP?: string | bigint
   rpc: RPC
 }) => {
   console.warn(`This method is only for demo, don't use it in production`)
@@ -30,31 +33,40 @@ const loadCells = async ({
     assertToBeHexStringOrBigint(end)
   }
 
-  const from = BigInt(start)
-  const tipBlockNumber = await rpc.getTipBlockNumber()
+  const from = JSBI.BigInt(`${start}`)
+  const tipBlockNumber = await rpc.getTipBlockNumber().then(n => JSBI.BigInt(n))
 
-  let to = end === undefined ? BigInt(tipBlockNumber) : getMinBigInt(BigInt(end), BigInt(tipBlockNumber))
+  let to = end === undefined ? tipBlockNumber : getMinBigInt(JSBI.BigInt(`${end}`), tipBlockNumber)
 
-  to = getMinBigInt(to, BigInt(tipBlockNumber))
+  to = getMinBigInt(to, tipBlockNumber)
 
-  if (to < from) {
+  if (JSBI.lessThan(to, from)) {
     throw new Error(`start(${start}) should not be less than end(${to})`)
   }
 
-  const range = to - from
+  const range = JSBI.subtract(to, from)
 
-  const groups = range
-    ? Array.from({ length: Math.ceil(Number(range) / Number(STEP)) }, (_, idx) => [
-      from + BigInt(idx) * STEP + (idx ? BigInt(1) : BigInt(0)),
-      getMinBigInt(from + BigInt(idx + 1) * STEP, to),
-    ])
+  /* eslint-disable indent */
+  const groups = JSBI.greaterThan(range, JSBI.BigInt(0))
+    ? Array.from({ length: Math.ceil(JSBI.toNumber(range) / Number(STEP)) }, (_, idx) => [
+        JSBI.add(
+          JSBI.add(from, JSBI.multiply(JSBI.BigInt(idx), JSBI.BigInt(`${STEP}`))),
+          idx ? JSBI.BigInt(1) : JSBI.BigInt(0),
+        ),
+        getMinBigInt(JSBI.add(from, JSBI.multiply(JSBI.BigInt(idx + 1), JSBI.BigInt(`${STEP}`))), to),
+      ])
     : [[from, to]]
+  /* eslint-enabler indent */
 
   const cells: CachedCell[] = []
 
   /* eslint-disable no-await-in-loop */
   for (let i = 0; i < groups.length; i++) {
-    const cellDigestsInRange = await rpc.getCellsByLockHash(lockHash, groups[i][0], groups[i][1])
+    const cellDigestsInRange = await rpc.getCellsByLockHash(
+      lockHash,
+      `0x${groups[i][0].toString(16)}`,
+      `0x${groups[i][1].toString(16)}`,
+    )
     const cellDetailInRange = await Promise.all(
       cellDigestsInRange.map(cellDigest => rpc!.getLiveCell(cellDigest.outPoint!, true)),
     )

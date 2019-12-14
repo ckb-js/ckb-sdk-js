@@ -5,7 +5,6 @@ const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.js
 const transformerFixtures = require('./transformer.fixtures.json')
 const transactionFeeFixtures = require('./transactionFee.fixtures.json')
 const transactionSizeFixture = require('./transactionSize.fixture.json')
-const { ArgumentRequired } = require('../../lib/exceptions')
 
 const {
   blake2b,
@@ -32,7 +31,7 @@ const {
   calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
-const { HexStringShouldStartWith0x, InvalidHexString } = exceptions
+const { ArgumentRequired, HexStringShouldStartWith0x } = exceptions
 
 describe('transformer', () => {
   describe('hex to bytes', () => {
@@ -72,7 +71,10 @@ describe('transformer', () => {
   })
 
   describe('Test toHexInLittleEndian', () => {
-    const fixtureTable = transformerFixtures.toHexInLittleEndian.map(({ value, expected }) => [value, expected])
+    const fixtureTable = transformerFixtures.toHexInLittleEndian.map(({ value, expected }) => [
+      typeof value === 'number' ? BigInt(value) : value,
+      expected,
+    ])
     test.each(fixtureTable)('%s => %s', (value, expected) => {
       expect(toHexInLittleEndian(value)).toBe(expected)
     })
@@ -80,7 +82,7 @@ describe('transformer', () => {
       expect(() => toHexInLittleEndian('123')).toThrow(new HexStringShouldStartWith0x('123'))
     })
     it('throw an error when received a input unable to be converted into a number', () => {
-      expect(() => toHexInLittleEndian('invalid number')).toThrow(new InvalidHexString('invalid number'))
+      expect(() => toHexInLittleEndian('invalid number')).toThrow(new HexStringShouldStartWith0x('invalid number'))
     })
   })
 })
@@ -234,7 +236,7 @@ describe('privateKeyToAddress', () => {
   expect(
     privateKeyToAddress(fixture.privateKey, {
       prefix: 'ckb',
-    })
+    }),
   ).toBe(fixture.mainnetAddress)
 })
 
@@ -389,11 +391,11 @@ describe('transaction fee', () => {
   const fixtureTable = Object.entries(transactionFeeFixtures).map(
     ([title, { transactionSize, feeRate, expected, exception }]) => [
       title,
-      BigInt(transactionSize),
-      BigInt(feeRate),
-      BigInt(expected),
+      typeof transactionSize === 'number' ? BigInt(transactionSize) : transactionSize,
+      typeof feeRate === 'number' ? BigInt(feeRate) : feeRate,
+      expected,
       exception,
-    ]
+    ],
   )
   test.each(fixtureTable)('%s', (_title, transactionSize, feeRate, expected, exception) => {
     if (undefined !== expected) {

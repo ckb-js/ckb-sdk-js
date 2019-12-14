@@ -31,7 +31,7 @@
       "expected": "0xcdab0000"
     },
     "cannot converted to number": {
-      "exception": "undefined is an invalid hex string"
+      "exception": "undefined should be type of string or bigint"
     },
     "hex string without 0x should throw an error": {
       "version": "1",

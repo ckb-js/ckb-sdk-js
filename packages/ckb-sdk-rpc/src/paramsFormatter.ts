@@ -1,4 +1,6 @@
 import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { JSBI } from '@nervosnetwork/ckb-sdk-utils'
+
 /* eslint-disable camelcase */
 const formatter = {
   toOptional: (format?: Function) => (arg: any) => {
@@ -103,10 +105,10 @@ const formatter = {
   },
   toPageNumber: (pageNo: string | bigint = '0x1') => formatter.toNumber(pageNo),
   toPageSize: (pageSize: string | bigint = '0x32') => {
-    const size = BigInt(pageSize)
-    if (size > BigInt(50)) throw new Error('Page size is up to 50')
-    if (size < BigInt(0)) throw new Error('Page size is expected to be non-negative')
-    return formatter.toNumber(size)
+    const size = JSBI.BigInt(`${pageSize}`)
+    if (JSBI.greaterThan(size, JSBI.BigInt(50))) throw new Error('Page size is up to 50')
+    if (JSBI.lessThan(size, JSBI.BigInt(0))) throw new Error('Page size is expected to be non-negative')
+    return formatter.toNumber(`0x${size.toString(16)}`)
   },
   toReverseOrder: (reverse: boolean = false) => !!reverse,
 }

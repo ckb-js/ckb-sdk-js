@@ -21,7 +21,7 @@ describe('load cells', () => {
       expectedCalls.forEach(call => {
         call.forEach((v, i) => {
           if (typeof v === 'number') {
-            call[i] = BigInt(v)
+            call[i] = `0x${BigInt(v).toString(16)}`
           }
         })
       })
@@ -39,7 +39,7 @@ describe('load cells', () => {
         loadCells({
           ...params,
           rpc,
-        })
+        }),
       ).rejects.toThrowError(exception)
     }
   })
@@ -51,7 +51,7 @@ describe('load cells', () => {
         start: '0x1',
         end: '0x12c',
         STEP: 100,
-      })
+      }),
     ).rejects.toThrowError('RPC object is required')
   })
 })
