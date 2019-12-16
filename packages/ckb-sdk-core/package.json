@@ -35,5 +35,5 @@
     "@nervosnetwork/ckb-sdk-utils": "0.26.0",
     "@nervosnetwork/ckb-types": "0.26.0"
   },
-  "gitHead": "aea800f907c0dbce98e1f41eadb2e8df0339f7d0"
+  "gitHead": "3c0e4cf095a6493f39d2112de7da6761c2223b76"
 }
