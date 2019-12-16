@@ -192,11 +192,12 @@ const formatter = {
   },
   toCellIncludingOutPoint: (cell: RPC.CellIncludingOutPoint) => {
     if (!cell) return cell
-    const { lock, block_hash: blockHash, out_point, ...rest } = cell
+    const { lock, block_hash: blockHash, out_point, output_data_len: outputDataLen, ...rest } = cell
     return {
       blockHash,
       lock: formatter.toScript(lock),
       outPoint: formatter.toOutPoint(out_point),
+      outputDataLen,
       ...rest,
     }
   },
@@ -281,7 +282,7 @@ const formatter = {
     return bannedAddresses.map(banAddr => formatter.toBannedAddress(banAddr))
   },
   toCellbaseOutputCapacityDetails: (
-    details: RPC.CellbaseOutputCapacityDetails
+    details: RPC.CellbaseOutputCapacityDetails,
   ): CKBComponents.CellbaseOutputCapacityDetails => {
     if (!details) return details
     const { proposal_reward: proposalReward, tx_fee: txFee, ...rest } = details

@@ -1,9 +1,11 @@
 /// <reference types="../types/blake2b-wasm" />
 
 import * as util from 'util'
+import JSBI from 'jsbi'
 import ECPair from './ecpair'
 import { pubkeyToAddress, AddressOptions } from './address'
-import { HexStringShouldStartWith0x, ArgumentRequired, InvalidHexString } from './exceptions'
+import { assertToBeHexStringOrBigint } from './validators'
+import { HexStringShouldStartWith0x, ArgumentRequired } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
 import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
@@ -12,12 +14,13 @@ export * from './address'
 export * from './serialization'
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs }
 
-declare const TextDecoder: any // will be removed when Node@11 becomes LTS
-declare const TextEncoder: any // will be removed when Node@11 becomes LTS
+declare const TextDecoder: any // should be removed when the type definition of TextDecoder updates
+declare const TextEncoder: any // should be removed when the type definition of TextEncoder updates
 export const { blake2b, bech32, blake160 } = crypto
 const textEncoder = new (typeof TextEncoder !== 'undefined' ? TextEncoder : util.TextEncoder)()
 const textDecoder = new (typeof TextDecoder !== 'undefined' ? TextDecoder : util.TextDecoder)()
 export const PERSONAL = textEncoder.encode('ckb-default-hash')
+export { JSBI }
 
 export const hexToBytes = (rawhex: string | number) => {
   if (rawhex === '') return new Uint8Array()
@@ -80,14 +83,9 @@ const reverseString = (str: string) =>
     .reverse()
     .join('')
 
-export const toHexInLittleEndian = (int: number | string, paddingBytes: number = 4) => {
-  if (Number.isNaN(+int)) {
-    throw new InvalidHexString(`${int}`)
-  }
-  if (typeof int === 'string' && !int.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(int)
-  }
-  const hex = BigInt(int).toString(16)
+export const toHexInLittleEndian = (int: string | bigint, paddingBytes: number = 4) => {
+  assertToBeHexStringOrBigint(int)
+  const hex = JSBI.BigInt(`${int}`).toString(16)
   const reversedHex = reverseString(hex)
   const frags = reversedHex.match(/\w{1,2}/g) || []
   const hexInLittleEndian = frags
@@ -108,17 +106,20 @@ export const privateKeyToAddress = (privateKey: string, options: AddressOptions)
 /**
  * @function calculateTransactionFee
  * @description calculate the transaction fee by transaction size and fee rate
- * @param {bigint} transactionSize, the bytes of transaction
- * @param {bigint} feeRate, the fee rate with unit of shannons/KB
+ * @param {string | bigint} transactionSize, the byte size of transaction
+ * @param {string | bigint} feeRate, the fee rate with unit of shannons/KB
+ * @returns {string} transactionFee
  */
-export const calculateTransactionFee = (transactionSize: bigint, feeRate: bigint) => {
-  const ratio = BigInt(1000)
-  const base = transactionSize * feeRate
-  const fee = base / ratio
-  if (fee * ratio < base) {
-    return fee + BigInt(1)
+export const calculateTransactionFee = (transactionSize: string | bigint, feeRate: string | bigint): string => {
+  assertToBeHexStringOrBigint(transactionSize)
+  assertToBeHexStringOrBigint(feeRate)
+  const ratio = JSBI.BigInt(1000)
+  const base = JSBI.multiply(JSBI.BigInt(`${transactionSize}`), JSBI.BigInt(`${feeRate}`))
+  const fee = JSBI.divide(base, ratio)
+  if (JSBI.lessThan(JSBI.multiply(fee, ratio), base)) {
+    return `0x${JSBI.add(fee, JSBI.BigInt(1)).toString(16)}`
   }
-  return fee
+  return `0x${fee.toString(16)}`
 }
 
 export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
@@ -128,7 +129,12 @@ export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents
 }
 
 export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
-  length: `0x${((BigInt(epoch) >> BigInt(40)) & BigInt(0xffff)).toString(16)}`,
-  index: `0x${((BigInt(epoch) >> BigInt(24)) & BigInt(0xffff)).toString(16)}`,
-  number: `0x${(BigInt(epoch) & BigInt(0xffffff)).toString(16)}`,
+  length: `0x${JSBI.bitwiseAnd(
+    JSBI.signedRightShift(JSBI.BigInt(epoch), JSBI.BigInt(40)),
+    JSBI.BigInt(0xffff),
+  ).toString(16)}`,
+  index: `0x${JSBI.bitwiseAnd(JSBI.signedRightShift(JSBI.BigInt(epoch), JSBI.BigInt(24)), JSBI.BigInt(0xffff)).toString(
+    16,
+  )}`,
+  number: `0x${JSBI.bitwiseAnd(JSBI.BigInt(epoch), JSBI.BigInt(0xffffff)).toString(16)}`,
 })

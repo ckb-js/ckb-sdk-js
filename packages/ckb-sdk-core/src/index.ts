@@ -1,19 +1,42 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
+import { assertToBeHexString} from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
-import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
-import generateRawTransaction from './generateRawTransaction'
+import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
 
 import loadCells from './loadCells'
-import signWitnessGroup from './signWitnessGroup'
+import signWitnesses, { isMap } from './signWitnesses'
+
+
+type Key = string
+type Address = string
+type LockHash = string
+type PublicKeyHash = string
+type Capacity = bigint | string
+type URL = string
+type BlockNumber = bigint | string
+
+interface RawTransactionParams extends RawTransactionParamsBase {
+  fromAddress: Address
+  toAddress: Address
+  capacity: Capacity
+  cells?: Cell[]
+}
+
+interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
+  fromAddresses: Address[]
+  receivePairs: {address: Address, capacity: Capacity}[],
+  cells: Map<LockHash, CachedCell[]>
+}
 
 const hrpSize = 6
 
-class Core {
-  public cells: Map<string, CachedCell[]> = new Map()
+
+class CKB {
+  public cells: Map<LockHash, CachedCell[]> = new Map()
 
   public rpc: RPC
 
@@ -26,7 +49,7 @@ class Core {
     daoDep?: DepCellInfo
   } = {}
 
-  constructor(nodeUrl: string) {
+  constructor (nodeUrl: URL = 'http://localhost:8114') {
     this._node = {
       url: nodeUrl,
     }
@@ -59,7 +82,7 @@ class Core {
     this.rpc.addMethod(computeScriptHashMethod)
   }
 
-  public setNode(node: string | CKBComponents.Node): CKBComponents.Node {
+  public setNode (node: URL | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -71,12 +94,12 @@ class Core {
     return this._node
   }
 
-  public get node(): CKBComponents.Node {
+  public get node (): CKBComponents.Node {
     return this._node
   }
 
   public generateLockHash = (
-    publicKeyHash: string,
+    publicKeyHash: PublicKeyHash,
     deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
   ) => {
     if (!deps) {
@@ -160,15 +183,15 @@ class Core {
 
   public loadCells = async ({
     lockHash,
-    start = BigInt(0),
+    start = '0x0',
     end,
-    STEP = BigInt(100),
+    STEP = '0x64',
     save = false,
   }: {
-    lockHash: string
-    start?: string | bigint
-    end?: string | bigint
-    STEP?: bigint
+    lockHash: LockHash
+    start?: BlockNumber
+    end?: BlockNumber
+    STEP?: bigint | string
     save?: boolean
   }) => {
     const cells = await loadCells({ lockHash, start, end, STEP, rpc: this.rpc })
@@ -178,24 +201,13 @@ class Core {
     return cells
   }
 
-  public signWitnesses = (key: string | ECPair) => ({
-    transactionHash,
-    witnesses = [],
-  }: {
-    transactionHash: string
-    witnesses: (CKBComponents.WitnessArgs | CKBComponents.Witness)[]
-  }) => {
-    // CAUTIONS: Now we consider witnesses as a single group
-    if (!key) throw new ArgumentRequired('Private key or address object')
-    if (!transactionHash) throw new ArgumentRequired('Transaction hash')
+  public signWitnesses = signWitnesses
 
-    const keyPair = typeof key === 'string' ? new ECPair(key) : key
-    const signedWitnesses = signWitnessGroup(keyPair, transactionHash, witnesses)
-    return signedWitnesses
-  }
-
-  public signTransaction = (key: string | ECPair) => (
+  public signTransaction = (
+    key: Key | Map<LockHash, Key>
+  ) => (
     transaction: CKBComponents.RawTransactionToSign,
+    cells: CachedCell[]
   ) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
     if (!transaction) throw new ArgumentRequired('Transaction')
@@ -204,95 +216,102 @@ class Core {
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
+
+    const inputCells = isMap(key) ? transaction.inputs.map(input => {
+      const outPoint = input.previousOutput
+      /* eslint-disable prettier/prettier, no-undef */
+      const cell = cells.find(c => c.outPoint?.txHash === outPoint?.txHash && c.outPoint?.index === outPoint?.index)
+      /* eslint-enable prettier/prettier, no-undef */
+      if (!cell) {
+        throw new Error(`Cell of ${JSON.stringify(outPoint)} is not found`)
+      }
+      return cell
+    }) : undefined
+
     const signedWitnesses = this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
+      inputCells,
     })
     return {
       ...transaction,
-      witnesses: signedWitnesses.map(
-        witness => (
-          typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness)
-        )
+      witnesses: signedWitnesses.map(witness =>
+        typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness),
       ),
     }
   }
 
-  public generateRawTransaction = async ({
-    fromAddress,
-    toAddress,
-    capacity,
+  public generateRawTransaction = ({
     fee,
     safeMode = true,
-    cells = [],
     deps,
     capacityThreshold,
     changeThreshold,
-  }: {
-    fromAddress: string
-    toAddress: string
-    capacity: string | bigint
-    fee: string | bigint
-    safeMode?: boolean
-    cells?: CachedCell[]
-    deps: DepCellInfo
-    capacityThreshold?: string | bigint
-    changeThreshold?: string | bigint
-  }) => {
-    const [fromPublicKeyHash, toPublicKeyHash] = [fromAddress, toAddress].map((addr: string) => {
-      const addressPayload = this.utils.parseAddress(addr, 'hex')
-      return `0x${addressPayload.slice(hrpSize)}`
-    })
-
-    let availableCells = cells
-    if (!availableCells.length && deps) {
-      const lockHash = this.utils.scriptToHash({
-        codeHash: deps.codeHash,
-        hashType: deps.hashType,
-        args: fromPublicKeyHash,
-      })
-      const cachedCells = this.cells.get(lockHash)
-      if (cachedCells && cachedCells.length) {
-        availableCells = cachedCells
-      } else {
-        const fetchedCells = await this.loadCells({ lockHash, save: true })
-        availableCells = fetchedCells
+    ...params
+  }: RawTransactionParams | ComplexRawTransactoinParams) => {
+    if ('fromAddress' in params && 'toAddress' in params) {
+      let availableCells = params.cells || []
+      const [fromPublicKeyHash, toPublicKeyHash] =
+        [params.fromAddress, params.toAddress].map(this.extractPayloadFromAddress)
+      if (!availableCells.length && deps) {
+        const lockHash = this.utils.scriptToHash({
+          codeHash: deps.codeHash,
+          hashType: deps.hashType,
+          args: toPublicKeyHash,
+        })
+        const cachedCells = this.cells.get(lockHash)
+        if (cachedCells && cachedCells.length) {
+          availableCells = cachedCells
+        }
       }
+      return generateRawTransaction({
+        fromPublicKeyHash,
+        toPublicKeyHash,
+        capacity: params.capacity,
+        fee,
+        safeMode,
+        cells: availableCells,
+        deps,
+        capacityThreshold,
+        changeThreshold,
+      })
     }
 
-    return generateRawTransaction({
-      fromPublicKeyHash,
-      toPublicKeyHash,
-      capacity,
-      fee,
-      safeMode,
-      cells: availableCells,
-      deps,
-      capacityThreshold,
-      changeThreshold,
-    })
+    if ('fromAddresses' in params && 'receivePairs' in params) {
+      const fromPublicKeyHashes = params.fromAddresses.map(this.extractPayloadFromAddress)
+      const receivePairs = params.receivePairs.map(pair => ({
+        publicKeyHash: this.extractPayloadFromAddress(pair.address),
+        capacity: pair.capacity,
+      }))
+      return generateRawTransaction({
+        fromPublicKeyHashes,
+        receivePairs,
+        cells: params.cells || this.cells,
+        fee,
+        safeMode,
+        deps,
+        capacityThreshold,
+        changeThreshold,
+      })
+    }
+    throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
-  public generateDaoDepositTransaction = async ({
+  public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
     fee,
     cells = [],
   }: {
-    fromAddress: string,
-    capacity: bigint,
-    fee: bigint,
-    cells?: CachedCell[],
+    fromAddress: Address
+    capacity: Capacity
+    fee: Capacity
+    cells?: CachedCell[]
   }) => {
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity,
@@ -301,7 +320,6 @@ class Core {
       cells,
       deps: this.config.secp256k1Dep!,
     })
-
 
     rawTx.outputs[0].type = {
       codeHash: this.config.daoDep!.typeHash!,
@@ -320,17 +338,17 @@ class Core {
     return rawTx
   }
 
-  public generateDaoWithdrawStartTransaction = async ({ outPoint, fee, cells = [] }: {
-    outPoint: CKBComponents.OutPoint,
-    fee: bigint | string,
+  public generateDaoWithdrawStartTransaction = async ({
+    outPoint,
+    fee,
+    cells = [],
+  }: {
+    outPoint: CKBComponents.OutPoint
+    fee: Capacity
     cells?: CachedCell[]
   }) => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
@@ -343,14 +361,14 @@ class Core {
 
     const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
 
-    const rawTx = await this.generateRawTransaction({
+    const rawTx = this.generateRawTransaction({
       fromAddress,
       toAddress: fromAddress,
       capacity: '0x0',
       fee,
       safeMode: true,
       deps: this.config.secp256k1Dep!,
-      capacityThreshold: BigInt(0),
+      capacityThreshold: '0x0',
       cells,
     })
 
@@ -377,14 +395,11 @@ class Core {
   }: {
     depositOutPoint: CKBComponents.OutPoint
     withdrawOutPoint: CKBComponents.OutPoint
-    fee: bigint | string
+    fee: Capacity
   }): Promise<CKBComponents.RawTransactionToSign> => {
-    if (!this.config.secp256k1Dep) {
-      await this.loadSecp256k1Dep()
-    }
-    if (!this.config.daoDep) {
-      await this.loadDaoDep()
-    }
+    this.secp256k1DepsShouldBeReady()
+    this.DAODepsShouldBeReady()
+    const { JSBI } = this.utils
 
     const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
@@ -394,7 +409,9 @@ class Core {
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     /* eslint-disable */
-    const depositBlockNumber = this.utils.bytesToHex(this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse())
+    const depositBlockNumber = this.utils.bytesToHex(
+      this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse(),
+    )
     /* eslint-enable */
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
@@ -403,32 +420,35 @@ class Core {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const withdrawFraction = BigInt(withdrawEpoch.index) * BigInt(depositEpoch.length)
-    const depositFraction = BigInt(depositEpoch.index) * BigInt(withdrawEpoch.length)
-    let depositedEpochs = BigInt(withdrawEpoch.number) - BigInt(depositEpoch.number)
-    if (withdrawFraction > depositFraction) {
-      depositedEpochs += BigInt(1)
+    const withdrawFraction = JSBI.multiply(JSBI.BigInt(withdrawEpoch.index), JSBI.BigInt(depositEpoch.length))
+    const depositFraction = JSBI.multiply(JSBI.BigInt(depositEpoch.index) , JSBI.BigInt(withdrawEpoch.length))
+    let depositedEpochs = JSBI.subtract(JSBI.BigInt(withdrawEpoch.number) , JSBI.BigInt(depositEpoch.number))
+    if (JSBI.greaterThan(withdrawFraction, depositFraction)) {
+      depositedEpochs = JSBI.add(depositedEpochs, JSBI.BigInt(1))
     }
-    const lockEpochs = (depositedEpochs + BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)) /
-      BigInt(DAO_LOCK_PERIOD_EPOCHS) *
-      BigInt(DAO_LOCK_PERIOD_EPOCHS)
-    const minimalSince = this.absoluteEpochSince(
-      {
-        length: BigInt(depositEpoch.length),
-        index: BigInt(depositEpoch.index),
-        number: BigInt(BigInt(depositEpoch.number) + lockEpochs),
-      }
+    const lockEpochs = JSBI.multiply(
+      JSBI.divide(
+        JSBI.add(
+          depositedEpochs, JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)
+        ),
+        JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
+      ), JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
     )
+    const minimalSince = this.absoluteEpochSince({
+      length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
+      index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
+      number: `0x${JSBI.add(JSBI.BigInt(depositEpoch.number), lockEpochs).toString(16)}`,
+    })
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
-    const targetCapacity = BigInt(outputCapacity)
-    const targetFee = BigInt(fee)
-    if (targetCapacity < targetFee) {
+    const targetCapacity = JSBI.BigInt(outputCapacity)
+    const targetFee = JSBI.BigInt(`${fee}`)
+    if (JSBI.lessThan(targetCapacity, targetFee)) {
       throw new Error(`The fee(${targetFee}) is too big that withdraw(${targetCapacity}) is not enough`)
     }
 
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: `0x${(targetCapacity - targetFee).toString(16)}`,
+        capacity: `0x${(JSBI.subtract(targetCapacity , targetFee)).toString(16)}`,
         lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
       },
     ]
@@ -441,33 +461,67 @@ class Core {
         { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
         { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
       ],
-      headerDeps: [
-        depositBlockHeader.hash,
-        withdrawBlockHeader.hash,
-      ],
+      headerDeps: [depositBlockHeader.hash, withdrawBlockHeader.hash],
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: `0x${minimalSince.toString(16)}`,
+          since: minimalSince,
         },
       ],
       outputs,
       outputsData,
-      witnesses: [{
-        lock: '',
-        inputType: '0x0000000000000000',
-        outputType: '',
-      }],
+      witnesses: [
+        {
+          lock: '',
+          inputType: '0x0000000000000000',
+          outputType: '',
+        },
+      ],
     }
   }
 
-  private absoluteEpochSince = ({ length, index, number }: {length: bigint, index: bigint, number: bigint}): bigint => {
-    const epochSince = (BigInt(0x20) << BigInt(56)) +
-      (length << BigInt(40)) +
-      (index << BigInt(24)) +
-      number
-    return epochSince
+  private absoluteEpochSince = ({
+    length,
+    index,
+    number,
+  }: {
+    length: string
+    index: string
+    number: string
+  }): string => {
+    const {JSBI} = this.utils
+    assertToBeHexString(length)
+    assertToBeHexString(index)
+    assertToBeHexString(number)
+    const epochSince = JSBI.add(
+      JSBI.add(
+        JSBI.add(
+          JSBI.leftShift(JSBI.BigInt(0x20), JSBI.BigInt(56)), JSBI.leftShift(JSBI.BigInt(length), JSBI.BigInt(40))
+        ),
+        JSBI.leftShift(JSBI.BigInt(index), JSBI.BigInt(24)),
+      ),
+      JSBI.BigInt(number),
+    )
+
+    return `0x${epochSince.toString(16)}`
+  }
+
+  private extractPayloadFromAddress = (address: string) => {
+    const addressPayload = this.utils.parseAddress(address, 'hex')
+    return `0x${addressPayload.slice(hrpSize)}`
+  }
+
+  private secp256k1DepsShouldBeReady = () => {
+    if (!this.config.secp256k1Dep) {
+      throw new ArgumentRequired('Secp256k1 dep')
+    }
+  }
+
+  private DAODepsShouldBeReady = () => {
+    if (!this.config.daoDep) {
+      throw new ArgumentRequired('Dao dep')
+    }
   }
 }
 
-export default Core
+export default CKB

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.25.0...v0.26.0) (2019-12-16)
+
+
+### Features
+
+* enable JSBI for compatibility ([bfce1e5](https://github.com/nervosnetwork/ckb-sdk-js/commit/bfce1e57dc2008efd0697951614d0f94469375b8))
+* **core:** support multiple private keys in generating and signing a… ([#403](https://github.com/nervosnetwork/ckb-sdk-js/issues/403)) ([8bac66b](https://github.com/nervosnetwork/ckb-sdk-js/commit/8bac66b087233d8d9fa237e449c0fde767d1d3f0))
+
+
+### BREAKING CHANGES
+
+* utils.toHexInLittleEndian will not accept parameters in number
+
+
+
+
+
 # [0.25.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.25.0-alpha.0...v0.25.0) (2019-11-16)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core

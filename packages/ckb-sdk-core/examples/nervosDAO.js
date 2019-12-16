@@ -1,21 +1,21 @@
 /* eslint-disable */
-const Core = require('../lib').default
+const CKB = require('../lib').default
 const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
 
-const core = new Core(nodeUrl)
+const ckb = new CKB(nodeUrl)
 
 const sk = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
-const pk = core.utils.privateKeyToPublicKey(sk)
+const pk = ckb.utils.privateKeyToPublicKey(sk)
 
-const pkh = `0x${core.utils.blake160(pk, 'hex')}`
-const addr = core.utils.privateKeyToAddress(sk)
+const pkh = `0x${ckb.utils.blake160(pk, 'hex')}`
+const addr = ckb.utils.privateKeyToAddress(sk)
 
 const loadCells = async () => {
-  await core.loadSecp256k1Dep()
-  const lockHash = core.generateLockHash(
+  await ckb.loadSecp256k1Dep()
+  const lockHash = ckb.generateLockHash(
     pkh
   )
-  await core.loadCells({
+  await ckb.loadCells({
     lockHash,
     start: BigInt(0),
     end: BigInt(1000),
@@ -25,14 +25,15 @@ const loadCells = async () => {
 
 const deposit = async () => {
   await loadCells()
-  const depositTx = await core.generateDaoDepositTransaction({
+  await ckb.loadDaoDep()
+  const depositTx = ckb.generateDaoDepositTransaction({
     fromAddress: addr,
     capacity: BigInt(10200000000),
     fee: BigInt(100000)
   })
-  const signed = core.signTransaction(sk)(depositTx)
+  const signed = ckb.signTransaction(sk)(depositTx)
 
-  const txHash = await core.rpc.sendTransaction(signed)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const depositOutPoint = {
     txHash,
     index: '0x0'
@@ -41,35 +42,36 @@ const deposit = async () => {
 }
 
 const depositOutPoint = {
-  "txHash": "0x052788721f8b2b74490b27e597dea5388f8fd344aa1dfe80a457634cc1335531",
+  "txHash": "0x40e1d58cf8576d5206d55d242284a28f64cb114d0b9a8292582e7596082e5bda",
   "index": "0x0"
 }
 
 const logDepositEpoch = async () => {
-  const tx = await core.rpc.getTransaction(depositOutPoint.txHash)
+  const tx = await ckb.rpc.getTransaction(depositOutPoint.txHash)
   if (tx.txStatus.blockHash) {
-    const b = await core.rpc.getBlock(tx.txStatus.blockHash)
+    const b = await ckb.rpc.getBlock(tx.txStatus.blockHash)
     const epoch = b.header.epoch
-    console.log(`const depositEpoch = ${JSON.stringify(core.utils.parseEpoch(epoch), null, 2)}`)
+    console.log(`const depositEpoch = ${JSON.stringify(ckb.utils.parseEpoch(epoch), null, 2)}`)
   } else {
     console.log('not committed')
   }
 }
 
 const depositEpoch = {
-  "length": "0x64",
-  "index": "0x29",
-  "number": "0xf2"
+  "length": "0xa",
+  "index": "0x0",
+  "number": "0x69"
 }
 
 const starWithdrawing = async () => {
   await loadCells()
-  const tx = await core.generateDaoWithdrawStartTransaction({
+  await ckb.loadDaoDep()
+  const tx = await ckb.generateDaoWithdrawStartTransaction({
     outPoint: depositOutPoint,
-    fee: 10000
+    fee: 10000n
   })
-  const signed = core.signTransaction(sk)(tx)
-  const txHash = await core.rpc.sendTransaction(signed)
+  const signed = ckb.signTransaction(sk)(tx)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
     index: '0x0'
@@ -78,51 +80,51 @@ const starWithdrawing = async () => {
 }
 
 const startWithDrawOutPoint = {
-  "txHash": "0x84615264f586b21f4a7f29501ff3d8d52674e344960a1d790720fdc87c92570d",
+  "txHash": "0xc8ad01deb8b25c56169992598398ad7d539314ada90c84bff12fa7fc69095076",
   "index": "0x0"
 }
 
 const logStartWithdrawingEpoch = async () => {
-  const tx = await core.rpc.getTransaction(startWithDrawOutPoint.txHash)
+  const tx = await ckb.rpc.getTransaction(startWithDrawOutPoint.txHash)
   if (tx.txStatus.blockHash) {
-    const b = await core.rpc.getBlock(tx.txStatus.blockHash)
+    const b = await ckb.rpc.getBlock(tx.txStatus.blockHash)
     const epoch = b.header.epoch
-    console.log(`const startWithdrawingEpoch = ${JSON.stringify(core.utils.parseEpoch(epoch), null, 2)}`)
+    console.log(`const startWithdrawingEpoch = ${JSON.stringify(ckb.utils.parseEpoch(epoch), null, 2)}`)
   } else {
     console.log('not committed')
   }
 }
 
 const startWithdrawingEpoch = {
-  "length": "0x64",
-  "index": "0x2a",
-  "number": "0xf9"
+  "length": "0xa",
+  "index": "0x0",
+  "number": "0xbe"
 }
 
 const logCurrentEpoch = async () => {
-  core.rpc.getTipHeader().then(h => console.log(core.utils.parseEpoch(h.epoch)))
+  ckb.rpc.getTipHeader().then(h => console.log(ckb.utils.parseEpoch(h.epoch)))
 }
 
 const withdraw = async () => {
-  await core.loadDaoDep()
-  await core.loadSecp256k1Dep()
+  await ckb.loadDaoDep()
+  await ckb.loadSecp256k1Dep()
   await loadCells()
-  const tx = await core.generateDaoWithdrawTransaction({
+  const tx = await ckb.generateDaoWithdrawTransaction({
     depositOutPoint,
     withdrawOutPoint: startWithDrawOutPoint,
     fee: BigInt(100000)
   })
-  const signed = core.signTransaction(sk)(tx)
-  const txHash = await core.rpc.sendTransaction(signed)
+  const signed = ckb.signTransaction(sk)(tx)
+  const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
     index: '0x0'
   }
-  console.log(`const withdraw = ${JSON.stringify(outPoint, null, 2)}`)
+  console.log(`const withdrawOutPoint = ${JSON.stringify(outPoint, null, 2)}`)
 }
 
 const withDrawOutPoint = {
-  "txHash": "0x0cdb8b50d269ad0e82c8b1f2c075ddfb3d3655b6babc6958619bddc09bb4df18",
+  "txHash": "0xb1ee185a4e811247b1705a52df487c3ce839bfa2f72e4c7a74b6fc6b0ea4cfa7",
   "index": "0x0"
 }
 

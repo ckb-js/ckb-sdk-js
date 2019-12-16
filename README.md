@@ -124,14 +124,14 @@ All the modules above are integrated into the core module. You can find `rpc` an
 To use the core module, you need to import it in your project and instantiate it with a node object. For now, the node object only contains one field named `url`, the URI of the blockchain node your are going to communicate with.
 
 ```javascript
-const CKBCore = require('@nervosnetwork/ckb-sdk-core').default
+const CKB = require('@nervosnetwork/ckb-sdk-core').default
 
 const nodeUrl = 'http://localhost:8114'
 
-const core = new CKBCore(nodeUrl)
+const ckb = new CKB(nodeUrl)
 ```
 
-After that you can use the `core` object to generate addresses, send requests, etc.
+After that you can use the `ckb` object to generate addresses, send requests, etc.
 
 # RPC
 
@@ -149,12 +149,12 @@ If the SDK is running in Node.js, the following steps make the persistent connec
 // HTTP Agent
 const http = require('http')
 const httpAgent = new http.Agent({ keepAlive: true })
-core.rpc.setNode({ httpAgent })
+ckb.rpc.setNode({ httpAgent })
 
 // HTTPS Agent
 const https = require('https')
 const httpsAgent = new https.Agent({ keepAlive: true })
-core.rpc.setNode({ httpsAgent })
+ckb.rpc.setNode({ httpsAgent })
 ```
 
 # Errors
@@ -165,7 +165,10 @@ The rpc module will throw an error when the result contains an error field, you 
 
 # Examples
 
-1. [Send Transaction](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransaction.js)
+1. [Send Simple Transaction](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendSimpleTransaction.js)
+2. [Send All Balance](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendAllBalance.js)
+3. [Send Transaction with multiple private key](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js)
+4. [Deposit to and withdraw from Nervos DAO](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js)
 
 # Development Process
 

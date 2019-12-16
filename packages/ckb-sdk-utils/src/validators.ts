@@ -1,5 +1,12 @@
-import { HexStringShouldStartWith0x, InvalidAddress, InvalidAddressPayload } from './exceptions'
+import { InvalidHexString, HexStringShouldStartWith0x, InvalidAddress, InvalidAddressPayload } from './exceptions'
 import { parseAddress } from './address'
+
+export const assertToBeHexString = (value: string) => {
+  if (typeof value !== 'string' || !value.startsWith('0x') || Number.isNaN(+value)) {
+    throw new InvalidHexString(value)
+  }
+  return true
+}
 
 export const assertToBeHexStringOrBigint = (value: string | bigint) => {
   if (typeof value === 'bigint') {
@@ -35,6 +42,7 @@ export const assertToBeAddress = (address: string) => {
 }
 
 export default {
+  assertToBeHexString,
   assertToBeHexStringOrBigint,
   assertToBeAddressPayload,
   assertToBeAddress,

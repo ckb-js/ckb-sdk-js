@@ -271,6 +271,8 @@ declare namespace CKBComponents {
     capacity: Capacity
     lock: Script
     outPoint: OutPoint | null
+    cellbase: boolean
+    outputDataLen: string
   }
 
   export type TransactionTrace = { action: string; info: string; time: Timestamp }[]

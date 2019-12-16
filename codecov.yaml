@@ -10,9 +10,13 @@ coverage:
     project:
       default:
         target: auto
-        threshold: 1
+        threshold: 20
         base: auto
-    patch: yes
+    patch: 
+      default:
+        target: auto
+        threshold: 20
+        base: auto 
     changes: yes
 
 

@@ -779,7 +779,9 @@
         "out_point": {
           "index": "0",
           "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-        }
+        },
+        "cellbase": true,
+        "output_data_len": "0xcb50"
       },
       "expected": {
         "blockHash": "0x03935a4b5e3c03a9c1deb93a39183a9a116c16cff3dc9ab129e847487da0e2b8",
@@ -793,7 +795,9 @@
         "outPoint": {
           "index": "0",
           "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-        }
+        },
+        "cellbase": true,
+        "outputDataLen": "0xcb50"
       }
     }
   ],
@@ -848,7 +852,9 @@
           "out_point": {
             "index": "0",
             "tx_hash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-          }
+          },
+          "cellbase": true,
+          "output_data_len": "0xcb50"
         }
       ],
       "expected": [
@@ -864,7 +870,9 @@
           "outPoint": {
             "index": "0",
             "txHash": "0xecd3917b7d9833a34d30da39b943b1811163f30771aae3165f60529955afb37f"
-          }
+          },
+          "cellbase": true,
+          "outputDataLen": "0xcb50"
         }
       ]
     }

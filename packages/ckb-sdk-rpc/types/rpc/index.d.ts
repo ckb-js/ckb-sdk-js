@@ -8,6 +8,8 @@ declare module RPC {
   export type Number = CKBComponents.Number
   export type UInt32 = CKBComponents.UInt32
   export type Count = CKBComponents.Count
+  export type DAO = CKBComponents.DAO
+  export type Hash = CKBComponents.Hash
   export type Hash256 = CKBComponents.Hash256
   export type Version = CKBComponents.Version
   export type Capacity = CKBComponents.Capacity
@@ -24,7 +26,7 @@ declare module RPC {
 
   export type TransactionStatus = CKBComponents.TransactionStatus
 
-  export type ScriptHashType = 'data' | type
+  export type ScriptHashType = 'data' | 'type'
 
   export type DepType = 'code' | 'dep_group'
 
@@ -70,6 +72,8 @@ declare module RPC {
     capacity: Capacity
     lock: Script
     out_point: OutPoint | null
+    cellbase: boolean
+    output_data_len: string
   }
 
   export interface RawTransaction {

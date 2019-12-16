@@ -4,6 +4,8 @@ sudo: true
 node_js:
   - '11.9'
   - '10.15'
+  - '12.13'
+  - '13.2'
 
 cache:
   - npm

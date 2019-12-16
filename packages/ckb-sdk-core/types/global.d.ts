@@ -8,13 +8,7 @@ interface DepCellInfo {
 interface CachedCell extends CKBComponents.CellIncludingOutPoint {
   status: string
   dataHash: string
-  type: CKBComponent.Script | null
+  type?: CKBComponents.Script | null
 }
 
-interface TransactionBuilderInitParams {
-  inputs?: CKBComponents.CellInput[]
-  outputs?: CKBComponents.CellOutput[]
-  cellDeps?: CKBComponents.CellDep[]
-  headerDeps?: string[]
-  witnesses?: string[]
-}
+type StructuredWitness = CKBComponents.WitnessArgs | CKBComponents.Witness

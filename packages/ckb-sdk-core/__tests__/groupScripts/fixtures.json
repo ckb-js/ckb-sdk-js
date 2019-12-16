@@ -1,0 +1,50 @@
+{
+  "single group": {
+    "cells": [
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      }
+    ],
+    "expected": [["0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b", [0, 1]]]
+  },
+  "multi groups": {
+    "cells": [
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f0"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      }
+    ],
+    "expected": [
+      ["0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b", [0, 2]],
+      ["0x20994c4484aac92d9b522fd32951941f6b9e73a0829297cc6cc5d828362890f7", [1]]
+    ]
+  }
+}

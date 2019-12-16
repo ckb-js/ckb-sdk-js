@@ -10,8 +10,9 @@ declare module 'blake2b-wasm' {
       key: Uint8Array | Buffer | null,
       salt: Uint8Array | Buffer | null,
       personal: Uint8Array | Buffer | null,
-      noAssert: boolean | null
+      noAssert: boolean | null,
     )
+    ready(cb: Function): Promise<void | Error>
   }
   export interface Blake2b {
     update(input): Blake2b
@@ -19,8 +20,6 @@ declare module 'blake2b-wasm' {
     digest(enc: 'binary' | 'hex' | undefined | null): Uint8Array | string
 
     final(enc: 'binary' | 'hex' | undefined | null): Uint8Array | string
-
-    static ready(cb: Function): Promise<void | Error>
 
     ready(cb: Function): Promise<void | Error>
 
@@ -33,7 +32,7 @@ declare module 'blake2b-wasm' {
     key?: Uint8Array | Buffer | null,
     salt?: Uint8Array | Buffer | null,
     personal?: Uint8Array | Buffer | null,
-    noAssert?: boolean | null
+    noAssert?: boolean | null,
   ) => Blake2b
 
   export const BYTES_MIN = 16
