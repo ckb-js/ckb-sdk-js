@@ -40,5 +40,5 @@
     "@nervosnetwork/ckb-types": "0.26.1",
     "dotenv": "8.1.0"
   },
-  "gitHead": "3c0e4cf095a6493f39d2112de7da6761c2223b76"
+  "gitHead": "c96ca0bb073c5e3b7fee7b25f9ca2e35daa99049"
 }
