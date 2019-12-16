@@ -11,11 +11,11 @@ declare module 'blake2b-wasm' {
       salt: Uint8Array | Buffer | null,
       personal: Uint8Array | Buffer | null,
       noAssert: boolean | null,
-    )
+    ): Blake2b
     ready(cb: Function): Promise<void | Error>
   }
   export interface Blake2b {
-    update(input): Blake2b
+    update(input: any): Blake2b
 
     digest(enc: 'binary' | 'hex' | undefined | null): Uint8Array | string
 
