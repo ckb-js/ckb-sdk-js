@@ -20,7 +20,7 @@ describe('Test Transaction Serialization', () => {
   describe('Serialize Version', () => {
     const fixtureTable = Object.entries(fixtures.serializeVersion).map(([title, { version, expected, exception }]) => [
       title,
-      version,
+      typeof version === 'number' ? BigInt(version) : version,
       expected,
       exception,
     ])
@@ -36,7 +36,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize OutPoint', () => {
     const fixtureTable = Object.entries(fixtures.serializeOutPoint).map(
-      ([title, { outPoint, expected, exception }]) => [title, outPoint, expected, exception]
+      ([title, { outPoint, expected, exception }]) => [title, outPoint, expected, exception],
     )
 
     test.each(fixtureTable)('%s', (_title, outPoint, expected, exception) => {
@@ -85,7 +85,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize CellDeps', () => {
     const fixtureTable = Object.entries(fixtures.serializeCellDeps).map(
-      ([title, { cellDeps, expected, exception }]) => [title, cellDeps, expected, exception]
+      ([title, { cellDeps, expected, exception }]) => [title, cellDeps, expected, exception],
     )
     test.each(fixtureTable)('%j', (_title, cellDeps, expected, exception) => {
       if (undefined !== expected) {
@@ -99,7 +99,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize HeaderDeps', () => {
     const fixtureTable = Object.entries(fixtures.serializeHeaderDeps).map(
-      ([title, { headerDeps, expected, exception }]) => [title, headerDeps, expected, exception]
+      ([title, { headerDeps, expected, exception }]) => [title, headerDeps, expected, exception],
     )
     test.each(fixtureTable)('%j', (_title, headerDeps, expected, exception) => {
       if (undefined !== expected) {
@@ -164,7 +164,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize OutputsData', () => {
     const fixtureTable = Object.entries(fixtures.serializeOutputsData).map(
-      ([title, { outputsData, expected, exception }]) => [title, outputsData, expected, exception]
+      ([title, { outputsData, expected, exception }]) => [title, outputsData, expected, exception],
     )
     test.each(fixtureTable)('%j', (_title, outputsData, expected, exception) => {
       if (undefined !== expected) {
@@ -189,7 +189,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize Witnesses', () => {
     const fixtureTable = Object.entries(fixtures.serializeWitnesses).map(
-      ([title, { witnesses, expected, exception }]) => [title, witnesses, expected, exception]
+      ([title, { witnesses, expected, exception }]) => [title, witnesses, expected, exception],
     )
     test.each(fixtureTable)('%s', (_title, witnesses, expected, exception) => {
       if (undefined !== expected) {
@@ -203,7 +203,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize RawTransaction', () => {
     const fixtureTable = Object.entries(fixtures.serializeRawTransaction).map(
-      ([title, { rawTransaction, expected, exception }]) => [title, rawTransaction, expected, exception]
+      ([title, { rawTransaction, expected, exception }]) => [title, rawTransaction, expected, exception],
     )
     test.each(fixtureTable)('%j', (_title, rawTransaction, expected, exception) => {
       if (undefined !== expected) {
@@ -217,7 +217,7 @@ describe('Test Transaction Serialization', () => {
 
   describe('Serialize Transaction', () => {
     const fixtureTable = Object.entries(fixtures.serializeTransaction).map(
-      ([title, { transaction, expected, exception }]) => [title, transaction, expected, exception]
+      ([title, { transaction, expected, exception }]) => [title, transaction, expected, exception],
     )
     test.each(fixtureTable)('%j', (_title, transaction, expected, exception) => {
       if (undefined !== expected) {

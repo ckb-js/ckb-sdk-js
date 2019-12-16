@@ -25,7 +25,8 @@ const loadCells = async () => {
 
 const deposit = async () => {
   await loadCells()
-  const depositTx = await ckb.generateDaoDepositTransaction({
+  await ckb.loadDaoDep()
+  const depositTx = ckb.generateDaoDepositTransaction({
     fromAddress: addr,
     capacity: BigInt(10200000000),
     fee: BigInt(100000)
@@ -41,7 +42,7 @@ const deposit = async () => {
 }
 
 const depositOutPoint = {
-  "txHash": "0x052788721f8b2b74490b27e597dea5388f8fd344aa1dfe80a457634cc1335531",
+  "txHash": "0x40e1d58cf8576d5206d55d242284a28f64cb114d0b9a8292582e7596082e5bda",
   "index": "0x0"
 }
 
@@ -57,16 +58,17 @@ const logDepositEpoch = async () => {
 }
 
 const depositEpoch = {
-  "length": "0x64",
-  "index": "0x29",
-  "number": "0xf2"
+  "length": "0xa",
+  "index": "0x0",
+  "number": "0x69"
 }
 
 const starWithdrawing = async () => {
   await loadCells()
+  await ckb.loadDaoDep()
   const tx = await ckb.generateDaoWithdrawStartTransaction({
     outPoint: depositOutPoint,
-    fee: 10000
+    fee: 10000n
   })
   const signed = ckb.signTransaction(sk)(tx)
   const txHash = await ckb.rpc.sendTransaction(signed)
@@ -78,7 +80,7 @@ const starWithdrawing = async () => {
 }
 
 const startWithDrawOutPoint = {
-  "txHash": "0x84615264f586b21f4a7f29501ff3d8d52674e344960a1d790720fdc87c92570d",
+  "txHash": "0xc8ad01deb8b25c56169992598398ad7d539314ada90c84bff12fa7fc69095076",
   "index": "0x0"
 }
 
@@ -94,9 +96,9 @@ const logStartWithdrawingEpoch = async () => {
 }
 
 const startWithdrawingEpoch = {
-  "length": "0x64",
-  "index": "0x2a",
-  "number": "0xf9"
+  "length": "0xa",
+  "index": "0x0",
+  "number": "0xbe"
 }
 
 const logCurrentEpoch = async () => {
@@ -118,11 +120,11 @@ const withdraw = async () => {
     txHash,
     index: '0x0'
   }
-  console.log(`const withdraw = ${JSON.stringify(outPoint, null, 2)}`)
+  console.log(`const withdrawOutPoint = ${JSON.stringify(outPoint, null, 2)}`)
 }
 
 const withDrawOutPoint = {
-  "txHash": "0x0cdb8b50d269ad0e82c8b1f2c075ddfb3d3655b6babc6958619bddc09bb4df18",
+  "txHash": "0xb1ee185a4e811247b1705a52df487c3ce839bfa2f72e4c7a74b6fc6b0ea4cfa7",
   "index": "0x0"
 }
 

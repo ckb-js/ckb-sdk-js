@@ -63,7 +63,7 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
   }
   const vec = typeof fixVec === 'string' ? [...hexToBytes(fixVec)].map(b => `0x${b.toString(16)}`) : fixVec
   const serializedItemVec = vec.map(item => serializeArray(item).slice(2))
-  const header = toHexInLittleEndian(serializedItemVec.length).slice(2)
+  const header = toHexInLittleEndian(`0x${serializedItemVec.length.toString(16)}`).slice(2)
   return `0x${header}${serializedItemVec.join('')}`
 }
 
@@ -84,11 +84,11 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
   let offsets = ''
   if (serializedItemVec.length) {
     offsets = getOffsets(serializedItemVec.map(item => item.length / 2))
-      .map(offset => toHexInLittleEndian(offset).slice(2))
+      .map(offset => toHexInLittleEndian(`0x${offset.toString(16)}`).slice(2))
       .join('')
   }
   const headerLength = fullLengthSize + offsetSize * serializedItemVec.length
-  const fullLength = toHexInLittleEndian(headerLength + body.length / 2).slice(2)
+  const fullLength = toHexInLittleEndian(`0x${(headerLength + body.length / 2).toString(16)}`).slice(2)
   return `0x${fullLength}${offsets}${body}`
 }
 
@@ -104,9 +104,9 @@ export const serializeTable = (table: Map<string, string | Uint8Array>) => {
   })
   const body = bodyElms.join('')
   const headerLength = fullLengthSize + offsetSize * table.size
-  const fullLength = toHexInLittleEndian(headerLength + body.length / 2).slice(2)
+  const fullLength = toHexInLittleEndian(`0x${(headerLength + body.length / 2).toString(16)}`).slice(2)
   const offsets = getOffsets(bodyElms.map(arg => arg.length / 2))
-    .map(offset => toHexInLittleEndian(offset).slice(2))
+    .map(offset => toHexInLittleEndian(`0x${offset.toString(16)}`).slice(2))
     .join('')
   return `0x${fullLength}${offsets}${body}`
 }

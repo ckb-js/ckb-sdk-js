@@ -1,12 +1,22 @@
 {
   "cell the fee": {
-    "transactionSize": 1035,
-    "feeRate": 900,
-    "expected": 932
+    "transactionSize": "0x40b",
+    "feeRate": "0x384",
+    "expected": "0x3a4"
   },
   "uncell the fee": {
+    "transactionSize": "0x384",
+    "feeRate": "0x384",
+    "expected": "0x32a"
+  },
+  "size in bigint": {
     "transactionSize": 900,
+    "feeRate": "0x384",
+    "expected": "0x32a"
+  },
+  "rate in bigint": {
+    "transactionSize": "0x384",
     "feeRate": 900,
-    "expected": 810
+    "expected": "0x32a"
   }
 }

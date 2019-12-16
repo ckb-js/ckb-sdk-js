@@ -1,4 +1,10 @@
 {
+  "assertToBeHexString": {
+    "validHexString": "0x123",
+    "stringWithout0x": "123",
+    "invalidNumber": "0xg",
+    "notString": 123
+  },
   "assertToBeHexStringOrBigint": {
     "hexStringStartsWith0x": "0x123",
     "hexStringStartsWithout0x": "123",
