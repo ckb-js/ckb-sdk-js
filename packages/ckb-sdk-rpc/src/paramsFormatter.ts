@@ -17,6 +17,7 @@ const formatter = {
   },
   toNumber: (number: CKBComponents.Number | bigint): RPC.Number => {
     if (typeof number === 'bigint') {
+      // @ts-ignore
       return `0x${number.toString(16)}`
     }
     if (typeof number !== 'string') {
