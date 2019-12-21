@@ -1,4 +1,4 @@
-import blake2b from 'blake2b-wasm'
+import blake2b from './blake2b'
 import { PERSONAL, hexToBytes } from '../index'
 
 export declare interface Blake160 {
