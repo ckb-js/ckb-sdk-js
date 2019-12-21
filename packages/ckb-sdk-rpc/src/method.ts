@@ -34,6 +34,7 @@ class Method {
       httpAgent: this.node.httpAgent,
       httpsAgent: this.node.httpsAgent,
     }).then(res => {
+      /* istanbul ignore next */
       if (res.data.id !== id) {
         throw new Error('JSONRPC id not match')
       }

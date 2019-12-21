@@ -7,6 +7,7 @@ const alphabetMap = new Map<string, number>()
 for (let i = 0; i < ALPHABET.length; i++) {
   const char = ALPHABET.charAt(i)
 
+  /* istanbul ignore next */
   if (alphabetMap.get(char) !== undefined) {
     throw new TypeError(`${char} is ambiguous`)
   }
@@ -31,6 +32,7 @@ const prefixChecksum = (prefix: string) => {
 
   for (let i = 0; i < prefix.length; ++i) {
     const c = prefix.charCodeAt(i)
+    /* istanbul ignore next */
     if (c < 33 || c > 126) throw new Error(`Invalid prefix (${prefix})`)
     checksum = polymodStep(checksum) ^ (c >> 5)
   }
@@ -55,6 +57,7 @@ export const encode = (prefix: string, words: Uint8Array) => {
 
   for (let i = 0; i < words.length; ++i) {
     const x = words[i]
+    /* istanbul ignore next */
     if (x >> 5 !== 0) throw new Error('Non 5-bit word')
 
     checksum = polymodStep(checksum) ^ x
@@ -81,21 +84,26 @@ export const decode = (encoded: string) => {
 
   const uppered = encoded.toUpperCase()
 
+  /* istanbul ignore next */
   if (encoded !== lowered && encoded !== uppered) throw new Error(`Mixed-case string ${encoded}`)
 
   const str = lowered
+  /* istanbul ignore next */
 
   if (str.length < 8) throw new TypeError(`${str} too short`)
 
   const split = str.lastIndexOf(SEPARATOR)
+  /* istanbul ignore next */
 
   if (split === -1) throw new Error(`No separator character for ${str}`)
+  /* istanbul ignore next */
 
   if (split === 0) throw new Error(`Missing prefix for ${str}`)
 
   const prefix = str.slice(0, split)
 
   const wordChars = str.slice(split + 1)
+  /* istanbul ignore next */
 
   if (wordChars.length < 6) throw new Error('Data too short')
 
@@ -141,7 +149,9 @@ const convert = (data: Uint8Array, inBits: number, outBits: number, pad: boolean
       result.push((value << (outBits - bits)) & maxV)
     }
   } else {
+    /* istanbul ignore next */
     if (bits >= inBits) throw new Error('Excess padding')
+    /* istanbul ignore next */
     if ((value << (outBits - bits)) & maxV) throw new Error('Non-zero padding')
   }
 

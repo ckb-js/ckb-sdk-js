@@ -18,7 +18,7 @@ class ECPair {
     sk: Uint8Array | string,
     { compressed = true }: Options = {
       compressed: true,
-    }
+    },
   ) {
     if (sk === undefined) throw new ArgumentRequired('Private key')
     if (typeof sk === 'string' && !sk.startsWith('0x')) {
@@ -70,6 +70,7 @@ class ECPair {
     const { r, s, recoveryParam } = this.key.sign(msg, {
       canonical: true,
     })
+    /* istanbul ignore next */
     if (recoveryParam === null) throw new Error('Fail to sign the message')
     const fmtR = r.toString(16).padStart(64, '0')
     const fmtS = s.toString(16).padStart(64, '0')

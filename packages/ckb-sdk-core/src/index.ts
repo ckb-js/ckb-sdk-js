@@ -297,6 +297,7 @@ class CKB {
     throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
+  /* istanbul ignore next */
   public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
@@ -338,6 +339,7 @@ class CKB {
     return rawTx
   }
 
+  /* istanbul ignore next */
   public generateDaoWithdrawStartTransaction = async ({
     outPoint,
     fee,
@@ -388,6 +390,7 @@ class CKB {
     return rawTx
   }
 
+  /* istanbul ignore next */
   public generateDaoWithdrawTransaction = async ({
     depositOutPoint,
     withdrawOutPoint,
