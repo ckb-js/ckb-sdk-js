@@ -3,6 +3,15 @@
 /* eslint-disable no-param-reassign */
 import assert from 'nanoassert'
 
+const BYTES_MIN = 16
+const BYTES_MAX = 64
+// const BYTES = 32
+const KEYBYTES_MIN = 16
+const KEYBYTES_MAX = 64
+// const KEYBYTES = 32
+const SALTBYTES = 16
+const PERSONALBYTES = 16
+
 // 64-bit unsigned addition
 // Sets v[a,a+1] += v[b,b+1]
 // v should be a Uint32Array
@@ -299,7 +308,7 @@ const SIGMA8 = [
 // Multiply them all by 2 to make them offsets into a uint32 buffer,
 // because this is Javascript and we don't have uint64s
 const SIGMA82 = new Uint8Array(
-  SIGMA8.map(function(x) {
+  SIGMA8.map(x => {
     return x * 2
   }),
 )
@@ -348,6 +357,55 @@ function blake2bCompress(ctx: { h: number[]; t: number; b: any }, last: boolean)
   for (i = 0; i < 16; i++) {
     ctx.h[i] = ctx.h[i] ^ v[i] ^ v[i + 16]
   }
+}
+
+// Updates a BLAKE2b streaming hash
+// Requires hash context and Uint8Array (byte array)
+
+interface CTX {
+  c: number
+  t: any
+  b: any[]
+}
+
+function blake2bUpdate(ctx: CTX, input: string | any[]) {
+  for (let i = 0; i < input.length; i++) {
+    if (ctx.c === 128) {
+      // buffer full ?
+      ctx.t += ctx.c // add counters
+      blake2bCompress(ctx as any, false) // compress (not last)
+      ctx.c = 0 // counter to zero
+    }
+    ctx.b[ctx.c++] = input[i]
+  }
+}
+
+// Completes a BLAKE2b streaming hash
+// Returns a Uint8Array containing the message digest
+function blake2bFinal(ctx: { t: any; c: number; b: number[]; outlen: number; h: number[] }, out: number[]) {
+  ctx.t += ctx.c // mark last block offset
+
+  while (ctx.c < 128) {
+    // fill up with zeros
+    ctx.b[ctx.c++] = 0
+  }
+  blake2bCompress(ctx, true) // final block flag = 1
+
+  for (let i = 0; i < ctx.outlen; i++) {
+    out[i] = ctx.h[i >> 2] >> (8 * (i & 3))
+  }
+  return out
+}
+
+function hexSlice(buf: string | any[]) {
+  let str = ''
+  for (let i = 0; i < buf.length; i++) str += toHex(buf[i])
+  return str
+}
+
+function toHex(n: number) {
+  if (n < 16) return `0${n.toString(16)}`
+  return n.toString(16)
 }
 
 // reusable parameter_block
@@ -418,103 +476,71 @@ const parameter_block = new Uint8Array([
   0, // 60: personal
 ])
 
-// Creates a BLAKE2b hashing context
-// Requires an output length between 1 and 64 bytes
-// Takes an optional Uint8Array key
-function Blake2b(this: any, outlen: number, key: string | any[], salt: ArrayLike<number>, personal: ArrayLike<number>) {
-  // zero out parameter_block before usage
-  parameter_block.fill(0)
-  // state, 'param block'
+class Blake2b {
+  b: Uint8Array
 
-  this.b = new Uint8Array(128)
-  this.h = new Uint32Array(16)
-  this.t = 0 // input count
-  this.c = 0 // pointer within buffer
-  this.outlen = outlen // output length in bytes
+  h: Uint32Array
 
-  parameter_block[0] = outlen
-  if (key) parameter_block[1] = key.length
-  parameter_block[2] = 1 // fanout
-  parameter_block[3] = 1 // depth
+  t: number
 
-  if (salt) parameter_block.set(salt, 32)
-  if (personal) parameter_block.set(personal, 48)
+  c: number
 
-  // initialize hash state
-  for (let i = 0; i < 16; i++) {
-    this.h[i] = BLAKE2B_IV32[i] ^ B2B_GET32(parameter_block, i * 4)
-  }
+  outlen: number
 
-  // key the hash, if applicable
-  if (key) {
-    blake2bUpdate(this, key)
-    // at the end
-    this.c = 128
-  }
-}
+  // Creates a BLAKE2b hashing context
+  // Requires an output length between 1 and 64 bytes
+  // Takes an optional Uint8Array key
+  constructor(outlen: number, key: string | any[], salt: ArrayLike<number>, personal: ArrayLike<number>) {
+    // zero out parameter_block before usage
+    parameter_block.fill(0)
+    // state, 'param block'
 
-Blake2b.prototype.update = function(input: any) {
-  assert(input instanceof Uint8Array, 'input must be Uint8Array or Buffer')
-  blake2bUpdate(this, input)
-  return this
-}
+    this.b = new Uint8Array(128)
+    this.h = new Uint32Array(16)
+    this.t = 0 // input count
+    this.c = 0 // pointer within buffer
+    this.outlen = outlen // output length in bytes
 
-Blake2b.prototype.digest = function(out: string) {
-  const buf = !out || out === 'binary' || out === 'hex' ? new Uint8Array(this.outlen) : out
-  assert(buf instanceof Uint8Array, 'out must be "binary", "hex", Uint8Array, or Buffer')
-  assert(buf.length >= this.outlen, 'out must have at least outlen bytes of space')
-  blake2bFinal(this, buf as any)
-  if (out === 'hex') return hexSlice(buf as any)
-  return buf
-}
+    parameter_block[0] = outlen
+    if (key) parameter_block[1] = key.length
+    parameter_block[2] = 1 // fanout
+    parameter_block[3] = 1 // depth
 
-Blake2b.prototype.final = Blake2b.prototype.digest
+    if (salt) parameter_block.set(salt, 32)
+    if (personal) parameter_block.set(personal, 48)
 
-// Updates a BLAKE2b streaming hash
-// Requires hash context and Uint8Array (byte array)
-function blake2bUpdate(ctx: { c: number; t: any; b: any[] }, input: string | any[]) {
-  for (let i = 0; i < input.length; i++) {
-    if (ctx.c === 128) {
-      // buffer full ?
-      ctx.t += ctx.c // add counters
-      blake2bCompress(ctx as any, false) // compress (not last)
-      ctx.c = 0 // counter to zero
+    // initialize hash state
+    for (let i = 0; i < 16; i++) {
+      this.h[i] = BLAKE2B_IV32[i] ^ B2B_GET32(parameter_block, i * 4)
     }
-    ctx.b[ctx.c++] = input[i]
+
+    // key the hash, if applicable
+    if (key) {
+      blake2bUpdate(this as any, key)
+      // at the end
+      this.c = 128
+    }
   }
-}
 
-// Completes a BLAKE2b streaming hash
-// Returns a Uint8Array containing the message digest
-function blake2bFinal(ctx: { t: any; c: number; b: number[]; outlen: number; h: number[] }, out: number[]) {
-  ctx.t += ctx.c // mark last block offset
-
-  while (ctx.c < 128) {
-    // fill up with zeros
-    ctx.b[ctx.c++] = 0
+  update = (input: any) => {
+    assert(input instanceof Uint8Array, 'input must be Uint8Array or Buffer')
+    blake2bUpdate(this as any, input)
+    return this
   }
-  blake2bCompress(ctx, true) // final block flag = 1
 
-  for (let i = 0; i < ctx.outlen; i++) {
-    out[i] = ctx.h[i >> 2] >> (8 * (i & 3))
+  digest = (out: string) => {
+    const buf = !out || out === 'binary' || out === 'hex' ? new Uint8Array(this.outlen) : out
+    assert(buf instanceof Uint8Array, 'out must be "binary", "hex", Uint8Array, or Buffer')
+    assert(buf.length >= this.outlen, 'out must have at least outlen bytes of space')
+    blake2bFinal(this as any, buf as any)
+    if (out === 'hex') return hexSlice(buf as any)
+    return buf
   }
-  return out
+
+  final = Blake2b.prototype.digest
 }
 
-function hexSlice(buf: string | any[]) {
-  let str = ''
-  for (let i = 0; i < buf.length; i++) str += toHex(buf[i])
-  return str
-}
-
-function toHex(n: number) {
-  if (n < 16) return `0${n.toString(16)}`
-  return n.toString(16)
-}
-
-const Proto = Blake2b
-
-function createHash(
+function blake2b(
   outlen: number,
   key: string | any[] | null,
   salt: string | any[] | null,
@@ -542,24 +568,7 @@ function createHash(
     }
   }
 
-  return new (Proto as any)(outlen, key as any, salt as any, personal as any)
+  return new Blake2b(outlen, key as any, salt as any, personal as any)
 }
 
-let BYTES_MIN = 16
-let BYTES_MAX = 64
-// const BYTES = 32
-let KEYBYTES_MIN = 16
-let KEYBYTES_MAX = 64
-// const KEYBYTES = 32
-let SALTBYTES = 16
-let PERSONALBYTES = 16
-
-// const textEncoder = new TextEncoder()
-// const PERSONAL = textEncoder.encode('ckb-default-hash')
-// console.log(PERSONAL)
-
-// const hash = createHash(32, null, null, PERSONAL, true)
-
-// console.log(hash.update(new Uint8Array()).digest('hex'))
-
-export default createHash
+export default blake2b
