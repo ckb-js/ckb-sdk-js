@@ -1,5 +1,3 @@
-/// <reference types="../types/blake2b-wasm" />
-
 import * as util from 'util'
 import JSBI from 'jsbi'
 import ECPair from './ecpair'

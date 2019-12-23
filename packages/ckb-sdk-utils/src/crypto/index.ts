@@ -1,4 +1,4 @@
-import blake2b from 'blake2b-wasm'
+import blake2b from './blake2b'
 import bech32 from './bech32'
 import blake160 from './blake160'
 
