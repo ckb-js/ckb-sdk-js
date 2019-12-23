@@ -1,54 +1,64 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
-import assert from 'nanoassert'
+const b2wasm = require('blake2b-wasm')
 
 const BYTES_MIN = 16
 const BYTES_MAX = 64
-// const BYTES = 32
+
 const KEYBYTES_MIN = 16
 const KEYBYTES_MAX = 64
-// const KEYBYTES = 32
+
 const SALTBYTES = 16
 const PERSONALBYTES = 16
 
-// 64-bit unsigned addition
-// Sets v[a,a+1] += v[b,b+1]
-// v should be a Uint32Array
-function ADD64AA(v: Uint32Array, a: number, b: number) {
-  const o0 = v[a] + v[b]
-  let o1 = v[a + 1] + v[b + 1]
+const v = new Uint32Array(32)
+const m = new Uint32Array(32)
+
+/**
+ * @function ADD64AA
+ * @description 64-bit unsigned addition, set vec[a, a + 1] += vec[b, b + 1]
+ * @param {Uint32Array} vec
+ * @param {number} a
+ * @param {number} b
+ */
+const ADD64AA = (vec: Uint32Array, a: number, b: number) => {
+  const o0 = vec[a] + vec[b]
+  let o1 = vec[a + 1] + vec[b + 1]
   if (o0 >= 0x100000000) {
     o1++
   }
-  v[a] = o0
-  v[a + 1] = o1
+  vec[a] = o0
+  vec[a + 1] = o1
 }
 
-// 64-bit unsigned addition
-// Sets v[a,a+1] += b
-// b0 is the low 32 bits of b, b1 represents the high 32 bits
-function ADD64AC(v: Uint32Array, a: number, b0: number, b1: number) {
-  let o0 = v[a] + b0
+/**
+ * @function ADD64AC
+ * @description 64-bit unsigned addition, set vec[a, a + 1] += b, b0 is the low 32 bits of b and b1 is the high 32 bits
+ * @param {Uint32Array} vec
+ * @param {number} a
+ * @param {number} b0
+ * @param {number} b1
+ */
+const ADD64AC = (vec: Uint32Array, a: number, b0: number, b1: number) => {
+  let o0 = vec[a] + b0
   if (b0 < 0) {
     o0 += 0x100000000
   }
-  let o1 = v[a + 1] + b1
+  let o1 = vec[a + 1] + b1
   if (o0 >= 0x100000000) {
     o1++
   }
-  v[a] = o0
-  v[a + 1] = o1
+  vec[a] = o0
+  vec[a + 1] = o1
 }
 
 // Little-endian byte access
-function B2B_GET32(arr: Uint8Array, i: number) {
+const B2B_GET32 = (arr: Uint8Array, i: number) => {
   return arr[i] ^ (arr[i + 1] << 8) ^ (arr[i + 2] << 16) ^ (arr[i + 3] << 24)
 }
 
 // G Mixing function
 // The ROTRs are inlined for speed
-function B2B_G(a: number, b: number, c: number, d: number, ix: number, iy: number) {
+const B2B_G = (a: number, b: number, c: number, d: number, ix: number, iy: number) => {
   const x0 = m[ix]
   const x1 = m[ix + 1]
   const y0 = m[iy]
@@ -89,235 +99,41 @@ function B2B_G(a: number, b: number, c: number, d: number, ix: number, iy: numbe
   v[b + 1] = (xor0 >>> 31) ^ (xor1 << 1)
 }
 
+/* eslint-disable prettier/prettier */
 // Initialization Vector
 const BLAKE2B_IV32 = new Uint32Array([
-  0xf3bcc908,
-  0x6a09e667,
-  0x84caa73b,
-  0xbb67ae85,
-  0xfe94f82b,
-  0x3c6ef372,
-  0x5f1d36f1,
-  0xa54ff53a,
-  0xade682d1,
-  0x510e527f,
-  0x2b3e6c1f,
-  0x9b05688c,
-  0xfb41bd6b,
-  0x1f83d9ab,
-  0x137e2179,
-  0x5be0cd19,
+  0xf3bcc908, 0x6a09e667, 0x84caa73b, 0xbb67ae85,
+  0xfe94f82b, 0x3c6ef372, 0x5f1d36f1, 0xa54ff53a,
+  0xade682d1, 0x510e527f, 0x2b3e6c1f, 0x9b05688c,
+  0xfb41bd6b, 0x1f83d9ab, 0x137e2179, 0x5be0cd19,
 ])
 
 const SIGMA8 = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  14,
-  10,
-  4,
-  8,
-  9,
-  15,
-  13,
-  6,
-  1,
-  12,
-  0,
-  2,
-  11,
-  7,
-  5,
-  3,
-  11,
-  8,
-  12,
-  0,
-  5,
-  2,
-  15,
-  13,
-  10,
-  14,
-  3,
-  6,
-  7,
-  1,
-  9,
-  4,
-  7,
-  9,
-  3,
-  1,
-  13,
-  12,
-  11,
-  14,
-  2,
-  6,
-  5,
-  10,
-  4,
-  0,
-  15,
-  8,
-  9,
-  0,
-  5,
-  7,
-  2,
-  4,
-  10,
-  15,
-  14,
-  1,
-  11,
-  12,
-  6,
-  8,
-  3,
-  13,
-  2,
-  12,
-  6,
-  10,
-  0,
-  11,
-  8,
-  3,
-  4,
-  13,
-  7,
-  5,
-  15,
-  14,
-  1,
-  9,
-  12,
-  5,
-  1,
-  15,
-  14,
-  13,
-  4,
-  10,
-  0,
-  7,
-  6,
-  3,
-  9,
-  2,
-  8,
-  11,
-  13,
-  11,
-  7,
-  14,
-  12,
-  1,
-  3,
-  9,
-  5,
-  0,
-  15,
-  4,
-  8,
-  6,
-  2,
-  10,
-  6,
-  15,
-  14,
-  9,
-  11,
-  3,
-  0,
-  8,
-  12,
-  2,
-  13,
-  7,
-  1,
-  4,
-  10,
-  5,
-  10,
-  2,
-  8,
-  4,
-  7,
-  6,
-  1,
-  5,
-  15,
-  11,
-  9,
-  14,
-  3,
-  12,
-  13,
-  0,
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  14,
-  10,
-  4,
-  8,
-  9,
-  15,
-  13,
-  6,
-  1,
-  12,
-  0,
-  2,
-  11,
-  7,
-  5,
-  3,
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+  14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3,
+  11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4,
+  7, 9, 3, 1, 13, 12, 11, 14, 2, 6, 5, 10, 4, 0, 15, 8,
+  9, 0, 5, 7, 2, 4, 10, 15, 14, 1, 11, 12, 6, 8, 3, 13,
+  2, 12, 6, 10, 0, 11, 8, 3, 4, 13, 7, 5, 15, 14, 1, 9,
+  12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11,
+  13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10,
+  6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5,
+  10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0,
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+  14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3,
 ]
+/* eslint-enable prettier/prettier */
 
 // These are offsets into a uint64 buffer.
 // Multiply them all by 2 to make them offsets into a uint32 buffer,
-// because this is Javascript and we don't have uint64s
+// because this is JavaScript and we don't have uint64s
 const SIGMA82 = new Uint8Array(
   SIGMA8.map(x => {
     return x * 2
   }),
 )
 
-// Compression function. 'last' flag indicates last block.
-// Note we're representing 16 uint64s as 32 uint32s
-let v = new Uint32Array(32)
-let m = new Uint32Array(32)
-function blake2bCompress(ctx: { h: number[]; t: number; b: any }, last: boolean) {
+const blake2bCompress = (ctx: Blake2b, last: boolean) => {
   let i = 0
 
   // init work variables
@@ -359,34 +175,33 @@ function blake2bCompress(ctx: { h: number[]; t: number; b: any }, last: boolean)
   }
 }
 
-// Updates a BLAKE2b streaming hash
-// Requires hash context and Uint8Array (byte array)
-
-interface CTX {
-  c: number
-  t: any
-  b: any[]
-}
-
-function blake2bUpdate(ctx: CTX, input: string | any[]) {
+/**
+ * @function blake2bUpdate
+ * @description updates a BLAKE2b streaming hash, requires hash context and Uint8Array
+ */
+const blake2bUpdate = (ctx: Blake2b, input: Uint8Array) => {
   for (let i = 0; i < input.length; i++) {
+    // buffer full?
     if (ctx.c === 128) {
-      // buffer full ?
       ctx.t += ctx.c // add counters
-      blake2bCompress(ctx as any, false) // compress (not last)
+      blake2bCompress(ctx, false) // compress (not last)
       ctx.c = 0 // counter to zero
     }
-    ctx.b[ctx.c++] = input[i]
+    ctx.b[ctx.c++] = +input[i]
   }
 }
 
 // Completes a BLAKE2b streaming hash
 // Returns a Uint8Array containing the message digest
-function blake2bFinal(ctx: { t: any; c: number; b: number[]; outlen: number; h: number[] }, out: number[]) {
+/**
+ * @function blake2bFinal
+ * @description completes a BLAKE2b streaming hash, returns a Uint8Array containing the message digest
+ */
+const blake2bFinal = (ctx: Blake2b, out: Uint8Array) => {
   ctx.t += ctx.c // mark last block offset
 
+  // fill up with zeros
   while (ctx.c < 128) {
-    // fill up with zeros
     ctx.b[ctx.c++] = 0
   }
   blake2bCompress(ctx, true) // final block flag = 1
@@ -397,86 +212,40 @@ function blake2bFinal(ctx: { t: any; c: number; b: number[]; outlen: number; h: 
   return out
 }
 
-function hexSlice(buf: string | any[]) {
-  let str = ''
-  for (let i = 0; i < buf.length; i++) str += toHex(buf[i])
-  return str
-}
-
-function toHex(n: number) {
+const toHex = (n: number) => {
   if (n < 16) return `0${n.toString(16)}`
   return n.toString(16)
 }
 
-// reusable parameter_block
-const parameter_block = new Uint8Array([
-  0,
-  0,
-  0,
-  0, //  0: outlen, keylen, fanout, depth
-  0,
-  0,
-  0,
-  0, //  4: leaf length, sequential mode
-  0,
-  0,
-  0,
-  0, //  8: node offset
-  0,
-  0,
-  0,
-  0, // 12: node offset
-  0,
-  0,
-  0,
-  0, // 16: node depth, inner length, rfu
-  0,
-  0,
-  0,
-  0, // 20: rfu
-  0,
-  0,
-  0,
-  0, // 24: rfu
-  0,
-  0,
-  0,
-  0, // 28: rfu
-  0,
-  0,
-  0,
-  0, // 32: salt
-  0,
-  0,
-  0,
-  0, // 36: salt
-  0,
-  0,
-  0,
-  0, // 40: salt
-  0,
-  0,
-  0,
-  0, // 44: salt
-  0,
-  0,
-  0,
-  0, // 48: personal
-  0,
-  0,
-  0,
-  0, // 52: personal
-  0,
-  0,
-  0,
-  0, // 56: personal
-  0,
-  0,
-  0,
-  0, // 60: personal
-])
+const hexSlice = (buf: string | Uint8Array) => {
+  let str = ''
+  for (let i = 0; i < buf.length; i++) str += toHex(+buf[i])
+  return str
+}
 
-class Blake2b {
+/* eslint-disable prettier/prettier */
+// reusable parameterBlock
+const parameterBlock = new Uint8Array([
+  0, 0, 0, 0, //  0: outlen, keylen, fanout, depth 0,
+  0, 0, 0, 0, //  4: leaf length, sequential mode 0,
+  0, 0, 0, 0, //  8: node offset
+  0, 0, 0, 0, // 12: node offset
+  0, 0, 0, 0, // 16: node depth, inner length, rfu
+  0, 0, 0, 0, // 20: rfu
+  0, 0, 0, 0, // 24: rfu
+  0, 0, 0, 0, // 28: rfu
+  0, 0, 0, 0, // 32: salt
+  0, 0, 0, 0, // 36: salt
+  0, 0, 0, 0, // 40: salt
+  0, 0, 0, 0, // 44: salt
+  0, 0, 0, 0, // 48: personal
+  0, 0, 0, 0, // 52: personal
+  0, 0, 0, 0, // 56: personal
+  0, 0, 0, 0, // 60: personal
+])
+/* eslint-enable prettier/prettier */
+
+export class Blake2b {
   b: Uint8Array
 
   h: Uint32Array
@@ -490,9 +259,9 @@ class Blake2b {
   // Creates a BLAKE2b hashing context
   // Requires an output length between 1 and 64 bytes
   // Takes an optional Uint8Array key
-  constructor(outlen: number, key: string | any[], salt: ArrayLike<number>, personal: ArrayLike<number>) {
-    // zero out parameter_block before usage
-    parameter_block.fill(0)
+  constructor(outlen: number, key: Uint8Array | null, salt: Uint8Array | null, personal: Uint8Array | null) {
+    // zero out parameterBlock before usage
+    parameterBlock.fill(0)
     // state, 'param block'
 
     this.b = new Uint8Array(128)
@@ -501,74 +270,101 @@ class Blake2b {
     this.c = 0 // pointer within buffer
     this.outlen = outlen // output length in bytes
 
-    parameter_block[0] = outlen
-    if (key) parameter_block[1] = key.length
-    parameter_block[2] = 1 // fanout
-    parameter_block[3] = 1 // depth
+    parameterBlock[0] = outlen
+    if (key) parameterBlock[1] = key.length
+    parameterBlock[2] = 1 // fanout
+    parameterBlock[3] = 1 // depth
 
-    if (salt) parameter_block.set(salt, 32)
-    if (personal) parameter_block.set(personal, 48)
+    if (salt) parameterBlock.set(salt, 32)
+    if (personal) parameterBlock.set(personal, 48)
 
     // initialize hash state
     for (let i = 0; i < 16; i++) {
-      this.h[i] = BLAKE2B_IV32[i] ^ B2B_GET32(parameter_block, i * 4)
+      this.h[i] = BLAKE2B_IV32[i] ^ B2B_GET32(parameterBlock, i * 4)
     }
 
     // key the hash, if applicable
     if (key) {
-      blake2bUpdate(this as any, key)
+      blake2bUpdate(this, key)
       // at the end
       this.c = 128
     }
   }
 
-  update = (input: any) => {
-    assert(input instanceof Uint8Array, 'input must be Uint8Array or Buffer')
-    blake2bUpdate(this as any, input)
+  update = (input: Uint8Array) => {
+    if (!(input instanceof Uint8Array)) {
+      throw new TypeError('input must be Uint8Array or Buffer')
+    }
+    blake2bUpdate(this, input)
     return this
   }
 
-  digest = (out: string) => {
+  digest = (out: 'binary' | 'hex') => {
     const buf = !out || out === 'binary' || out === 'hex' ? new Uint8Array(this.outlen) : out
-    assert(buf instanceof Uint8Array, 'out must be "binary", "hex", Uint8Array, or Buffer')
-    assert(buf.length >= this.outlen, 'out must have at least outlen bytes of space')
-    blake2bFinal(this as any, buf as any)
-    if (out === 'hex') return hexSlice(buf as any)
+    if (!(buf instanceof Uint8Array)) {
+      throw new TypeError('out must be "binary", "hex", Uint8Array, or Buffer')
+    }
+    if (buf.length < this.outlen) {
+      throw new Error('out must have at least outlen bytes of space')
+    }
+    blake2bFinal(this, buf)
+    if (out === 'hex') return hexSlice(buf)
     return buf
   }
 
-  final = Blake2b.prototype.digest
+  final = this.digest
 }
 
-function blake2b(
+export const blake2b = (
   outlen: number,
-  key: string | any[] | null,
-  salt: string | any[] | null,
-  personal: string | any[] | null,
+  key: Uint8Array | null,
+  salt: Uint8Array | null,
+  personal: Uint8Array | null,
   noAssert?: boolean,
-) {
+) => {
   if (noAssert !== true) {
-    assert(outlen >= BYTES_MIN, `outlen must be at least ${BYTES_MIN}, was given ${outlen}`)
-    assert(outlen <= BYTES_MAX, `outlen must be at most ${BYTES_MAX}, was given ${outlen}`)
-    if (key != null) {
-      assert(key instanceof Uint8Array, 'key must be Uint8Array or Buffer')
-      assert(key.length >= KEYBYTES_MIN, `key must be at least ${KEYBYTES_MIN}, was given ${key.length}`)
-      assert(key.length <= KEYBYTES_MAX, `key must be at most ${KEYBYTES_MAX}, was given ${key.length}`)
+    if (outlen < BYTES_MIN) {
+      throw new Error(`outlen must be at least ${BYTES_MIN}, was given ${outlen}`)
     }
-    if (salt != null) {
-      assert(salt instanceof Uint8Array, 'salt must be Uint8Array or Buffer')
-      assert(salt.length === SALTBYTES, `salt must be exactly ${SALTBYTES}, was given ${salt.length}`)
+    if (outlen > BYTES_MAX) {
+      throw new Error(`outlen must be at most ${BYTES_MAX}, was given ${outlen}`)
     }
-    if (personal != null) {
-      assert(personal instanceof Uint8Array, 'personal must be Uint8Array or Buffer')
-      assert(
-        personal.length === PERSONALBYTES,
-        `personal must be exactly ${PERSONALBYTES}, was given ${personal.length}`,
-      )
+    if (key !== null) {
+      if (!(key instanceof Uint8Array)) {
+        throw new TypeError('key must be Uint8Array or Buffer')
+      }
+      if (key.length < KEYBYTES_MIN) {
+        throw new Error(`key must be at least ${KEYBYTES_MIN}, was given ${key.length}`)
+      }
+      if (key.length > KEYBYTES_MAX) {
+        throw new Error(`key must be at most ${KEYBYTES_MAX}, was given ${key.length}`)
+      }
+    }
+    if (salt !== null) {
+      if (!(salt instanceof Uint8Array)) {
+        throw new TypeError('salt must be Uint8Array or Buffer')
+      }
+      if (salt.length !== SALTBYTES) {
+        throw new Error(`salt must be exactly ${SALTBYTES}, was given ${salt.length}`)
+      }
+    }
+    if (personal !== null) {
+      if (!(personal instanceof Uint8Array)) {
+        throw new TypeError('personal must be Uint8Array or Buffer')
+      }
+      if (personal.length !== PERSONALBYTES) {
+        throw new TypeError(`personal must be exactly ${PERSONALBYTES}, was given ${personal.length}`)
+      }
     }
   }
 
-  return new Blake2b(outlen, key as any, salt as any, personal as any)
+  return new Blake2b(outlen, key, salt, personal)
+}
+
+export const ready = (cb: Function) => {
+  b2wasm.ready(() => {
+    cb()
+  })
 }
 
 export default blake2b
