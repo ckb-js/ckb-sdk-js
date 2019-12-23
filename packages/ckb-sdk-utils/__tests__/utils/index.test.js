@@ -1,6 +1,7 @@
 const ckbUtils = require('../../lib')
 const exceptions = require('../../lib/exceptions')
 const bech32Fixtures = require('./bech32.fixtures.json')
+const blake2bFixtures = require('./blake2b.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 const transformerFixtures = require('./transformer.fixtures.json')
 const transactionFeeFixtures = require('./transactionFee.fixtures.json')
@@ -121,6 +122,29 @@ describe('blake', () => {
     s.update(Buffer.from(fixture.str, 'utf8'))
     const digest = s.digest('hex')
     expect(digest).toBe(fixture.digest)
+  })
+
+  test.each(blake2bFixtures)('%s', ({ outlen, out, input, key, salt, personal }) => {
+    if (+outlen < 16) {
+      expect(() => {
+        blake2b(
+          outlen,
+          key ? Buffer.from(key, 'hex') : null,
+          salt ? Buffer.from(salt, 'hex') : null,
+          personal ? Buffer.from(personal, 'hex') : null,
+        )
+      }).toThrowError(`outlen must be at least 16, was given ${outlen}`)
+    } else {
+      const s = blake2b(
+        outlen,
+        key ? Buffer.from(key, 'hex') : null,
+        salt ? Buffer.from(salt, 'hex') : null,
+        personal ? Buffer.from(personal, 'hex') : null,
+      )
+      s.update(Buffer.from(input, 'hex'))
+      const digest = s.digest('hex')
+      expect(digest).toBe(out)
+    }
   })
 
   it('blake160', () => {
