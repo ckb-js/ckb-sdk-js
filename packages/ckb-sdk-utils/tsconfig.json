@@ -6,7 +6,7 @@
     "outDir": "lib",
     "lib": ["es2017"],
     "typeRoots": ["types", "node_modules/@types", "node_modules"],
-    "types": ["@nervosnetwork/ckb-types", "node", "blake2b-wasm"]
+    "types": ["@nervosnetwork/ckb-types", "node"]
   },
   "include": ["src"],
 }
