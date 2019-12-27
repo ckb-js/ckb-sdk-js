@@ -18,18 +18,28 @@ class ECPair {
     sk: Uint8Array | string,
     { compressed = true }: Options = {
       compressed: true,
-    }
+    },
   ) {
     if (sk === undefined) throw new ArgumentRequired('Private key')
+
     if (typeof sk === 'string' && !sk.startsWith('0x')) {
       throw new HexStringShouldStartWith0x(sk)
     }
+
+    if (typeof sk === 'string' && sk.length !== 66) {
+      throw new Error('Private key has invalid length')
+    }
+
+    if (typeof sk === 'object' && sk.byteLength !== 32) {
+      throw new Error('Private key has invalid length')
+    }
+
     this.key = ec.keyFromPrivate(typeof sk === 'string' ? sk.replace(/^0x/, '') : sk)
     this.compressed = compressed
   }
 
   get privateKey() {
-    return `0x${this.key.getPrivate('hex')}`
+    return `0x${this.key.getPrivate('hex').padStart(64, '0')}`
   }
 
   get publicKey() {
