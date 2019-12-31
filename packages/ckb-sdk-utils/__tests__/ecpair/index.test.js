@@ -24,7 +24,7 @@ describe('ECPair', () => {
   it('new ecpair with empty options, default compressed should be true', () => {
     const fixture = instantiateFixtures.withEmptyOption
 
-    const ecpair = new ECPair(hexToBytes(fixture.privateKey), {})
+    const ecpair = new ECPair(fixture.privateKey, {})
     expect(ecpair.compressed).toBe(fixture.compressed)
     expect(ecpair.privateKey).toEqual(fixture.privateKey)
     expect(ecpair.publicKey).toBe(fixture.publicKey)
@@ -33,7 +33,7 @@ describe('ECPair', () => {
   it('new ecpair with default options which should be { compressed: true }', () => {
     const fixture = instantiateFixtures.withDefaultOption
 
-    const ecpair = new ECPair(hexToBytes(fixture.privateKey))
+    const ecpair = new ECPair(fixture.privateKey)
     expect(ecpair.compressed).toBe(fixture.compressed)
     expect(ecpair.privateKey).toEqual(fixture.privateKey)
     expect(ecpair.publicKey).toBe(fixture.publicKey)
@@ -46,6 +46,18 @@ describe('ECPair', () => {
   it('Instantiate with a private key without 0x should throw an error', () => {
     const privateKey = 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
     expect(() => new ECPair(privateKey, {})).toThrow(new HexStringShouldStartWith0x(privateKey))
+  })
+
+  it('shoule throw an error if private key has invalid length', () => {
+    const fixture = instantiateFixtures.privateKeyHasInvalidLength
+    expect(() => new ECPair(fixture.privateKey)).toThrow(new Error(fixture.exception))
+    expect(() => new ECPair(hexToBytes(fixture.privateKey), 'hex')).toThrow(fixture.exception)
+  })
+
+  it('leading 0 of private key should be remained', () => {
+    const fixture = instantiateFixtures.leadingZeroShouldBeRemained
+    const key = new ECPair(fixture.privateKey)
+    expect(key.privateKey).toBe(fixture.privateKey)
   })
 
   it('sign and verify message', () => {
