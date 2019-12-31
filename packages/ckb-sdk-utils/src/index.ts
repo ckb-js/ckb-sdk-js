@@ -14,10 +14,8 @@ export { serializeScript, serializeRawTransaction, serializeTransaction, seriali
 
 declare const TextDecoder: any // should be removed when the type definition of TextDecoder updates
 declare const TextEncoder: any // should be removed when the type definition of TextEncoder updates
-export const { blake2b, bech32, blake160 } = crypto
 const textEncoder = new (typeof TextEncoder !== 'undefined' ? TextEncoder : util.TextEncoder)()
 const textDecoder = new (typeof TextDecoder !== 'undefined' ? TextDecoder : util.TextDecoder)()
-export const PERSONAL = textEncoder.encode('ckb-default-hash')
 export { JSBI }
 
 export const hexToBytes = (rawhex: string | number) => {
@@ -56,6 +54,10 @@ export const hexToUtf8 = (hex: string) => bytesToUtf8(hexToBytes(hex))
 export const utf8ToBytes = (str: string) => textEncoder.encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
+
+export const PERSONAL = textEncoder.encode('ckb-default-hash')
+
+export const { blake2b, bech32, blake160 } = crypto
 
 export const scriptToHash = (script: CKBComponents.Script) => {
   if (!script) throw new ArgumentRequired('Script')
