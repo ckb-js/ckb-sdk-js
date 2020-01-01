@@ -303,6 +303,18 @@ const formatter = {
       ...rest,
     }
   },
+  toCapacityByLockHash: (capacityByLockHash: RPC.CapacityByLockHash): CKBComponents.CapacityByLockHash => {
+    if (!capacityByLockHash) {
+      return capacityByLockHash
+    }
+    const { cells_count: cellsCount, block_number: blockNumber, capacity, ...rest } = capacityByLockHash
+    return {
+      blockNumber,
+      capacity,
+      cellsCount,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

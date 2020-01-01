@@ -383,4 +383,10 @@ declare namespace CKBComponents {
   export interface RawTransactionToSign extends Omit<RawTransaction, 'witnesses'> {
     witnesses: (WitnessArgs | Witness)[]
   }
+
+  export interface CapacityByLockHash {
+    blockNumber: BlockNumber
+    capacity: Capacity
+    cellsCount: Number
+  }
 }

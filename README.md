@@ -137,7 +137,7 @@ After that you can use the `ckb` object to generate addresses, send requests, et
 
 ## Default RPC
 
-Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/defaultRPC.ts#L176)
+Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/defaultRPC.ts#L182)
 
 ## Persistent Connection
 
