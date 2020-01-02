@@ -1291,5 +1291,19 @@
         "feeRate": "0x7d0"
       }
     }
+  ],
+  "toCapacityByLockHash": [
+    {
+      "result": {
+        "block_number": "0x400",
+        "capacity": "0xb00fb84df292",
+        "cells_count": "0x3f5"
+      },
+      "expected": {
+        "blockNumber": "0x400",
+        "capacity": "0xb00fb84df292",
+        "cellsCount": "0x3f5"
+      }
+    }
   ]
 }
