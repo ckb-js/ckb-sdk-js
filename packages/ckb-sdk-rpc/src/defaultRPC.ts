@@ -171,6 +171,12 @@ const defaultRPC: CKBComponents.Method[] = [
     method: 'calculate_dao_maximum_withdraw',
     paramsFormatters: [paramsFmts.toOutPoint, paramsFmts.toHash],
   },
+  {
+    name: 'getCapacityByLockHash',
+    method: 'get_capacity_by_lock_hash',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toCapacityByLockHash,
+  },
 ]
 
 export class DefaultRPC {
@@ -475,6 +481,8 @@ export class DefaultRPC {
     outPoint: CKBComponents.OutPoint,
     withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
+
+  public getCapacityByLockHash!: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
 }
 
 export default DefaultRPC

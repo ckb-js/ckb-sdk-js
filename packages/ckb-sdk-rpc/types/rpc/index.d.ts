@@ -224,5 +224,11 @@ declare module RPC {
   export interface FeeRate {
     fee_rate: Number
   }
+
+  export interface CapacityByLockHash {
+    block_number: BlockNumber
+    capacity: Capacity
+    cells_count: Number
+  }
 }
 /* eslint-enable camelcase */

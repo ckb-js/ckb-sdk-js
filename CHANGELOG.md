@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.4](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.26.3...v0.26.4) (2020-01-02)
+
+
+### Features
+
+* **rpc:** add the new rpc method of get_capacity_by_lock_hash ([9628084](https://github.com/nervosnetwork/ckb-sdk-js/commit/9628084ba6111e2580d793a752992f45e142fcc5))
+
+
+
+
+
 ## [0.26.3](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.26.2...v0.26.3) (2019-12-23)
 
 **Note:** Version bump only for package ckb-sdk-js
