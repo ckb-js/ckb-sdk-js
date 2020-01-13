@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-core",
-  "version": "0.26.4",
+  "version": "0.27.0",
   "description": "JavaScript SDK for Nervos Network CKB Project",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -31,9 +31,9 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-rpc": "0.26.4",
-    "@nervosnetwork/ckb-sdk-utils": "0.26.4",
-    "@nervosnetwork/ckb-types": "0.26.4"
+    "@nervosnetwork/ckb-sdk-rpc": "0.27.0",
+    "@nervosnetwork/ckb-sdk-utils": "0.27.0",
+    "@nervosnetwork/ckb-types": "0.27.0"
   },
-  "gitHead": "9f485f3db58382495fbf9cbadc0f9fd089872850"
+  "gitHead": "452e737d8602410ecccc132143c6ee641c61a000"
 }
