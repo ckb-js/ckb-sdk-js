@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.27.0...v0.27.1) (2020-02-01)
+
+
+### Features
+
+* **rpc:** add the second paramter outputsValidator in the sendTransaction RPC method ([0c7b7b1](https://github.com/nervosnetwork/ckb-sdk-js/commit/0c7b7b1c4b5aa6847c8061ca1a98adad9186e3a7))
+
+
+### BREAKING CHANGES
+
+* **rpc:** Default outputsValidator on sending transactions requires the lock of outputs to be
+the default lock script
+
+
+
+
+
 # [0.27.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.26.4...v0.27.0) (2020-01-11)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc
