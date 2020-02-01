@@ -4,8 +4,8 @@ const fixtures = require('./params.fixtures.json')
 describe('params formatter', () => {
   describe.each(Object.keys(fixtures))('%s', methodName => {
     const fixtureTable = Object.values(fixtures[methodName]).map(({ param, expected, exception }) => [
-      param,
-      expected,
+      param === 'undefined' ? undefined : param,
+      expected === 'undefined' ? undefined : expected,
       exception,
     ])
     test.each(fixtureTable)('%j => %j', (param, expected, exception) => {

@@ -20,6 +20,7 @@ declare namespace CKBComponents {
   export type Nonce = string
   export type Cycles = string
   export type Size = string
+  export type OutputsValidator = 'default' | 'passthrough' | undefined
   export enum TransactionStatus {
     Pending = 'pending',
     Proposed = 'proposed',

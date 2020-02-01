@@ -1,5 +1,9 @@
 {
   "name": "ckb-sdk-js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "tsc": "lerna run tsc",
@@ -36,7 +40,7 @@
     "eslint-plugin-prettier": "3.1.1",
     "husky": "3.0.9",
     "jest": "24.9.0",
-    "lerna": "3.18.4",
+    "lerna": "3.20.2",
     "lint-staged": "9.4.2",
     "prettier": "1.18.2",
     "typedoc": "0.15.2",

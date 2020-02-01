@@ -112,6 +112,14 @@ const formatter = {
     return formatter.toNumber(`0x${size.toString(16)}`)
   },
   toReverseOrder: (reverse: boolean = false) => !!reverse,
+  toOutputsValidator: (outputsValidator: CKBComponents.OutputsValidator) => {
+    if (!outputsValidator) return undefined
+    const VALIDATORS = ['default', 'passthrough']
+    if (VALIDATORS.indexOf(outputsValidator) > -1) {
+      return outputsValidator
+    }
+    throw new TypeError('Outputs validator should be default or passthrough')
+  },
 }
 
 export default formatter
