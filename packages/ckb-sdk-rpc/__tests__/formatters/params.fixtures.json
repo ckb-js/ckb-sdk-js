@@ -368,5 +368,23 @@
     {
       "expected": false
     }
+  ],
+  "toOutputsValidator": [
+    {
+      "param": "default",
+      "expected": "default"
+    },
+    {
+      "param": "passthrough",
+      "expected": "passthrough"
+    },
+    {
+      "param": "undefined",
+      "expected": "undefined"
+    },
+    {
+      "param": "unknown",
+      "exception": "Outputs validator should be default or passthrough"
+    }
   ]
 }

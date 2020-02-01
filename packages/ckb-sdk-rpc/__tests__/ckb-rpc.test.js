@@ -123,13 +123,13 @@ describe('ckb-rpc success', () => {
     expect(header).toEqual(zeroBlockHeader)
   })
 
-  it('estimate fee rate', async () => {
+  it.skip('estimate fee rate', async () => {
     const feeRate = await rpc.estimateFeeRate('0x11')
     expect(feeRate).toBeTruthy()
   })
 })
 
-describe('send transaction', () => {
+describe.skip('send transaction', () => {
   it('send transaction', async () => {
     const tx = {
       cellDeps: [
@@ -166,7 +166,7 @@ describe('send transaction', () => {
       outputsData: ['0x'],
       witnesses: [],
     }
-    const hash = rpc.sendTransaction(tx)
+    const hash = await rpc.sendTransaction(tx)
     expect(hash).toBeTruthy()
   })
 })

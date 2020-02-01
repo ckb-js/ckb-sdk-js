@@ -58,7 +58,7 @@ const defaultRPC: CKBComponents.Method[] = [
   {
     name: 'sendTransaction',
     method: 'send_transaction',
-    paramsFormatters: [paramsFmts.toRawTransaction],
+    paramsFormatters: [paramsFmts.toRawTransaction, paramsFmts.toOutputsValidator],
     resultFormatters: resultFmts.toHash,
   },
   {
@@ -273,9 +273,15 @@ export class DefaultRPC {
    * @description rpc to send a new transaction into transaction pool
    * @param {object} rawTransaction - a raw transaction includes cell deps, inputs, outputs, version, and witnesses,
    *                                  detailed info could be found in ckb-types
+   * @param {string} [outputsValidator] - Validates the transaction outputs before entering the tx-pool,
+   *                                  an optional string parameter (enum: default | passthrough ),
+   *                                  null means using default validator, passthrough means skipping outputs validation
    * @return {Promise<string>} transaction hash
    */
-  public sendTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.Hash>
+  public sendTransaction!: (
+    tx: CKBComponents.RawTransaction,
+    outputsValidator: CKBComponents.OutputsValidator,
+  ) => Promise<CKBComponents.Hash>
 
   /**
    * @method getBlockchainInfo
