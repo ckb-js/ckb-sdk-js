@@ -9,6 +9,7 @@ import generateRawTransaction, { Cell, RawTransactionParamsBase } from './genera
 
 import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
+import {calculateLockEpochs} from './utils'
 
 
 type Key = string
@@ -420,20 +421,7 @@ class CKB {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const withdrawFraction = JSBI.multiply(JSBI.BigInt(withdrawEpoch.index), JSBI.BigInt(depositEpoch.length))
-    const depositFraction = JSBI.multiply(JSBI.BigInt(depositEpoch.index) , JSBI.BigInt(withdrawEpoch.length))
-    let depositedEpochs = JSBI.subtract(JSBI.BigInt(withdrawEpoch.number) , JSBI.BigInt(depositEpoch.number))
-    if (JSBI.greaterThan(withdrawFraction, depositFraction)) {
-      depositedEpochs = JSBI.add(depositedEpochs, JSBI.BigInt(1))
-    }
-    const lockEpochs = JSBI.multiply(
-      JSBI.divide(
-        JSBI.add(
-          depositedEpochs, JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS - 1)
-        ),
-        JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
-      ), JSBI.BigInt(DAO_LOCK_PERIOD_EPOCHS)
-    )
+    const lockEpochs = calculateLockEpochs({withdrawEpoch,depositEpoch,DAO_LOCK_PERIOD_EPOCHS})
     const minimalSince = this.absoluteEpochSince({
       length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
       index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
