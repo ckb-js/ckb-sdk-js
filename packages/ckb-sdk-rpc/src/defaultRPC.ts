@@ -275,12 +275,12 @@ export class DefaultRPC {
    *                                  detailed info could be found in ckb-types
    * @param {string} [outputsValidator] - Validates the transaction outputs before entering the tx-pool,
    *                                  an optional string parameter (enum: default | passthrough ),
-   *                                  null means using default validator, passthrough means skipping outputs validation
+   *                                  null and passthrough mean skipping outputs validation
    * @return {Promise<string>} transaction hash
    */
   public sendTransaction!: (
     tx: CKBComponents.RawTransaction,
-    outputsValidator: CKBComponents.OutputsValidator,
+    outputsValidator?: CKBComponents.OutputsValidator,
   ) => Promise<CKBComponents.Hash>
 
   /**
