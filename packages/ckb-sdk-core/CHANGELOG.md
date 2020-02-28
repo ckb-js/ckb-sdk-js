@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.29.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.28.0...v0.29.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* **core:** fix the calculation of epoch locks in nervos dao operation ([d914007](https://github.com/nervosnetwork/ckb-sdk-js/commit/d914007fd14456217d4f4430ad4e868ca998f65d))
+
+
+
+
+
 # [0.29.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.28.0...v0.29.0) (2020-02-28)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
