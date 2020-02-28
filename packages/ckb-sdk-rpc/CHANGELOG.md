@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.28.0...v0.29.0) (2020-02-28)
+
+
+### Features
+
+* **rpc:** update the action of outputs validator when it is null ([4932c47](https://github.com/nervosnetwork/ckb-sdk-js/commit/4932c479141b6d7a109705c389290b66d67c83a2))
+
+
+### BREAKING CHANGES
+
+* **rpc:** null outputs validator is equivalent to the passthrough one
+
+
+
+
+
 # [0.28.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.27.1...v0.28.0) (2020-02-07)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc
