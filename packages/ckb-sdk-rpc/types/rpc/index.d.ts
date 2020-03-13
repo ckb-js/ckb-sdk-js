@@ -188,6 +188,7 @@ declare module RPC {
     last_txs_updated_at: Timestamp
     total_tx_cycles: Cycles
     total_tx_size: Size
+    min_fee_rate: string
   }
 
   export interface Epoch {
