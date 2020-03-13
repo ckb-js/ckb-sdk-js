@@ -326,6 +326,7 @@ declare namespace CKBComponents {
     lastTxsUpdatedAt: Timestamp
     totalTxCycles: Cycles
     totalTxSize: Size
+    minFeeRate: string
   }
 
   export enum CapacityUnit {

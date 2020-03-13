@@ -135,12 +135,14 @@ const formatter = {
       last_txs_updated_at: lastTxsUpdatedAt,
       total_tx_cycles: totalTxCycles,
       total_tx_size: totalTxSize,
+      min_fee_rate: minFeeRate,
       ...rest
     } = info
     return {
       lastTxsUpdatedAt,
       totalTxCycles,
       totalTxSize,
+      minFeeRate,
       ...rest,
     }
   },
