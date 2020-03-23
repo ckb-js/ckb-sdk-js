@@ -231,5 +231,20 @@ declare module RPC {
     capacity: Capacity
     cells_count: Number
   }
+
+  export interface BlockEconomicState {
+    finalized_at: string
+    issuance: {
+      primary: string
+      secondary: string
+    }
+    miner_reward: {
+      committed: string
+      primary: string
+      proposal: string
+      secondary: string
+    }
+    txs_fee: string
+  }
 }
 /* eslint-enable camelcase */

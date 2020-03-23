@@ -1307,5 +1307,41 @@
         "cellsCount": "0x3f5"
       }
     }
+  ],
+  "toBlockEconomicState": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "finalized_at": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "issuance": {
+          "primary": "0x18ce922bca",
+          "secondary": "0x7f02ec655"
+        },
+        "miner_reward": {
+          "committed": "0x0",
+          "primary": "0x18ce922bca",
+          "proposal": "0x0",
+          "secondary": "0x17b93605"
+        },
+        "txs_fee": "0x0"
+      },
+      "expected": {
+        "finalizedAt": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "issuance": {
+          "primary": "0x18ce922bca",
+          "secondary": "0x7f02ec655"
+        },
+        "minerReward": {
+          "committed": "0x0",
+          "primary": "0x18ce922bca",
+          "proposal": "0x0",
+          "secondary": "0x17b93605"
+        },
+        "txsFee": "0x0"
+      }
+    }
   ]
 }

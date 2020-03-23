@@ -317,6 +317,18 @@ const formatter = {
       ...rest,
     }
   },
+  toBlockEconomicState: (blockEconomicState: RPC.BlockEconomicState): CKBComponents.BlockEconomicState => {
+    if (!blockEconomicState) {
+      return blockEconomicState
+    }
+    const { finalized_at: finalizedAt, miner_reward: minerReward, txs_fee: txsFee, ...rest } = blockEconomicState
+    return {
+      finalizedAt,
+      minerReward,
+      txsFee,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

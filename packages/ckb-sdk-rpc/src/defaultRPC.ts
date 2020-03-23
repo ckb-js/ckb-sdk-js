@@ -177,6 +177,12 @@ const defaultRPC: CKBComponents.Method[] = [
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toCapacityByLockHash,
   },
+  {
+    name: 'getBlockEconomicState',
+    method: 'get_block_economic_state',
+    paramsFormatters: [paramsFmts.toHash],
+    resultFormatters: resultFmts.toBlockEconomicState,
+  },
 ]
 
 export class DefaultRPC {
@@ -489,6 +495,15 @@ export class DefaultRPC {
   ) => Promise<string>
 
   public getCapacityByLockHash!: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
+
+  /**
+   * @method getBlockEconomicState
+   * @memberof DefaultRPC
+   * @description
+   * @param {string} blockHash
+   * @returns {Promise<BlockEconomicState>}
+   */
+  public getBlockEconomicState!: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockEconomicState>
 }
 
 export default DefaultRPC
