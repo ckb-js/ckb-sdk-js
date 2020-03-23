@@ -391,4 +391,19 @@ declare namespace CKBComponents {
     capacity: Capacity
     cellsCount: Number
   }
+
+  export interface BlockEconomicState {
+    finalizedAt: string
+    issuance: {
+      primary: string
+      secondary: string
+    }
+    minerReward: {
+      committed: string
+      primary: string
+      proposal: string
+      secondary: string
+    }
+    txsFee: string
+  }
 }
