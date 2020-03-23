@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.29.1...v0.30.0) (2020-03-23)
+
+
+### Features
+
+* **rpc:** add a new field in the tx pool info ([c1cbac9](https://github.com/nervosnetwork/ckb-sdk-js/commit/c1cbac9aeb1799f611543696f7ee9b717cfb237d))
+* **rpc:** add the new RPC getBlockEconomicState ([0c9e248](https://github.com/nervosnetwork/ckb-sdk-js/commit/0c9e248d810dcbe83953f262385b4a8efb5d4f84))
+
+
+
+
+
 ## [0.29.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.28.0...v0.29.1) (2020-02-28)
 
 

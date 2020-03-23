@@ -135,12 +135,14 @@ const formatter = {
       last_txs_updated_at: lastTxsUpdatedAt,
       total_tx_cycles: totalTxCycles,
       total_tx_size: totalTxSize,
+      min_fee_rate: minFeeRate,
       ...rest
     } = info
     return {
       lastTxsUpdatedAt,
       totalTxCycles,
       totalTxSize,
+      minFeeRate,
       ...rest,
     }
   },
@@ -312,6 +314,18 @@ const formatter = {
       blockNumber,
       capacity,
       cellsCount,
+      ...rest,
+    }
+  },
+  toBlockEconomicState: (blockEconomicState: RPC.BlockEconomicState): CKBComponents.BlockEconomicState => {
+    if (!blockEconomicState) {
+      return blockEconomicState
+    }
+    const { finalized_at: finalizedAt, miner_reward: minerReward, txs_fee: txsFee, ...rest } = blockEconomicState
+    return {
+      finalizedAt,
+      minerReward,
+      txsFee,
       ...rest,
     }
   },
