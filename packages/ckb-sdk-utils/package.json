@@ -34,11 +34,11 @@
     "@nervosnetwork/ckb-types": "0.30.0",
     "blake2b-wasm": "2.1.0",
     "elliptic": "6.5.2",
-    "jsbi": "3.1.1"
+    "jsbi": "3.1.2"
   },
   "devDependencies": {
-    "@types/bitcoinjs-lib": "4.0.1",
-    "@types/elliptic": "6.4.8",
+    "@types/bitcoinjs-lib": "5.0.0",
+    "@types/elliptic": "6.4.12",
     "@types/utf8": "2.1.6"
   },
   "gitHead": "493655c726e4e4918dfe4ac7ef5d1fec1a539117"
