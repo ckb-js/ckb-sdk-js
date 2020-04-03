@@ -1,16 +1,10 @@
-const path = require('path')
 const http = require('http')
 const https = require('https')
 
-const env = path.join(__dirname, '../.env')
-
-const config = require('dotenv').config({
-  path: env,
-}).parsed
-
+const NODE_URL = 'http://localhost:8114'
 const CKBRPC = require('../lib').default
 
-const rpc = new CKBRPC(config.RPC_URL)
+const rpc = new CKBRPC(NODE_URL)
 describe('ckb-rpc settings and helpers', () => {
   it('set node url', () => {
     const node = {
