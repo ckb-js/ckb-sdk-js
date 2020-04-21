@@ -1,12 +1,13 @@
-const path = require('path')
+const http = require('http')
 
-const env = path.join(__dirname, '../.env')
-const config = require('dotenv').config({
-  path: env,
-}).parsed
+const httpAgent = new http.Agent({ keepAlive: true })
+
+const NODE_URL = 'http://localhost:8114'
+
 const CKBRPC = require('../lib').default
 
-const rpc = new CKBRPC(config.RPC_URL)
+const rpc = new CKBRPC(NODE_URL)
+rpc.setNode({ httpAgent })
 
 describe('ckb-rpc success', () => {
   it('get blockchain info', async () => {
