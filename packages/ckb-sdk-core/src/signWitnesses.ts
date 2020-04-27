@@ -8,16 +8,21 @@ type TransactionHash = string
 type CachedLock = Pick<CachedCell, 'lock'>
 
 export interface SignWitnesses {
-  (key: SignatureProvider): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => StructuredWitness[]
+  (key: SignatureProvider): (params: {
+    transactionHash: TransactionHash
+    witnesses: StructuredWitness[]
+  }) => StructuredWitness[]
   (key: Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
+    skipMissingKeys: boolean
   }) => StructuredWitness[]
   (key: SignatureProvider | Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
+    skipMissingKeys?: boolean
   }) => StructuredWitness[]
 }
 
@@ -29,10 +34,12 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
   transactionHash,
   witnesses = [],
   inputCells = [],
+  skipMissingKeys = false,
 }: {
   transactionHash: string
   witnesses: StructuredWitness[]
   inputCells: CachedLock[]
+  skipMissingKeys: boolean
 }) => {
   if (!key) throw new ArgumentRequired('Signature provider')
   if (!transactionHash) throw new ArgumentRequired('Transaction hash')
@@ -45,12 +52,18 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
 
     groupedScripts.forEach((indices, lockhash) => {
       const sk = key.get(lockhash)
-      if (sk) {
-        const ws = [...indices.map((idx) => witnesses[idx]), ...restWitnesses]
-
-        const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
-        rawWitnesses[indices[0]] = witnessIncludeSignature
+      if (!sk) {
+        if (!skipMissingKeys) {
+          throw new Error(`The signature provider to sign lockhash ${lockhash} is not found`)
+        } else {
+          return
+        }
       }
+
+      const ws = [...indices.map((idx) => witnesses[idx]), ...restWitnesses]
+
+      const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
+      rawWitnesses[indices[0]] = witnessIncludeSignature
     })
     return rawWitnesses
   }
