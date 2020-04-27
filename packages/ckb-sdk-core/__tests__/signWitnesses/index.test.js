@@ -1,12 +1,14 @@
 const signWitnesses = require('../../lib/signWitnesses').default
+const ECPair = require('../../../ckb-sdk-utils/lib/ecpair').default
 const fixtures = require('./fixtures.json')
 
 describe('test sign witnesses', () => {
   const fixtureTable = Object.entries(fixtures).map(
-    ([title, { privateKey, privateKeys, transactionHash, witnesses, inputCells, expected, exception }]) => [
+    ([title, { privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, expected, exception }]) => [
       title,
       privateKey,
       privateKeys,
+      signatureProviders,
       transactionHash,
       witnesses,
       inputCells,
@@ -17,7 +19,7 @@ describe('test sign witnesses', () => {
 
   test.each(fixtureTable)(
     '%s',
-    (_title, privateKey, privateKeys, transactionHash, witnesses, inputCells, exception, expected) => {
+    (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, exception, expected) => {
       if (exception !== undefined) {
         const key = privateKey || (privateKeys && new Map(privateKeys))
         expect(() =>
@@ -36,6 +38,17 @@ describe('test sign witnesses', () => {
       } else if (privateKeys !== undefined) {
         const keys = new Map(privateKeys)
         const signedWitnesses = signWitnesses(keys)({
+          transactionHash,
+          witnesses,
+          inputCells,
+        })
+        expect(signedWitnesses).toEqual(expected)
+      } else if (signatureProviders !== undefined) {
+        const sigProviderMaps = new Map()
+        signatureProviders.forEach(([lockHash, key]) => {
+          sigProviderMaps.set(lockHash, (message) => new ECPair(key).signRecoverable(message))
+        })
+        const signedWitnesses = signWitnesses(sigProviderMaps)({
           transactionHash,
           witnesses,
           inputCells,
