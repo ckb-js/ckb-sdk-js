@@ -2,30 +2,30 @@ import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitnessGroup from './signWitnessGroup'
 import groupScripts from './groupScripts'
 
-type Key = string
+type SignatureProvider = string | ((message: string | Uint8Array) => Promise<string>)
 type LockHash = string
 type TransactionHash = string
 type CachedLock = Pick<CachedCell, 'lock'>
 
 export interface SignWitnesses {
-  (key: Key): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => StructuredWitness[]
-  (key: Map<LockHash, Key>): (params: {
+  (key: SignatureProvider): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => Promise<StructuredWitness[]>
+  (key: Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
-  }) => StructuredWitness[]
-  (key: Key | Map<LockHash, Key>): (params: {
+  }) => Promise<StructuredWitness[]>
+  (key: SignatureProvider | Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
-  }) => StructuredWitness[]
+  }) => Promise<StructuredWitness[]>
 }
 
 export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
 }
 
-const signWitnesses: SignWitnesses = (key: Key | Map<LockHash, Key>) => ({
+const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider>) => async ({
   transactionHash,
   witnesses = [],
   inputCells = [],
@@ -34,7 +34,7 @@ const signWitnesses: SignWitnesses = (key: Key | Map<LockHash, Key>) => ({
   witnesses: StructuredWitness[]
   inputCells: CachedLock[]
 }) => {
-  if (!key) throw new ArgumentRequired('Private key')
+  if (!key) throw new ArgumentRequired('Signature provider')
   if (!transactionHash) throw new ArgumentRequired('Transaction hash')
   if (!witnesses.length) throw new Error('Witnesses is empty')
 
@@ -42,20 +42,21 @@ const signWitnesses: SignWitnesses = (key: Key | Map<LockHash, Key>) => ({
     const rawWitnesses = witnesses
     const restWitnesses = witnesses.slice(inputCells.length)
     const groupedScripts = groupScripts(inputCells)
-    groupedScripts.forEach((indices, lockhash) => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [lockhash, indices] of groupedScripts) {
       const sk = key.get(lockhash)
-      if (!sk) {
-        throw new Error(`The private key to sign lockhash ${lockhash} is not found`)
-      }
-      const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
+      if (sk) {
+        const ws = [...indices.map((idx) => witnesses[idx]), ...restWitnesses]
 
-      const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
-      rawWitnesses[indices[0]] = witnessIncludeSignature
-    })
+        // eslint-disable-next-line no-await-in-loop
+        const witnessIncludeSignature = (await signWitnessGroup(sk, transactionHash, ws))[0]
+        rawWitnesses[indices[0]] = witnessIncludeSignature
+      }
+    }
     return rawWitnesses
   }
 
-  const signedWitnesses = signWitnessGroup(key, transactionHash, witnesses)
+  const signedWitnesses = await signWitnessGroup(key, transactionHash, witnesses)
   return signedWitnesses
 }
 

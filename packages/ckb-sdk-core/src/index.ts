@@ -206,7 +206,7 @@ class CKB {
 
   public signTransaction = (
     key: Key | Map<LockHash, Key>
-  ) => (
+  ) => async (
     transaction: CKBComponents.RawTransactionToSign,
     cells: CachedCell[]
   ) => {
@@ -229,7 +229,7 @@ class CKB {
       return cell
     }) : undefined
 
-    const signedWitnesses = this.signWitnesses(key)({
+    const signedWitnesses = await this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
       inputCells,
