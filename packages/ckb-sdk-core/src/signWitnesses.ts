@@ -2,30 +2,30 @@ import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitnessGroup from './signWitnessGroup'
 import groupScripts from './groupScripts'
 
-type SignatureProvider = string | ((message: string | Uint8Array) => Promise<string>)
+type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type LockHash = string
 type TransactionHash = string
 type CachedLock = Pick<CachedCell, 'lock'>
 
 export interface SignWitnesses {
-  (key: SignatureProvider): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => Promise<StructuredWitness[]>
+  (key: SignatureProvider): (params: { transactionHash: TransactionHash; witnesses: StructuredWitness[] }) => StructuredWitness[]
   (key: Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
-  }) => Promise<StructuredWitness[]>
+  }) => StructuredWitness[]
   (key: SignatureProvider | Map<LockHash, SignatureProvider>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
-  }) => Promise<StructuredWitness[]>
+  }) => StructuredWitness[]
 }
 
 export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
 }
 
-const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider>) => async ({
+const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider>) => ({
   transactionHash,
   witnesses = [],
   inputCells = [],
@@ -42,21 +42,20 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
     const rawWitnesses = witnesses
     const restWitnesses = witnesses.slice(inputCells.length)
     const groupedScripts = groupScripts(inputCells)
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [lockhash, indices] of groupedScripts) {
+
+    groupedScripts.forEach((indices, lockhash) => {
       const sk = key.get(lockhash)
       if (sk) {
         const ws = [...indices.map((idx) => witnesses[idx]), ...restWitnesses]
 
-        // eslint-disable-next-line no-await-in-loop
-        const witnessIncludeSignature = (await signWitnessGroup(sk, transactionHash, ws))[0]
+        const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
         rawWitnesses[indices[0]] = witnessIncludeSignature
       }
-    }
+    })
     return rawWitnesses
   }
 
-  const signedWitnesses = await signWitnessGroup(key, transactionHash, witnesses)
+  const signedWitnesses = signWitnessGroup(key, transactionHash, witnesses)
   return signedWitnesses
 }
 

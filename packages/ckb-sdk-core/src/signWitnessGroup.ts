@@ -1,10 +1,10 @@
 import { blake2b, hexToBytes, PERSONAL, toHexInLittleEndian, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 
-type SignatureProvider = string | ((message: string | Uint8Array) => Promise<string>)
+type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type TransactionHash = string
 
-const signWitnessGroup = async (sk: SignatureProvider, transactionHash: TransactionHash, witnessGroup: StructuredWitness[]) => {
+const signWitnessGroup = (sk: SignatureProvider, transactionHash: TransactionHash, witnessGroup: StructuredWitness[]) => {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')
   }
@@ -36,7 +36,7 @@ const signWitnessGroup = async (sk: SignatureProvider, transactionHash: Transact
     const keyPair = new ECPair(sk)
     emptyWitness.lock = keyPair.signRecoverable(message)
   } else {
-    emptyWitness.lock = await sk(message)
+    emptyWitness.lock = sk(message)
   }
   return [serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
 }
