@@ -10,6 +10,7 @@ import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } f
 
 export * from './address'
 export * from './serialization'
+export * from './convertors'
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs }
 
 declare const TextDecoder: any // should be removed when the type definition of TextDecoder updates
@@ -77,11 +78,7 @@ export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTrans
   return `0x${digest}` as string
 }
 
-const reverseString = (str: string) =>
-  str
-    .split('')
-    .reverse()
-    .join('')
+const reverseString = (str: string) => str.split('').reverse().join('')
 
 export const toHexInLittleEndian = (int: string | bigint, paddingBytes: number = 4) => {
   assertToBeHexStringOrBigint(int)
@@ -89,7 +86,7 @@ export const toHexInLittleEndian = (int: string | bigint, paddingBytes: number =
   const reversedHex = reverseString(hex)
   const frags = reversedHex.match(/\w{1,2}/g) || []
   const hexInLittleEndian = frags
-    .map(frag => reverseString(frag.padEnd(2, '0')))
+    .map((frag) => reverseString(frag.padEnd(2, '0')))
     .join('')
     .padEnd(paddingBytes * 2, '0')
   return `0x${hexInLittleEndian}`
