@@ -1,4 +1,4 @@
-import { blake2b, hexToBytes, PERSONAL, toHexInLittleEndian, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
+import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 
 type SignatureProvider = string | ((message: string | Uint8Array) => string)
@@ -22,12 +22,12 @@ const signWitnessGroup = (sk: SignatureProvider, transactionHash: TransactionHas
 
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(transactionHash))
-  s.update(hexToBytes(toHexInLittleEndian(`0x${serialziedEmptyWitnessSize.toString(16)}`, 8)))
+  s.update(hexToBytes(toUint64Le(`0x${serialziedEmptyWitnessSize.toString(16)}`)))
   s.update(serializedEmptyWitnessBytes)
 
   witnessGroup.slice(1).forEach(w => {
     const bytes = hexToBytes(typeof w === 'string' ? w : serializeWitnessArgs(w))
-    s.update(hexToBytes(toHexInLittleEndian(`0x${bytes.length.toString(16)}`, 8)))
+    s.update(hexToBytes(toUint64Le(`0x${bytes.length.toString(16)}`)))
     s.update(bytes)
   })
 

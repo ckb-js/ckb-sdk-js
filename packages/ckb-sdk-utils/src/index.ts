@@ -80,7 +80,13 @@ export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTrans
 
 const reverseString = (str: string) => str.split('').reverse().join('')
 
+/**
+ * @deprecated since version 0.32,
+ *             will be removed in version 0.35,
+ *             use utils.{toUint16Le, toUint32Le, toUint64Le} instead
+ */
 export const toHexInLittleEndian = (int: string | bigint, paddingBytes: number = 4) => {
+  console.warn(`utils.toHexInLittleEndian is deprecated, use utils.{toUint16Le, toUint32Le, toUint64Le} instead`)
   assertToBeHexStringOrBigint(int)
   const hex = JSBI.BigInt(`${int}`).toString(16)
   const reversedHex = reverseString(hex)

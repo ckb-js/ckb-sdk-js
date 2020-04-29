@@ -1,12 +1,12 @@
 import { serializeScript } from './script'
-import { toHexInLittleEndian } from '..'
+import { toUint32Le, toUint64Le } from '../convertors'
 import { serializeArray, serializeStruct, serializeTable, serializeDynVec, serializeFixVec, serializeOption } from '.'
 
-export const serializeVersion = (version: CKBComponents.Version) => toHexInLittleEndian(version)
+export const serializeVersion = (version: CKBComponents.Version) => toUint32Le(version)
 
 export const serializeOutPoint = (outPoint: CKBComponents.OutPoint | null) => {
   if (!outPoint) return ''
-  const struct = new Map<string, string>([['txHash', outPoint.txHash], ['index', toHexInLittleEndian(outPoint.index)]])
+  const struct = new Map<string, string>([['txHash', outPoint.txHash], ['index', toUint32Le(outPoint.index)]])
   return serializeStruct(struct)
 }
 
@@ -36,7 +36,7 @@ export const serializeHeaderDeps = (deps: CKBComponents.Hash256[]) => {
 // TODO: add tests
 export const serializeInput = (input: CKBComponents.CellInput) => {
   const serializedOutPoint = serializeOutPoint(input.previousOutput)
-  const serializedSince = toHexInLittleEndian(input.since, 8)
+  const serializedSince = toUint64Le(input.since)
   const struct = new Map([['since', serializedSince], ['previousOutput', serializedOutPoint]])
   return serializeStruct(struct)
 }
@@ -47,7 +47,7 @@ export const serializeInputs = (inputs: CKBComponents.CellInput[]) => {
 }
 
 export const serializeOutput = (output: CKBComponents.CellOutput) => {
-  const serializedCapacity = toHexInLittleEndian(output.capacity, 8)
+  const serializedCapacity = toUint64Le(output.capacity)
   const serializedLockScript = serializeScript(output.lock)
   const serialiedTypeScript = output.type ? serializeScript(output.type) : ''
   const table = new Map([
