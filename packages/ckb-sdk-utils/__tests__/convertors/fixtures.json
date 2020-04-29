@@ -1,0 +1,94 @@
+{
+  "uint16Le": [
+    {
+      "value": "0xabcd",
+      "expected": "0xcdab"
+    },
+    {
+      "value": "0x00cd",
+      "expected": "0xcd00"
+    },
+    {
+      "value": "0xab00",
+      "expected": "0x00ab"
+    },
+    {
+      "value": "0x0bc0",
+      "expected": "0xc00b"
+    },
+    {
+      "value": 6,
+      "exception": "6 should be type of string or bigint"
+    },
+    {
+      "value": "ab",
+      "exception": "Hex string ab should start with 0x"
+    },
+    {
+      "value": "hi",
+      "exception": "Hex string hi should start with 0x"
+    }
+  ],
+  "uint32Le": [
+    {
+      "value": "0x12345678",
+      "expected": "0x78563412"
+    },
+    {
+      "value": "0x12345608",
+      "expected": "0x08563412"
+    },
+    {
+      "value": 6,
+      "exception": "6 should be type of string or bigint"
+    },
+    {
+      "value": "ab",
+      "exception": "Hex string ab should start with 0x"
+    },
+    {
+      "value": "hi",
+      "exception": "Hex string hi should start with 0x"
+    }
+  ],
+  "littleHexToInt": [
+    {
+      "value": "0x120100",
+      "expected": 274
+    },
+    {
+      "value": "12",
+      "exception": "12 should be type of string or bigint"
+    },
+    {
+      "value": "ab",
+      "exception": "Hex string ab should start with 0x"
+    },
+    {
+      "value": "hi",
+      "exception": "Hex string hi should start with 0x"
+    }
+  ],
+  "uint64Le": [
+    {
+      "value": "0x1234567890abcdef",
+      "expected": "0xefcdab9078563412"
+    },
+    {
+      "value": "0x3e8",
+      "expected": "0xe803000000000000"
+    },
+    {
+      "value": 6,
+      "exception": "6 should be type of string or bigint"
+    },
+    {
+      "value": "ab",
+      "exception": "Hex string ab should start with 0x"
+    },
+    {
+      "value": "hi",
+      "exception": "Hex string hi should start with 0x"
+    }
+  ]
+}
