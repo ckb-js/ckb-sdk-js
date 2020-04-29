@@ -1,5 +1,4 @@
-import { hexToBytes, bytesToHex } from '..'
-import { toUint32Le } from '../convertors'
+import { hexToBytes, bytesToHex, toUint32Le } from '../convertors'
 
 export type FieldType = 'array' | 'struct' | 'fixvec' | 'dynvec' | 'table' | 'option' | 'union'
 

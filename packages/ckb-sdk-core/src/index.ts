@@ -11,7 +11,6 @@ import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
 import { calculateLockEpochs } from './utils'
 
-
 type Key = string
 type Address = string
 type LockHash = string
@@ -29,12 +28,11 @@ interface RawTransactionParams extends RawTransactionParamsBase {
 
 interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
   fromAddresses: Address[]
-  receivePairs: {address: Address, capacity: Capacity}[],
+  receivePairs: { address: Address; capacity: Capacity }[]
   cells: Map<LockHash, CachedCell[]>
 }
 
 const hrpSize = 6
-
 
 class CKB {
   public cells: Map<LockHash, CachedCell[]> = new Map()

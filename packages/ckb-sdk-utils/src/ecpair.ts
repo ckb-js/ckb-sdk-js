@@ -1,6 +1,6 @@
 import { ec as EC } from 'elliptic'
 
-import { hexToBytes } from '.'
+import { hexToBytes } from './convertors'
 import { HexStringShouldStartWith0x, ArgumentRequired } from './exceptions'
 
 const ec = new EC('secp256k1')

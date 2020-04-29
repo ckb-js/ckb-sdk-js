@@ -1,9 +1,8 @@
+const { hexToBytes } = require('../..')
 const { default: ECPair } = require('../../lib/ecpair')
-const { HexStringShouldStartWith0x } = require('../../lib/exceptions')
-const { instantiate: instantiateFixtures } = require('./ecpare.fixtures.json')
+const { ArgumentRequired, HexStringShouldStartWith0x } = require('../../lib/exceptions')
 const { sigFixtures, signRecoverableFixtures } = require('./signature.fixtures.json')
-const { hexToBytes } = require('../../lib')
-const { ArgumentRequired } = require('../../lib/exceptions')
+const { instantiate: instantiateFixtures } = require('./ecpare.fixtures.json')
 
 describe('ECPair', () => {
   it('new ecpair', () => {
