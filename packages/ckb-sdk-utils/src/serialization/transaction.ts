@@ -6,7 +6,10 @@ export const serializeVersion = (version: CKBComponents.Version) => toUint32Le(v
 
 export const serializeOutPoint = (outPoint: CKBComponents.OutPoint | null) => {
   if (!outPoint) return ''
-  const struct = new Map<string, string>([['txHash', outPoint.txHash], ['index', toUint32Le(outPoint.index)]])
+  const struct = new Map<string, string>([
+    ['txHash', outPoint.txHash],
+    ['index', toUint32Le(outPoint.index)],
+  ])
   return serializeStruct(struct)
 }
 
@@ -19,7 +22,10 @@ export const serializeDepType = (type: CKBComponents.DepType) => {
 export const serializeCellDep = (dep: CKBComponents.CellDep) => {
   const serializedOutPoint = serializeOutPoint(dep.outPoint)
   const serializedDepType = serializeDepType(dep.depType)
-  const struct = new Map<string, string>([['outPoint', serializedOutPoint], ['depType', serializedDepType]])
+  const struct = new Map<string, string>([
+    ['outPoint', serializedOutPoint],
+    ['depType', serializedDepType],
+  ])
   return serializeStruct(struct)
 }
 
@@ -37,7 +43,10 @@ export const serializeHeaderDeps = (deps: CKBComponents.Hash256[]) => {
 export const serializeInput = (input: CKBComponents.CellInput) => {
   const serializedOutPoint = serializeOutPoint(input.previousOutput)
   const serializedSince = toUint64Le(input.since)
-  const struct = new Map([['since', serializedSince], ['previousOutput', serializedOutPoint]])
+  const struct = new Map([
+    ['since', serializedSince],
+    ['previousOutput', serializedOutPoint],
+  ])
   return serializeStruct(struct)
 }
 
@@ -97,7 +106,7 @@ export const serializeRawTransaction = (
   rawTransaction: Pick<
     CKBComponents.RawTransaction,
     'version' | 'cellDeps' | 'headerDeps' | 'inputs' | 'outputs' | 'outputsData'
-  >
+  >,
 ) => {
   const serializedVersion = serializeVersion(rawTransaction.version)
   const serializedCellDeps = serializeCellDeps(rawTransaction.cellDeps)
@@ -122,6 +131,9 @@ export const serializeTransaction = (rawTransaction: CKBComponents.RawTransactio
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
   const serializedWitnesses = serializeWitnesses(rawTransaction.witnesses || [])
 
-  const table = new Map([['raw', serializedRawTransaction], ['witnesses', serializedWitnesses]])
+  const table = new Map([
+    ['raw', serializedRawTransaction],
+    ['witnesses', serializedWitnesses],
+  ])
   return serializeTable(table)
 }

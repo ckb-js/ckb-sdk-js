@@ -4,7 +4,11 @@ import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type TransactionHash = string
 
-const signWitnessGroup = (sk: SignatureProvider, transactionHash: TransactionHash, witnessGroup: StructuredWitness[]) => {
+const signWitnessGroup = (
+  sk: SignatureProvider,
+  transactionHash: TransactionHash,
+  witnessGroup: StructuredWitness[],
+) => {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')
   }

@@ -7,19 +7,15 @@ const getMinBigInt = (x: JSBI, y: JSBI) => {
   return JSBI.greaterThan(x, y) ? y : x
 }
 
-const loadCells = async ({
-  lockHash,
-  start = '0x0',
-  end,
-  STEP = '0x64',
-  rpc,
-}: {
-  lockHash: string
+interface LoadCellsProps {
+  lockHash: CKBComponents.Hash
   start?: string | bigint
   end?: string | bigint
   STEP?: string | bigint
   rpc: RPC
-}) => {
+}
+
+const loadCells = async ({ lockHash, start = '0x0', end, STEP = '0x64', rpc }: LoadCellsProps) => {
   console.warn(`This method is only for demo, don't use it in production`)
   if (!lockHash) {
     throw new ArgumentRequired('lockHash')
@@ -56,7 +52,7 @@ const loadCells = async ({
         getMinBigInt(JSBI.add(from, JSBI.multiply(JSBI.BigInt(idx + 1), JSBI.BigInt(`${STEP}`))), to),
       ])
     : [[from, to]]
-  /* eslint-enabler indent */
+  /* eslint-enable indent */
 
   const cells: CachedCell[] = []
 
