@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.31.0...v0.32.0) (2020-05-26)
+
+
+### Features
+
+* use signature provider in signWitnesses & signWitnessGroup ([#434](https://github.com/nervosnetwork/ckb-sdk-js/issues/434)) ([34d62bb](https://github.com/nervosnetwork/ckb-sdk-js/commit/34d62bb9c86b680e5887194131379c2a01b4f068))
+
+
+
+
+
 # [0.31.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.30.0...v0.31.0) (2020-04-21)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
