@@ -48,7 +48,8 @@ module.exports = {
     }],
     "max-classes-per-file": [0],
     "import/extensions": [2, {
-      "ts": "never"
+      "ts": "never",
+      "json": "always"
     }]
   },
   "globals": {
