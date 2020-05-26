@@ -3,7 +3,6 @@ const exceptions = require('../../lib/exceptions')
 const bech32Fixtures = require('./bech32.fixtures.json')
 const blake2bFixtures = require('./blake2b.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
-const transformerFixtures = require('./transformer.fixtures.json')
 const transactionFeeFixtures = require('./transactionFee.fixtures.json')
 const transactionSizeFixture = require('./transactionSize.fixture.json')
 
@@ -20,12 +19,9 @@ const {
   parseEpoch,
   hexToBytes,
   bytesToHex,
-  utf8ToHex,
-  hexToUtf8,
   scriptToHash,
   rawTransactionToHash,
   PERSONAL,
-  toHexInLittleEndian,
   AddressType,
   fullPayloadToAddress,
   calculateTransactionFee,
@@ -33,60 +29,6 @@ const {
 } = ckbUtils
 
 const { ArgumentRequired, HexStringShouldStartWith0x } = exceptions
-
-describe('transformer', () => {
-  describe('hex to bytes', () => {
-    const fixtureTable = transformerFixtures.hexToBytes.map(({ hex, expected }) => [hex, expected])
-    test.each(fixtureTable)('%s => %j', (hex, exptected) => {
-      expect(hexToBytes(hex).join(',')).toBe(exptected.join(','))
-    })
-
-    it('hex string without 0x should throw an error', () => {
-      expect(() => hexToBytes('abcd12')).toThrow(new HexStringShouldStartWith0x('abcd12'))
-    })
-  })
-
-  describe('bytes to hex', () => {
-    const fixtureTable = transformerFixtures.bytesToHex.map(({ bytes, expected }) => [bytes, expected])
-    test.each(fixtureTable)('%j => %s', (bytes, expected) => {
-      expect(bytesToHex(bytes)).toEqual(expected)
-    })
-  })
-
-  describe('utf8 to hex', () => {
-    const fixtureTable = transformerFixtures.utf8ToHex.map(({ utf8, expected }) => [utf8, expected])
-    test.each(fixtureTable)('%s => %s', (utf8, expected) => {
-      expect(utf8ToHex(utf8)).toBe(expected)
-    })
-  })
-
-  describe('hex to utf8', () => {
-    const fixtureTable = transformerFixtures.hexToUtf8.map(({ hex, expected }) => [hex, expected])
-    test.each(fixtureTable)('%s => %s', (hex, expected) => {
-      expect(hexToUtf8(hex)).toBe(expected)
-    })
-
-    it('hex string without 0x should throw an error', () => {
-      expect(() => hexToBytes('abcd')).toThrow(new HexStringShouldStartWith0x('abcd'))
-    })
-  })
-
-  describe('Test toHexInLittleEndian', () => {
-    const fixtureTable = transformerFixtures.toHexInLittleEndian.map(({ value, expected }) => [
-      typeof value === 'number' ? BigInt(value) : value,
-      expected,
-    ])
-    test.each(fixtureTable)('%s => %s', (value, expected) => {
-      expect(toHexInLittleEndian(value)).toBe(expected)
-    })
-    it('hex string without 0x should throw an error', () => {
-      expect(() => toHexInLittleEndian('123')).toThrow(new HexStringShouldStartWith0x('123'))
-    })
-    it('throw an error when received a input unable to be converted into a number', () => {
-      expect(() => toHexInLittleEndian('invalid number')).toThrow(new HexStringShouldStartWith0x('invalid number'))
-    })
-  })
-})
 
 describe('parse epoch', () => {
   const fixture = {
@@ -158,7 +100,7 @@ describe('blake', () => {
 })
 
 describe('bech32', () => {
-  bech32Fixtures.bech32.valid.forEach(f => {
+  bech32Fixtures.bech32.valid.forEach((f) => {
     it(`fromWords/toWords ${f.hex}`, () => {
       if (f.hex) {
         const words = bech32.toWords(Buffer.from(f.hex, 'hex'))
@@ -217,7 +159,7 @@ describe('scriptToHash', () => {
       scriptHash: '0xd39f84d4702f53cf8625da4411be1640b961715cb36816501798fedb70b6e0fb',
     },
   }
-  test.each(Object.keys(fixtures))('%s', fixtureName => {
+  test.each(Object.keys(fixtures))('%s', (fixtureName) => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
@@ -380,7 +322,7 @@ describe('address', () => {
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
   }
-  test.each(Object.keys(pubkeyToAddressFixtures))('%s', caseName => {
+  test.each(Object.keys(pubkeyToAddressFixtures))('%s', (caseName) => {
     const fixture = pubkeyToAddressFixtures[caseName]
     const address = pubkeyToAddress(hexToBytes(fixture.pubkey), fixture.config)
     expect(address).toBe(fixture.address)
@@ -412,15 +354,15 @@ describe('address', () => {
 })
 
 describe('transaction fee', () => {
-  const fixtureTable = Object.entries(transactionFeeFixtures).map(
-    ([title, { transactionSize, feeRate, expected, exception }]) => [
-      title,
-      typeof transactionSize === 'number' ? BigInt(transactionSize) : transactionSize,
-      typeof feeRate === 'number' ? BigInt(feeRate) : feeRate,
-      expected,
-      exception,
-    ],
-  )
+  const fixtureTable = Object.entries(
+    transactionFeeFixtures,
+  ).map(([title, { transactionSize, feeRate, expected, exception }]) => [
+    title,
+    typeof transactionSize === 'number' ? BigInt(transactionSize) : transactionSize,
+    typeof feeRate === 'number' ? BigInt(feeRate) : feeRate,
+    expected,
+    exception,
+  ])
   test.each(fixtureTable)('%s', (_title, transactionSize, feeRate, expected, exception) => {
     if (undefined !== expected) {
       expect(calculateTransactionFee(transactionSize, feeRate)).toBe(expected)

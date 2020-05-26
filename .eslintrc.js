@@ -46,7 +46,10 @@ module.exports = {
     "spaced-comment": ["error", "always", {
       "markers": ["/"]
     }],
-    "max-classes-per-file": [0]
+    "max-classes-per-file": [0],
+    "import/extensions": [2, {
+      "ts": "never"
+    }]
   },
   "globals": {
     "BigInt": "readonly"

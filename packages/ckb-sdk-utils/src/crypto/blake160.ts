@@ -1,5 +1,6 @@
 import blake2b from './blake2b'
-import { PERSONAL, hexToBytes } from '../index'
+import { hexToBytes } from '../convertors'
+import { PERSONAL } from '../const'
 
 export declare interface Blake160 {
   (data: Uint8Array | string): Uint8Array

@@ -1,4 +1,5 @@
-import { bech32, blake160, hexToBytes, bytesToHex } from '..'
+import { bech32, blake160 } from '..'
+import { hexToBytes, bytesToHex } from '../convertors'
 import { HexStringShouldStartWith0x } from '../exceptions'
 
 export enum AddressPrefix {

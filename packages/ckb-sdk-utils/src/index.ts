@@ -1,62 +1,19 @@
-import * as util from 'util'
 import JSBI from 'jsbi'
 import ECPair from './ecpair'
+import { hexToBytes } from './convertors'
 import { pubkeyToAddress, AddressOptions } from './address'
 import { assertToBeHexStringOrBigint } from './validators'
-import { HexStringShouldStartWith0x, ArgumentRequired } from './exceptions'
+import { ArgumentRequired } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
 import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
+import { PERSONAL } from './const'
 
 export * from './address'
 export * from './serialization'
-export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs }
+export * from './convertors'
 
-declare const TextDecoder: any // should be removed when the type definition of TextDecoder updates
-declare const TextEncoder: any // should be removed when the type definition of TextEncoder updates
-const textEncoder = new (typeof TextEncoder !== 'undefined' ? TextEncoder : util.TextEncoder)()
-const textDecoder = new (typeof TextDecoder !== 'undefined' ? TextDecoder : util.TextDecoder)()
-export { JSBI }
-
-export const hexToBytes = (rawhex: string | number) => {
-  if (rawhex === '') return new Uint8Array()
-  if (typeof rawhex === 'string' && !rawhex.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(rawhex)
-  }
-  let hex = rawhex.toString(16)
-
-  hex = hex.replace(/^0x/i, '')
-  hex = hex.length % 2 ? `0${hex}` : hex
-
-  const bytes = []
-  for (let c = 0; c < hex.length; c += 2) {
-    bytes.push(parseInt(hex.substr(c, 2), 16))
-  }
-
-  return new Uint8Array(bytes)
-}
-
-export const bytesToHex = (bytes: Uint8Array): string => {
-  const hex = []
-  /* eslint-disabled */
-  for (let i = 0; i < bytes.length; i++) {
-    hex.push((bytes[i] >>> 4).toString(16))
-    hex.push((bytes[i] & 0xf).toString(16))
-  }
-  /* eslint-enabled */
-  return `0x${hex.join('')}`
-}
-
-export const bytesToUtf8 = (bytes: Uint8Array) => textDecoder.decode(bytes)
-
-export const hexToUtf8 = (hex: string) => bytesToUtf8(hexToBytes(hex))
-
-export const utf8ToBytes = (str: string) => textEncoder.encode(str)
-
-export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
-
-export const PERSONAL = textEncoder.encode('ckb-default-hash')
-
+export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
 export const { blake2b, bech32, blake160 } = crypto
 
 export const scriptToHash = (script: CKBComponents.Script) => {
@@ -75,24 +32,6 @@ export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTrans
   s.update(hexToBytes(serializedRawTransaction))
   const digest = s.digest('hex')
   return `0x${digest}` as string
-}
-
-const reverseString = (str: string) =>
-  str
-    .split('')
-    .reverse()
-    .join('')
-
-export const toHexInLittleEndian = (int: string | bigint, paddingBytes: number = 4) => {
-  assertToBeHexStringOrBigint(int)
-  const hex = JSBI.BigInt(`${int}`).toString(16)
-  const reversedHex = reverseString(hex)
-  const frags = reversedHex.match(/\w{1,2}/g) || []
-  const hexInLittleEndian = frags
-    .map(frag => reverseString(frag.padEnd(2, '0')))
-    .join('')
-    .padEnd(paddingBytes * 2, '0')
-  return `0x${hexInLittleEndian}`
 }
 
 export const privateKeyToPublicKey = (privateKey: string) => {

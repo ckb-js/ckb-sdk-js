@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.31.0...v0.32.0) (2020-05-26)
+
+
+### Features
+
+* **utils:** add convertors of uint-to-le ([16b6d80](https://github.com/nervosnetwork/ckb-sdk-js/commit/16b6d80f612a175aa6a72ad6324c89d5664fca94))
+
+
+
+
+
 # [0.31.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.30.0...v0.31.0) (2020-04-21)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

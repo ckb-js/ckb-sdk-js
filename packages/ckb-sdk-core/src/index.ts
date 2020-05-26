@@ -1,7 +1,7 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { assertToBeHexString} from '@nervosnetwork/ckb-sdk-utils/lib/validators'
+import { assertToBeHexString } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
@@ -9,8 +9,7 @@ import generateRawTransaction, { Cell, RawTransactionParamsBase } from './genera
 
 import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
-import {calculateLockEpochs} from './utils'
-
+import { calculateLockEpochs } from './utils'
 
 type Key = string
 type Address = string
@@ -29,12 +28,11 @@ interface RawTransactionParams extends RawTransactionParamsBase {
 
 interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
   fromAddresses: Address[]
-  receivePairs: {address: Address, capacity: Capacity}[],
+  receivePairs: { address: Address; capacity: Capacity }[]
   cells: Map<LockHash, CachedCell[]>
 }
 
 const hrpSize = 6
-
 
 class CKB {
   public cells: Map<LockHash, CachedCell[]> = new Map()
@@ -358,7 +356,7 @@ class CKB {
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
     const depositBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(b => b.header)
-    const encodedBlockNumber = this.utils.toHexInLittleEndian(depositBlockHeader.number, 8)
+    const encodedBlockNumber = this.utils.toUint64Le(depositBlockHeader.number)
 
     const fromAddress = this.utils.bech32Address(cellStatus.cell.output.lock.args)
 
