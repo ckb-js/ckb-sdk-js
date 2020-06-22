@@ -22,11 +22,11 @@ const signWitnessGroup = (
   }
 
   const serializedEmptyWitnessBytes = hexToBytes(serializeWitnessArgs(emptyWitness))
-  const serialziedEmptyWitnessSize = serializedEmptyWitnessBytes.length
+  const serializedEmptyWitnessSize = serializedEmptyWitnessBytes.length
 
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(transactionHash))
-  s.update(hexToBytes(toUint64Le(`0x${serialziedEmptyWitnessSize.toString(16)}`)))
+  s.update(hexToBytes(toUint64Le(`0x${serializedEmptyWitnessSize.toString(16)}`)))
   s.update(serializedEmptyWitnessBytes)
 
   witnessGroup.slice(1).forEach(w => {
