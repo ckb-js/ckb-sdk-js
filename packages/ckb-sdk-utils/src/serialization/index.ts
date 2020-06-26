@@ -68,7 +68,7 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
 }
 
 /**
- * @name serialzieDynVec
+ * @name serializeDynVec
  * @type DynVec, a dynamic-size vector is a vector whose items have a dynamic size
  * @tutorial There are three steps of serializing a dynvec
  *           1. Serialize the full size in bytes as a 32 bit unsigned integer in little-endian
