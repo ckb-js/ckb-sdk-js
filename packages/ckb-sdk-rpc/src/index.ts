@@ -1,12 +1,12 @@
 /// <reference types="../types/rpc" />
 
-import DefaultRPC from './defaultRPC'
+import Base from './Base'
 import Method from './method'
 
 import paramsFormatter from './paramsFormatter'
 import resultFormatter from './resultFormatter'
 
-class CKBRPC extends DefaultRPC {
+class CKBRPC extends Base {
   public node: CKBComponents.Node = {
     url: '',
   }
@@ -22,7 +22,9 @@ class CKBRPC extends DefaultRPC {
     this.setNode({
       url,
     })
-    this.defaultMethods.map(this.addMethod)
+    Object.keys(this.rpcProperties).forEach(name => {
+      this.addMethod({ name, ...this.rpcProperties[name] })
+    })
   }
 
   public setNode(node: CKBComponents.Node): CKBComponents.Node {

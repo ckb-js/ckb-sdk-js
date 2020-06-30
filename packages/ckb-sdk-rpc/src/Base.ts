@@ -1,193 +1,164 @@
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-const defaultRPC: CKBComponents.Method[] = [
-  {
-    name: 'getBlockByNumber',
+interface RpcPropertes {
+  [name: string]: Omit<CKBComponents.Method, 'name'>
+}
+
+export const rpcProperties: RpcPropertes = {
+  getBlockByNumber: {
     method: 'get_block_by_number',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toBlock,
   },
-  {
-    name: 'getBlock',
+  getBlock: {
     method: 'get_block',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toBlock,
   },
-  {
-    name: 'getTransaction',
+  getTransaction: {
     method: 'get_transaction',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
     resultFormatters: resultFmts.toTransactionWithStatus,
   },
-  {
-    name: 'getBlockHash',
+  getBlockHash: {
     method: 'get_block_hash',
     paramsFormatters: [paramsFmts.toNumber],
   },
-  {
-    name: 'getTipHeader',
+  getTipHeader: {
     method: 'get_tip_header',
     paramsFormatters: [],
     resultFormatters: resultFmts.toHeader,
   },
-  {
-    name: 'getCellsByLockHash',
+  getCellsByLockHash: {
     method: 'get_cells_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
     resultFormatters: resultFmts.toCellsIncludingOutPoint,
   },
-  {
-    name: 'getLiveCell',
+  getLiveCell: {
     method: 'get_live_cell',
     paramsFormatters: [paramsFmts.toOutPoint],
     resultFormatters: resultFmts.toLiveCellWithStatus,
   },
-  {
-    name: 'getTipBlockNumber',
+  getTipBlockNumber: {
     method: 'get_tip_block_number',
     paramsFormatters: [],
     resultFormatters: resultFmts.toNumber,
   },
-  {
-    name: 'getBlockchainInfo',
+  getBlockchainInfo: {
     method: 'get_blockchain_info',
     paramsFormatters: [],
     resultFormatters: resultFmts.toBlockchainInfo,
   },
-  {
-    name: 'sendTransaction',
+  sendTransaction: {
     method: 'send_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction, paramsFmts.toOutputsValidator],
     resultFormatters: resultFmts.toHash,
   },
-  {
-    name: 'localNodeInfo',
+  localNodeInfo: {
     method: 'local_node_info',
     paramsFormatters: [],
     resultFormatters: resultFmts.toNodeInfo,
   },
-  {
-    name: 'txPoolInfo',
+  txPoolInfo: {
     method: 'tx_pool_info',
     paramsFormatters: [],
     resultFormatters: resultFmts.toTxPoolInfo,
   },
-  {
-    name: 'getPeers',
+  getPeers: {
     method: 'get_peers',
     paramsFormatters: [],
     resultFormatters: resultFmts.toPeers,
   },
-  {
-    name: 'getPeersState',
+  getPeersState: {
     method: 'get_peers_state',
     paramsFormatters: [],
     resultFormatters: resultFmts.toPeersState,
   },
-  {
-    name: 'getCurrentEpoch',
+  getCurrentEpoch: {
     method: 'get_current_epoch',
     paramsFormatters: [],
     resultFormatters: resultFmts.toEpoch,
   },
-  {
-    name: 'getEpochByNumber',
+  getEpochByNumber: {
     method: 'get_epoch_by_number',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toEpoch,
   },
-  {
-    name: 'dryRunTransaction',
+  dryRunTransaction: {
     method: 'dry_run_transaction',
     paramsFormatters: [paramsFmts.toRawTransaction],
   },
-  {
-    name: 'deindexLockHash',
+  deindexLockHash: {
     method: 'deindex_lock_hash',
     paramsFormatters: [paramsFmts.toHash],
   },
-  {
-    name: 'getLiveCellsByLockHash',
+  getLiveCellsByLockHash: {
     method: 'get_live_cells_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toPageNumber, paramsFmts.toPageSize, paramsFmts.toReverseOrder],
     resultFormatters: resultFmts.toLiveCellsByLockHash,
   },
-  {
-    name: 'getLockHashIndexStates',
+  getLockHashIndexStates: {
     method: 'get_lock_hash_index_states',
     paramsFormatters: [],
     resultFormatters: resultFmts.toLockHashIndexStates,
   },
-  {
-    name: 'getTransactionsByLockHash',
+  getTransactionsByLockHash: {
     method: 'get_transactions_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toPageNumber, paramsFmts.toPageSize, paramsFmts.toReverseOrder],
     resultFormatters: resultFmts.toTransactionsByLockHash,
   },
-  {
-    name: 'indexLockHash',
+  indexLockHash: {
     method: 'index_lock_hash',
     paramsFormatters: [paramsFmts.toHash, paramsFmts.toOptional(paramsFmts.toNumber)],
     resultFormatters: resultFmts.toLockHashIndexState,
   },
-  {
-    name: 'getBannedAddresses',
+  getBannedAddresses: {
     method: 'get_banned_addresses',
     paramsFormatters: [],
     resultFormatters: resultFmts.toBannedAddresses,
   },
-  {
-    name: 'setBan',
+  setBan: {
     method: 'set_ban',
     paramsFormatters: [],
   },
-  {
-    name: 'getHeader',
+  getHeader: {
     method: 'get_header',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toHeader,
   },
-  {
-    name: 'getHeaderByNumber',
+  getHeaderByNumber: {
     method: 'get_header_by_number',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toHeader,
   },
-  {
-    name: 'getCellbaseOutputCapacityDetails',
+  getCellbaseOutputCapacityDetails: {
     method: 'get_cellbase_output_capacity_details',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toCellbaseOutputCapacityDetails,
   },
-  {
-    name: 'estimateFeeRate',
+  estimateFeeRate: {
     method: 'estimate_fee_rate',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toFeeRate,
   },
-  {
-    name: 'calculateDaoMaximumWithdraw',
+  calculateDaoMaximumWithdraw: {
     method: 'calculate_dao_maximum_withdraw',
     paramsFormatters: [paramsFmts.toOutPoint, paramsFmts.toHash],
   },
-  {
-    name: 'getCapacityByLockHash',
+  getCapacityByLockHash: {
     method: 'get_capacity_by_lock_hash',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toCapacityByLockHash,
   },
-  {
-    name: 'getBlockEconomicState',
+  getBlockEconomicState: {
     method: 'get_block_economic_state',
     paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toBlockEconomicState,
   },
-]
+}
 
-export class DefaultRPC {
-  protected defaultMethods = defaultRPC
-
+export interface Base {
   /**
    * @method getBlockByNumber
    * @memberof DefaultRPC
@@ -195,7 +166,7 @@ export class DefaultRPC {
    * @param {string} number - the block number of the target block
    * @returns {Promise<object>} block object
    */
-  public getBlockByNumber!: (number: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.Block>
+  getBlockByNumber: (number: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.Block>
 
   /**
    * @method getBlockByNumber
@@ -204,7 +175,7 @@ export class DefaultRPC {
    * @param {string} hash - the block hash of the target block
    * @returns {Promise<object>} block object
    */
-  public getBlock!: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
+  getBlock: (hash: CKBComponents.Hash) => Promise<CKBComponents.Block>
 
   /**
    * @method getTransaction
@@ -213,7 +184,7 @@ export class DefaultRPC {
    * @param {string} hash - the transaction hash of the target transaction
    * @return {Promise<object>} transaction object with transaction status
    */
-  public getTransaction!: (hash: CKBComponents.Hash) => Promise<CKBComponents.TransactionWithStatus>
+  getTransaction: (hash: CKBComponents.Hash) => Promise<CKBComponents.TransactionWithStatus>
 
   /**
    * @method getBlockHash
@@ -222,7 +193,7 @@ export class DefaultRPC {
    * @param {string} hash - block hash
    * @return {Promise<string>} block hash
    */
-  public getBlockHash!: (number: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.Hash>
+  getBlockHash: (number: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.Hash>
 
   /**
    * @method getTipHeader
@@ -230,7 +201,7 @@ export class DefaultRPC {
    * @description rpc to get the tip header of the longeest blockchain
    * @return {Promise<object>} block header
    */
-  public getTipHeader!: () => Promise<CKBComponents.BlockHeader>
+  getTipHeader: () => Promise<CKBComponents.BlockHeader>
 
   /**
    * @method getCellsByLockHash
@@ -242,7 +213,7 @@ export class DefaultRPC {
    * @param {string} to - the end block number
    * @return {object[]} array of objects including lock script, capacity, outPoint
    */
-  public getCellsByLockHash!: (
+  getCellsByLockHash: (
     hash: CKBComponents.Hash256,
     from: CKBComponents.BlockNumber | bigint,
     to: CKBComponents.BlockNumber | bigint,
@@ -257,7 +228,7 @@ export class DefaultRPC {
    * @param {boolean} withData - set withData to true to return cell data and data hash if the cell is live
    * @return {Promise<object>} liveCellWithStatus
    */
-  public getLiveCell!: (
+  getLiveCell: (
     outPoint: CKBComponents.OutPoint,
     withData: boolean,
   ) => Promise<{
@@ -271,7 +242,7 @@ export class DefaultRPC {
    * @description rpc to get the number of blocks in the longest blockchain
    * @return {Promise<string>} block number
    */
-  public getTipBlockNumber!: () => Promise<CKBComponents.BlockNumber>
+  getTipBlockNumber: () => Promise<CKBComponents.BlockNumber>
 
   /**
    * @method sendTransaction
@@ -284,7 +255,7 @@ export class DefaultRPC {
    *                                  null and passthrough mean skipping outputs validation
    * @return {Promise<string>} transaction hash
    */
-  public sendTransaction!: (
+  sendTransaction: (
     tx: CKBComponents.RawTransaction,
     outputsValidator?: CKBComponents.OutputsValidator,
   ) => Promise<CKBComponents.Hash>
@@ -296,7 +267,7 @@ export class DefaultRPC {
    * @return {Promise<object>} blockchain info, including chain name, difficulty, epoch number,
    *                           is_intial_block_download, median time, warnings
    */
-  public getBlockchainInfo!: () => Promise<CKBComponents.BlockchainInfo>
+  getBlockchainInfo: () => Promise<CKBComponents.BlockchainInfo>
 
   /**
    * @method localNodeInfo
@@ -304,7 +275,7 @@ export class DefaultRPC {
    * @description rpc to get the local node information
    * @return {Promise<object>} node info, including addresses, is_outbound, node id, and version
    */
-  public localNodeInfo!: () => Promise<CKBComponents.NodeInfo>
+  localNodeInfo: () => Promise<CKBComponents.NodeInfo>
 
   /**
    * @method txPoolInfo
@@ -313,7 +284,7 @@ export class DefaultRPC {
    * @return {Promise<object>} info of transaction pool, including last_txs_updated_at, number of orphan,
    *                           number of pending, number of proposed
    */
-  public txPoolInfo!: () => Promise<CKBComponents.TxPoolInfo>
+  txPoolInfo: () => Promise<CKBComponents.TxPoolInfo>
 
   /**
    * @method getPeers
@@ -321,7 +292,7 @@ export class DefaultRPC {
    * @description rpc to get connected peers info
    * @return {Promise<object[]>} peers' node info
    */
-  public getPeers!: () => Promise<CKBComponents.NodeInfo[]>
+  getPeers: () => Promise<CKBComponents.NodeInfo[]>
 
   /**
    * @method getPeersState
@@ -329,7 +300,7 @@ export class DefaultRPC {
    * @description rpc to get state info of peers
    * @return {Promise<object[]>} peers' state info, including blocks_in_flight, last_updated, peer number
    */
-  public getPeersState!: () => Promise<CKBComponents.PeersState>
+  getPeersState: () => Promise<CKBComponents.PeersState>
 
   /**
    * @method getCurrentEpoch
@@ -338,7 +309,7 @@ export class DefaultRPC {
    * @return {Promise<object>} epoch info, including block reward, difficulty, last_block_hash_in_previous_epoch,
    *                           length, number, remainder reward, start number
    */
-  public getCurrentEpoch!: () => Promise<CKBComponents.Epoch>
+  getCurrentEpoch: () => Promise<CKBComponents.Epoch>
 
   /**
    * @method getEpochByNumber
@@ -346,7 +317,7 @@ export class DefaultRPC {
    * @description rpc to get the epoch info by its number
    * @return {Promise<object>} epoch info
    */
-  public getEpochByNumber!: (epoch: string | bigint) => Promise<CKBComponents.Epoch>
+  getEpochByNumber: (epoch: string | bigint) => Promise<CKBComponents.Epoch>
 
   /**
    * @method dryRunTransaction
@@ -356,7 +327,7 @@ export class DefaultRPC {
    * @param {object} rawTrasnaction - the raw transaction whose cycles is going to be calculated
    * @return {Promise<object>} dry run result, including cycles the transaction used.
    */
-  public dryRunTransaction!: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
+  dryRunTransaction: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
 
   /**
    * @method deindexLockHash
@@ -366,7 +337,7 @@ export class DefaultRPC {
    * @param {string} lockHash
    * @retrun {Promise<null}
    */
-  public deindexLockHash!: (lockHash: CKBComponents.Hash256) => Promise<null>
+  deindexLockHash: (lockHash: CKBComponents.Hash256) => Promise<null>
 
   /**
    * @method getLiveCellsByLockHash
@@ -379,7 +350,7 @@ export class DefaultRPC {
    *                                  an optional parameter, default to be false
    * @return {Promise<object[]>}
    */
-  public getLiveCellsByLockHash!: (
+  getLiveCellsByLockHash: (
     lockHash: CKBComponents.Hash256,
     pageNumber: string | bigint,
     pageSize: string | bigint,
@@ -392,7 +363,7 @@ export class DefaultRPC {
    * @description get lock hash index states
    * @retrun {Promise<object[]>}
    */
-  public getLockHashIndexStates!: () => Promise<CKBComponents.LockHashIndexStates>
+  getLockHashIndexStates: () => Promise<CKBComponents.LockHashIndexStates>
 
   /**
    * @method getTransactionsByLockHash
@@ -405,7 +376,7 @@ export class DefaultRPC {
    * @param {boolean} [reverseOrder], return the transactions collection in reverse order,
    *                                  an optional parameter, default to be false
    */
-  public getTransactionsByLockHash!: (
+  getTransactionsByLockHash: (
     lockHash: CKBComponents.Hash256,
     pageNumber: string | bigint,
     pageSize: string | bigint,
@@ -420,7 +391,7 @@ export class DefaultRPC {
    * @param {string} [indexFrom], the starting block number(exclusive), an optional parameter,
    *                              null means starting from the tip and 0 means starting from genesis
    */
-  public indexLockHash!: (
+  indexLockHash: (
     lockHash: CKBComponents.Hash,
     indexFrom?: CKBComponents.BlockNumber,
   ) => Promise<CKBComponents.LockHashIndexState>
@@ -430,7 +401,7 @@ export class DefaultRPC {
    * @memberof DefaultRPC
    * @description Returns all banned IPs/Subnets
    */
-  public getBannedAddresses!: () => Promise<CKBComponents.BannedAddresses>
+  getBannedAddresses: () => Promise<CKBComponents.BannedAddresses>
   /**
    * @method setBan
    * @memberof DefaultRPC
@@ -445,7 +416,7 @@ export class DefaultRPC {
    * @param {[string]} reason, Ban reason, optional parameter
    */
 
-  public setBan!: (
+  setBan: (
     address: string,
     command: 'insert' | 'delete',
     banTime: string | null,
@@ -459,7 +430,7 @@ export class DefaultRPC {
    * @description Returns the information about a block header by hash.
    * @params {string} block hash
    */
-  public getHeader!: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
+  getHeader: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
 
   /**
    * @method getHeaderByNumber
@@ -467,7 +438,7 @@ export class DefaultRPC {
    * @description Returns the information about a block header by block number
    * @params {string} block number
    */
-  public getHeaderByNumber!: (blockNumber: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.BlockHeader>
+  getHeaderByNumber: (blockNumber: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.BlockHeader>
 
   /**
    * @method getCellbaseOutputCapacityDetails
@@ -476,7 +447,7 @@ export class DefaultRPC {
    *              a block N - 1 - ProposalWindow.farthest, where this block's height is N.
    * @param {string} blockHash
    */
-  public getCellbaseOutputCapacityDetails!: (
+  getCellbaseOutputCapacityDetails: (
     blockHash: CKBComponents.Hash,
   ) => Promise<CKBComponents.CellbaseOutputCapacityDetails>
 
@@ -487,14 +458,14 @@ export class DefaultRPC {
    * @param {string} expectedBlocks, the expected range in blocks therein transactions will be committed
    *                                 the range is [3, 1000]
    */
-  public estimateFeeRate!: (expectedBlocks: CKBComponents.BlockNumber) => Promise<CKBComponents.FeeRate>
+  estimateFeeRate: (expectedBlocks: CKBComponents.BlockNumber) => Promise<CKBComponents.FeeRate>
 
-  public calculateDaoMaximumWithdraw!: (
+  calculateDaoMaximumWithdraw: (
     outPoint: CKBComponents.OutPoint,
     withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
 
-  public getCapacityByLockHash!: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
+  getCapacityByLockHash: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
 
   /**
    * @method getBlockEconomicState
@@ -503,7 +474,11 @@ export class DefaultRPC {
    * @param {string} blockHash
    * @returns {Promise<BlockEconomicState>}
    */
-  public getBlockEconomicState!: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockEconomicState>
+  getBlockEconomicState: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockEconomicState>
 }
 
-export default DefaultRPC
+export class Base {
+  protected rpcProperties = rpcProperties
+}
+
+export default Base
