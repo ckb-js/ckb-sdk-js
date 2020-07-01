@@ -1,0 +1,45 @@
+{
+  "empty witnesses": {
+    "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [],
+    "exception": "WitnessGroup cannot be empty"
+  },
+  "first one is witness args": {
+    "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      "0x",
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "exception": "The first witness in the group should be type of WitnessArgs"
+  },
+  "Should pass": {
+    "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "expected": [
+      "0x55000000100000005500000055000000410000005bc073bf55db333d5680ddf36e4814b9ce2118cfe4504f95c7d3e9a7548e16886cf1a1481fd80ce70d5e19108a43fd17fa32aad0d46c30c3410001ed2934ad2f00",
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ]
+  }
+}
