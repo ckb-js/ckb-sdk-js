@@ -12,13 +12,12 @@ coverage:
         target: auto
         threshold: 20
         base: auto
-    patch: 
+    patch:
       default:
         target: auto
         threshold: 20
-        base: auto 
+        base: auto
     changes: yes
-
 
 parsers:
   gcov:
@@ -32,3 +31,7 @@ comment:
   layout: 'reach,diff,flags,tree'
   behavior: default
   require_changes: no
+
+ignore:
+  # Tested but not recognized by codecov
+  - 'packages/ckb-sdk-rpc/src/index.ts'
