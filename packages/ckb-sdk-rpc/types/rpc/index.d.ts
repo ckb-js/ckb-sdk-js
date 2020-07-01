@@ -122,6 +122,8 @@ declare module RPC {
   export interface LiveCellByLockHash {
     cell_output: CellOutput
     created_by: TransactionPoint
+    cellbase: boolean
+    output_data_len: string
   }
   export type LiveCellsByLockHash = LiveCellByLockHash[]
 
@@ -223,13 +225,13 @@ declare module RPC {
   }
 
   export interface FeeRate {
-    fee_rate: Number
+    fee_rate: string
   }
 
   export interface CapacityByLockHash {
     block_number: BlockNumber
     capacity: Capacity
-    cells_count: Number
+    cells_count: string
   }
 
   export interface BlockEconomicState {

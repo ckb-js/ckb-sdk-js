@@ -286,6 +286,8 @@ declare namespace CKBComponents {
   export interface LiveCellByLockHash {
     cellOutput: CellOutput
     createdBy: TransactionPoint
+    cellbase: boolean
+    outputDataLen: string
   }
 
   export type LiveCellsByLockHash = LiveCellByLockHash[]
@@ -371,7 +373,7 @@ declare namespace CKBComponents {
   }
 
   export interface FeeRate {
-    feeRate: Number
+    feeRate: string
   }
 
   export type BytesOpt = Bytes | undefined
@@ -389,7 +391,7 @@ declare namespace CKBComponents {
   export interface CapacityByLockHash {
     blockNumber: BlockNumber
     capacity: Capacity
-    cellsCount: Number
+    cellsCount: string
   }
 
   export interface BlockEconomicState {
