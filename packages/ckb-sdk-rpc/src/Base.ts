@@ -1,7 +1,7 @@
 import paramsFmts from './paramsFormatter'
 import resultFmts from './resultFormatter'
 
-interface RpcPropertes {
+export interface RpcPropertes {
   [name: string]: Omit<CKBComponents.Method, 'name'>
 }
 
@@ -18,7 +18,7 @@ export const rpcProperties: RpcPropertes = {
   },
   getTransaction: {
     method: 'get_transaction',
-    paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
+    paramsFormatters: [paramsFmts.toHash],
     resultFormatters: resultFmts.toTransactionWithStatus,
   },
   getBlockHash: {
@@ -478,7 +478,11 @@ export interface Base {
 }
 
 export class Base {
-  protected rpcProperties = rpcProperties
+  #rpcProperties = rpcProperties
+
+  get rpcProperties() {
+    return this.#rpcProperties
+  }
 }
 
 export default Base

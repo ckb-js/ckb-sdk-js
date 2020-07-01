@@ -1304,6 +1304,10 @@
   ],
   "toCapacityByLockHash": [
     {
+      "result": null,
+      "expected": null
+    },
+    {
       "result": {
         "block_number": "0x400",
         "capacity": "0xb00fb84df292",

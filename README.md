@@ -135,9 +135,55 @@ After that you can use the `ckb` object to generate addresses, send requests, et
 
 # RPC
 
-## Default RPC
+## Basic RPC
 
-Please see [Default RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/defaultRPC.ts#L188)
+Please see [Basic RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base.ts#L161)
+
+## Batch Request
+
+```javascript
+/**
+ * The following batch includes two requests
+ *   1. getBlock('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+ *   2. getTransactionsByLockHash('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '0x0', '0x1)
+ */
+const batch = rpc.createBatchRequest([
+  ['getBlock', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'],
+  ['getTransactionsByLockHash', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '0x0', '0x1'],
+])
+
+/**
+ * Add a request and the batch should include three requests
+ *  1. getBlock('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+ *  2. getTransactionsByLockHash('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '0x0', '0x1)
+ *  3. getTransactionsByLockHash('0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', '0x0', '0x1)
+ */
+batch.add(
+  'getTransactionsByLockHash',
+  '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+  '0x0',
+  '0x1',
+)
+
+/**
+ * Remove a request by index and the batch should include two requests
+ *  1. getBlock('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+ *  2. getTransactionsByLockHash('0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', '0x0', '0x1)
+ */
+batch.remove(1)
+
+/**
+ * Send the batch request
+ */
+batch.exec().then(console.log)
+// [
+//   { "header": { }, "uncles": [], "transactions": [], "proposals": [] },
+//   [ { "consumedBy": { }, "createdBy": { } } ]
+// ]
+
+// chaning usage
+batch.add().remove().exec()
+```
 
 ## Persistent Connection
 
