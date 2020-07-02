@@ -32,8 +32,8 @@ describe('ckb-rpc settings and helpers', () => {
     expect(rpc.node.httpsAgent).toBeDefined()
   })
 
-  it('has 31 default rpc', () => {
-    expect(rpc.methods.length).toBe(31)
+  it('has 31 basic rpc', () => {
+    expect(Object.values(rpc)).toHaveLength(31)
   })
 
   it('set node url to http://test.localhost:8114', () => {

@@ -6,7 +6,7 @@ const axiosMock = require('axios')
 const CKBRPC = require('../lib').default
 
 describe('Test with mock', () => {
-  const rpc = new CKBRPC()
+  const rpc = new CKBRPC('http://localhost:8114')
   const ranNum = 1
   const id = Math.round(ranNum * 10000)
 
@@ -16,6 +16,12 @@ describe('Test with mock', () => {
 
   afterAll(() => {
     jest.restoreAllMocks()
+  })
+
+  describe('properties', () => {
+    expect(rpc.paramsFormatter).not.toBeUndefined()
+    expect(rpc.resultFormatter).not.toBeUndefined()
+    expect(rpc.node.url).toBe('http://localhost:8114')
   })
 
   describe('ckb-rpc success', () => {
@@ -1269,11 +1275,225 @@ describe('Test with mock', () => {
       })
       expect(res).toEqual('0xa0ef4eb5f4ceeb08a4c8524d84c5da95dce2f608e0ca2ec8091191b0f330c6e3')
     })
+
+    describe('batch request', () => {
+      const batch = rpc.createBatchRequest([
+        ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
+      ])
+
+      it('should has init request', () => {
+        expect(batch).toEqual([['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e']])
+      })
+
+      it('should add a new request', () => {
+        batch.add('getTipHeader')
+        expect(batch).toEqual([
+          ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
+          ['getTipHeader'],
+        ])
+      })
+
+      it('should remove a request', () => {
+        batch.add('localNodeInfo')
+        expect(batch).toEqual([
+          ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
+          ['getTipHeader'],
+          ['localNodeInfo'],
+        ])
+        batch.remove(1)
+        expect(batch).toEqual([
+          ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
+          ['localNodeInfo'],
+        ])
+      })
+
+      it('should accept params in list', () => {
+        const multiParamBatch = rpc.createBatchRequest([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        expect(multiParamBatch).toEqual([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        multiParamBatch.add('getCellsByLockHash', '0x0', '0x1', '0x2')
+        expect(multiParamBatch).toEqual([
+          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+          ['getPeers'],
+          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+        ])
+      })
+
+      it('should parse request and response correctly', async () => {
+        axiosMock.mockResolvedValue({
+          data: [
+            {
+              jsonrpc: '2.0',
+              result: {
+                header: {
+                  compact_target: '0x20010000',
+                  dao: '0x1d78d68e4363a12ee3e511f1fa862300f091bde0110f00000053322801fbfe06',
+                  epoch: '0xa0002000000',
+                  hash: '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e',
+                  nonce: '0x4e51c6b50fd5a1af81c1d0c770a23c93',
+                  number: '0x2',
+                  parent_hash: '0x4aa1bf4930b2fbcebf70bd0b6cc63a19ae8554d6c7e89a666433040300641db9',
+                  proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                  timestamp: '0x1725940cb91',
+                  transactions_root: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
+                  uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                  version: '0x0',
+                },
+                proposals: [],
+                transactions: [
+                  {
+                    cell_deps: [],
+                    hash: '0xdb9e84bc7bf583f0d0f2dcd82a41229bf52cfa45edbedfb7a4d0d3120b8e4066',
+                    header_deps: [],
+                    inputs: [
+                      {
+                        previous_output: {
+                          index: '0xffffffff',
+                          tx_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                        },
+                        since: '0x2',
+                      },
+                    ],
+                    outputs: [],
+                    outputs_data: [],
+                    version: '0x0',
+                    witnesses: [
+                      '0x5a0000000c00000055000000490000001000000030000000310000009bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce80114000000e2fa82e70b062c8644b80ad7ecf6e015e5f352f60100000000',
+                    ],
+                  },
+                ],
+                uncles: [],
+              },
+              id,
+            },
+            {
+              jsonrpc: '2.0',
+              result: {
+                addresses: [
+                  {
+                    address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                    score: '0x1',
+                  },
+                ],
+                is_outbound: null,
+                node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                version: '0.32.0 (248aa88 2020-05-22)',
+              },
+              id,
+            },
+          ],
+        })
+        const res = await batch.exec()
+        expect(axiosMock.mock.calls[0][0].data).toEqual([
+          {
+            id,
+            jsonrpc: '2.0',
+            method: 'get_block',
+            params: ['0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
+          },
+          { id, jsonrpc: '2.0', method: 'local_node_info', params: [] },
+        ])
+        expect(res).toEqual([
+          {
+            header: {
+              compactTarget: '0x20010000',
+              dao: '0x1d78d68e4363a12ee3e511f1fa862300f091bde0110f00000053322801fbfe06',
+              epoch: '0xa0002000000',
+              hash: '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e',
+              nonce: '0x4e51c6b50fd5a1af81c1d0c770a23c93',
+              number: '0x2',
+              parentHash: '0x4aa1bf4930b2fbcebf70bd0b6cc63a19ae8554d6c7e89a666433040300641db9',
+              proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              timestamp: '0x1725940cb91',
+              transactionsRoot: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
+              unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              version: '0x0',
+            },
+            proposals: [],
+            transactions: [
+              {
+                cellDeps: [],
+                hash: '0xdb9e84bc7bf583f0d0f2dcd82a41229bf52cfa45edbedfb7a4d0d3120b8e4066',
+                headerDeps: [],
+                inputs: [
+                  {
+                    previousOutput: {
+                      index: '0xffffffff',
+                      txHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                    },
+                    since: '0x2',
+                  },
+                ],
+                outputs: [],
+                outputsData: [],
+                version: '0x0',
+                witnesses: [
+                  '0x5a0000000c00000055000000490000001000000030000000310000009bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce80114000000e2fa82e70b062c8644b80ad7ecf6e015e5f352f60100000000',
+                ],
+              },
+            ],
+            uncles: [],
+          },
+          {
+            addresses: [
+              {
+                address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                score: '0x1',
+              },
+            ],
+            isOutbound: null,
+            nodeId: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+            version: '0.32.0 (248aa88 2020-05-22)',
+          },
+        ])
+      })
+    })
   })
 
   describe('ckb-rpc errors', () => {
     it('throw raw error', async () => {
       expect(() => rpc.getBlock(0)).toThrow('Hash 0 should be type of string')
+    })
+
+    describe('batch request', () => {
+      it('should throw method not found error', () => {
+        expect(() => rpc.createBatchRequest([['Unknown', []]])).toThrow('[Batch Request]: Method Unknown is not found')
+      })
+
+      describe('should throw errors with index', () => {
+        it('should throw an error of validation', () => {
+          expect.assertions(1)
+          const batch = rpc.createBatchRequest([['getBlock', [0]]])
+          batch
+            .exec()
+            .catch(err => expect(err).toEqual(new Error(`[Batch Request 0]: Hash 0 should be type of string`)))
+        })
+
+        it('should return an error of mismatched json rpc id', async () => {
+          expect.assertions(1)
+          const batch = rpc.createBatchRequest([['localNodeInfo']])
+          axiosMock.mockResolvedValue({
+            data: [
+              {
+                id: id + 1,
+                jsonrpc: '2.0',
+                result: {
+                  addresses: [
+                    {
+                      address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                      score: '0x1',
+                    },
+                  ],
+                  is_outbound: null,
+                  node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                  version: '0.32.0 (248aa88 2020-05-22)',
+                },
+              },
+            ],
+          })
+          const res = await batch.exec()
+          expect(res[0]).toEqual(new Error(`[Batch Request 0]: JSONRPC id not matched`))
+        })
+      })
     })
   })
 })
