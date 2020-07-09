@@ -100,7 +100,7 @@ describe('blake', () => {
 })
 
 describe('bech32', () => {
-  bech32Fixtures.bech32.valid.forEach((f) => {
+  bech32Fixtures.bech32.valid.forEach(f => {
     it(`fromWords/toWords ${f.hex}`, () => {
       if (f.hex) {
         const words = bech32.toWords(Buffer.from(f.hex, 'hex'))
@@ -159,7 +159,7 @@ describe('scriptToHash', () => {
       scriptHash: '0xd39f84d4702f53cf8625da4411be1640b961715cb36816501798fedb70b6e0fb',
     },
   }
-  test.each(Object.keys(fixtures))('%s', (fixtureName) => {
+  test.each(Object.keys(fixtures))('%s', fixtureName => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
@@ -219,7 +219,7 @@ describe('address', () => {
   it('fullPayloadToAddress with hash type of Data', () => {
     const fixture = {
       params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        args: '0x36c329ed630d6ce750712a477543672adab57f4c',
         type: AddressType.DataCodeHash,
         prefix: 'ckt',
         codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
@@ -233,7 +233,7 @@ describe('address', () => {
   it('fullPayloadToAddress with hash type of Type', () => {
     const fixture = {
       params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        args: '0x36c329ed630d6ce750712a477543672adab57f4c',
         type: AddressType.TypeCodeHash,
         prefix: 'ckt',
         codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',
@@ -247,7 +247,7 @@ describe('address', () => {
   it('fullPayloadToAddress with default params of type = AddressType.DataCodeHash and prefix = ckt', () => {
     const fixture = {
       params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
+        args: '0x36c329ed630d6ce750712a477543672adab57f4c',
         codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
       },
       expected: 'ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac',
@@ -322,7 +322,7 @@ describe('address', () => {
       address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
     },
   }
-  test.each(Object.keys(pubkeyToAddressFixtures))('%s', (caseName) => {
+  test.each(Object.keys(pubkeyToAddressFixtures))('%s', caseName => {
     const fixture = pubkeyToAddressFixtures[caseName]
     const address = pubkeyToAddress(hexToBytes(fixture.pubkey), fixture.config)
     expect(address).toBe(fixture.address)
