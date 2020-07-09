@@ -1,6 +1,13 @@
 import { serializeScript } from './script'
 import { toUint32Le, toUint64Le } from '../convertors'
-import { serializeArray, serializeStruct, serializeTable, serializeDynVec, serializeFixVec, serializeOption } from '.'
+import {
+  serializeArray,
+  serializeStruct,
+  serializeTable,
+  serializeDynVec,
+  serializeFixVec,
+  serializeOption,
+} from './basic'
 
 export const serializeVersion = (version: CKBComponents.Version) => toUint32Le(version)
 
@@ -39,7 +46,6 @@ export const serializeHeaderDeps = (deps: CKBComponents.Hash256[]) => {
   return serializeFixVec(serializedHeaderDepList)
 }
 
-// TODO: add tests
 export const serializeInput = (input: CKBComponents.CellInput) => {
   const serializedOutPoint = serializeOutPoint(input.previousOutput)
   const serializedSince = toUint64Le(input.since)
