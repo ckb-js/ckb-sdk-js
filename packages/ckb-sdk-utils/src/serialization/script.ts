@@ -1,4 +1,4 @@
-import { serializeArray, serializeTable, serializeFixVec } from '.'
+import { serializeArray, serializeTable, serializeFixVec } from './basic'
 import { ArgumentRequired } from '../exceptions'
 
 export const serializeCodeHash = (codeHash: CKBComponents.Hash256) => serializeArray(codeHash)
@@ -17,6 +17,10 @@ export const serializeScript = (script: CKBComponents.Script) => {
   const serializedCodeHash = serializeCodeHash(codeHash)
   const serializedHashType = serializeHashType(hashType)
   const serializedArgs = serializeArgs(args)
-  const table = new Map([['codeHash', serializedCodeHash], ['hashType', serializedHashType], ['args', serializedArgs]])
+  const table = new Map([
+    ['codeHash', serializedCodeHash],
+    ['hashType', serializedHashType],
+    ['args', serializedArgs],
+  ])
   return serializeTable(table)
 }
