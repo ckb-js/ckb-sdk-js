@@ -117,5 +117,127 @@
       },
       "expected": "180"
     }
+  ],
+  "absoluteEpochSince": [
+    {
+      "params": {
+        "length": "0x3e8",
+        "index": "0x10",
+        "number": "0x200"
+      },
+      "expected": "0x2003e80010000200"
+    },
+    {
+      "params": {
+        "length": "3e8",
+        "index": "0x10",
+        "number": "0x200"
+      },
+      "exception": "3e8 is an invalid hex string"
+    },
+    {
+      "params": {
+        "length": "0x3e8",
+        "index": "10",
+        "number": "0x200"
+      },
+      "exception": "10 is an invalid hex string"
+    },
+    {
+      "params": {
+        "length": "0x3e8",
+        "index": "0x10",
+        "number": "200"
+      },
+      "exception": "200 is an invalid hex string"
+    }
+  ],
+  "filterCellsByInputs": [
+    {
+      "params": {
+        "cells": [],
+        "inputs": []
+      },
+      "expected": []
+    },
+    {
+      "params": {
+        "cells": [
+          {
+            "blockHash": "0x28011ef2c3b99a38b45809e52a3904666782bda571f2fc6b1c90eb829fc81363",
+            "lock": {
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type",
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+            },
+            "outPoint": {
+              "txHash": "0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a",
+              "index": "0x0"
+            },
+            "capacity": "0x1fd59fe3ae"
+          }
+        ],
+        "inputs": []
+      },
+      "expected": []
+    },
+    {
+      "params": {
+        "cells": [],
+        "inputs": [
+          {
+            "previousOutput": {
+              "txHash": "0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a",
+              "index": "0x0"
+            },
+            "since": "0x0"
+          }
+        ]
+      },
+      "exception": "Cell of {\"txHash\":\"0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a\",\"index\":\"0x0\"} is not found"
+    },
+    {
+      "params": {
+        "cells": [
+          {
+            "blockHash": "0x28011ef2c3b99a38b45809e52a3904666782bda571f2fc6b1c90eb829fc81363",
+            "lock": {
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type",
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+            },
+            "outPoint": {
+              "txHash": "0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a",
+              "index": "0x0"
+            },
+            "capacity": "0x1fd59fe3ae"
+          }
+        ],
+        "inputs": [
+          {
+            "previousOutput": {
+              "txHash": "0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a",
+              "index": "0x0"
+            },
+            "since": "0x0"
+          }
+        ]
+      },
+      "expected": [
+        {
+          "blockHash": "0x28011ef2c3b99a38b45809e52a3904666782bda571f2fc6b1c90eb829fc81363",
+          "lock": {
+            "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+            "hashType": "type",
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+          },
+          "outPoint": {
+            "txHash": "0x8f67802f18390f0072b718cbde1805563d2d8b057383bf586b5ebf976d56ca5a",
+            "index": "0x0"
+          },
+          "capacity": "0x1fd59fe3ae"
+        }
+      ]
+    }
   ]
 }

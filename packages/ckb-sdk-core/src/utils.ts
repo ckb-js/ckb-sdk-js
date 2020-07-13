@@ -1,4 +1,5 @@
 import { JSBI } from '@nervosnetwork/ckb-sdk-utils'
+import { assertToBeHexString } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
 interface EpochInfo {
   index: string
@@ -34,4 +35,46 @@ export const calculateLockEpochs = ({
   /* eslint-enable indent */
   return lockEpochs
 }
-export default { calculateLockEpochs }
+
+export const absoluteEpochSince = ({
+  length,
+  index,
+  number,
+}: {
+  length: string
+  index: string
+  number: string
+}): string => {
+  assertToBeHexString(length)
+  assertToBeHexString(index)
+  assertToBeHexString(number)
+
+  const epochSince = JSBI.add(
+    JSBI.add(
+      JSBI.add(
+        JSBI.leftShift(JSBI.BigInt(0x20), JSBI.BigInt(56)),
+        JSBI.leftShift(JSBI.BigInt(length), JSBI.BigInt(40)),
+      ),
+      JSBI.leftShift(JSBI.BigInt(index), JSBI.BigInt(24)),
+    ),
+    JSBI.BigInt(number),
+  )
+
+  return `0x${epochSince.toString(16)}`
+}
+
+export const filterCellsByInputs = (
+  cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
+  inputs: Pick<CKBComponents.CellInput, 'previousOutput'>[],
+) => {
+  return inputs.map(input => {
+    const outPoint = input.previousOutput
+    const cell = cells.find(c => c.outPoint?.txHash === outPoint?.txHash && c.outPoint?.index === outPoint?.index)
+    if (!cell) {
+      throw new Error(`Cell of ${JSON.stringify(outPoint)} is not found`)
+    }
+    return cell
+  })
+}
+
+export default { calculateLockEpochs, absoluteEpochSince, filterCellsByInputs }

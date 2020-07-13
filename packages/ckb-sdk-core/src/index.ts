@@ -1,7 +1,6 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { assertToBeHexString } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
@@ -9,7 +8,7 @@ import generateRawTransaction, { Cell, RawTransactionParamsBase } from './genera
 
 import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
-import { calculateLockEpochs } from './utils'
+import { calculateLockEpochs, absoluteEpochSince, filterCellsByInputs } from './utils'
 
 type Key = string
 type Address = string
@@ -32,8 +31,6 @@ interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
   cells: Map<LockHash, CachedCell[]>
 }
 
-const hrpSize = 6
-
 class CKB {
   public cells: Map<LockHash, CachedCell[]> = new Map()
 
@@ -48,7 +45,7 @@ class CKB {
     daoDep?: DepCellInfo
   } = {}
 
-  constructor (nodeUrl: URL = 'http://localhost:8114') {
+  constructor(nodeUrl: URL = 'http://localhost:8114') {
     this._node = {
       url: nodeUrl,
     }
@@ -81,7 +78,7 @@ class CKB {
     this.rpc.addMethod(computeScriptHashMethod)
   }
 
-  public setNode (node: URL | CKBComponents.Node): CKBComponents.Node {
+  public setNode(node: URL | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -93,7 +90,7 @@ class CKB {
     return this._node
   }
 
-  public get node (): CKBComponents.Node {
+  public get node(): CKBComponents.Node {
     return this._node
   }
 
@@ -115,10 +112,8 @@ class CKB {
   public loadSecp256k1Dep = async () => {
     const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
-    /* eslint-disable prettier/prettier, no-undef */
     const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
     const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
-    /* eslint-enable prettier/prettier, no-undef */
 
     if (!secp256k1DepTxHash) {
       throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
@@ -144,11 +139,9 @@ class CKB {
   public loadDaoDep = async () => {
     const genesisBlock = await this.rpc.getBlockByNumber('0x0')
 
-    /* eslint-disable prettier/prettier, no-undef */
     const daoDepTxHash = genesisBlock?.transactions[0].hash
     const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type
     const data = genesisBlock?.transactions[0]?.outputsData[2]
-    /* eslint-enable prettier/prettier, no-undef */
 
     if (!daoDepTxHash) {
       throw new Error('Cannot load the transaction which has the dao dep cell')
@@ -202,30 +195,15 @@ class CKB {
 
   public signWitnesses = signWitnesses
 
-  public signTransaction = (
-    key: Key | Map<LockHash, Key>
-  ) => (
+  public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: CachedCell[]
+    cells: CachedCell[],
   ) => {
     if (!key) throw new ArgumentRequired('Private key or address object')
-    if (!transaction) throw new ArgumentRequired('Transaction')
-    if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
-    if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
-    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
+    this.#validateTransactionToSign(transaction)
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
-
-    const inputCells = isMap(key) ? transaction.inputs.map(input => {
-      const outPoint = input.previousOutput
-      /* eslint-disable prettier/prettier, no-undef */
-      const cell = cells.find(c => c.outPoint?.txHash === outPoint?.txHash && c.outPoint?.index === outPoint?.index)
-      /* eslint-enable prettier/prettier, no-undef */
-      if (!cell) {
-        throw new Error(`Cell of ${JSON.stringify(outPoint)} is not found`)
-      }
-      return cell
-    }) : undefined
+    const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
 
     const signedWitnesses = this.signWitnesses(key)({
       transactionHash,
@@ -248,20 +226,19 @@ class CKB {
     changeThreshold,
     ...params
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
-    if ('fromAddress' in params && 'toAddress' in params) {
+    if (this.#isSimpleTransaction(params)) {
+      const [fromPublicKeyHash, toPublicKeyHash] = [params.fromAddress, params.toAddress].map(
+        this.#extractPayloadFromAddress,
+      )
+
       let availableCells = params.cells || []
-      const [fromPublicKeyHash, toPublicKeyHash] =
-        [params.fromAddress, params.toAddress].map(this.extractPayloadFromAddress)
       if (!availableCells.length && deps) {
         const lockHash = this.utils.scriptToHash({
           codeHash: deps.codeHash,
           hashType: deps.hashType,
           args: toPublicKeyHash,
         })
-        const cachedCells = this.cells.get(lockHash)
-        if (cachedCells && cachedCells.length) {
-          availableCells = cachedCells
-        }
+        availableCells = this.cells.get(lockHash) ?? availableCells
       }
       return generateRawTransaction({
         fromPublicKeyHash,
@@ -276,10 +253,10 @@ class CKB {
       })
     }
 
-    if ('fromAddresses' in params && 'receivePairs' in params) {
-      const fromPublicKeyHashes = params.fromAddresses.map(this.extractPayloadFromAddress)
+    if (this.#isComplexTransaction(params)) {
+      const fromPublicKeyHashes = params.fromAddresses.map(this.#extractPayloadFromAddress)
       const receivePairs = params.receivePairs.map(pair => ({
-        publicKeyHash: this.extractPayloadFromAddress(pair.address),
+        publicKeyHash: this.#extractPayloadFromAddress(pair.address),
         capacity: pair.capacity,
       }))
       return generateRawTransaction({
@@ -307,8 +284,8 @@ class CKB {
     fee: Capacity
     cells?: CachedCell[]
   }) => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
 
     const rawTx = this.generateRawTransaction({
       fromAddress,
@@ -346,8 +323,8 @@ class CKB {
     fee: Capacity
     cells?: CachedCell[]
   }) => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
@@ -396,8 +373,8 @@ class CKB {
     withdrawOutPoint: CKBComponents.OutPoint
     fee: Capacity
   }): Promise<CKBComponents.RawTransactionToSign> => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
     const { JSBI } = this.utils
 
     const DAO_LOCK_PERIOD_EPOCHS = 180
@@ -407,11 +384,9 @@ class CKB {
     const tx = await this.rpc.getTransaction(withdrawOutPoint.txHash)
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
-    /* eslint-disable */
     const depositBlockNumber = this.utils.bytesToHex(
       this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse(),
     )
-    /* eslint-enable */
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
     const depositEpoch = this.utils.parseEpoch(depositBlockHeader.epoch)
@@ -419,8 +394,8 @@ class CKB {
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
     const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const lockEpochs = calculateLockEpochs({withdrawEpoch,depositEpoch,DAO_LOCK_PERIOD_EPOCHS})
-    const minimalSince = this.absoluteEpochSince({
+    const lockEpochs = calculateLockEpochs({ withdrawEpoch, depositEpoch, DAO_LOCK_PERIOD_EPOCHS })
+    const minimalSince = absoluteEpochSince({
       length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
       index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
       number: `0x${JSBI.add(JSBI.BigInt(depositEpoch.number), lockEpochs).toString(16)}`,
@@ -434,7 +409,7 @@ class CKB {
 
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: `0x${(JSBI.subtract(targetCapacity , targetFee)).toString(16)}`,
+        capacity: `0x${JSBI.subtract(targetCapacity, targetFee).toString(16)}`,
         lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
       },
     ]
@@ -466,47 +441,37 @@ class CKB {
     }
   }
 
-  private absoluteEpochSince = ({
-    length,
-    index,
-    number,
-  }: {
-    length: string
-    index: string
-    number: string
-  }): string => {
-    const {JSBI} = this.utils
-    assertToBeHexString(length)
-    assertToBeHexString(index)
-    assertToBeHexString(number)
-    const epochSince = JSBI.add(
-      JSBI.add(
-        JSBI.add(
-          JSBI.leftShift(JSBI.BigInt(0x20), JSBI.BigInt(56)), JSBI.leftShift(JSBI.BigInt(length), JSBI.BigInt(40))
-        ),
-        JSBI.leftShift(JSBI.BigInt(index), JSBI.BigInt(24)),
-      ),
-      JSBI.BigInt(number),
-    )
-
-    return `0x${epochSince.toString(16)}`
-  }
-
-  private extractPayloadFromAddress = (address: string) => {
+  #extractPayloadFromAddress = (address: string) => {
+    const HRP_SIZE = 6
     const addressPayload = this.utils.parseAddress(address, 'hex')
-    return `0x${addressPayload.slice(hrpSize)}`
+    return `0x${addressPayload.slice(HRP_SIZE)}`
   }
 
-  private secp256k1DepsShouldBeReady = () => {
+  #secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
       throw new ArgumentRequired('Secp256k1 dep')
     }
   }
 
-  private DAODepsShouldBeReady = () => {
+  #DAODepsShouldBeReady = () => {
     if (!this.config.daoDep) {
       throw new ArgumentRequired('Dao dep')
     }
+  }
+
+  #validateTransactionToSign = (transaction: CKBComponents.RawTransactionToSign) => {
+    if (!transaction) throw new ArgumentRequired('Transaction')
+    if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
+    if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
+    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
+  }
+
+  #isSimpleTransaction = (params: any): params is RawTransactionParams => {
+    return 'fromAddress' in params && 'toAddress' in params
+  }
+
+  #isComplexTransaction = (params: any): params is ComplexRawTransactoinParams => {
+    return 'fromAddresses' in params && 'receivePairs' in params
   }
 }
 
