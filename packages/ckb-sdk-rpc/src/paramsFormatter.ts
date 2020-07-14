@@ -1,5 +1,12 @@
-import { HexStringShouldStartWith0x } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import { JSBI } from '@nervosnetwork/ckb-sdk-utils'
+import {
+  PageSizeTooLargeException,
+  PageSizeTooSmallException,
+  OutputsValidatorTypeException,
+  BigintOrHexStringTypeException,
+  StringHashTypeException,
+  HexStringWithout0xException,
+} from './exceptions'
 
 /* eslint-disable camelcase */
 const formatter = {
@@ -11,7 +18,7 @@ const formatter = {
   },
   toHash: (hash: string): RPC.Hash256 => {
     if (typeof hash !== 'string') {
-      throw new TypeError(`Hash ${hash} should be type of string`)
+      throw new StringHashTypeException(hash)
     }
     return hash.startsWith('0x') ? hash : `0x${hash}`
   },
@@ -21,10 +28,10 @@ const formatter = {
       return `0x${number.toString(16)}`
     }
     if (typeof number !== 'string') {
-      throw new TypeError(`The number ${number} should be a bigint or a hex string`)
+      throw new BigintOrHexStringTypeException(number)
     }
     if (!number.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(number)
+      throw new HexStringWithout0xException(number)
     }
     return number
   },
@@ -107,8 +114,10 @@ const formatter = {
   toPageNumber: (pageNo: string | bigint = '0x1') => formatter.toNumber(pageNo),
   toPageSize: (pageSize: string | bigint = '0x32') => {
     const size = JSBI.BigInt(`${pageSize}`)
-    if (JSBI.greaterThan(size, JSBI.BigInt(50))) throw new Error('Page size is up to 50')
-    if (JSBI.lessThan(size, JSBI.BigInt(0))) throw new Error('Page size is expected to be non-negative')
+    const MAX_SIZE = 50
+    const MIN_SIZE = 0
+    if (JSBI.greaterThan(size, JSBI.BigInt(MAX_SIZE))) throw new PageSizeTooLargeException(pageSize, MAX_SIZE)
+    if (JSBI.lessThan(size, JSBI.BigInt(MIN_SIZE))) throw new PageSizeTooSmallException(pageSize, MIN_SIZE)
     return formatter.toNumber(`0x${size.toString(16)}`)
   },
   toReverseOrder: (reverse: boolean = false) => !!reverse,
@@ -118,7 +127,7 @@ const formatter = {
     if (VALIDATORS.indexOf(outputsValidator) > -1) {
       return outputsValidator
     }
-    throw new TypeError('Outputs validator should be default or passthrough')
+    throw new OutputsValidatorTypeException()
   },
 }
 

@@ -1,6 +1,6 @@
 import { bech32, blake160 } from '..'
 import { hexToBytes, bytesToHex } from '../convertors'
-import { HexStringShouldStartWith0x } from '../exceptions'
+import { HexStringWithout0xException } from '../exceptions'
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -43,7 +43,7 @@ export const toAddressPayload = (
 ): Uint8Array => {
   if (typeof args === 'string') {
     if (!args.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(args)
+      throw new HexStringWithout0xException(args)
     }
     return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(args)])
   }

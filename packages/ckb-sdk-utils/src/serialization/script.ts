@@ -1,5 +1,5 @@
 import { serializeArray, serializeTable, serializeFixVec } from './basic'
-import { ArgumentRequired } from '../exceptions'
+import { ParameterRequiredException } from '../exceptions'
 
 export const serializeCodeHash = (codeHash: CKBComponents.Hash256) => serializeArray(codeHash)
 
@@ -12,7 +12,7 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
 export const serializeArgs = (args: string) => serializeFixVec(args)
 
 export const serializeScript = (script: CKBComponents.Script) => {
-  if (!script) throw new ArgumentRequired('Script')
+  if (!script) throw new ParameterRequiredException('Script')
   const { codeHash = '', hashType, args = '' } = script
   const serializedCodeHash = serializeCodeHash(codeHash)
   const serializedHashType = serializeHashType(hashType)

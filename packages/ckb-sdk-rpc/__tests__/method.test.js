@@ -37,7 +37,9 @@ describe('Test Method', () => {
         result: null,
       },
     })
-    await method.call().catch(err => expect(err).toEqual(new Error(`JSONRPC id not matched`)))
+    await method
+      .call()
+      .catch(err => expect(err).toEqual(new Error(`Expect json rpc id to be 10000, but 10001 received`)))
   })
 
   it('returns with error', async () => {

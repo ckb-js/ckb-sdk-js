@@ -3,7 +3,7 @@ import ECPair from './ecpair'
 import { hexToBytes } from './convertors'
 import { pubkeyToAddress, AddressOptions } from './address'
 import { assertToBeHexStringOrBigint } from './validators'
-import { ArgumentRequired } from './exceptions'
+import { ParameterRequiredException } from './exceptions'
 import crypto from './crypto'
 import { serializeScript } from './serialization/script'
 import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
@@ -17,7 +17,7 @@ export { serializeScript, serializeRawTransaction, serializeTransaction, seriali
 export const { blake2b, bech32, blake160 } = crypto
 
 export const scriptToHash = (script: CKBComponents.Script) => {
-  if (!script) throw new ArgumentRequired('Script')
+  if (!script) throw new ParameterRequiredException('Script')
   const serializedScript = serializeScript(script)
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(serializedScript))
@@ -26,7 +26,7 @@ export const scriptToHash = (script: CKBComponents.Script) => {
 }
 
 export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTransaction, 'witnesses'>) => {
-  if (!rawTransaction) throw new ArgumentRequired('Raw transaction')
+  if (!rawTransaction) throw new ParameterRequiredException('Raw transaction')
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
   const s = blake2b(32, null, null, PERSONAL)
   s.update(hexToBytes(serializedRawTransaction))

@@ -6,6 +6,7 @@ import Method from './method'
 
 import paramsFormatter from './paramsFormatter'
 import resultFormatter from './resultFormatter'
+import { MethodInBatchNotFoundException, PayloadInBatchException, IdNotMatchedInBatchException } from './exceptions'
 
 class CKBRPC extends Base {
   #node: CKBComponents.Node = {
@@ -61,7 +62,6 @@ class CKBRPC extends Base {
     params: [N, P][] = [],
   ) => {
     const ctx = this
-    const ERROR_LABEL = 'Batch Request'
 
     const proxied: [N, P][] = new Proxy([], {
       set(...p) {
@@ -69,7 +69,7 @@ class CKBRPC extends Base {
         if (p[1] !== 'length') {
           const name = p?.[2]?.[0]
           if (methods.indexOf(name) === -1) {
-            throw new Error(`[${ERROR_LABEL}]: Method ${name} is not found`)
+            throw new MethodInBatchNotFoundException(name)
           }
         }
         return Reflect.set(...p)
@@ -96,7 +96,7 @@ class CKBRPC extends Base {
               const method = new Method(ctx.node, { ...ctx.rpcProperties[f], name: f })
               return method.getPayload(...p)
             } catch (err) {
-              throw new Error(`[${ERROR_LABEL} ${i}]: ${err.message}`)
+              throw new PayloadInBatchException(i, err.message)
             }
           })
 
@@ -111,7 +111,7 @@ class CKBRPC extends Base {
 
           return batchRes.data.map((res: any, i: number) => {
             if (res.id !== payload[i].id) {
-              return new Error(`[${ERROR_LABEL} ${i}]: JSONRPC id not matched`)
+              return new IdNotMatchedInBatchException(i, payload[i].id, res.id)
             }
             return ctx.rpcProperties[proxied[i][0]].resultFormatters?.(res.result) ?? res.result
           })

@@ -1,7 +1,12 @@
 import { ec as EC } from 'elliptic'
 
 import { hexToBytes } from './convertors'
-import { HexStringShouldStartWith0x, ArgumentRequired } from './exceptions'
+import {
+  HexStringWithout0xException,
+  ParameterRequiredException,
+  PrivateKeyLenException,
+  SignMessageException,
+} from './exceptions'
 
 const ec = new EC('secp256k1')
 
@@ -20,18 +25,18 @@ class ECPair {
       compressed: true,
     },
   ) {
-    if (sk === undefined) throw new ArgumentRequired('Private key')
+    if (sk === undefined) throw new ParameterRequiredException('Private key')
 
     if (typeof sk === 'string' && !sk.startsWith('0x')) {
-      throw new HexStringShouldStartWith0x(sk)
+      throw new HexStringWithout0xException(sk)
     }
 
     if (typeof sk === 'string' && sk.length !== 66) {
-      throw new Error('Private key has invalid length')
+      throw new PrivateKeyLenException()
     }
 
     if (typeof sk === 'object' && sk.byteLength !== 32) {
-      throw new Error('Private key has invalid length')
+      throw new PrivateKeyLenException()
     }
 
     this.key = ec.keyFromPrivate(typeof sk === 'string' ? sk.replace(/^0x/, '') : sk)
@@ -80,7 +85,7 @@ class ECPair {
     const { r, s, recoveryParam } = this.key.sign(msg, {
       canonical: true,
     })
-    if (recoveryParam === null) throw new Error('Fail to sign the message')
+    if (recoveryParam === null) throw new SignMessageException()
     const fmtR = r.toString(16).padStart(64, '0')
     const fmtS = s.toString(16).padStart(64, '0')
     return `0x${fmtR}${fmtS}0${recoveryParam}`

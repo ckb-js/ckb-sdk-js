@@ -1451,7 +1451,7 @@ describe('Test with mock', () => {
 
   describe('ckb-rpc errors', () => {
     it('throw raw error', async () => {
-      expect(() => rpc.getBlock(0)).toThrow('Hash 0 should be type of string')
+      expect(() => rpc.getBlock(0)).toThrow('Expect hash to be string, but 0 received')
     })
 
     describe('batch request', () => {
@@ -1465,7 +1465,7 @@ describe('Test with mock', () => {
           const batch = rpc.createBatchRequest([['getBlock', [0]]])
           batch
             .exec()
-            .catch(err => expect(err).toEqual(new Error(`[Batch Request 0]: Hash 0 should be type of string`)))
+            .catch(err => expect(err).toEqual(new Error(`[Batch Request 0]: Expect hash to be string, but 0 received`)))
         })
 
         it('should return an error of mismatched json rpc id', async () => {
@@ -1491,7 +1491,7 @@ describe('Test with mock', () => {
             ],
           })
           const res = await batch.exec()
-          expect(res[0]).toEqual(new Error(`[Batch Request 0]: JSONRPC id not matched`))
+          expect(res[0]).toEqual(new Error(`[Batch Request 0]: Expect json rpc id to be 10000, but 10001 received`))
         })
       })
     })

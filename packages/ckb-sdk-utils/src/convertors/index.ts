@@ -1,7 +1,7 @@
 import { TextDecoder, TextEncoder, deprecate } from 'util'
 import JSBI from 'jsbi'
 import { assertToBeHexStringOrBigint } from '../validators'
-import { HexStringShouldStartWith0x } from '../exceptions'
+import { HexStringWithout0xException } from '../exceptions'
 
 /**
  * Converts an uint16 into a hex string in little endian
@@ -49,7 +49,7 @@ export const toUint64Le = (uint64: string | bigint) => {
 export const hexToBytes = (rawhex: string | number | bigint) => {
   if (rawhex === '') return new Uint8Array()
   if (typeof rawhex === 'string' && !rawhex.startsWith('0x')) {
-    throw new HexStringShouldStartWith0x(rawhex)
+    throw new HexStringWithout0xException(rawhex)
   }
 
   let hex = rawhex.toString(16).replace(/^0x/i, '')
@@ -64,7 +64,7 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
 }
 
 export const bytesToHex = (bytes: Uint8Array): string =>
-  `0x${[...bytes].map((b) => b.toString(16).padStart(2, '0')).join('')}`
+  `0x${[...bytes].map(b => b.toString(16).padStart(2, '0')).join('')}`
 
 export const bytesToUtf8 = (bytes: Uint8Array) => new TextDecoder().decode(bytes)
 
@@ -87,7 +87,7 @@ export const toHexInLittleEndian = deprecate((int: string | bigint, paddingBytes
   const reversedHex = reverseString(hex)
   const frags = reversedHex.match(/\w{1,2}/g) || []
   const hexInLittleEndian = frags
-    .map((frag) => reverseString(frag.padEnd(2, '0')))
+    .map(frag => reverseString(frag.padEnd(2, '0')))
     .join('')
     .padEnd(paddingBytes * 2, '0')
   return `0x${hexInLittleEndian}`
