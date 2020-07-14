@@ -109,41 +109,40 @@ describe('ckb', () => {
   })
 
   describe('sign transaction', () => {
-    const fixtureTable = Object.entries(fixtures.signTransaction).map(
-      ([title, { privateKey, transaction, expected, exception }]) => [
-        title,
-        privateKey,
-        transaction,
-        expected,
-        exception,
-      ],
-    )
+    const fixtureTable = Object.entries(fixtures.signTransaction).map(([title, { params, expected, exception }]) => [
+      title,
+      params.privateKey,
+      params.transaction,
+      expected,
+      exception,
+    ])
     test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
-      if (undefined !== expected) {
+      expect.assertions(1)
+      try {
         const signedTransactionWithPrivateKey = ckb.signTransaction(privateKey)(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
-      }
-      if (undefined !== exception) {
-        expect(() => ckb.signTransaction(privateKey)(transaction)).toThrowError(exception)
+      } catch (err) {
+        expect(err).toEqual(new Error(exception))
       }
     })
   })
 
   describe('generate raw transactin', () => {
-    const fixtureTable = Object.entries(fixtures.generateRawTransaction).map(
-      ([title, { params, expected, exception }]) => [title, params, expected, exception],
-    )
+    const fixtureTable = Object.entries(
+      fixtures.generateRawTransaction,
+    ).map(([title, { params, expected, exception }]) => [title, params, expected, exception])
 
     test.each(fixtureTable)('%s', (_title, params, expected, exception) => {
-      if (undefined === exception) {
+      expect.assertions(1)
+      try {
         const rawTransaction = ckb.generateRawTransaction({
           ...params,
           capacity: BigInt(params.capacity),
           fee: BigInt(params.fee || 0),
         })
         expect(rawTransaction).toEqual(expected)
-      } else {
-        expect(() => ckb.generateRawTransaction(params)).toThrowError(exception)
+      } catch (err) {
+        expect(err).toEqual(new Error(exception))
       }
     })
   })

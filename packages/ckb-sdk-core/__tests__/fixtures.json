@@ -22,66 +22,68 @@
   },
   "signTransaction": {
     "basic transaction": {
-      "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
-      "transaction": {
-        "cellDeps": [
-          {
-            "outPoint": {
-              "txHash": "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
-              "index": "0x0"
+      "params": {
+        "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+        "transaction": {
+          "cellDeps": [
+            {
+              "outPoint": {
+                "txHash": "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
+                "index": "0x0"
+              },
+              "depType": "depGroup"
+            }
+          ],
+          "headerDeps": [],
+          "inputs": [
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x001748c1b5749af9636b940ae7d8d56d12a3de83f9020e765a5e108ca87873fa",
+                "index": "0x0"
+              }
             },
-            "depType": "depGroup"
-          }
-        ],
-        "headerDeps": [],
-        "inputs": [
-          {
-            "since": "0x0",
-            "previousOutput": {
-              "txHash": "0x001748c1b5749af9636b940ae7d8d56d12a3de83f9020e765a5e108ca87873fa",
-              "index": "0x0"
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x00317da41f64a75f7cb0bd0238857e1dc75d50fae3f8bbab1e20e18840df024c",
+                "index": "0x0"
+              }
             }
-          },
-          {
-            "since": "0x0",
-            "previousOutput": {
-              "txHash": "0x00317da41f64a75f7cb0bd0238857e1dc75d50fae3f8bbab1e20e18840df024c",
-              "index": "0x0"
+          ],
+          "outputs": [
+            {
+              "capacity": "0x189640200",
+              "lock": {
+                "args": "0x3cb5366451256c3c9f8d4e2fc2e2aa8fa5774756",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
+            },
+            {
+              "capacity": "0x31eb37587",
+              "lock": {
+                "args": "0xc11d75be4531c9c0cca7531bab077f9a1710c87c",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
             }
-          }
-        ],
-        "outputs": [
-          {
-            "capacity": "0x189640200",
-            "lock": {
-              "args": "0x3cb5366451256c3c9f8d4e2fc2e2aa8fa5774756",
-              "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
-              "hashType": "type"
+          ],
+          "outputsData": ["0x", "0x"],
+          "version": "0x0",
+          "witnesses": [
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
+            },
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
             }
-          },
-          {
-            "capacity": "0x31eb37587",
-            "lock": {
-              "args": "0xc11d75be4531c9c0cca7531bab077f9a1710c87c",
-              "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
-              "hashType": "type"
-            }
-          }
-        ],
-        "outputsData": ["0x", "0x"],
-        "version": "0x0",
-        "witnesses": [
-          {
-            "lock": "",
-            "inputType": "",
-            "outputType": ""
-          },
-          {
-            "lock": "",
-            "inputType": "",
-            "outputType": ""
-          }
-        ]
+          ]
+        }
       },
       "expected": {
         "cellDeps": [
@@ -136,88 +138,225 @@
         ]
       }
     },
-    "without private key should throw an error": {
-      "privateKey": null,
-      "transaction": {
-        "deps": [
-          {
-            "cell": {
-              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "index": "0xffffffff"
+    "without outputs data should throw an error": {
+      "params": {
+        "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+        "transaction": {
+          "cellDeps": [
+            {
+              "outPoint": {
+                "txHash": "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
+                "index": "0x0"
+              },
+              "depType": "depGroup"
+            }
+          ],
+          "headerDeps": [],
+          "inputs": [
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x001748c1b5749af9636b940ae7d8d56d12a3de83f9020e765a5e108ca87873fa",
+                "index": "0x0"
+              }
             },
-            "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-          }
-        ],
-        "inputs": [
-          {
-            "previousOutput": {
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x00317da41f64a75f7cb0bd0238857e1dc75d50fae3f8bbab1e20e18840df024c",
+                "index": "0x0"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "capacity": "0x189640200",
+              "lock": {
+                "args": "0x3cb5366451256c3c9f8d4e2fc2e2aa8fa5774756",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
+            },
+            {
+              "capacity": "0x31eb37587",
+              "lock": {
+                "args": "0xc11d75be4531c9c0cca7531bab077f9a1710c87c",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
+            }
+          ],
+          "version": "0x0",
+          "witnesses": [
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
+            },
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
+            }
+          ]
+        }
+      },
+      "exception": "OutputsData is required"
+    },
+    "Invalid count of outputs data should throw an error": {
+      "params": {
+        "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+        "transaction": {
+          "cellDeps": [
+            {
+              "outPoint": {
+                "txHash": "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
+                "index": "0x0"
+              },
+              "depType": "depGroup"
+            }
+          ],
+          "headerDeps": [],
+          "inputs": [
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x001748c1b5749af9636b940ae7d8d56d12a3de83f9020e765a5e108ca87873fa",
+                "index": "0x0"
+              }
+            },
+            {
+              "since": "0x0",
+              "previousOutput": {
+                "txHash": "0x00317da41f64a75f7cb0bd0238857e1dc75d50fae3f8bbab1e20e18840df024c",
+                "index": "0x0"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "capacity": "0x189640200",
+              "lock": {
+                "args": "0x3cb5366451256c3c9f8d4e2fc2e2aa8fa5774756",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
+            },
+            {
+              "capacity": "0x31eb37587",
+              "lock": {
+                "args": "0xc11d75be4531c9c0cca7531bab077f9a1710c87c",
+                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                "hashType": "type"
+              }
+            }
+          ],
+          "version": "0x0",
+          "outputsData": ["0x"],
+          "witnesses": [
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
+            },
+            {
+              "lock": "",
+              "inputType": "",
+              "outputType": ""
+            }
+          ]
+        }
+      },
+      "exception": "Invalid count of outputsData"
+    },
+    "without private key should throw an error": {
+      "params": {
+        "privateKey": null,
+        "transaction": {
+          "deps": [
+            {
               "cell": {
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "0xffffffff"
               },
               "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-            },
-            "since": "0x0"
-          }
-        ],
-        "outputs": [
-          {
-            "capacity": "0x48c27395000",
-            "data": "0x",
-            "lock": {
-              "args": "0x",
-              "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
-            },
-            "type": null
-          }
-        ],
-        "version": "0x0",
-        "witnesses": ["0x"]
+            }
+          ],
+          "inputs": [
+            {
+              "previousOutput": {
+                "cell": {
+                  "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                  "index": "0xffffffff"
+                },
+                "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "since": "0x0"
+            }
+          ],
+          "outputs": [
+            {
+              "capacity": "0x48c27395000",
+              "data": "0x",
+              "lock": {
+                "args": "0x",
+                "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              "type": null
+            }
+          ],
+          "version": "0x0",
+          "witnesses": ["0x"]
+        }
       },
       "exception": "Private key or address object is required"
     },
     "without transaction should throw an error": {
-      "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
-      "transaction": null,
+      "params": {
+        "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+        "transaction": null
+      },
       "exception": "Transaction is required"
     },
     "without witnesses should throw an error": {
-      "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
-      "transaction": {
-        "deps": [
-          {
-            "cell": {
-              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "index": "0xffffffff"
-            },
-            "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-          }
-        ],
-        "inputs": [
-          {
-            "previousOutput": {
+      "params": {
+        "privateKey": "0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3",
+        "transaction": {
+          "deps": [
+            {
               "cell": {
                 "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "index": "0xffffffff"
               },
               "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-            },
-            "since": "0x0"
-          }
-        ],
-        "outputs": [
-          {
-            "capacity": "0x48c27395000",
-            "data": "0x",
-            "lock": {
-              "args": "0x",
-              "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
-            },
-            "type": null
-          }
-        ],
-        "version": "0x0",
-        "witnesses": null
+            }
+          ],
+          "inputs": [
+            {
+              "previousOutput": {
+                "cell": {
+                  "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                  "index": "0xffffffff"
+                },
+                "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "since": "0x0"
+            }
+          ],
+          "outputs": [
+            {
+              "capacity": "0x48c27395000",
+              "data": "0x",
+              "lock": {
+                "args": "0x",
+                "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              "type": null
+            }
+          ],
+          "version": "0x0",
+          "witnesses": null
+        }
       },
       "exception": "Witnesses is required"
     }
