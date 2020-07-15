@@ -50,32 +50,6 @@ class CKB {
       url: nodeUrl,
     }
     this.rpc = new RPC(nodeUrl)
-
-    const computeTransactionHashMethod = {
-      name: 'computeTransactionHash',
-      method: '_compute_transaction_hash',
-      paramsFormatters: [this.rpc.paramsFormatter.toRawTransaction],
-    }
-
-    /**
-     * @method computeTransactionHash
-     * @description this RPC is used to calculate the hash of a raw transaction
-     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
-     */
-    this.rpc.addMethod(computeTransactionHashMethod)
-
-    const computeScriptHashMethod = {
-      name: 'computeScriptHash',
-      method: '_compute_script_hash',
-      paramsFormatters: [this.rpc.paramsFormatter.toScript],
-    }
-
-    /**
-     * @method computeScriptHash
-     * @description this RPC is used to calculate the hash of lock/type script
-     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
-     */
-    this.rpc.addMethod(computeScriptHashMethod)
   }
 
   public setNode(node: URL | CKBComponents.Node): CKBComponents.Node {
@@ -96,15 +70,15 @@ class CKB {
 
   public generateLockHash = (
     publicKeyHash: PublicKeyHash,
-    deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
+    dep: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
   ) => {
-    if (!deps) {
+    if (!dep) {
       throw new ParameterRequiredException('deps')
     }
 
     return this.utils.scriptToHash({
-      hashType: deps.hashType,
-      codeHash: deps.codeHash,
+      hashType: dep.hashType,
+      codeHash: dep.codeHash,
       args: publicKeyHash,
     })
   }

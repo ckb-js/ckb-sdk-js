@@ -90,24 +90,6 @@ describe('ckb', () => {
     })
   })
 
-  describe('compute script hash', () => {
-    const fixtureTable = Object.entries(fixtures.computeScriptHash).map(([title, { script, expected, exception }]) => [
-      title,
-      script,
-      expected,
-      exception,
-    ])
-    test.each(fixtureTable)('%s', async (_title, script, expected, exception) => {
-      if (undefined !== exception) {
-        const computedHash = await ckb.rpc.computeScriptHash(script)
-        expect(computedHash).toBe(expected)
-      }
-      if (undefined !== exception) {
-        expect(ckb.rpc.computeScriptHash(script)).reject.toThrowError(exception)
-      }
-    })
-  })
-
   describe('sign transaction', () => {
     const fixtureTable = Object.entries(fixtures.signTransaction).map(([title, { params, expected, exception }]) => [
       title,
