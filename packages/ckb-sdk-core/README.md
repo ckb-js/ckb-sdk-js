@@ -2,6 +2,6 @@
 
 `@nervosnetwork/ckb-sdk-core` is the JavaScript SDK for Nervos Network [CKB Project](https://github.com/nervosnetwork/ckb)
 
-## More Information
+[Type Doc](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckb.html)
 
-[README.md](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/README.md)
+See [Full Doc](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/README.md)
