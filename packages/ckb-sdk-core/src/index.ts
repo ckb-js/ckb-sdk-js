@@ -8,7 +8,7 @@ import generateRawTransaction, { Cell, RawTransactionParamsBase } from './genera
 
 import loadCells from './loadCells'
 import signWitnesses, { isMap } from './signWitnesses'
-import { calculateLockEpochs, absoluteEpochSince, filterCellsByInputs } from './utils'
+import { filterCellsByInputs } from './utils'
 
 type Key = string
 type Address = string
@@ -292,7 +292,6 @@ class CKB {
     this.#DAODepsShouldBeReady()
     const { JSBI } = this.utils
 
-    const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet')
 
@@ -304,17 +303,9 @@ class CKB {
     )
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
-    const depositEpoch = this.utils.parseEpoch(depositBlockHeader.epoch)
-
     const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
-    const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
 
-    const lockEpochs = calculateLockEpochs({ withdrawEpoch, depositEpoch, DAO_LOCK_PERIOD_EPOCHS })
-    const minimalSince = absoluteEpochSince({
-      length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
-      index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
-      number: `0x${JSBI.add(JSBI.BigInt(depositEpoch.number), lockEpochs).toString(16)}`,
-    })
+    const withdrawEpoch = this.utils.getWithdrawEpoch(depositBlockHeader.epoch, withdrawBlockHeader.epoch)
     const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
     const targetCapacity = JSBI.BigInt(outputCapacity)
     const targetFee = JSBI.BigInt(`${fee}`)
@@ -341,7 +332,7 @@ class CKB {
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: minimalSince,
+          since: withdrawEpoch,
         },
       ],
       outputs,

@@ -1,0 +1,84 @@
+{
+  "serializeEpoch": {
+    "should pass": {
+      "params": [
+        {
+          "length": "0x3e8",
+          "index": "0x10",
+          "number": "0x200"
+        }
+      ],
+      "expected": "0x2003e80010000200"
+    },
+    "should throw an error when length is invalid": {
+      "params": [
+        {
+          "length": "3e8",
+          "index": "0x10",
+          "number": "0x200"
+        }
+      ],
+      "exception": "3e8 is an invalid hex string"
+    },
+    "should throw an error when index is invalid": {
+      "params": [
+        {
+          "length": "0x3e8",
+          "index": "10",
+          "number": "0x200"
+        }
+      ],
+      "exception": "10 is an invalid hex string"
+    },
+    "should throw an error when number is invalid": {
+      "params": [
+        {
+          "length": "0x3e8",
+          "index": "0x10",
+          "number": "200"
+        }
+      ],
+      "exception": "200 is an invalid hex string"
+    }
+  },
+  "parseEpoch": {
+    "should pass": {
+      "params": ["0x1e00017000090"],
+      "expected": {
+        "length": "0x1e0",
+        "index": "0x17",
+        "number": "0x90"
+      }
+    }
+  },
+  "getWithdrawEpoch": {
+    "should be 180 when deposit at 0 and withdrawing at 0": {
+      "params": ["0x2000640000000000", "0x2000640000000000"],
+      "expected": "0x20006400000000b4"
+    },
+    "should be 180 when deposit at 0 and withdrawing at 179.99": {
+      "params": ["0x2000640000000000", "0x20006400630000b3"],
+      "expected": "0x20006400000000b4"
+    },
+    "should be 180 when deposit at 0 and withdrawing at 180": {
+      "params": ["0x2000640000000000", "0x20006400000000b4"],
+      "expected": "0x20006400000000b4"
+    },
+    "should be 360 when deposit at 0 and withdrawing at 180.01": {
+      "params": ["0x2000640000000000", "0x20006400010000b4"],
+      "expected": "0x2000640000000168"
+    },
+    "should be 181 when deposit at 1 and withdrawing at 1": {
+      "params": ["0x2000640000000001", "0x2000640000000001"],
+      "expected": "0x20006400000000b5"
+    },
+    "should be 180.01 when deposit at 0.01 and withdrawing at 179": {
+      "params": ["0x2000640001000000", "0x20006400000000b3"],
+      "expected": "0x20006400010000b4"
+    },
+    "should be 181.35 when deposit at 1.35 and withdrawing at 4.45": {
+      "params": ["0x200708027a000001", "0x2007080334000004"],
+      "expected": "0x200708027a0000b5"
+    }
+  }
+}

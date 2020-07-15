@@ -16,7 +16,6 @@ const {
   privateKeyToAddress,
   pubkeyToAddress,
   parseAddress,
-  parseEpoch,
   hexToBytes,
   bytesToHex,
   scriptToHash,
@@ -29,19 +28,6 @@ const {
 } = ckbUtils
 
 const { ParameterRequiredException, HexStringWithout0xException } = exceptions
-
-describe('parse epoch', () => {
-  const fixture = {
-    epoch: '0x1e00017000090',
-    expected: {
-      length: '0x1e0',
-      index: '0x17',
-      number: '0x90',
-    },
-  }
-
-  expect(parseEpoch(fixture.epoch)).toEqual(fixture.expected)
-})
 
 describe('blake', () => {
   it('blake2b([]) with personal', () => {
