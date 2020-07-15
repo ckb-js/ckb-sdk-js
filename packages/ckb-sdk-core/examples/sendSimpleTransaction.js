@@ -8,7 +8,7 @@ const bootstrap = async () => {
 
   const ckb = new CKB(nodeUrl) // instantiate the JS SDK with provided node url
 
-  const secp256k1Dep = await ckb.loadSecp256k1Dep() // load the dependencies of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
+  await ckb.loadDeps() // load the dependencies of secp256k1 algorithm which is used to verify the signature in transaction's witnesses.
 
   const publicKey = ckb.utils.privateKeyToPublicKey(privateKey)
   /**

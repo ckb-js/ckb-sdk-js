@@ -1,16 +1,14 @@
 {
-  "loadSecp256k1Dep": {
-    "target": {
+  "loadDeps": {
+    "secp256k1Dep": {
       "hashType": "type",
       "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
       "outPoint": {
         "txHash": "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
         "index": "0x0"
       }
-    }
-  },
-  "loadDaoDep": {
-    "target": {
+    },
+    "daoDep": {
       "hashType": "type",
       "codeHash": "0x32064a14ce10d95d4b7343054cc19d73b25b16ae61a6c681011ca781a60c7923",
       "typeHash": "0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e",

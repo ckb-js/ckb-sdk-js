@@ -54,7 +54,7 @@ const unspentCells = [
 ]
 
 const generateRawTransaction = async () => {
-  await ckb.loadSecp256k1Dep()
+  await ckb.loadDeps()
   const rawTx = ckb.generateRawTransaction({
     fromAddress: address,
     toAddress: address,

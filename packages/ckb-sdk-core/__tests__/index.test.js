@@ -18,23 +18,24 @@ describe('ckb', () => {
   })
 
   describe('load data', () => {
-    it('load the secp256k1 dep', async () => {
-      ckb.rpc = rpc
-      jest.setTimeout(50000)
-      const fixture = fixtures.loadSecp256k1Dep
-      expect(ckb.config.loadSecp256k1Dep).toEqual(undefined)
+    describe('load deps', () => {
+      it('should throw an error when genesis block is not loaded', () => {
+        expect.assertions(1)
+        ckb.rpc = {
+          getBlockByNumber: jest.fn().mockResolvedValue(undefined),
+        }
+        return expect(ckb.loadDeps()).rejects.toEqual(new Error('Fail to load the genesis block'))
+      })
 
-      const secp256k1Dep = await ckb.loadSecp256k1Dep()
-      expect(secp256k1Dep).toEqual(fixture.target)
-    })
-
-    it('load the dao dep', async () => {
-      ckb.rpc = rpc
-      jest.setTimeout(50000)
-      const fixture = fixtures.loadDaoDep
-      expect(ckb.config.loadDaoDep).toEqual(undefined)
-      const daoDep = await ckb.loadDaoDep()
-      expect(daoDep).toEqual(fixture.target)
+      it('should return deps when genesis block is loaded', async () => {
+        expect.assertions(3)
+        ckb.rpc = rpc
+        const expected = fixtures.loadDeps
+        expect(ckb.config.secp256k1Dep).toBeUndefined()
+        const deps = await ckb.loadDeps()
+        expect(deps).toEqual(expected)
+        expect(ckb.config).toEqual(expected)
+      })
     })
 
     it('load cells', async () => {
@@ -130,8 +131,7 @@ describe('ckb', () => {
   })
 
   describe('nervos dao', () => {
-    it('generate deposit transaction', async () => {
-      ckb.rpc = rpc
+    describe('deposit', () => {
       const { params, expected } = fixtures.generateDaoDepositTransaction
       const p = {
         fromAddress: params.fromAddress,
@@ -139,12 +139,26 @@ describe('ckb', () => {
         fee: BigInt(params.fee),
         cells: params.cells,
       }
-      expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Secp256k1 dep is required')
-      await ckb.loadSecp256k1Dep()
-      expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Dao dep is required')
-      await ckb.loadDaoDep()
-      const tx = await ckb.generateDaoDepositTransaction(p)
-      expect(tx).toEqual(expected)
+
+      beforeEach(() => {
+        ckb.rpc = rpc
+        return ckb.loadDeps()
+      })
+
+      it('should throw an error when secp256k1 dep is not loaded', () => {
+        ckb.config = {}
+        expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Secp256k1 dep is required')
+      })
+
+      it('should throw an error when dao dep is not loaded', async () => {
+        ckb.config.daoDep = null
+        expect(() => ckb.generateDaoDepositTransaction(p)).toThrowError('Dao dep is required')
+      })
+
+      it('generate deposit transaction', async () => {
+        const tx = await ckb.generateDaoDepositTransaction(p)
+        expect(tx).toEqual(expected)
+      })
     })
 
     it.skip('generate start withdraw transaction', async () => {
