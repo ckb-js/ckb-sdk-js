@@ -6,7 +6,7 @@ const sk1 = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 const sk2 = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' // example private key
 
 const loadCells = async () => {
-  await ckb.loadSecp256k1Dep()
+  await ckb.loadDeps()
   const lockScript1 = {
     codeHash: ckb.config.secp256k1Dep.codeHash,
     hashType: ckb.config.secp256k1Dep.hashType,
@@ -46,7 +46,7 @@ const generateTransaction = async () => {
   const addr1 = ckb.utils.privateKeyToAddress(sk1)
   const addr2 = ckb.utils.privateKeyToAddress(sk2)
 
-  await ckb.loadSecp256k1Dep()
+  await ckb.loadDeps()
 
   const rawTransaction = ckb.generateRawTransaction({
     fromAddresses: [addr1, addr2],
