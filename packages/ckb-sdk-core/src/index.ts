@@ -1,7 +1,7 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
@@ -99,7 +99,7 @@ class CKB {
     deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
   ) => {
     if (!deps) {
-      throw new ArgumentRequired('deps')
+      throw new ParameterRequiredException('deps')
     }
 
     return this.utils.scriptToHash({
@@ -199,7 +199,7 @@ class CKB {
     transaction: CKBComponents.RawTransactionToSign,
     cells: CachedCell[],
   ) => {
-    if (!key) throw new ArgumentRequired('Private key or address object')
+    if (!key) throw new ParameterRequiredException('Private key or address object')
     this.#validateTransactionToSign(transaction)
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
@@ -449,20 +449,20 @@ class CKB {
 
   #secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
-      throw new ArgumentRequired('Secp256k1 dep')
+      throw new ParameterRequiredException('Secp256k1 dep')
     }
   }
 
   #DAODepsShouldBeReady = () => {
     if (!this.config.daoDep) {
-      throw new ArgumentRequired('Dao dep')
+      throw new ParameterRequiredException('Dao dep')
     }
   }
 
   #validateTransactionToSign = (transaction: CKBComponents.RawTransactionToSign) => {
-    if (!transaction) throw new ArgumentRequired('Transaction')
-    if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
-    if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
+    if (!transaction) throw new ParameterRequiredException('Transaction')
+    if (!transaction.witnesses) throw new ParameterRequiredException('Witnesses')
+    if (!transaction.outputsData) throw new ParameterRequiredException('OutputsData')
     if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
   }
 

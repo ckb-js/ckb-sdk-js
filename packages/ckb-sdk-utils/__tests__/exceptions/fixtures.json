@@ -1,0 +1,128 @@
+{
+  "ParameterRequiredException": {
+    "params": ["Field Name"],
+    "expected": {
+      "code": 102,
+      "message": "Field Name is required"
+    }
+  },
+  "SignMessageException": {
+    "params": [],
+    "expected": {
+      "code": 103,
+      "message": "Fail to sign the message"
+    }
+  },
+  "PrivateKeyLenException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Private key has invalid length"
+    }
+  },
+  "HexStringException": {
+    "params": ["Invalid hex string"],
+    "expected": {
+      "code": 101,
+      "message": "Invalid hex string is an invalid hex string"
+    }
+  },
+  "HexStringWithout0xException": {
+    "params": ["abc"],
+    "expected": {
+      "code": 101,
+      "message": "Hex string abc should start with 0x"
+    }
+  },
+  "AddressPayloadException": {
+    "params": ["Invalid Payload"],
+    "expected": {
+      "code": 101,
+      "message": "Invalid Payload is not a single-sig address payload"
+    }
+  },
+  "AddressException": {
+    "params": ["Invalid Address"],
+    "expected": {
+      "code": 101,
+      "message": "Invalid Address is not a single-sig address"
+    }
+  },
+  "OutLenTooSmallException": {
+    "params": [16, 32],
+    "expected": {
+      "code": 101,
+      "message": "Expect outlen to be at least 32, but 16 received"
+    }
+  },
+  "OutLenTooLargeException": {
+    "params": [32, 16],
+    "expected": {
+      "code": 101,
+      "message": "Expect outlen to be at most 16, but 32 received"
+    }
+  },
+  "KeyLenTooSmallException": {
+    "params": [16, 32],
+    "expected": {
+      "code": 101,
+      "message": "Expect key length to be at least 32, but 16 received"
+    }
+  },
+  "KeyLenTooLargeException": {
+    "params": [32, 16],
+    "expected": {
+      "code": 101,
+      "message": "Expect key length to be at most 16, but 32 received"
+    }
+  },
+  "OutTypeException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Expect out to be \"binary\", \"hex\", Uint8Array, or Buffer"
+    }
+  },
+  "SaltTypeException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Expect salt to be Uint8Array or Buffer"
+    }
+  },
+  "SaltLenException": {
+    "params": [16, 32],
+    "expected": {
+      "code": 101,
+      "message": "Expect salt length to be 32, but 16 received"
+    }
+  },
+  "InputTypeException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Expect input to be Uint8Array or Buffer"
+    }
+  },
+  "KeyTypeException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Expect key to be Uint8Array or Buffer"
+    }
+  },
+  "PersonalTypeException": {
+    "params": [],
+    "expected": {
+      "code": 101,
+      "message": "Expect PERSONAL to be Uint8Array or Buffer"
+    }
+  },
+  "PersonalLenException": {
+    "params": [32, 16],
+    "expected": {
+      "code": 101,
+      "message": "Expect PERSONAL length to be 16, but 32 received"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitnessGroup from './signWitnessGroup'
 import groupScripts from './groupScripts'
 
@@ -41,8 +41,8 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
   inputCells: CachedLock[]
   skipMissingKeys: boolean
 }) => {
-  if (!key) throw new ArgumentRequired('Signature provider')
-  if (!transactionHash) throw new ArgumentRequired('Transaction hash')
+  if (!key) throw new ParameterRequiredException('Signature provider')
+  if (!transactionHash) throw new ParameterRequiredException('Transaction hash')
   if (!witnesses.length) throw new Error('Witnesses is empty')
 
   if (isMap(key)) {
@@ -60,7 +60,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
         }
       }
 
-      const ws = [...indices.map((idx) => witnesses[idx]), ...restWitnesses]
+      const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
 
       const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
       rawWitnesses[indices[0]] = witnessIncludeSignature

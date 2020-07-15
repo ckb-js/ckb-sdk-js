@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { IdNotMatchException, ResponseException } from './exceptions'
 
 class Method {
   #name: string
@@ -36,10 +37,10 @@ class Method {
       httpsAgent: this.#node.httpsAgent,
     }).then(res => {
       if (res.data.id !== payload.id) {
-        throw new Error('JSONRPC id not matched')
+        throw new IdNotMatchException(payload.id, res.data.id)
       }
       if (res.data.error) {
-        throw new Error(JSON.stringify(res.data.error))
+        throw new ResponseException(JSON.stringify(res.data.error))
       }
       return this.#options.resultFormatters?.(res.data.result) ?? res.data.result
     })

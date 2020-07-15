@@ -1,5 +1,18 @@
 /* eslint-disable no-param-reassign */
 const b2wasm = require('blake2b-wasm')
+const {
+  OutLenTooSmallException,
+  OutLenTooLargeException,
+  KeyLenTooSmallException,
+  KeyLenTooLargeException,
+  OutTypeException,
+  SaltTypeException,
+  SaltLenException,
+  InputTypeException,
+  KeyTypeException,
+  PersonalTypeException,
+  PersonalLenException,
+} = require('../exceptions')
 
 const BYTES_MIN = 16
 const BYTES_MAX = 64
@@ -293,7 +306,7 @@ export class Blake2b {
 
   update = (input: Uint8Array) => {
     if (!(input instanceof Uint8Array)) {
-      throw new TypeError('input must be Uint8Array or Buffer')
+      throw new InputTypeException()
     }
     blake2bUpdate(this, input)
     return this
@@ -302,7 +315,7 @@ export class Blake2b {
   digest = (out: 'binary' | 'hex') => {
     const buf = !out || out === 'binary' || out === 'hex' ? new Uint8Array(this.outlen) : out
     if (!(buf instanceof Uint8Array)) {
-      throw new TypeError('out must be "binary", "hex", Uint8Array, or Buffer')
+      throw new OutTypeException()
     }
     if (buf.length < this.outlen) {
       throw new Error('out must have at least outlen bytes of space')
@@ -324,36 +337,36 @@ export const blake2b = (
 ) => {
   if (noAssert !== true) {
     if (outlen < BYTES_MIN) {
-      throw new Error(`outlen must be at least ${BYTES_MIN}, was given ${outlen}`)
+      throw new OutLenTooSmallException(outlen, BYTES_MIN)
     }
     if (outlen > BYTES_MAX) {
-      throw new Error(`outlen must be at most ${BYTES_MAX}, was given ${outlen}`)
+      throw new OutLenTooLargeException(outlen, BYTES_MAX)
     }
     if (key !== null) {
       if (!(key instanceof Uint8Array)) {
-        throw new TypeError('key must be Uint8Array or Buffer')
+        throw new KeyTypeException()
       }
       if (key.length < KEYBYTES_MIN) {
-        throw new Error(`key must be at least ${KEYBYTES_MIN}, was given ${key.length}`)
+        throw new KeyLenTooSmallException(key.length, KEYBYTES_MIN)
       }
       if (key.length > KEYBYTES_MAX) {
-        throw new Error(`key must be at most ${KEYBYTES_MAX}, was given ${key.length}`)
+        throw new KeyLenTooLargeException(key.length, KEYBYTES_MAX)
       }
     }
     if (salt !== null) {
       if (!(salt instanceof Uint8Array)) {
-        throw new TypeError('salt must be Uint8Array or Buffer')
+        throw new SaltTypeException()
       }
       if (salt.length !== SALTBYTES) {
-        throw new Error(`salt must be exactly ${SALTBYTES}, was given ${salt.length}`)
+        throw new SaltLenException(salt.length, SALTBYTES)
       }
     }
     if (personal !== null) {
       if (!(personal instanceof Uint8Array)) {
-        throw new TypeError('personal must be Uint8Array or Buffer')
+        throw new PersonalTypeException()
       }
       if (personal.length !== PERSONALBYTES) {
-        throw new TypeError(`personal must be exactly ${PERSONALBYTES}, was given ${personal.length}`)
+        throw new PersonalLenException(personal.length, PERSONALBYTES)
       }
     }
   }

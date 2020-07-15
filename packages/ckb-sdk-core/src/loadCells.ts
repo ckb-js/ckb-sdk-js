@@ -1,7 +1,7 @@
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 import { JSBI } from '@nervosnetwork/ckb-sdk-utils'
-import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 
 const getMinBigInt = (x: JSBI, y: JSBI) => {
   return JSBI.greaterThan(x, y) ? y : x
@@ -18,10 +18,10 @@ interface LoadCellsProps {
 const loadCells = async ({ lockHash, start = '0x0', end, STEP = '0x64', rpc }: LoadCellsProps) => {
   console.warn(`This method is only for demo, don't use it in production`)
   if (!lockHash) {
-    throw new ArgumentRequired('lockHash')
+    throw new ParameterRequiredException('lockHash')
   }
   if (!rpc) {
-    throw new ArgumentRequired('RPC object')
+    throw new ParameterRequiredException('RPC object')
   }
   assertToBeHexStringOrBigint(start)
 

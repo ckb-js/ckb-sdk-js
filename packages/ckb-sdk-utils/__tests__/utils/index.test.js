@@ -28,7 +28,7 @@ const {
   calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
-const { ArgumentRequired, HexStringShouldStartWith0x } = exceptions
+const { ParameterRequiredException, HexStringWithout0xException } = exceptions
 
 describe('parse epoch', () => {
   const fixture = {
@@ -75,7 +75,7 @@ describe('blake', () => {
           salt ? Buffer.from(salt, 'hex') : null,
           personal ? Buffer.from(personal, 'hex') : null,
         )
-      }).toThrowError(`outlen must be at least 16, was given ${outlen}`)
+      }).toThrowError(`Expect outlen to be at least 16, but ${outlen} received`)
     } else {
       const s = blake2b(
         outlen,
@@ -166,7 +166,7 @@ describe('scriptToHash', () => {
   })
 
   it('empty input should throw an error', () => {
-    expect(() => scriptToHash()).toThrow(new ArgumentRequired('Script'))
+    expect(() => scriptToHash()).toThrow(new ParameterRequiredException('Script'))
   })
 })
 
@@ -282,7 +282,7 @@ describe('address', () => {
 
   it('publicKeyHash without 0x should throw an error', () => {
     const publicKeyHash = '36c329ed630d6ce750712a477543672adab57f4c'
-    expect(() => toAddressPayload(publicKeyHash)).toThrow(new HexStringShouldStartWith0x(publicKeyHash))
+    expect(() => toAddressPayload(publicKeyHash)).toThrow(new HexStringWithout0xException(publicKeyHash))
   })
 
   it('bech32Address with empty options', () => {

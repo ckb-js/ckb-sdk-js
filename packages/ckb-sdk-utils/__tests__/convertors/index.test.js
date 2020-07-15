@@ -8,7 +8,7 @@ const {
   hexToUtf8,
   toHexInLittleEndian,
 } = require('../../lib/convertors')
-const { HexStringShouldStartWith0x } = require('../../lib/exceptions')
+const { HexStringWithout0xException } = require('../../lib/exceptions')
 
 const {
   uint16Le: uint16LeFixture,
@@ -70,7 +70,7 @@ describe('hex to bytes', () => {
   })
 
   it('hex string without 0x should throw an error', () => {
-    expect(() => hexToBytes('abcd12')).toThrow(new HexStringShouldStartWith0x('abcd12'))
+    expect(() => hexToBytes('abcd12')).toThrow(new HexStringWithout0xException('abcd12'))
   })
 })
 
@@ -95,7 +95,7 @@ describe('hex to utf8', () => {
   })
 
   it('hex string without 0x should throw an error', () => {
-    expect(() => hexToBytes('abcd')).toThrow(new HexStringShouldStartWith0x('abcd'))
+    expect(() => hexToBytes('abcd')).toThrow(new HexStringWithout0xException('abcd'))
   })
 })
 
@@ -108,9 +108,9 @@ describe('Test toHexInLittleEndian', () => {
     expect(toHexInLittleEndian(value)).toBe(expected)
   })
   it('hex string without 0x should throw an error', () => {
-    expect(() => toHexInLittleEndian('123')).toThrow(new HexStringShouldStartWith0x('123'))
+    expect(() => toHexInLittleEndian('123')).toThrow(new HexStringWithout0xException('123'))
   })
   it('throw an error when received a input unable to be converted into a number', () => {
-    expect(() => toHexInLittleEndian('invalid number')).toThrow(new HexStringShouldStartWith0x('invalid number'))
+    expect(() => toHexInLittleEndian('invalid number')).toThrow(new HexStringWithout0xException('invalid number'))
   })
 })

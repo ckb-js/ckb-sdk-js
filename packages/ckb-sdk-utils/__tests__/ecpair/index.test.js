@@ -1,6 +1,6 @@
 const { hexToBytes } = require('../..')
 const { default: ECPair } = require('../../lib/ecpair')
-const { ArgumentRequired, HexStringShouldStartWith0x } = require('../../lib/exceptions')
+const { ParameterRequiredException, HexStringWithout0xException } = require('../../lib/exceptions')
 const { sigFixtures, signRecoverableFixtures } = require('./signature.fixtures.json')
 const { instantiate: instantiateFixtures } = require('./ecpare.fixtures.json')
 
@@ -39,12 +39,12 @@ describe('ECPair', () => {
   })
 
   it('Instantiate with an empty private key should throw an error', () => {
-    expect(() => new ECPair()).toThrow(new ArgumentRequired('Private key'))
+    expect(() => new ECPair()).toThrow(new ParameterRequiredException('Private key'))
   })
 
   it('Instantiate with a private key without 0x should throw an error', () => {
     const privateKey = 'e79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3'
-    expect(() => new ECPair(privateKey, {})).toThrow(new HexStringShouldStartWith0x(privateKey))
+    expect(() => new ECPair(privateKey, {})).toThrow(new HexStringWithout0xException(privateKey))
   })
 
   it('shoule throw an error if private key has invalid length', () => {
