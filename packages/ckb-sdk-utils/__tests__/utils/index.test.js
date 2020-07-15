@@ -44,24 +44,24 @@ describe('parse epoch', () => {
 })
 
 describe('blake', () => {
-  it('blake2b("") with personal', () => {
+  it('blake2b([]) with personal', () => {
     const fixture = {
-      str: '',
+      message: new Uint8Array(),
       digest: '44f4c69744d5f8c55d642062949dcae49bc4e7ef43d388c5a12f42b5633d163e',
     }
     const s = blake2b(32, null, null, PERSONAL)
-    s.update(Buffer.from(fixture.str, 'utf8'))
+    s.update(fixture.message)
     const digest = s.digest('hex')
     expect(digest).toBe(fixture.digest)
   })
 
-  it('blake2b("The quick brown fox jumps over the lazy dog") with personal', () => {
+  it('blake2b(Buffer.from("The quick brown fox jumps over the lazy dog")) with personal', () => {
     const fixture = {
-      str: 'The quick brown fox jumps over the lazy dog',
+      message: 'The quick brown fox jumps over the lazy dog',
       digest: 'abfa2c08d62f6f567d088d6ba41d3bbbb9a45c241a8e3789ef39700060b5cee2',
     }
     const s = blake2b(32, null, null, PERSONAL)
-    s.update(Buffer.from(fixture.str, 'utf8'))
+    s.update(new Uint8Array(Buffer.from(fixture.message, 'utf8')))
     const digest = s.digest('hex')
     expect(digest).toBe(fixture.digest)
   })
@@ -71,19 +71,19 @@ describe('blake', () => {
       expect(() => {
         blake2b(
           outlen,
-          key ? Buffer.from(key, 'hex') : null,
-          salt ? Buffer.from(salt, 'hex') : null,
-          personal ? Buffer.from(personal, 'hex') : null,
+          key ? new Uint8Array(Buffer.from(key, 'hex')) : null,
+          salt ? new Uint8Array(Buffer.from(salt, 'hex')) : null,
+          personal ? new Uint8Array(Buffer.from(personal, 'hex')) : null,
         )
       }).toThrowError(`Expect outlen to be at least 16, but ${outlen} received`)
     } else {
       const s = blake2b(
         outlen,
-        key ? Buffer.from(key, 'hex') : null,
-        salt ? Buffer.from(salt, 'hex') : null,
-        personal ? Buffer.from(personal, 'hex') : null,
+        key ? new Uint8Array(Buffer.from(key, 'hex')) : null,
+        salt ? new Uint8Array(Buffer.from(salt, 'hex')) : null,
+        personal ? new Uint8Array(Buffer.from(personal, 'hex')) : null,
       )
-      s.update(Buffer.from(input, 'hex'))
+      s.update(new Uint8Array(Buffer.from(input, 'hex')))
       const digest = s.digest('hex')
       expect(digest).toBe(out)
     }
@@ -91,10 +91,10 @@ describe('blake', () => {
 
   it('blake160', () => {
     const fixture = {
-      str: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      message: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       digest: '36c329ed630d6ce750712a477543672adab57f4c',
     }
-    const digest = blake160(Buffer.from(fixture.str, 'hex'), 'hex')
+    const digest = blake160(new Uint8Array(Buffer.from(fixture.message, 'hex')), 'hex')
     expect(digest).toBe(fixture.digest)
   })
 })
