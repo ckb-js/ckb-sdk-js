@@ -1,0 +1,140 @@
+{
+  "toAddressPayload": {
+    "basic": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c"],
+      "expected": [1, 0, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
+    }
+  },
+  "fullPayloadToAddress": {
+    "data hash type": {
+      "params": [
+        {
+          "args": "0x36c329ed630d6ce750712a477543672adab57f4c",
+          "type": "0x02",
+          "prefix": "ckt",
+          "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176"
+        }
+      ],
+      "expected": "ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac"
+    },
+    "type hash type": {
+      "params": [
+        {
+          "args": "0x36c329ed630d6ce750712a477543672adab57f4c",
+          "type": "0x04",
+          "prefix": "ckt",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2"
+        }
+      ],
+      "expected": "ckt1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5c02auef"
+    },
+    "default type = 0x02 and default prefix = ckt": {
+      "params": [
+        {
+          "args": "0x36c329ed630d6ce750712a477543672adab57f4c",
+          "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176"
+        }
+      ],
+      "expected": "ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac"
+    }
+  },
+  "bech32Address": {
+    "prefix = ckt": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", { "prefix": "ckt" }],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    },
+    "prefix = ckb": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", { "prefix": "ckb" }],
+      "expected": "ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd"
+    },
+    "default prefix = ckt": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", {}],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    },
+    "default option = { prefix: ckt, type: 0x01, codeHashIndex: 0x00 }": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c"],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    },
+    "should throw an error when public key hash is not hex string": {
+      "params": ["36c329ed630d6ce750712a477543672adab57f4c"],
+      "exception": "Hex string 36c329ed630d6ce750712a477543672adab57f4c should start with 0x"
+    }
+  },
+  "pubkeyToAddress": {
+    "with configuration of { prefix: ckt }": {
+      "params": [
+        "0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01",
+        {
+          "prefix": "ckt"
+        }
+      ],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    },
+    "default prefix = ckt": {
+      "params": ["0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01", {}],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    },
+    "default option = { prefix: ckt }": {
+      "params": ["0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01"],
+      "expected": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"
+    }
+  },
+  "parseAddress": {
+    "output binary": {
+      "params": ["ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83", "binary"],
+      "expected": [1, 0, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
+    },
+    "output hex string": {
+      "params": ["ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83", "hex"],
+      "expected": "0x010036c329ed630d6ce750712a477543672adab57f4c"
+    },
+    "default output type = binary": {
+      "params": ["ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83"],
+      "expected": [1, 0, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
+    },
+    "single sig address": {
+      "params": ["ckb1qyqt8xaupvm8837nv3gtc9x0ekkj64vud3jqfwyw5v"],
+      "expected": [1, 0, 179, 155, 188, 11, 54, 115, 199, 211, 100, 80, 188, 20, 207, 205, 173, 45, 85, 156, 108, 100]
+    },
+    "multi sig address": {
+      "params": ["ckb1qyq5lv479ewscx3ms620sv34pgeuz6zagaaqklhtgg"],
+      "expected": [1, 1, 79, 178, 190, 46, 93, 12, 26, 59, 134, 148, 248, 50, 53, 10, 51, 193, 104, 93, 71, 122]
+    },
+    "anyone can pay address": {
+      "params": ["ckt1qyprdsefa43s6m882pcj53m4gdnj4k440axq77ptun"],
+      "expected": [1, 2, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
+    },
+    "data hash type full version address": {
+      "params": ["ckb1q2da0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xw3vumhs9nvu786dj9p0q5elx66t24n3kxgdwd2q8"],
+      "expected": [ 2, 155, 215, 224, 111, 62, 207, 75, 224, 242, 252, 210, 24, 139, 35, 241, 185, 252, 200, 142, 93, 75, 101, 168, 99, 123, 23, 114, 59, 189, 163, 204, 232, 179, 155, 188, 11, 54, 115, 199, 211, 100, 80, 188, 20, 207, 205, 173, 45, 85, 156, 108, 100 ]
+    },
+    "type hash type full version address": {
+      "params": ["ckb1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5czfy37k"],
+      "expected": [ 4, 24, 146, 234, 64, 216, 43, 83, 198, 120, 255, 136, 49, 36, 80, 187, 177, 126, 22, 77, 122, 62, 10, 144, 148, 26, 165, 136, 57, 245, 111, 141, 242, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76 ]
+    },
+    "should throw an error when short version address has invalid payload size": {
+      "params": ["ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqqm65l9j"],
+      "exception": "ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqqm65l9j is not a valid short version address"
+    },
+    "should throw an error when anyone can pay address has invalid payload size": {
+      "params": ["ckt1qyprdsefa43s6m882pcj53m4gdnj4k440axqqfmyd9c"],
+      "exception": "ckt1qyprdsefa43s6m882pcj53m4gdnj4k440axqqfmyd9c is not a valid short version address"
+    },
+    "should throw an error when address type is invalid": {
+      "params": ["ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2"],
+      "exception": "ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2 is not a valid address"
+    },
+    "should throw an error when hash type is invalid": {
+      "params": ["ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2"],
+      "exception": "ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2 is not a valid address"
+    },
+    "should throw an error when code hash index is invalid": {
+      "params": ["ckt1qyzndsefa43s6m882pcj53m4gdnj4k440axqcth0hp"],
+      "exception": "ckt1qyzndsefa43s6m882pcj53m4gdnj4k440axqcth0hp is not a valid short version address"
+    },
+    "should throw an error when full version address has invalid size": {
+      "params": ["ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw"],
+      "exception": "ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw is not a valid full version address"
+    }
+  }
+}
