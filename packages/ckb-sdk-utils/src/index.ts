@@ -12,6 +12,7 @@ import { PERSONAL } from './const'
 export * from './address'
 export * from './serialization'
 export * from './convertors'
+export * from './epochs'
 
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
 export const { blake2b, bech32, blake160 } = crypto
@@ -66,14 +67,3 @@ export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents
   const serializedTransaction = serializeTransaction(transaction)
   return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE_IN_BLOCK
 }
-
-export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
-  length: `0x${JSBI.bitwiseAnd(
-    JSBI.signedRightShift(JSBI.BigInt(epoch), JSBI.BigInt(40)),
-    JSBI.BigInt(0xffff),
-  ).toString(16)}`,
-  index: `0x${JSBI.bitwiseAnd(JSBI.signedRightShift(JSBI.BigInt(epoch), JSBI.BigInt(24)), JSBI.BigInt(0xffff)).toString(
-    16,
-  )}`,
-  number: `0x${JSBI.bitwiseAnd(JSBI.BigInt(epoch), JSBI.BigInt(0xffffff)).toString(16)}`,
-})
