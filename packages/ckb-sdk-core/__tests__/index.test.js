@@ -1,5 +1,6 @@
 const fixtures = require('./fixtures.json')
 const rpc = require('../__mocks__/rpc')
+const CellCollector = require('../__mocks__/CellCollector')
 
 const { default: CKB } = require('../lib')
 
@@ -50,6 +51,17 @@ describe('ckb', () => {
       expect(cells).toHaveLength(100)
       expect(ckb.cells.size).toBe(1)
       expect(ckb.cells.get(lockHash)).toHaveLength(100)
+    })
+
+    it('load cells from indexer', async () => {
+      const indexer = jest.fn()
+      const lock = {
+        codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',
+        hashType: 'type',
+        args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
+      }
+      const actual = await ckb.loadCells({ indexer, CellCollector, lock })
+      expect(actual).toHaveLength(10)
     })
   })
 

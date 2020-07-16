@@ -25,6 +25,9 @@
       "git add"
     ]
   },
+  "optionalDependencies": {
+    "@ckb-lumos/indexer": "0.4.5"
+  },
   "devDependencies": {
     "@cryptape/sdk-ts-config": "0.0.1",
     "@types/node": "14.0.23",
