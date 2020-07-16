@@ -35,17 +35,17 @@
     }
   },
   "AddressPayloadException": {
-    "params": ["Invalid Payload"],
+    "params": ["Invalid Payload", "short"],
     "expected": {
-      "code": 101,
-      "message": "Invalid Payload is not a single-sig address payload"
+      "code": 104,
+      "message": "Invalid Payload is not a valid short version address payload"
     }
   },
   "AddressException": {
-    "params": ["Invalid Address"],
+    "params": ["Invalid Address", "full"],
     "expected": {
-      "code": 101,
-      "message": "Invalid Address is not a single-sig address"
+      "code": 104,
+      "message": "Invalid Address is not a valid full version address"
     }
   },
   "OutLenTooSmallException": {

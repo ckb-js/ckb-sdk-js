@@ -1,6 +1,6 @@
 import { bech32, blake160 } from '..'
 import { hexToBytes, bytesToHex } from '../convertors'
-import { HexStringWithout0xException } from '../exceptions'
+import { HexStringWithout0xException, AddressException, AddressPayloadException } from '../exceptions'
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -14,7 +14,7 @@ export enum AddressType {
   TypeCodeHash = '0x04', // full version with hash type 'Type'
 }
 
-export type CodeHashIndex = '0x00' | string
+export type CodeHashIndex = '0x00' | '0x01' | '0x02'
 
 export interface AddressOptions {
   prefix: AddressPrefix
@@ -23,7 +23,7 @@ export interface AddressOptions {
 }
 
 export const defaultAddressOptions = {
-  prefix: AddressPrefix.Testnet,
+  prefix: AddressPrefix.Mainnet,
   type: AddressType.HashIdx,
   codeHashOrCodeHashIndex: '0x00',
 }
@@ -61,7 +61,7 @@ export const toAddressPayload = (
 export const bech32Address = (
   args: Uint8Array | string,
   {
-    prefix = AddressPrefix.Testnet,
+    prefix = AddressPrefix.Mainnet,
     type = AddressType.HashIdx,
     codeHashOrCodeHashIndex = '0x00',
   }: AddressOptions = defaultAddressOptions,
@@ -78,7 +78,7 @@ export const bech32Address = (
  */
 export const fullPayloadToAddress = ({
   args,
-  prefix = AddressPrefix.Testnet,
+  prefix = AddressPrefix.Mainnet,
   type = AddressType.DataCodeHash,
   codeHash,
 }: {
@@ -96,7 +96,7 @@ export const fullPayloadToAddress = ({
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
   {
-    prefix = AddressPrefix.Testnet,
+    prefix = AddressPrefix.Mainnet,
     type = AddressType.HashIdx,
     codeHashOrCodeHashIndex = '0x00' as CodeHashIndex,
   }: AddressOptions = defaultAddressOptions,
@@ -107,6 +107,54 @@ export const pubkeyToAddress = (
     type,
     codeHashOrCodeHashIndex,
   })
+}
+
+const isValidShortVersionPayload = (payload: Uint8Array) => {
+  const [, index, ...data] = payload
+  /* eslint-disable indent */
+  switch (index) {
+    case 0: // secp256k1 + blake160
+    case 1: {
+      // secp256k1 + multisig
+      if (data.length !== 20) {
+        throw new AddressPayloadException(payload, 'short')
+      }
+      break
+    }
+    case 2: {
+      // anyone can pay
+      if (data.length === 20 || data.length === 22 || data.length === 24) {
+        break
+      }
+      throw new AddressPayloadException(payload, 'short')
+    }
+    default: {
+      throw new AddressPayloadException(payload, 'short')
+    }
+  }
+  /* eslint-enable indent */
+}
+
+const isValidPayload = (payload: Uint8Array) => {
+  const [type, ...data] = payload
+  /* eslint-disable indent */
+  switch (type) {
+    case +AddressType.HashIdx: {
+      isValidShortVersionPayload(payload)
+      break
+    }
+    case +AddressType.DataCodeHash:
+    case +AddressType.TypeCodeHash: {
+      if (data.length < 32) {
+        throw new AddressPayloadException(payload, 'full')
+      }
+      break
+    }
+    default: {
+      throw new AddressPayloadException(payload)
+    }
+  }
+  /* eslint-enable indent */
 }
 
 export declare interface ParseAddress {
@@ -121,6 +169,11 @@ export declare interface ParseAddress {
  */
 export const parseAddress: ParseAddress = (address: string, encode: 'binary' | 'hex' = 'binary'): any => {
   const decoded = bech32.decode(address)
-  const data = bech32.fromWords(new Uint8Array(decoded.words))
-  return encode === 'binary' ? data : bytesToHex(data)
+  const payload = bech32.fromWords(new Uint8Array(decoded.words))
+  try {
+    isValidPayload(payload)
+  } catch (err) {
+    throw new AddressException(address, err.type)
+  }
+  return encode === 'binary' ? payload : bytesToHex(payload)
 }

@@ -1,18 +1,24 @@
 import ErrorCode from './ErrorCode'
 
 export class AddressPayloadException extends Error {
-  code = ErrorCode.ParameterInvalid
+  code = ErrorCode.AddressInvalid
 
-  constructor(payload: string) {
-    super(`${payload} is not a single-sig address payload`)
+  type: 'short' | 'full' | undefined
+
+  constructor(payload: Uint8Array, type?: 'short' | 'full') {
+    super(`${payload} is not a valid ${type ? `${type} version ` : ''}address payload`)
+    this.type = type
   }
 }
 
 export class AddressException extends Error {
-  code = ErrorCode.ParameterInvalid
+  code = ErrorCode.AddressInvalid
 
-  constructor(addr: string) {
-    super(`${addr} is not a single-sig address`)
+  type: 'short' | 'full' | undefined
+
+  constructor(addr: string, type?: 'short' | 'full') {
+    super(`${addr} is not a valid ${type ? `${type} version ` : ''}address`)
+    this.type = type
   }
 }
 
