@@ -14,7 +14,7 @@ export enum AddressType {
   TypeCodeHash = '0x04', // full version with hash type 'Type'
 }
 
-export type CodeHashIndex = '0x00' | string
+export type CodeHashIndex = '0x00' | '0x01' | '0x02'
 
 export interface AddressOptions {
   prefix: AddressPrefix
@@ -23,7 +23,7 @@ export interface AddressOptions {
 }
 
 export const defaultAddressOptions = {
-  prefix: AddressPrefix.Testnet,
+  prefix: AddressPrefix.Mainnet,
   type: AddressType.HashIdx,
   codeHashOrCodeHashIndex: '0x00',
 }
@@ -61,7 +61,7 @@ export const toAddressPayload = (
 export const bech32Address = (
   args: Uint8Array | string,
   {
-    prefix = AddressPrefix.Testnet,
+    prefix = AddressPrefix.Mainnet,
     type = AddressType.HashIdx,
     codeHashOrCodeHashIndex = '0x00',
   }: AddressOptions = defaultAddressOptions,
@@ -78,7 +78,7 @@ export const bech32Address = (
  */
 export const fullPayloadToAddress = ({
   args,
-  prefix = AddressPrefix.Testnet,
+  prefix = AddressPrefix.Mainnet,
   type = AddressType.DataCodeHash,
   codeHash,
 }: {
@@ -96,7 +96,7 @@ export const fullPayloadToAddress = ({
 export const pubkeyToAddress = (
   pubkey: Uint8Array | string,
   {
-    prefix = AddressPrefix.Testnet,
+    prefix = AddressPrefix.Mainnet,
     type = AddressType.HashIdx,
     codeHashOrCodeHashIndex = '0x00' as CodeHashIndex,
   }: AddressOptions = defaultAddressOptions,

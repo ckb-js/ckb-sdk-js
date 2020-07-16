@@ -176,12 +176,17 @@ describe('privateKeyToAddress', () => {
     mainnetAddress: 'ckb1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqqm3w53',
     testnetAddress: 'ckt1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqa703cd',
   }
-  expect(privateKeyToAddress(fixture.privateKey)).toBe(fixture.testnetAddress)
+  expect(privateKeyToAddress(fixture.privateKey)).toBe(fixture.mainnetAddress)
   expect(
     privateKeyToAddress(fixture.privateKey, {
       prefix: 'ckb',
     }),
   ).toBe(fixture.mainnetAddress)
+  expect(
+    privateKeyToAddress(fixture.privateKey, {
+      prefix: 'ckt',
+    }),
+  ).toBe(fixture.testnetAddress)
 })
 
 describe('transaction fee', () => {
