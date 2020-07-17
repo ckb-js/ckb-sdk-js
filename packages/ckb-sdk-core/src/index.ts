@@ -4,7 +4,7 @@ import RPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
-import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
+import generateRawTransaction from './generateRawTransaction'
 
 import loadCells from './loadCells'
 import loadCellsFromIndexer, { isIndexerParams } from './loadCellsFromIndexer'
@@ -17,14 +17,14 @@ type LockHash = string
 type Capacity = bigint | string
 type URL = string
 
-interface RawTransactionParams extends RawTransactionParamsBase {
+interface RawTransactionParams extends RawTransactionParams.Base {
   fromAddress: Address
   toAddress: Address
   capacity: Capacity
-  cells?: Cell[]
+  cells?: RawTransactionParams.Cell[]
 }
 
-interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
+interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
   fromAddresses: Address[]
   receivePairs: { address: Address; capacity: Capacity }[]
   cells: Map<LockHash, CachedCell[]>
