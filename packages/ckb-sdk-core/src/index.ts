@@ -7,6 +7,7 @@ import * as utils from '@nervosnetwork/ckb-sdk-utils'
 import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
 
 import loadCells from './loadCells'
+import loadCellsFromIndexer, { isIndexerParams } from './loadCellsFromIndexer'
 import signWitnesses, { isMap } from './signWitnesses'
 import { filterCellsByInputs } from './utils'
 
@@ -15,7 +16,6 @@ type Address = string
 type LockHash = string
 type Capacity = bigint | string
 type URL = string
-type BlockNumber = bigint | string
 
 interface RawTransactionParams extends RawTransactionParamsBase {
   fromAddress: Address
@@ -88,21 +88,28 @@ class CKB {
     return this.config
   }
 
-  public loadCells = async ({
-    lockHash,
-    start = '0x0',
-    end,
-    STEP = '0x64',
-    save = false,
-  }: {
-    lockHash: LockHash
-    start?: BlockNumber
-    end?: BlockNumber
-    STEP?: bigint | string
-    save?: boolean
-  }) => {
-    const cells = await loadCells({ lockHash, start, end, STEP, rpc: this.rpc })
-    if (save) {
+  /**
+   * @memberof Core
+   * @description The method used to load cells from chain
+   *              The most advisable usage is to call this method with a lumos indexer as shown in the tutorial
+   * @tutorial packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
+   */
+  public loadCells = async (
+    params: (LoadCellsParams.Normal | LoadCellsParams.FromIndexer) & {
+      save?: boolean
+    },
+  ) => {
+    let lockHash = ''
+    let cells = []
+    if (isIndexerParams(params)) {
+      lockHash = this.utils.scriptToHash(params.lock)
+      cells = await loadCellsFromIndexer(params)
+    } else {
+      console.info(`Please use @ckb-lumos/indexer(https://www.npmjs.com/package/@ckb-lumos/indexer) with this method`)
+      lockHash = params.lockHash
+      cells = await loadCells({ lockHash, start: params.start, end: params.end, STEP: params.STEP, rpc: this.rpc })
+    }
+    if (params.save) {
       this.cells.set(lockHash, cells)
     }
     return cells

@@ -14,17 +14,11 @@ JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
 The ckb-sdk-js is still under development and NOT production ready. You should get familiar with CKB transaction structure and RPC before using it.
 
-# Type Doc
-
-- [Global](https://nervosnetwork.github.io/ckb-sdk-js/globals.html)
-- [Core](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckb.html)
-- [RPC](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckbrpc.html)
-- [Types](https://nervosnetwork.github.io/ckb-sdk-js/modules/ckbcomponents.html)
-
 <details>
 <summary>ToC</summary>
 <p>
 
+- [Type Doc](#typedoc)
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -39,6 +33,13 @@ The ckb-sdk-js is still under development and NOT production ready. You should g
 </details>
 
 ---
+
+# TypeDoc
+
+- [Global](https://nervosnetwork.github.io/ckb-sdk-js/globals.html)
+- [Core](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckb.html)
+- [RPC](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckbrpc.html)
+- [Types](https://nervosnetwork.github.io/ckb-sdk-js/modules/ckbcomponents.html)
 
 # Introduction
 
@@ -222,7 +223,8 @@ The rpc module will throw an error when the result contains an error field, you 
 2. [Send All Balance](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendAllBalance.js)
 3. [Send Transaction with multiple private key](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js)
 4. [Deposit to and withdraw from Nervos DAO](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js)
-5. [Lumos Starter](https://github.com/Keith-CY/ckb-sdk-lumos-starter)
+5. [Send Transaction with Lumos Collector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js)
+6. [Lumos Starter](https://github.com/Keith-CY/ckb-sdk-lumos-starter)
 
 # Development Process
 

@@ -1,0 +1,46 @@
+{
+  "isIndexerParams": {
+    "should return true when params.indexer !== undefined && params.CellCollector !== undefined": {
+      "params": [
+        {
+          "indexer": "indexer",
+          "CellCollector": "CellCollector"
+        }
+      ],
+      "expected": true
+    },
+    "should return false when params.indexer === undefined": {
+      "params": [
+        {
+          "CellCollector": "CellCollector"
+        }
+      ],
+      "expected": false
+    },
+    "should return false when params.CellCollector === undefined": {
+      "params": [
+        {
+          "indexer": "indexer"
+        }
+      ],
+      "expected": false
+    }
+  },
+  "loadCellsFromIndexer": {
+    "should return 10 cells": {
+      "params": [
+        {
+          "indexer": "indexer",
+          "lock": {
+            "codeHash": "mock_codeHash",
+            "hashType": "mock_hashType",
+            "args": "mock_args"
+          },
+          "start": "mock_start",
+          "end": "mock_end"
+        }
+      ],
+      "expected": 10
+    }
+  }
+}
