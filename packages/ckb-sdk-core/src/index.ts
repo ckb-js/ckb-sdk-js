@@ -27,7 +27,7 @@ interface RawTransactionParams extends RawTransactionParams.Base {
 interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
   fromAddresses: Address[]
   receivePairs: { address: Address; capacity: Capacity }[]
-  cells: Map<LockHash, CachedCell[]>
+  cells: Map<LockHash, RawTransactionParams.Cell[]>
 }
 
 class CKB {
@@ -92,7 +92,7 @@ class CKB {
    * @memberof Core
    * @description The method used to load cells from chain
    *              The most advisable usage is to call this method with a lumos indexer as shown in the tutorial
-   * @tutorial packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
+   * @tutorial https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
    */
   public loadCells = async (
     params: (LoadCellsParams.Normal | LoadCellsParams.FromIndexer) & {
@@ -119,7 +119,7 @@ class CKB {
 
   public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: CachedCell[],
+    cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
   ) => {
     if (!key) throw new ParameterRequiredException('Private key or address object')
     this.#validateTransactionToSign(transaction)
@@ -195,6 +195,11 @@ class CKB {
     throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to deposit capacity
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#deposit
+   */
   public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
@@ -204,7 +209,7 @@ class CKB {
     fromAddress: Address
     capacity: Capacity
     fee: Capacity
-    cells?: CachedCell[]
+    cells?: RawTransactionParams.Cell[]
   }) => {
     this.#secp256k1DepsShouldBeReady()
     this.#DAODepsShouldBeReady()
@@ -236,6 +241,11 @@ class CKB {
     return rawTx
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to start a withdraw
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#withdraw-phase-1
+   */
   public generateDaoWithdrawStartTransaction = async ({
     outPoint,
     fee,
@@ -243,7 +253,7 @@ class CKB {
   }: {
     outPoint: CKBComponents.OutPoint
     fee: Capacity
-    cells?: CachedCell[]
+    cells?: RawTransactionParams.Cell[]
   }) => {
     this.#secp256k1DepsShouldBeReady()
     this.#DAODepsShouldBeReady()
@@ -286,6 +296,11 @@ class CKB {
     return rawTx
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to finish a withdraw
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#withdraw-phase-2
+   */
   public generateDaoWithdrawTransaction = async ({
     depositOutPoint,
     withdrawOutPoint,
@@ -310,10 +325,10 @@ class CKB {
     )
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
-    const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
+    const withdrawStartBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
 
-    const withdrawEpoch = this.utils.getWithdrawEpoch(depositBlockHeader.epoch, withdrawBlockHeader.epoch)
-    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
+    const withdrawEndEpoch = this.utils.getWithdrawEpoch(depositBlockHeader.epoch, withdrawStartBlockHeader.epoch)
+    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawStartBlockHeader.hash)
     const targetCapacity = JSBI.BigInt(outputCapacity)
     const targetFee = JSBI.BigInt(`${fee}`)
     if (JSBI.lessThan(targetCapacity, targetFee)) {
@@ -335,11 +350,11 @@ class CKB {
         { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
         { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
       ],
-      headerDeps: [depositBlockHeader.hash, withdrawBlockHeader.hash],
+      headerDeps: [depositBlockHeader.hash, withdrawStartBlockHeader.hash],
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: withdrawEpoch,
+          since: withdrawEndEpoch,
         },
       ],
       outputs,

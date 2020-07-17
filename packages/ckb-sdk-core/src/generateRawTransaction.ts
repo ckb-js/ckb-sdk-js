@@ -35,7 +35,7 @@ export const getKeyAndCellsPairs = (
     const lockHash = scriptToHash({ ...scriptBase, args: params.fromPublicKeyHash })
     unspentCellsMap.set(lockHash, params.cells || [])
   } else {
-    unspentCellsMap = params.cells
+    unspentCellsMap = params.cells || new Map()
   }
   return { fromPkhes, toPkhAndCapacityPairs, unspentCellsMap }
 }
