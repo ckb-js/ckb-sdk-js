@@ -4,7 +4,6 @@ const bech32Fixtures = require('./bech32.fixtures.json')
 const blake2bFixtures = require('./blake2b.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 const transactionFeeFixtures = require('./transactionFee.fixtures.json')
-const transactionSizeFixture = require('./transactionSize.fixture.json')
 
 const {
   blake2b,
@@ -16,7 +15,6 @@ const {
   rawTransactionToHash,
   PERSONAL,
   calculateTransactionFee,
-  calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
 const { ParameterRequiredException } = exceptions
@@ -207,9 +205,4 @@ describe('transaction fee', () => {
       expect(() => calculateTransactionFee(transactionSize, feeRate)).toThrowError(exception)
     }
   })
-})
-
-describe('transaction size', () => {
-  const { transaction, expected } = transactionSizeFixture
-  expect(calculateSerializedTxSizeInBlock(transaction)).toBe(expected)
 })
