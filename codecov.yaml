@@ -27,7 +27,3 @@ comment:
   layout: 'reach,diff,flags,tree'
   behavior: default
   require_changes: no
-
-ignore:
-  # Tested but not recognized by codecov
-  - 'packages/ckb-sdk-rpc/src/index.ts'
