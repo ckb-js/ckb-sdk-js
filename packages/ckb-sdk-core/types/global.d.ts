@@ -57,6 +57,6 @@ declare namespace RawTransactionParams {
   interface Complex extends Base {
     fromPublicKeyHashes: PublicKeyHash[]
     receivePairs: { publicKeyHash: PublicKeyHash; capacity: Capacity }[]
-    cells: Map<LockHash, CachedCell[]>
+    cells?: Map<LockHash, Cell[]>
   }
 }

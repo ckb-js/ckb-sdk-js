@@ -39,7 +39,10 @@ module.exports = {
         ":": "before"
       }
     }],
-    "max-len": [2, 120],
+    "max-len": [2, {
+      "code": 120,
+      "ignoreUrls": true
+    }],
     "object-curly-newline": ["error", {
       "consistent": true
     }],
