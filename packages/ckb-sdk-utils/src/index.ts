@@ -13,6 +13,7 @@ export * from './address'
 export * from './serialization'
 export * from './convertors'
 export * from './epochs'
+export * from './sizes'
 
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
 export const { blake2b, bech32, blake160 } = crypto
@@ -60,10 +61,4 @@ export const calculateTransactionFee = (transactionSize: string | bigint, feeRat
     return `0x${JSBI.add(fee, JSBI.BigInt(1)).toString(16)}`
   }
   return `0x${fee.toString(16)}`
-}
-
-export const calculateSerializedTxSizeInBlock = (transaction: Omit<CKBComponents.Transaction, 'hash'>) => {
-  const EXTRA_SIZE_IN_BLOCK = 4
-  const serializedTransaction = serializeTransaction(transaction)
-  return serializedTransaction.slice(2).length / 2 + EXTRA_SIZE_IN_BLOCK
 }

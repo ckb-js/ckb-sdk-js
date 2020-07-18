@@ -32,3 +32,31 @@ declare namespace LoadCellsParams {
     CellCollector: any
   }
 }
+
+declare namespace RawTransactionParams {
+  type LockHash = string
+  type PublicKeyHash = string
+  type Capacity = string | bigint
+  export type Cell = Pick<CachedCell, 'dataHash' | 'type' | 'capacity' | 'outPoint'>
+  interface Base {
+    fee?: Capacity
+    safeMode: boolean
+    deps: DepCellInfo
+    capacityThreshold?: Capacity
+    changeThreshold?: Capacity
+    changePublicKeyHash?: PublicKeyHash
+  }
+
+  interface Simple extends Base {
+    fromPublicKeyHash: PublicKeyHash
+    toPublicKeyHash: PublicKeyHash
+    capacity: Capacity
+    cells?: Cell[]
+  }
+
+  interface Complex extends Base {
+    fromPublicKeyHashes: PublicKeyHash[]
+    receivePairs: { publicKeyHash: PublicKeyHash; capacity: Capacity }[]
+    cells: Map<LockHash, CachedCell[]>
+  }
+}
