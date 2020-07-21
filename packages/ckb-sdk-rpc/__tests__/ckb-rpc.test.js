@@ -1180,11 +1180,6 @@ describe('Test with mock', () => {
       })
     })
 
-    it.skip('estimate fee rate', async () => {
-      const res = await rpc.estimateFeeRate('0x11')
-      expect(res).toBeTruthy()
-    })
-
     it('send transaction', async () => {
       const tx = {
         cellDeps: [
