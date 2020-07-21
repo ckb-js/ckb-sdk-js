@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
+
+
+### Bug Fixes
+
+* **utils:** rename the arg field in params of utils#fullPayloadToAddress to args ([08dcc0d](https://github.com/nervosnetwork/ckb-sdk-js/commit/08dcc0d68dbcb26feaa3f1baa315c0974c6bd23d))
+
+
+### Features
+
+* **utils:** add epoch module ([8d6478a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8d6478a24e13650037e2a29001fdf9fd2f50d40c))
+* **utils:** set the default address prefix 'ckb' ([3134eda](https://github.com/nervosnetwork/ckb-sdk-js/commit/3134edae7a7d6806c60c9f1679473701c07a4579))
+* **utils:** use strict validation on address ([bb23ce9](https://github.com/nervosnetwork/ckb-sdk-js/commit/bb23ce9ad5f4ef4e692a96662d5f7b49ad296784))
+* **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize ([8fbc43a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8fbc43a00499eb1e3e1fd1adadd4392c509d9dca))
+
+
+### BREAKING CHANGES
+
+* **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize
+* **utils:** Set the default address prefix 'ckb' instead of 'ckt'
+* **utils:** The arg field in params of utils#fullPayloadToAddress is renamed to args
+
+
+
+
+
 # [0.33.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.32.0...v0.33.0) (2020-06-22)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

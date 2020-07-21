@@ -1,38 +1,34 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { assertToBeHexString } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
-import { ArgumentRequired } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
-import generateRawTransaction, { Cell, RawTransactionParamsBase } from './generateRawTransaction'
+import generateRawTransaction from './generateRawTransaction'
 
 import loadCells from './loadCells'
+import loadCellsFromIndexer, { isIndexerParams } from './loadCellsFromIndexer'
 import signWitnesses, { isMap } from './signWitnesses'
-import { calculateLockEpochs } from './utils'
+import { filterCellsByInputs } from './utils'
 
 type Key = string
 type Address = string
 type LockHash = string
-type PublicKeyHash = string
 type Capacity = bigint | string
 type URL = string
-type BlockNumber = bigint | string
 
-interface RawTransactionParams extends RawTransactionParamsBase {
+interface RawTransactionParams extends RawTransactionParams.Base {
   fromAddress: Address
   toAddress: Address
   capacity: Capacity
-  cells?: Cell[]
+  cells?: RawTransactionParams.Cell[]
 }
 
-interface ComplexRawTransactoinParams extends RawTransactionParamsBase {
+interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
   fromAddresses: Address[]
   receivePairs: { address: Address; capacity: Capacity }[]
-  cells: Map<LockHash, CachedCell[]>
+  cells: Map<LockHash, RawTransactionParams.Cell[]>
 }
-
-const hrpSize = 6
 
 class CKB {
   public cells: Map<LockHash, CachedCell[]> = new Map()
@@ -48,40 +44,14 @@ class CKB {
     daoDep?: DepCellInfo
   } = {}
 
-  constructor (nodeUrl: URL = 'http://localhost:8114') {
+  constructor(nodeUrl: URL = 'http://localhost:8114') {
     this._node = {
       url: nodeUrl,
     }
     this.rpc = new RPC(nodeUrl)
-
-    const computeTransactionHashMethod = {
-      name: 'computeTransactionHash',
-      method: '_compute_transaction_hash',
-      paramsFormatters: [this.rpc.paramsFormatter.toRawTransaction],
-    }
-
-    /**
-     * @method computeTransactionHash
-     * @description this RPC is used to calculate the hash of a raw transaction
-     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
-     */
-    this.rpc.addMethod(computeTransactionHashMethod)
-
-    const computeScriptHashMethod = {
-      name: 'computeScriptHash',
-      method: '_compute_script_hash',
-      paramsFormatters: [this.rpc.paramsFormatter.toScript],
-    }
-
-    /**
-     * @method computeScriptHash
-     * @description this RPC is used to calculate the hash of lock/type script
-     * @deprecated this RPC method has been marked as deprecated in Nervos CKB Project
-     */
-    this.rpc.addMethod(computeScriptHashMethod)
   }
 
-  public setNode (node: URL | CKBComponents.Node): CKBComponents.Node {
+  public setNode(node: URL | CKBComponents.Node): CKBComponents.Node {
     if (typeof node === 'string') {
       this._node.url = node
     } else {
@@ -93,108 +63,53 @@ class CKB {
     return this._node
   }
 
-  public get node (): CKBComponents.Node {
+  public get node(): CKBComponents.Node {
     return this._node
   }
 
   public generateLockHash = (
-    publicKeyHash: PublicKeyHash,
-    deps: Omit<DepCellInfo, 'outPoint'> | undefined = this.config.secp256k1Dep,
+    args: string,
+    dep: Omit<CKBComponents.Script, 'args'> | undefined = this.config.secp256k1Dep,
   ) => {
-    if (!deps) {
-      throw new ArgumentRequired('deps')
+    if (!dep) {
+      throw new ParameterRequiredException('deps')
     }
 
-    return this.utils.scriptToHash({
-      hashType: deps.hashType,
-      codeHash: deps.codeHash,
-      args: publicKeyHash,
-    })
+    return this.utils.scriptToHash({ ...dep, args })
   }
 
-  public loadSecp256k1Dep = async () => {
+  public loadDeps = async () => {
     const genesisBlock = await this.rpc.getBlockByNumber('0x0')
-
-    /* eslint-disable prettier/prettier, no-undef */
-    const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
-    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type
-    /* eslint-enable prettier/prettier, no-undef */
-
-    if (!secp256k1DepTxHash) {
-      throw new Error('Cannot load the transaction which has the secp256k1 dep cell')
+    if (!genesisBlock) {
+      throw new Error('Fail to load the genesis block')
     }
-
-    if (!typeScript) {
-      throw new Error('Secp256k1 type script not found')
-    }
-
-    const secp256k1TypeHash = this.utils.scriptToHash(typeScript)
-
-    this.config.secp256k1Dep = {
-      hashType: 'type',
-      codeHash: secp256k1TypeHash,
-      outPoint: {
-        txHash: secp256k1DepTxHash,
-        index: '0x0',
-      },
-    }
-    return this.config.secp256k1Dep
+    this.#setDaoDep(genesisBlock)
+    this.#setSecp256k1Dep(genesisBlock)
+    return this.config
   }
 
-  public loadDaoDep = async () => {
-    const genesisBlock = await this.rpc.getBlockByNumber('0x0')
-
-    /* eslint-disable prettier/prettier, no-undef */
-    const daoDepTxHash = genesisBlock?.transactions[0].hash
-    const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type
-    const data = genesisBlock?.transactions[0]?.outputsData[2]
-    /* eslint-enable prettier/prettier, no-undef */
-
-    if (!daoDepTxHash) {
-      throw new Error('Cannot load the transaction which has the dao dep cell')
+  /**
+   * @memberof Core
+   * @description The method used to load cells from chain
+   *              The most advisable usage is to call this method with a lumos indexer as shown in the tutorial
+   * @tutorial https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
+   */
+  public loadCells = async (
+    params: (LoadCellsParams.Normal | LoadCellsParams.FromIndexer) & {
+      save?: boolean
+    },
+  ) => {
+    let lockHash = ''
+    let cells = []
+    if (isIndexerParams(params)) {
+      lockHash = this.utils.scriptToHash(params.lock)
+      cells = await loadCellsFromIndexer(params)
+    } else {
+      console.info(`Please use @ckb-lumos/indexer(https://www.npmjs.com/package/@ckb-lumos/indexer) with this method`)
+      lockHash = params.lockHash
+      cells = await loadCells({ lockHash, start: params.start, end: params.end, STEP: params.STEP, rpc: this.rpc })
     }
-
-    if (!typeScript) {
-      throw new Error('DAO type script not found')
-    }
-
-    if (!data) {
-      throw new Error('DAO data not found')
-    }
-
-    const typeHash = this.utils.scriptToHash(typeScript)
-
-    const s = utils.blake2b(32, null, null, utils.PERSONAL)
-    s.update(utils.hexToBytes(data))
-    const codeHash = `0x${s.digest('hex')}`
-
-    this.config.daoDep = {
-      hashType: 'type',
-      codeHash,
-      typeHash,
-      outPoint: {
-        txHash: daoDepTxHash,
-        index: '0x2',
-      },
-    }
-    return this.config.daoDep
-  }
-
-  public loadCells = async ({
-    lockHash,
-    start = '0x0',
-    end,
-    STEP = '0x64',
-    save = false,
-  }: {
-    lockHash: LockHash
-    start?: BlockNumber
-    end?: BlockNumber
-    STEP?: bigint | string
-    save?: boolean
-  }) => {
-    const cells = await loadCells({ lockHash, start, end, STEP, rpc: this.rpc })
-    if (save) {
+    if (params.save) {
       this.cells.set(lockHash, cells)
     }
     return cells
@@ -202,30 +117,15 @@ class CKB {
 
   public signWitnesses = signWitnesses
 
-  public signTransaction = (
-    key: Key | Map<LockHash, Key>
-  ) => (
+  public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: CachedCell[]
+    cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
   ) => {
-    if (!key) throw new ArgumentRequired('Private key or address object')
-    if (!transaction) throw new ArgumentRequired('Transaction')
-    if (!transaction.witnesses) throw new ArgumentRequired('Witnesses')
-    if (!transaction.outputsData) throw new ArgumentRequired('OutputsData')
-    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
+    if (!key) throw new ParameterRequiredException('Private key or address object')
+    this.#validateTransactionToSign(transaction)
 
     const transactionHash = this.utils.rawTransactionToHash(transaction)
-
-    const inputCells = isMap(key) ? transaction.inputs.map(input => {
-      const outPoint = input.previousOutput
-      /* eslint-disable prettier/prettier, no-undef */
-      const cell = cells.find(c => c.outPoint?.txHash === outPoint?.txHash && c.outPoint?.index === outPoint?.index)
-      /* eslint-enable prettier/prettier, no-undef */
-      if (!cell) {
-        throw new Error(`Cell of ${JSON.stringify(outPoint)} is not found`)
-      }
-      return cell
-    }) : undefined
+    const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
 
     const signedWitnesses = this.signWitnesses(key)({
       transactionHash,
@@ -248,20 +148,19 @@ class CKB {
     changeThreshold,
     ...params
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
-    if ('fromAddress' in params && 'toAddress' in params) {
+    if (this.#isSimpleTransaction(params)) {
+      const [fromPublicKeyHash, toPublicKeyHash] = [params.fromAddress, params.toAddress].map(
+        this.#extractPayloadFromAddress,
+      )
+
       let availableCells = params.cells || []
-      const [fromPublicKeyHash, toPublicKeyHash] =
-        [params.fromAddress, params.toAddress].map(this.extractPayloadFromAddress)
       if (!availableCells.length && deps) {
         const lockHash = this.utils.scriptToHash({
           codeHash: deps.codeHash,
           hashType: deps.hashType,
           args: toPublicKeyHash,
         })
-        const cachedCells = this.cells.get(lockHash)
-        if (cachedCells && cachedCells.length) {
-          availableCells = cachedCells
-        }
+        availableCells = this.cells.get(lockHash) ?? availableCells
       }
       return generateRawTransaction({
         fromPublicKeyHash,
@@ -276,10 +175,10 @@ class CKB {
       })
     }
 
-    if ('fromAddresses' in params && 'receivePairs' in params) {
-      const fromPublicKeyHashes = params.fromAddresses.map(this.extractPayloadFromAddress)
+    if (this.#isComplexTransaction(params)) {
+      const fromPublicKeyHashes = params.fromAddresses.map(this.#extractPayloadFromAddress)
       const receivePairs = params.receivePairs.map(pair => ({
-        publicKeyHash: this.extractPayloadFromAddress(pair.address),
+        publicKeyHash: this.#extractPayloadFromAddress(pair.address),
         capacity: pair.capacity,
       }))
       return generateRawTransaction({
@@ -296,6 +195,11 @@ class CKB {
     throw new Error('Parameters of generateRawTransaction are invalid')
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to deposit capacity
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#deposit
+   */
   public generateDaoDepositTransaction = ({
     fromAddress,
     capacity,
@@ -305,10 +209,10 @@ class CKB {
     fromAddress: Address
     capacity: Capacity
     fee: Capacity
-    cells?: CachedCell[]
+    cells?: RawTransactionParams.Cell[]
   }) => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
 
     const rawTx = this.generateRawTransaction({
       fromAddress,
@@ -337,6 +241,11 @@ class CKB {
     return rawTx
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to start a withdraw
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#withdraw-phase-1
+   */
   public generateDaoWithdrawStartTransaction = async ({
     outPoint,
     fee,
@@ -344,10 +253,10 @@ class CKB {
   }: {
     outPoint: CKBComponents.OutPoint
     fee: Capacity
-    cells?: CachedCell[]
+    cells?: RawTransactionParams.Cell[]
   }) => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
 
     const cellStatus = await this.rpc.getLiveCell(outPoint, false)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet.')
@@ -387,6 +296,11 @@ class CKB {
     return rawTx
   }
 
+  /**
+   * @memberof Core
+   * @description Generate a transaction to finish a withdraw
+   * @tutorial https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md#withdraw-phase-2
+   */
   public generateDaoWithdrawTransaction = async ({
     depositOutPoint,
     withdrawOutPoint,
@@ -396,36 +310,25 @@ class CKB {
     withdrawOutPoint: CKBComponents.OutPoint
     fee: Capacity
   }): Promise<CKBComponents.RawTransactionToSign> => {
-    this.secp256k1DepsShouldBeReady()
-    this.DAODepsShouldBeReady()
+    this.#secp256k1DepsShouldBeReady()
+    this.#DAODepsShouldBeReady()
     const { JSBI } = this.utils
 
-    const DAO_LOCK_PERIOD_EPOCHS = 180
     const cellStatus = await this.rpc.getLiveCell(withdrawOutPoint, true)
     if (cellStatus.status !== 'live') throw new Error('Cell is not live yet')
 
     const tx = await this.rpc.getTransaction(withdrawOutPoint.txHash)
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
 
-    /* eslint-disable */
     const depositBlockNumber = this.utils.bytesToHex(
       this.utils.hexToBytes(cellStatus.cell.data?.content ?? '').reverse(),
     )
-    /* eslint-enable */
 
     const depositBlockHeader = await this.rpc.getBlockByNumber(BigInt(depositBlockNumber)).then(block => block.header)
-    const depositEpoch = this.utils.parseEpoch(depositBlockHeader.epoch)
+    const withdrawStartBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
 
-    const withdrawBlockHeader = await this.rpc.getBlock(tx.txStatus.blockHash).then(block => block.header)
-    const withdrawEpoch = this.utils.parseEpoch(withdrawBlockHeader.epoch)
-
-    const lockEpochs = calculateLockEpochs({withdrawEpoch,depositEpoch,DAO_LOCK_PERIOD_EPOCHS})
-    const minimalSince = this.absoluteEpochSince({
-      length: `0x${JSBI.BigInt(depositEpoch.length).toString(16)}`,
-      index: `0x${JSBI.BigInt(depositEpoch.index).toString(16)}`,
-      number: `0x${JSBI.add(JSBI.BigInt(depositEpoch.number), lockEpochs).toString(16)}`,
-    })
-    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawBlockHeader.hash)
+    const withdrawEndEpoch = this.utils.getWithdrawEpoch(depositBlockHeader.epoch, withdrawStartBlockHeader.epoch)
+    const outputCapacity = await this.rpc.calculateDaoMaximumWithdraw(depositOutPoint, withdrawStartBlockHeader.hash)
     const targetCapacity = JSBI.BigInt(outputCapacity)
     const targetFee = JSBI.BigInt(`${fee}`)
     if (JSBI.lessThan(targetCapacity, targetFee)) {
@@ -434,7 +337,7 @@ class CKB {
 
     const outputs: CKBComponents.CellOutput[] = [
       {
-        capacity: `0x${(JSBI.subtract(targetCapacity , targetFee)).toString(16)}`,
+        capacity: `0x${JSBI.subtract(targetCapacity, targetFee).toString(16)}`,
         lock: tx.transaction.outputs[+withdrawOutPoint.index].lock,
       },
     ]
@@ -447,11 +350,11 @@ class CKB {
         { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
         { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
       ],
-      headerDeps: [depositBlockHeader.hash, withdrawBlockHeader.hash],
+      headerDeps: [depositBlockHeader.hash, withdrawStartBlockHeader.hash],
       inputs: [
         {
           previousOutput: withdrawOutPoint,
-          since: minimalSince,
+          since: withdrawEndEpoch,
         },
       ],
       outputs,
@@ -466,46 +369,74 @@ class CKB {
     }
   }
 
-  private absoluteEpochSince = ({
-    length,
-    index,
-    number,
-  }: {
-    length: string
-    index: string
-    number: string
-  }): string => {
-    const {JSBI} = this.utils
-    assertToBeHexString(length)
-    assertToBeHexString(index)
-    assertToBeHexString(number)
-    const epochSince = JSBI.add(
-      JSBI.add(
-        JSBI.add(
-          JSBI.leftShift(JSBI.BigInt(0x20), JSBI.BigInt(56)), JSBI.leftShift(JSBI.BigInt(length), JSBI.BigInt(40))
-        ),
-        JSBI.leftShift(JSBI.BigInt(index), JSBI.BigInt(24)),
-      ),
-      JSBI.BigInt(number),
-    )
-
-    return `0x${epochSince.toString(16)}`
-  }
-
-  private extractPayloadFromAddress = (address: string) => {
+  #extractPayloadFromAddress = (address: string) => {
+    const HRP_SIZE = 6
     const addressPayload = this.utils.parseAddress(address, 'hex')
-    return `0x${addressPayload.slice(hrpSize)}`
+    return `0x${addressPayload.slice(HRP_SIZE)}`
   }
 
-  private secp256k1DepsShouldBeReady = () => {
+  #secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
-      throw new ArgumentRequired('Secp256k1 dep')
+      throw new ParameterRequiredException('Secp256k1 dep')
     }
   }
 
-  private DAODepsShouldBeReady = () => {
+  #DAODepsShouldBeReady = () => {
     if (!this.config.daoDep) {
-      throw new ArgumentRequired('Dao dep')
+      throw new ParameterRequiredException('Dao dep')
+    }
+  }
+
+  #validateTransactionToSign = (transaction: CKBComponents.RawTransactionToSign) => {
+    if (!transaction) throw new ParameterRequiredException('Transaction')
+    if (!transaction.witnesses) throw new ParameterRequiredException('Witnesses')
+    if (!transaction.outputsData) throw new ParameterRequiredException('OutputsData')
+    if (transaction.outputsData.length < transaction.outputs.length) throw new Error('Invalid count of outputsData')
+  }
+
+  #isSimpleTransaction = (params: any): params is RawTransactionParams => {
+    return 'fromAddress' in params && 'toAddress' in params
+  }
+
+  #isComplexTransaction = (params: any): params is ComplexRawTransactoinParams => {
+    return 'fromAddresses' in params && 'receivePairs' in params
+  }
+
+  #setSecp256k1Dep = async (genesisBlock: CKBComponents.Block) => {
+    const secp256k1DepTxHash = genesisBlock?.transactions[1].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[1]?.type!
+
+    const secp256k1TypeHash = this.utils.scriptToHash(typeScript)
+
+    this.config.secp256k1Dep = {
+      hashType: 'type',
+      codeHash: secp256k1TypeHash,
+      outPoint: {
+        txHash: secp256k1DepTxHash,
+        index: '0x0',
+      },
+    }
+  }
+
+  #setDaoDep = (genesisBlock: CKBComponents.Block) => {
+    const daoDepTxHash = genesisBlock?.transactions[0].hash
+    const typeScript = genesisBlock?.transactions[0]?.outputs[2]?.type!
+    const data = genesisBlock?.transactions[0]?.outputsData[2]
+
+    const typeHash = this.utils.scriptToHash(typeScript)
+
+    const s = utils.blake2b(32, null, null, utils.PERSONAL)
+    s.update(utils.hexToBytes(data))
+    const codeHash = `0x${s.digest('hex')}`
+
+    this.config.daoDep = {
+      hashType: 'type',
+      codeHash,
+      typeHash,
+      outPoint: {
+        txHash: daoDepTxHash,
+        index: '0x2',
+      },
     }
   }
 }

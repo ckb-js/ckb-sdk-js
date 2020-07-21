@@ -2,8 +2,10 @@ language: node_js
 sudo: true
 
 node_js:
-  - '12.14.1'
+  - '12.18'
   - '13.7'
+  - '13.14'
+  - '14.5'
 
 cache:
   - npm

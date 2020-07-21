@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
+
+
+### Features
+
+* **core:** combine core#loadSecp256k1Dep and core#loadDaoDep into core#loadDep ([762441e](https://github.com/nervosnetwork/ckb-sdk-js/commit/762441ed4b4e27fe377ef0662168a6bf7ae6c6a2))
+* **core:** enhance ckb#loadCells to load cells from lumos collector ([3152a3c](https://github.com/nervosnetwork/ckb-sdk-js/commit/3152a3c30da40fead8a18aee43da2eca94cd1347))
+* **core:** remove experimental rpc ([32c7a0c](https://github.com/nervosnetwork/ckb-sdk-js/commit/32c7a0c9867141e08f09ef53070ed3c30f642383))
+* **rpc:** enable batch request ([#449](https://github.com/nervosnetwork/ckb-sdk-js/issues/449)) ([9517cae](https://github.com/nervosnetwork/ckb-sdk-js/commit/9517cae307ef3b44091e13090d459d68a1855597))
+* **utils:** add epoch module ([8d6478a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8d6478a24e13650037e2a29001fdf9fd2f50d40c))
+
+
+### BREAKING CHANGES
+
+* **core:** core#loadSecp256k1Dep and core#loadDaoDep are removed, use core#loadDeps instead
+* **core:** computeTransactionHash and computeScriptHash are removed from the rpc list
+
+
+
+
+
 # [0.33.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.32.0...v0.33.0) (2020-06-22)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core

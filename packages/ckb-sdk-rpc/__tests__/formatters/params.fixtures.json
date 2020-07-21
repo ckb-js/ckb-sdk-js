@@ -6,11 +6,11 @@
     },
     {
       "param": 20,
-      "exception": "The number 20 should be a bigint or a hex string"
+      "exception": "Expect number to be bigint or hex string, but 20 received"
     },
     {
       "param": null,
-      "exception": "The number null should be a bigint or a hex string"
+      "exception": "Expect number to be bigint or hex string, but null received"
     },
     {
       "param": "1",
@@ -28,7 +28,7 @@
     },
     {
       "param": 1,
-      "exception": "Hash 1 should be type of string"
+      "exception": "Expect hash to be string, but 1 received"
     }
   ],
   "toOutPoint": [
@@ -345,7 +345,7 @@
     },
     {
       "param": -1,
-      "exception": "Page size is expected to be non-negative"
+      "exception": "Expect page size to be at least 0, but -1 received"
     },
     {
       "param": 50,
@@ -353,7 +353,7 @@
     },
     {
       "param": 51,
-      "exception": "Page size is up to 50"
+      "exception": "Expect page size to be at most 50, but 51 received"
     }
   ],
   "toReverseOrder": [
@@ -371,6 +371,10 @@
   ],
   "toOutputsValidator": [
     {
+      "params": null,
+      "expected": "undefined"
+    },
+    {
       "param": "default",
       "expected": "default"
     },
@@ -384,7 +388,7 @@
     },
     {
       "param": "unknown",
-      "exception": "Outputs validator should be default or passthrough"
+      "exception": "Expect outputs validator to be 'default' or 'passthrough'"
     }
   ]
 }

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
+
+
+### Features
+
+* **rpc:** enable batch request ([#449](https://github.com/nervosnetwork/ckb-sdk-js/issues/449)) ([9517cae](https://github.com/nervosnetwork/ckb-sdk-js/commit/9517cae307ef3b44091e13090d459d68a1855597))
+* **rpc:** remove the estimateFeeRate RPC method ([819d33f](https://github.com/nervosnetwork/ckb-sdk-js/commit/819d33f39197effb2905c9c03fe2ef0e5256f0c4))
+
+
+### BREAKING CHANGES
+
+* **rpc:** Remove the estimateFeeRate RPC method
+
+
+
+
+
 # [0.33.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.32.0...v0.33.0) (2020-06-22)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc

@@ -253,6 +253,8 @@ const formatter = {
     return cells.map(cell => ({
       cellOutput: formatter.toCell(cell.cell_output),
       createdBy: formatter.toTransactionPoint(cell.created_by),
+      cellbase: cell.cellbase,
+      outputDataLen: cell.output_data_len,
     }))
   },
   toLockHashIndexState: (index: RPC.LockHashIndexState): CKBComponents.LockHashIndexState => {

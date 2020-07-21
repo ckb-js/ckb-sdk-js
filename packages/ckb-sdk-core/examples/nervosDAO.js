@@ -11,7 +11,7 @@ const pkh = `0x${ckb.utils.blake160(pk, 'hex')}`
 const addr = ckb.utils.privateKeyToAddress(sk)
 
 const loadCells = async () => {
-  await ckb.loadSecp256k1Dep()
+  await ckb.loadDeps()
   const lockHash = ckb.generateLockHash(
     pkh
   )
@@ -25,7 +25,7 @@ const loadCells = async () => {
 
 const deposit = async () => {
   await loadCells()
-  await ckb.loadDaoDep()
+  await ckb.loadDeps()
   const depositTx = ckb.generateDaoDepositTransaction({
     fromAddress: addr,
     capacity: BigInt(10200000000),
@@ -65,7 +65,7 @@ const depositEpoch = {
 
 const starWithdrawing = async () => {
   await loadCells()
-  await ckb.loadDaoDep()
+  await ckb.loadDeps()
   const tx = await ckb.generateDaoWithdrawStartTransaction({
     outPoint: depositOutPoint,
     fee: 10000n
@@ -106,8 +106,7 @@ const logCurrentEpoch = async () => {
 }
 
 const withdraw = async () => {
-  await ckb.loadDaoDep()
-  await ckb.loadSecp256k1Dep()
+  await ckb.loadDeps()
   await loadCells()
   const tx = await ckb.generateDaoWithdrawTransaction({
     depositOutPoint,

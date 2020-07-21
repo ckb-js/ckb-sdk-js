@@ -1,67 +1,43 @@
-const ckbUtils = require('../../lib')
+const ckbUtils = require('../..')
 const exceptions = require('../../lib/exceptions')
 const bech32Fixtures = require('./bech32.fixtures.json')
 const blake2bFixtures = require('./blake2b.fixtures.json')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 const transactionFeeFixtures = require('./transactionFee.fixtures.json')
-const transactionSizeFixture = require('./transactionSize.fixture.json')
 
 const {
   blake2b,
   blake160,
   bech32,
-  bech32Address,
-  toAddressPayload,
   privateKeyToPublicKey,
   privateKeyToAddress,
-  pubkeyToAddress,
-  parseAddress,
-  parseEpoch,
-  hexToBytes,
-  bytesToHex,
   scriptToHash,
   rawTransactionToHash,
   PERSONAL,
-  AddressType,
-  fullPayloadToAddress,
   calculateTransactionFee,
-  calculateSerializedTxSizeInBlock,
 } = ckbUtils
 
-const { ArgumentRequired, HexStringShouldStartWith0x } = exceptions
-
-describe('parse epoch', () => {
-  const fixture = {
-    epoch: '0x1e00017000090',
-    expected: {
-      length: '0x1e0',
-      index: '0x17',
-      number: '0x90',
-    },
-  }
-
-  expect(parseEpoch(fixture.epoch)).toEqual(fixture.expected)
-})
+const { ParameterRequiredException } = exceptions
 
 describe('blake', () => {
-  it('blake2b("") with personal', () => {
+  it('blake2b([]) with personal', () => {
     const fixture = {
-      str: '',
+      message: new Uint8Array(),
       digest: '44f4c69744d5f8c55d642062949dcae49bc4e7ef43d388c5a12f42b5633d163e',
     }
     const s = blake2b(32, null, null, PERSONAL)
-    s.update(Buffer.from(fixture.str, 'utf8'))
+    s.update(fixture.message)
     const digest = s.digest('hex')
     expect(digest).toBe(fixture.digest)
   })
 
-  it('blake2b("The quick brown fox jumps over the lazy dog") with personal', () => {
+  it('blake2b(Buffer.from("The quick brown fox jumps over the lazy dog")) with personal', () => {
     const fixture = {
-      str: 'The quick brown fox jumps over the lazy dog',
+      message: 'The quick brown fox jumps over the lazy dog',
       digest: 'abfa2c08d62f6f567d088d6ba41d3bbbb9a45c241a8e3789ef39700060b5cee2',
     }
     const s = blake2b(32, null, null, PERSONAL)
-    s.update(Buffer.from(fixture.str, 'utf8'))
+    s.update(new Uint8Array(Buffer.from(fixture.message, 'utf8')))
     const digest = s.digest('hex')
     expect(digest).toBe(fixture.digest)
   })
@@ -71,19 +47,19 @@ describe('blake', () => {
       expect(() => {
         blake2b(
           outlen,
-          key ? Buffer.from(key, 'hex') : null,
-          salt ? Buffer.from(salt, 'hex') : null,
-          personal ? Buffer.from(personal, 'hex') : null,
+          key ? new Uint8Array(Buffer.from(key, 'hex')) : null,
+          salt ? new Uint8Array(Buffer.from(salt, 'hex')) : null,
+          personal ? new Uint8Array(Buffer.from(personal, 'hex')) : null,
         )
-      }).toThrowError(`outlen must be at least 16, was given ${outlen}`)
+      }).toThrowError(`Expect outlen to be at least 16, but ${outlen} received`)
     } else {
       const s = blake2b(
         outlen,
-        key ? Buffer.from(key, 'hex') : null,
-        salt ? Buffer.from(salt, 'hex') : null,
-        personal ? Buffer.from(personal, 'hex') : null,
+        key ? new Uint8Array(Buffer.from(key, 'hex')) : null,
+        salt ? new Uint8Array(Buffer.from(salt, 'hex')) : null,
+        personal ? new Uint8Array(Buffer.from(personal, 'hex')) : null,
       )
-      s.update(Buffer.from(input, 'hex'))
+      s.update(new Uint8Array(Buffer.from(input, 'hex')))
       const digest = s.digest('hex')
       expect(digest).toBe(out)
     }
@@ -91,16 +67,16 @@ describe('blake', () => {
 
   it('blake160', () => {
     const fixture = {
-      str: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
+      message: '024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
       digest: '36c329ed630d6ce750712a477543672adab57f4c',
     }
-    const digest = blake160(Buffer.from(fixture.str, 'hex'), 'hex')
+    const digest = blake160(new Uint8Array(Buffer.from(fixture.message, 'hex')), 'hex')
     expect(digest).toBe(fixture.digest)
   })
 })
 
 describe('bech32', () => {
-  bech32Fixtures.bech32.valid.forEach((f) => {
+  bech32Fixtures.bech32.valid.forEach(f => {
     it(`fromWords/toWords ${f.hex}`, () => {
       if (f.hex) {
         const words = bech32.toWords(Buffer.from(f.hex, 'hex'))
@@ -159,14 +135,14 @@ describe('scriptToHash', () => {
       scriptHash: '0xd39f84d4702f53cf8625da4411be1640b961715cb36816501798fedb70b6e0fb',
     },
   }
-  test.each(Object.keys(fixtures))('%s', (fixtureName) => {
+  test.each(Object.keys(fixtures))('%s', fixtureName => {
     const fixture = fixtures[fixtureName]
     const scriptHash = scriptToHash(fixture.script)
     expect(scriptHash).toBe(fixture.scriptHash)
   })
 
   it('empty input should throw an error', () => {
-    expect(() => scriptToHash()).toThrow(new ArgumentRequired('Script'))
+    expect(() => scriptToHash()).toThrow(new ParameterRequiredException('Script'))
   })
 })
 
@@ -198,159 +174,17 @@ describe('privateKeyToAddress', () => {
     mainnetAddress: 'ckb1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqqm3w53',
     testnetAddress: 'ckt1qyqw975zuu9svtyxgjuq44lv7mspte0n2tmqa703cd',
   }
-  expect(privateKeyToAddress(fixture.privateKey)).toBe(fixture.testnetAddress)
+  expect(privateKeyToAddress(fixture.privateKey)).toBe(fixture.mainnetAddress)
   expect(
     privateKeyToAddress(fixture.privateKey, {
       prefix: 'ckb',
     }),
   ).toBe(fixture.mainnetAddress)
-})
-
-describe('address', () => {
-  it('publicKeyHash to address payload', () => {
-    const fixture = {
-      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
-      payload: '0x010036c329ed630d6ce750712a477543672adab57f4c',
-    }
-    const payload = bytesToHex(toAddressPayload(fixture.publicKeyHash))
-    expect(payload).toBe(fixture.payload)
-  })
-
-  it('fullPayloadToAddress with hash type of Data', () => {
-    const fixture = {
-      params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
-        type: AddressType.DataCodeHash,
-        prefix: 'ckt',
-        codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
-      },
-      expected: 'ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac',
-    }
-    const address = fullPayloadToAddress(fixture.params)
-    expect(address).toBe(fixture.expected)
-  })
-
-  it('fullPayloadToAddress with hash type of Type', () => {
-    const fixture = {
-      params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
-        type: AddressType.TypeCodeHash,
-        prefix: 'ckt',
-        codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',
-      },
-      expected: 'ckt1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5c02auef',
-    }
-    const address = fullPayloadToAddress(fixture.params)
-    expect(address).toBe(fixture.expected)
-  })
-
-  it('fullPayloadToAddress with default params of type = AddressType.DataCodeHash and prefix = ckt', () => {
-    const fixture = {
-      params: {
-        arg: '0x36c329ed630d6ce750712a477543672adab57f4c',
-        codeHash: '0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176',
-      },
-      expected: 'ckt1q2n9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5czshhac',
-    }
-    const address = fullPayloadToAddress(fixture.params)
-    expect(address).toBe(fixture.expected)
-  })
-
-  it('publicKeyHash to address with prefix of ckt', () => {
-    const fixture = {
-      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
+  expect(
+    privateKeyToAddress(fixture.privateKey, {
       prefix: 'ckt',
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    }
-    const address = bech32Address(fixture.publicKeyHash, {
-      prefix: fixture.prefix,
-    })
-    expect(address).toBe(fixture.address)
-  })
-
-  it('publicKeyHash to address with prefix of ckb', () => {
-    const fixture = {
-      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
-      prefix: 'ckb',
-      address: 'ckb1qyqrdsefa43s6m882pcj53m4gdnj4k440axqdt9rtd',
-    }
-    const address = bech32Address(fixture.publicKeyHash, {
-      prefix: fixture.prefix,
-    })
-    expect(address).toBe(fixture.address)
-  })
-
-  it('publicKeyHash without 0x should throw an error', () => {
-    const publicKeyHash = '36c329ed630d6ce750712a477543672adab57f4c'
-    expect(() => toAddressPayload(publicKeyHash)).toThrow(new HexStringShouldStartWith0x(publicKeyHash))
-  })
-
-  it('bech32Address with empty options', () => {
-    const fixture = {
-      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    }
-    const address = bech32Address(fixture.publicKeyHash, {})
-    expect(address).toBe(fixture.address)
-  })
-
-  it('bech32Address with default options which should be prefix: ckb, type: binIndx, code hash index: 0x00', () => {
-    const fixture = {
-      publicKeyHash: '0x36c329ed630d6ce750712a477543672adab57f4c',
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    }
-    const address = bech32Address(fixture.publicKeyHash)
-    expect(address).toBe(fixture.address)
-  })
-
-  const pubkeyToAddressFixtures = {
-    'with configuration of { prefix: ckt }': {
-      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-      config: {
-        prefix: 'ckt',
-      },
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    },
-    'with empty configuration': {
-      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-      config: {},
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    },
-    'with undefined configuration': {
-      pubkey: '0x024a501efd328e062c8675f2365970728c859c592beeefd6be8ead3d901330bc01',
-      config: undefined,
-      address: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-    },
-  }
-  test.each(Object.keys(pubkeyToAddressFixtures))('%s', (caseName) => {
-    const fixture = pubkeyToAddressFixtures[caseName]
-    const address = pubkeyToAddress(hexToBytes(fixture.pubkey), fixture.config)
-    expect(address).toBe(fixture.address)
-  })
-
-  it('parse address', () => {
-    const fixture = {
-      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-      hrp: '0100',
-      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
-    }
-    const parsedHex = parseAddress(fixture.addr, 'hex')
-    expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-    const parsedBytes = parseAddress(fixture.addr, 'binary')
-    expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-  })
-
-  it('parse address with default options encode: binary', () => {
-    const fixture = {
-      addr: 'ckt1qyqrdsefa43s6m882pcj53m4gdnj4k440axqswmu83',
-      hrp: '0100',
-      blake160Pubkey: '36c329ed630d6ce750712a477543672adab57f4c',
-    }
-    const parsedHex = bytesToHex(parseAddress(fixture.addr))
-    expect(parsedHex).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-    const parsedBytes = parseAddress(fixture.addr)
-    expect(bytesToHex(parsedBytes)).toBe(`0x${fixture.hrp}${fixture.blake160Pubkey}`)
-  })
+    }),
+  ).toBe(fixture.testnetAddress)
 })
 
 describe('transaction fee', () => {
@@ -371,9 +205,4 @@ describe('transaction fee', () => {
       expect(() => calculateTransactionFee(transactionSize, feeRate)).toThrowError(exception)
     }
   })
-})
-
-describe('transaction size', () => {
-  const { transaction, expected } = transactionSizeFixture
-  expect(calculateSerializedTxSizeInBlock(transaction)).toBe(expected)
 })
