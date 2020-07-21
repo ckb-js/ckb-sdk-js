@@ -1,0 +1,25 @@
+name: Deploy Docs
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Install and build
+        run: |
+          npm install -g lerna
+          lerna bootstrap
+          yarn run docs
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.5.7
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
+          CLEAN: true
