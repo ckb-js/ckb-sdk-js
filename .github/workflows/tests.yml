@@ -1,0 +1,35 @@
+name: Unit Tests
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+  pull_request:
+
+jobs:
+  default:
+    strategy:
+      matrix:
+        node: [12, 13, 14]
+        os: [macos-latest, ubuntu-18.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install Lerna
+        run: npm install -g lerna
+      - name: Install Deps
+        run: lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+      - name: Compile
+        run: lerna run tsc
+      - name: Test
+        run: yarn run test
+      - name: Upload codecov
+        if: matrix.os == 'macos-latest' && matrix.node == '14'
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

@@ -7,6 +7,7 @@
 
 [![NPM](https://img.shields.io/npm/v/@nervosnetwork/ckb-sdk-core/latest.svg)](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core)
 [![Package Quality](https://npm.packagequality.com/shield/%40nervosnetwork%2Fckb-sdk-core.svg)](https://packagequality.com/#?package=@nervosnetwork/ckb-sdk-core)
+![SNYK](https://github.com/nervosnetwork/ckb-sdk-js/workflows/SNYK/badge.svg)
 [![License](https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg)](./LICENSE)
 [![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
 
