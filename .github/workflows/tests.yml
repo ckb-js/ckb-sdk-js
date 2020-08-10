@@ -19,6 +19,13 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ matrix.node }}
+      - name: Restore
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFile('**/yarn.lock') }}
       - name: Install Lerna
         run: npm install -g lerna
       - name: Install Deps
