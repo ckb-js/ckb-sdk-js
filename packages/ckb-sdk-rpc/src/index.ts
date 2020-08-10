@@ -58,12 +58,13 @@ class CKBRPC extends Base {
     })
   }
 
+  /* eslint-disable prettier/prettier */
   public createBatchRequest = <N extends keyof Base, P extends (string | number | object)[], R = any[]>(
-    params: [N, P][] = [],
+    params: [method: N, ...rest: P][] = [],
   ) => {
     const ctx = this
 
-    const proxied: [N, P][] = new Proxy([], {
+    const proxied: [method: N, ...rest: P][] = new Proxy([], {
       set(...p) {
         const methods = Object.keys(ctx)
         if (p[1] !== 'length') {
@@ -78,7 +79,7 @@ class CKBRPC extends Base {
 
     Object.defineProperties(proxied, {
       add: {
-        value(...args: any) {
+        value(...args: P) {
           this.push(args)
           return this
         },
