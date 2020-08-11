@@ -270,5 +270,16 @@ declare module RPC {
     }
     txs_fee: string
   }
+
+  export interface SyncState {
+    best_known_block_number: string
+    best_known_block_timestamp: string
+    fast_time: string
+    ibd: boolean
+    inflight_blocks_count: string
+    low_time: string
+    normal_time: string
+    orphan_blocks_count: string
+  }
 }
 /* eslint-enable camelcase */

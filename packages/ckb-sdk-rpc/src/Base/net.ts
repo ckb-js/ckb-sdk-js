@@ -24,7 +24,12 @@ export default {
     paramsFormatters: [],
   },
 
-  // TODO: sync_state
+  syncState: {
+    method: 'sync_state',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toSyncState,
+  },
+
   // TODO: set_network_active
   // TODO: add_node
   // TODO: remove_node

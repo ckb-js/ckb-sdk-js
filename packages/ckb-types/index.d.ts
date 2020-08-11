@@ -430,4 +430,15 @@ declare namespace CKBComponents {
     }
     txsFee: string
   }
+
+  export interface SyncState {
+    bestKnownBlockNumber: string
+    bestKnownBlockTimestamp: string
+    fastTime: string
+    ibd: boolean
+    inflightBlocksCount: string
+    lowTime: string
+    normalTime: string
+    orphanBlocksCount: string
+  }
 }

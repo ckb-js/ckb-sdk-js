@@ -1433,5 +1433,33 @@
         "txsFee": "0x0"
       }
     }
+  ],
+  "toSyncState": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "best_known_block_number": "0x248623",
+        "best_known_block_timestamp": "0x173943c36e4",
+        "fast_time": "0x3e8",
+        "ibd": false,
+        "inflight_blocks_count": "0x0",
+        "low_time": "0x5dc",
+        "normal_time": "0x4e2",
+        "orphan_blocks_count": "0x0"
+      },
+      "expected": {
+        "bestKnownBlockNumber": "0x248623",
+        "bestKnownBlockTimestamp": "0x173943c36e4",
+        "fastTime": "0x3e8",
+        "ibd": false,
+        "inflightBlocksCount": "0x0",
+        "lowTime": "0x5dc",
+        "normalTime": "0x4e2",
+        "orphanBlocksCount": "0x0"
+      }
+    }
   ]
 }

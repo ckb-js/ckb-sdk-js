@@ -1106,6 +1106,36 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    it('get sync state', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: {
+            best_known_block_number: '0x248623',
+            best_known_block_timestamp: '0x173943c36e4',
+            fast_time: '0x3e8',
+            ibd: false,
+            inflight_blocks_count: '0x0',
+            low_time: '0x5dc',
+            normal_time: '0x4e2',
+            orphan_blocks_count: '0x0',
+          },
+        },
+      })
+      const res = await rpc.syncState()
+      expect(res).toEqual({
+        bestKnownBlockNumber: '0x248623',
+        bestKnownBlockTimestamp: '0x173943c36e4',
+        fastTime: '0x3e8',
+        ibd: false,
+        inflightBlocksCount: '0x0',
+        lowTime: '0x5dc',
+        normalTime: '0x4e2',
+        orphanBlocksCount: '0x0',
+      })
+    })
+
     it('get header', async () => {
       const BLOCK_HASH = '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4'
       axiosMock.mockResolvedValue({

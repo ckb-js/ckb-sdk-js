@@ -358,6 +358,21 @@ const formatter = {
       ...rest,
     }
   },
+  toSyncState: (state: RPC.SyncState): CKBComponents.SyncState => {
+    if (!state) {
+      return state
+    }
+    return {
+      bestKnownBlockNumber: state.best_known_block_number,
+      bestKnownBlockTimestamp: state.best_known_block_timestamp,
+      fastTime: state.fast_time,
+      ibd: state.ibd,
+      inflightBlocksCount: state.inflight_blocks_count,
+      lowTime: state.low_time,
+      normalTime: state.normal_time,
+      orphanBlocksCount: state.orphan_blocks_count,
+    }
+  },
 }
 
 export default formatter

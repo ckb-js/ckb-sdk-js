@@ -304,7 +304,12 @@ export interface Base {
     reason?: string,
   ) => Promise<null>
 
-  // TODO: sync_state
+  /**
+   * @method syncState
+   * @memberof DefaultRPC
+   * @description return sync state of this node
+   */
+  syncState: () => Promise<CKBComponents.SyncState>
 
   // TODO: set_network_active
 
