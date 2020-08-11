@@ -1405,6 +1405,11 @@ describe('Test with mock', () => {
         ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
       ])
 
+      it('batch request can be created with empty parameters', () => {
+        const emptyBatch = rpc.createBatchRequest()
+        expect(emptyBatch).toHaveLength(0)
+      })
+
       it('should has init request', () => {
         expect(batch).toEqual([['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e']])
       })
