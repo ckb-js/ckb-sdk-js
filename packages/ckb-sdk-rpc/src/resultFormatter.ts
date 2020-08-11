@@ -120,12 +120,39 @@ const formatter = {
       ...rest,
     }
   },
-  toNodeInfo: (info: RPC.NodeInfo): CKBComponents.NodeInfo => {
+  toLocalNodeInfo: (info: RPC.LocalNodeInfo): CKBComponents.LocalNodeInfo => {
     if (!info) return info
-    const { node_id: nodeId, is_outbound: isOutbound, ...rest } = info
+    const { node_id: nodeId, protocols, ...rest } = info
     return {
       nodeId,
+      protocols: protocols.map(({ id, name, support_versions: supportVersions }) => ({ id, name, supportVersions })),
+      ...rest,
+    }
+  },
+  toRemoteNodeInfo: (info: RPC.RemoteNodeInfo): CKBComponents.RemoteNodeInfo => {
+    if (!info) return info
+    const {
+      node_id: nodeId,
+      connected_duration: connectedDuration,
+      is_outbound: isOutbound,
+      last_ping_duration: lastPingDuration,
+      sync_state,
+      ...rest
+    } = info
+    return {
+      nodeId,
+      connectedDuration,
       isOutbound,
+      lastPingDuration,
+      syncState: {
+        bestKnownHeaderHash: sync_state.best_known_header_hash,
+        bestKnownHeaderNumber: sync_state.best_known_header_number,
+        canFetchCount: sync_state.can_fetch_count,
+        inflightCount: sync_state.inflight_count,
+        lastCommonHeaderHash: sync_state.last_common_header_hash,
+        lastCommonHeaderNumber: sync_state.last_common_header_number,
+        unknownHeaderListSize: sync_state.unknown_header_list_size,
+      },
       ...rest,
     }
   },
@@ -146,9 +173,9 @@ const formatter = {
       ...rest,
     }
   },
-  toPeers: (nodes: RPC.NodeInfo[]): CKBComponents.NodeInfo[] => {
+  toPeers: (nodes: RPC.RemoteNodeInfo[]): CKBComponents.RemoteNodeInfo[] => {
     if (!Array.isArray(nodes)) return []
-    return nodes.map(formatter.toNodeInfo)
+    return nodes.map(formatter.toRemoteNodeInfo)
   },
   toPeersState: (state: RPC.PeersState): CKBComponents.PeersState => {
     if (!state) return state

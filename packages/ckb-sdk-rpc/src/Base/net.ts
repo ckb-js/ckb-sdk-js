@@ -4,7 +4,7 @@ export default {
   localNodeInfo: {
     method: 'local_node_info',
     paramsFormatters: [],
-    resultFormatters: resultFmts.toNodeInfo,
+    resultFormatters: resultFmts.toLocalNodeInfo,
   },
 
   getPeers: {

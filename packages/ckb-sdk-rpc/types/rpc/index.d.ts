@@ -170,10 +170,32 @@ declare module RPC {
     alerts: AlertMessage[]
   }
 
-  export interface NodeInfo {
-    addresses: { address: string; score: string }[]
+  export interface LocalNodeInfo {
+    active: boolean
+    addresses: Record<'address' | 'score', string>[]
+    connections: string
     node_id: string
-    is_outbound: boolean | null
+    protocols: { id: string; name: string; support_versions: string[] }[]
+    version: string
+  }
+
+  export interface RemoteNodeInfo {
+    addresses: Record<'address' | 'score', string>[]
+    connected_duration: string
+    is_outbound: boolean
+    last_ping_duration: string
+    node_id: string
+    protocols: Record<'id' | 'version', string>[]
+    sync_state: Record<
+      | 'best_known_header_hash'
+      | 'best_known_header_number'
+      | 'can_fetch_count'
+      | 'inflight_count'
+      | 'last_common_header_hash'
+      | 'last_common_header_number'
+      | 'unknown_header_list_size',
+      string | null
+    >
     version: string
   }
 

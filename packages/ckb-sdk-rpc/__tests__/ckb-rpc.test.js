@@ -401,15 +401,23 @@ describe('Test with mock', () => {
         data: {
           jsonrpc: '2.0',
           result: {
+            active: true,
             addresses: [
               {
-                address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                score: '0x100',
+                address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                score: '0xff',
               },
             ],
-            is_outbound: null,
-            node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            version: '0.33.0 (248aa88 2020-10-22)',
+            connections: '0xb',
+            node_id: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            protocols: [
+              {
+                id: '0x0',
+                name: '/ckb/ping',
+                support_versions: ['0.0.1'],
+              },
+            ],
+            version: '0.34.0 (f37f598 2020-07-17)',
           },
           id,
         },
@@ -422,15 +430,23 @@ describe('Test with mock', () => {
         params: [],
       })
       expect(res).toEqual({
+        active: true,
         addresses: [
           {
-            address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            score: '0x100',
+            address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            score: '0xff',
           },
         ],
-        isOutbound: null,
-        nodeId: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-        version: '0.33.0 (248aa88 2020-10-22)',
+        connections: '0xb',
+        nodeId: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+        protocols: [
+          {
+            id: '0x0',
+            name: '/ckb/ping',
+            supportVersions: ['0.0.1'],
+          },
+        ],
+        version: '0.34.0 (f37f598 2020-07-17)',
       })
     })
 
@@ -1363,15 +1379,23 @@ describe('Test with mock', () => {
             {
               jsonrpc: '2.0',
               result: {
+                active: true,
                 addresses: [
                   {
-                    address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                    score: '0x1',
+                    address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                    score: '0xff',
                   },
                 ],
-                is_outbound: null,
-                node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                version: '0.32.0 (248aa88 2020-05-22)',
+                connections: '0xb',
+                node_id: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                protocols: [
+                  {
+                    id: '0x0',
+                    name: '/ckb/ping',
+                    support_versions: ['0.0.1'],
+                  },
+                ],
+                version: '0.34.0 (f37f598 2020-07-17)',
               },
               id,
             },
@@ -1429,15 +1453,23 @@ describe('Test with mock', () => {
             uncles: [],
           },
           {
+            active: true,
             addresses: [
               {
-                address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                score: '0x1',
+                address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                score: '0xff',
               },
             ],
-            isOutbound: null,
-            nodeId: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            version: '0.32.0 (248aa88 2020-05-22)',
+            connections: '0xb',
+            nodeId: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            protocols: [
+              {
+                id: '0x0',
+                name: '/ckb/ping',
+                supportVersions: ['0.0.1'],
+              },
+            ],
+            version: '0.34.0 (f37f598 2020-07-17)',
           },
         ])
       })

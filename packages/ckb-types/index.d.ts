@@ -308,11 +308,33 @@ declare namespace CKBComponents {
     alerts: AlertMessage[]
   }
 
-  export interface NodeInfo {
-    version: string
+  export interface LocalNodeInfo {
+    active: boolean
+    addresses: Record<'address' | 'score', string>[]
+    connections: string
     nodeId: string
-    addresses: { address: string; score: string }[]
-    isOutbound: boolean | null
+    protocols: { id: string; name: string; supportVersions: string[] }[]
+    version: string
+  }
+
+  export interface RemoteNodeInfo {
+    addresses: Record<'address' | 'score', string>[]
+    connectedDuration: string
+    isOutbound: boolean
+    lastPingDuration: string
+    nodeId: string
+    protocols: Record<'id' | 'version', string>[]
+    syncState: Record<
+      | 'bestKnownHeaderHash'
+      | 'bestKnownHeaderNumber'
+      | 'canFetchCount'
+      | 'inflightCount'
+      | 'lastCommonHeaderHash'
+      | 'lastCommonHeaderNumber'
+      | 'unknownHeaderListSize',
+      string | null
+    >
+    version: string
   }
 
   export interface PeersState {

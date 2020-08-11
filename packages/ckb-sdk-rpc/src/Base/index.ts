@@ -265,7 +265,7 @@ export interface Base {
    * @description rpc to get the local node information
    * @return {Promise<object>} node info, including addresses, is_outbound, node id, and version
    */
-  localNodeInfo: () => Promise<CKBComponents.NodeInfo>
+  localNodeInfo: () => Promise<CKBComponents.LocalNodeInfo>
 
   /**
    * @method getPeers
@@ -273,7 +273,7 @@ export interface Base {
    * @description rpc to get connected peers info
    * @return {Promise<object[]>} peers' node info
    */
-  getPeers: () => Promise<CKBComponents.NodeInfo[]>
+  getPeers: () => Promise<CKBComponents.RemoteNodeInfo[]>
 
   /**
    * @method getBannedAddresses

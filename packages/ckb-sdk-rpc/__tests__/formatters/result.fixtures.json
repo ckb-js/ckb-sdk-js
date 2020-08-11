@@ -493,13 +493,14 @@
       }
     }
   ],
-  "toNodeInfo": [
+  "toLocalNodeInfo": [
     {
       "result": null,
       "expected": null
     },
     {
       "result": {
+        "active": true,
         "addresses": [
           {
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -510,11 +511,19 @@
             "score": "1"
           }
         ],
-        "is_outbound": null,
+        "connections": "0x0",
         "node_id": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "protocols": [
+          {
+            "id": "0x64",
+            "name": "/ckb/syn",
+            "support_versions": ["1"]
+          }
+        ],
         "version": "0.9.0"
       },
       "expected": {
+        "active": true,
         "addresses": [
           {
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -525,8 +534,15 @@
             "score": "1"
           }
         ],
-        "isOutbound": null,
+        "connections": "0x0",
         "nodeId": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "protocols": [
+          {
+            "id": "0x64",
+            "name": "/ckb/syn",
+            "supportVersions": ["1"]
+          }
+        ],
         "version": "0.9.0"
       }
     }
@@ -571,8 +587,26 @@
               "score": "1"
             }
           ],
+          "connected_duration": "0x2f",
+          "is_outbound": true,
+          "last_ping_duration": "0x1a",
           "node_id": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x4",
+              "version": "0.0.1"
+            }
+          ],
+          "sync_state": {
+            "best_known_header_hash": null,
+            "best_known_header_number": null,
+            "can_fetch_count": "0x80",
+            "inflight_count": "0xa",
+            "last_common_header_hash": null,
+            "last_common_header_number": null,
+            "unknown_header_list_size": "0x20"
+          },
+          "version": "0.34.0 (f37f598 2020-07-17)"
         },
         {
           "addresses": [
@@ -581,13 +615,26 @@
               "score": "255"
             }
           ],
+          "connected_duration": "0x95",
+          "is_outbound": true,
+          "last_ping_duration": "0x41",
           "node_id": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
-          "version": "unknown"
-        },
-        {
-          "addresses": [],
-          "node_id": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x0",
+              "version": "0.0.1"
+            }
+          ],
+          "sync_state": {
+            "best_known_header_hash": "0x2157c72b3eddd41a7a14c361173cd22ef27d7e0a29eda2e511ee0b3598c0b895",
+            "best_known_header_number": "0xdb835",
+            "can_fetch_count": "0x80",
+            "inflight_count": "0xa",
+            "last_common_header_hash": "0xc63026bd881d880bb142c855dc8153187543245f0a94391c831c75df31f263c4",
+            "last_common_header_number": "0x4dc08",
+            "unknown_header_list_size": "0x1f"
+          },
+          "version": "0.30.1 (5cc1b75 2020-03-23)"
         }
       ],
       "expected": [
@@ -598,8 +645,26 @@
               "score": "1"
             }
           ],
+          "connectedDuration": "0x2f",
+          "isOutbound": true,
+          "lastPingDuration": "0x1a",
           "nodeId": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x4",
+              "version": "0.0.1"
+            }
+          ],
+          "syncState": {
+            "bestKnownHeaderHash": null,
+            "bestKnownHeaderNumber": null,
+            "canFetchCount": "0x80",
+            "inflightCount": "0xa",
+            "lastCommonHeaderHash": null,
+            "lastCommonHeaderNumber": null,
+            "unknownHeaderListSize": "0x20"
+          },
+          "version": "0.34.0 (f37f598 2020-07-17)"
         },
         {
           "addresses": [
@@ -608,13 +673,26 @@
               "score": "255"
             }
           ],
+          "connectedDuration": "0x95",
+          "isOutbound": true,
+          "lastPingDuration": "0x41",
           "nodeId": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
-          "version": "unknown"
-        },
-        {
-          "addresses": [],
-          "nodeId": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x0",
+              "version": "0.0.1"
+            }
+          ],
+          "syncState": {
+            "bestKnownHeaderHash": "0x2157c72b3eddd41a7a14c361173cd22ef27d7e0a29eda2e511ee0b3598c0b895",
+            "bestKnownHeaderNumber": "0xdb835",
+            "canFetchCount": "0x80",
+            "inflightCount": "0xa",
+            "lastCommonHeaderHash": "0xc63026bd881d880bb142c855dc8153187543245f0a94391c831c75df31f263c4",
+            "lastCommonHeaderNumber": "0x4dc08",
+            "unknownHeaderListSize": "0x1f"
+          },
+          "version": "0.30.1 (5cc1b75 2020-03-23)"
         }
       ]
     }
