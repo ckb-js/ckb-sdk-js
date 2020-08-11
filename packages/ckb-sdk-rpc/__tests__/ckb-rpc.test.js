@@ -1180,6 +1180,45 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    it('add node', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const PEER_ID = 'peer id'
+      const ADDRESS = 'address'
+      const res = await rpc.addNode(PEER_ID, ADDRESS)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'add_node',
+        params: [PEER_ID, ADDRESS],
+      })
+      expect(res).toBeNull()
+    })
+
+    it('remove node', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const PEER_ID = 'peer id'
+      const res = await rpc.removeNode(PEER_ID)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'remove_node',
+        params: [PEER_ID],
+      })
+      expect(res).toBeNull()
+    })
+
     it('get header', async () => {
       const BLOCK_HASH = '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4'
       axiosMock.mockResolvedValue({

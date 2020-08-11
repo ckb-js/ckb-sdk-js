@@ -319,9 +319,24 @@ export interface Base {
    */
   setNetworkActive: (state: boolean) => Promise<null>
 
-  // TODO: add_node
+  /**
+   * @method addNode
+   * @memberof DefaultRPC
+   * @description attempt to add a node to the peer list and try to connect
+   * @param {string} peerId - the peer id of target node
+   * @param {string} address - the address of target node
+   * @returns {Promise<null>}
+   */
+  addNode: (peerId: string, address: string) => Promise<null>
 
-  // TODO: remove_node
+  /**
+   * @method removeNode
+   * @memberof DefaultRPC
+   * @description attempt to remove a node from the peer list and try to disconnect
+   * @param {string} peerId - the peer id of the target node
+   * @returns {Promise<null>}
+   */
+  removeNode: (peerId: string) => Promise<null>
 
   /* Pool */
 

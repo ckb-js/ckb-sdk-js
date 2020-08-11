@@ -36,6 +36,13 @@ export default {
     paramsFormatters: [paramsFmts.toBoolean],
   },
 
-  // TODO: add_node
-  // TODO: remove_node
+  addNode: {
+    method: 'add_node',
+    paramsFormatters: [],
+  },
+
+  removeNode: {
+    method: 'remove_node',
+    paramsFormatters: [],
+  },
 }
