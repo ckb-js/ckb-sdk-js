@@ -344,13 +344,15 @@ declare namespace CKBComponents {
   }
 
   export interface TxPoolInfo {
+    lastTxsUpdatedAt: Timestamp
+    minFeeRate: string
     orphan: Count
     pending: Count
     proposed: Count
-    lastTxsUpdatedAt: Timestamp
+    tipHash: Hash256
+    tipNumber: BlockNumber
     totalTxCycles: Cycles
     totalTxSize: Size
-    minFeeRate: string
   }
 
   export enum CapacityUnit {

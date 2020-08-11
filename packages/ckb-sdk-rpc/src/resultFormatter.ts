@@ -160,6 +160,8 @@ const formatter = {
     if (!info) return info
     const {
       last_txs_updated_at: lastTxsUpdatedAt,
+      tip_hash: tipHash,
+      tip_number: tipNumber,
       total_tx_cycles: totalTxCycles,
       total_tx_size: totalTxSize,
       min_fee_rate: minFeeRate,
@@ -167,6 +169,8 @@ const formatter = {
     } = info
     return {
       lastTxsUpdatedAt,
+      tipHash,
+      tipNumber,
       totalTxCycles,
       totalTxSize,
       minFeeRate,

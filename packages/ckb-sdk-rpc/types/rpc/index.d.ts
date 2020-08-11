@@ -206,13 +206,15 @@ declare module RPC {
   }
 
   export interface TxPoolInfo {
+    last_txs_updated_at: Timestamp
+    min_fee_rate: string
     orphan: Count
     pending: Count
     proposed: Count
-    last_txs_updated_at: Timestamp
+    tip_hash: Hash256
+    tip_number: BlockNumber
     total_tx_cycles: Cycles
     total_tx_size: Size
-    min_fee_rate: string
   }
 
   export interface Epoch {

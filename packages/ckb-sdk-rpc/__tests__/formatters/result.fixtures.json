@@ -558,6 +558,8 @@
         "pending": "0x34",
         "proposed": "0x22",
         "last_txs_updated_at": "0x0",
+        "tip_hash": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "tip_number": "0x400",
         "total_tx_cycles": "0x12",
         "total_tx_size": "0x156",
         "min_fee_rate": "0x3e8"
@@ -567,6 +569,8 @@
         "pending": "0x34",
         "proposed": "0x22",
         "lastTxsUpdatedAt": "0x0",
+        "tipHash": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "tipNumber": "0x400",
         "totalTxCycles": "0x12",
         "totalTxSize": "0x156",
         "minFeeRate": "0x3e8"
