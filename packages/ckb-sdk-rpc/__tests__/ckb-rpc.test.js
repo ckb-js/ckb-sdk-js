@@ -177,6 +177,26 @@ describe('Test with mock', () => {
         totalTxSize: '0x112',
       })
     })
+
+    it('clear tx pool', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+
+      const res = await rpc.clearTxPool()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'clear_tx_pool',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('get current epoch', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -1124,6 +1144,12 @@ describe('Test with mock', () => {
         },
       })
       const res = await rpc.syncState()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'sync_state',
+        params: [],
+      })
       expect(res).toEqual({
         bestKnownBlockNumber: '0x248623',
         bestKnownBlockTimestamp: '0x173943c36e4',

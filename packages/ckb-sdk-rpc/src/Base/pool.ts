@@ -14,5 +14,8 @@ export default {
     resultFormatters: resultFmts.toTxPoolInfo,
   },
 
-  // TODO: clear_tx_pool
+  clearTxPool: {
+    method: 'clear_tx_pool',
+    paramsFormatters: [],
+  },
 }

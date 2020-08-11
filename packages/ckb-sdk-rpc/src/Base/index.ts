@@ -344,7 +344,13 @@ export interface Base {
    */
   txPoolInfo: () => Promise<CKBComponents.TxPoolInfo>
 
-  // TODO: clear_tx_pool
+  /**
+   * @method clearTxPool
+   * @memberof DefaultRPC
+   * @description remove all transactions from the tx pool
+   * @return {Promise<null>}
+   */
+  clearTxPool: () => Promise<null>
 
   /* Stats */
 
