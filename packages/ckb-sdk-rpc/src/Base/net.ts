@@ -1,3 +1,4 @@
+import paramsFmts from '../paramsFormatter'
 import resultFmts from '../resultFormatter'
 
 export default {
@@ -30,7 +31,11 @@ export default {
     resultFormatters: resultFmts.toSyncState,
   },
 
-  // TODO: set_network_active
+  setNetworkActive: {
+    method: 'set_network_active',
+    paramsFormatters: [paramsFmts.toBoolean],
+  },
+
   // TODO: add_node
   // TODO: remove_node
 }

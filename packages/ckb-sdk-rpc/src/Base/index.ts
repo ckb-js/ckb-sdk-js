@@ -311,7 +311,13 @@ export interface Base {
    */
   syncState: () => Promise<CKBComponents.SyncState>
 
-  // TODO: set_network_active
+  /**
+   * @method setNetworkActive
+   * @memberof DefaultRPC
+   * @description disable/enable all p2p network activity
+   * @param {boolean} state - true to enable networking, false to disable
+   */
+  setNetworkActive: (state: boolean) => Promise<null>
 
   // TODO: add_node
 
