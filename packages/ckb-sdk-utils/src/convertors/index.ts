@@ -1,5 +1,4 @@
-import { TextDecoder, TextEncoder, deprecate } from 'util'
-import JSBI from 'jsbi'
+import { TextDecoder, TextEncoder } from 'util'
 import { assertToBeHexStringOrBigint } from '../validators'
 import { HexStringWithout0xException } from '../exceptions'
 
@@ -74,25 +73,6 @@ export const utf8ToBytes = (str: string) => new TextEncoder().encode(str)
 
 export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
 
-const reverseString = (str: string) => str.split('').reverse().join('')
-
-/**
- * @deprecated since version 0.32,
- *             will be removed in version 0.35,
- *             use utils.{toUint16Le, toUint32Le, toUint64Le} instead
- */
-export const toHexInLittleEndian = deprecate((int: string | bigint, paddingBytes: number = 4) => {
-  assertToBeHexStringOrBigint(int)
-  const hex = JSBI.BigInt(`${int}`).toString(16)
-  const reversedHex = reverseString(hex)
-  const frags = reversedHex.match(/\w{1,2}/g) || []
-  const hexInLittleEndian = frags
-    .map(frag => reverseString(frag.padEnd(2, '0')))
-    .join('')
-    .padEnd(paddingBytes * 2, '0')
-  return `0x${hexInLittleEndian}`
-}, 'utils.toHexInLittleEndian is deprecated, use utils.{toUint16Le, toUint32Le, toUint64Le} instead')
-
 export default {
   toUint16Le,
   toUint32Le,
@@ -101,5 +81,4 @@ export default {
   bytesToHex,
   hexToUtf8,
   utf8ToBytes,
-  toHexInLittleEndian,
 }

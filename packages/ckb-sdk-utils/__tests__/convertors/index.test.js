@@ -6,7 +6,6 @@ const {
   bytesToHex,
   utf8ToHex,
   hexToUtf8,
-  toHexInLittleEndian,
 } = require('../../lib/convertors')
 const { HexStringWithout0xException } = require('../../lib/exceptions')
 
@@ -18,7 +17,6 @@ const {
   bytesToHex: bytesToHexFixture,
   utf8ToHex: utf8ToHexFixture,
   hexToUtf8: hexToUtf8Fixture,
-  toHexInLittleEndian: toHexInLittleEndianFixture,
 } = require('./fixtures.json')
 
 describe('Test toUint16Le', () => {
@@ -96,21 +94,5 @@ describe('hex to utf8', () => {
 
   it('hex string without 0x should throw an error', () => {
     expect(() => hexToBytes('abcd')).toThrow(new HexStringWithout0xException('abcd'))
-  })
-})
-
-describe('Test toHexInLittleEndian', () => {
-  const fixtureTable = toHexInLittleEndianFixture.map(({ value, expected }) => [
-    typeof value === 'number' ? BigInt(value) : value,
-    expected,
-  ])
-  test.each(fixtureTable)('%s => %s', (value, expected) => {
-    expect(toHexInLittleEndian(value)).toBe(expected)
-  })
-  it('hex string without 0x should throw an error', () => {
-    expect(() => toHexInLittleEndian('123')).toThrow(new HexStringWithout0xException('123'))
-  })
-  it('throw an error when received a input unable to be converted into a number', () => {
-    expect(() => toHexInLittleEndian('invalid number')).toThrow(new HexStringWithout0xException('invalid number'))
   })
 })
