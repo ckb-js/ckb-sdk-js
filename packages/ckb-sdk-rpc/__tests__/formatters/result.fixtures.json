@@ -701,24 +701,6 @@
       ]
     }
   ],
-  "toPeersState": [
-    {
-      "result": null,
-      "expected": null
-    },
-    {
-      "result": {
-        "last_updated": "1557289448237",
-        "blocks_in_flight": "86",
-        "peer": "1"
-      },
-      "expected": {
-        "lastUpdated": "1557289448237",
-        "blocksInFlight": "86",
-        "peer": "1"
-      }
-    }
-  ],
   "toDepType": [
     {
       "result": "dep_group",

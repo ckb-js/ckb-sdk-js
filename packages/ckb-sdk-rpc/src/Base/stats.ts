@@ -6,9 +6,4 @@ export default {
     paramsFormatters: [],
     resultFormatters: resultFmts.toBlockchainInfo,
   },
-  getPeersState: {
-    method: 'get_peers_state',
-    paramsFormatters: [],
-    resultFormatters: resultFmts.toPeersState,
-  },
 }
