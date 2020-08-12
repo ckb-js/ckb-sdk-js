@@ -177,6 +177,26 @@ describe('Test with mock', () => {
         totalTxSize: '0x112',
       })
     })
+
+    it('clear tx pool', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+
+      const res = await rpc.clearTxPool()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'clear_tx_pool',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('get current epoch', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -401,15 +421,23 @@ describe('Test with mock', () => {
         data: {
           jsonrpc: '2.0',
           result: {
+            active: true,
             addresses: [
               {
-                address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                score: '0x100',
+                address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                score: '0xff',
               },
             ],
-            is_outbound: null,
-            node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            version: '0.33.0 (248aa88 2020-10-22)',
+            connections: '0xb',
+            node_id: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            protocols: [
+              {
+                id: '0x0',
+                name: '/ckb/ping',
+                support_versions: ['0.0.1'],
+              },
+            ],
+            version: '0.34.0 (f37f598 2020-07-17)',
           },
           id,
         },
@@ -422,15 +450,23 @@ describe('Test with mock', () => {
         params: [],
       })
       expect(res).toEqual({
+        active: true,
         addresses: [
           {
-            address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            score: '0x100',
+            address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            score: '0xff',
           },
         ],
-        isOutbound: null,
-        nodeId: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-        version: '0.33.0 (248aa88 2020-10-22)',
+        connections: '0xb',
+        nodeId: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+        protocols: [
+          {
+            id: '0x0',
+            name: '/ckb/ping',
+            supportVersions: ['0.0.1'],
+          },
+        ],
+        version: '0.34.0 (f37f598 2020-07-17)',
       })
     })
 
@@ -1090,6 +1126,99 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    it('get sync state', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: {
+            best_known_block_number: '0x248623',
+            best_known_block_timestamp: '0x173943c36e4',
+            fast_time: '0x3e8',
+            ibd: false,
+            inflight_blocks_count: '0x0',
+            low_time: '0x5dc',
+            normal_time: '0x4e2',
+            orphan_blocks_count: '0x0',
+          },
+        },
+      })
+      const res = await rpc.syncState()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'sync_state',
+        params: [],
+      })
+      expect(res).toEqual({
+        bestKnownBlockNumber: '0x248623',
+        bestKnownBlockTimestamp: '0x173943c36e4',
+        fastTime: '0x3e8',
+        ibd: false,
+        inflightBlocksCount: '0x0',
+        lowTime: '0x5dc',
+        normalTime: '0x4e2',
+        orphanBlocksCount: '0x0',
+      })
+    })
+
+    it('set network active', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const res = await rpc.setNetworkActive(false)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'set_network_active',
+        params: [false],
+      })
+      expect(res).toBeNull()
+    })
+
+    it('add node', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const PEER_ID = 'peer id'
+      const ADDRESS = 'address'
+      const res = await rpc.addNode(PEER_ID, ADDRESS)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'add_node',
+        params: [PEER_ID, ADDRESS],
+      })
+      expect(res).toBeNull()
+    })
+
+    it('remove node', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const PEER_ID = 'peer id'
+      const res = await rpc.removeNode(PEER_ID)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'remove_node',
+        params: [PEER_ID],
+      })
+      expect(res).toBeNull()
+    })
+
     it('get header', async () => {
       const BLOCK_HASH = '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4'
       axiosMock.mockResolvedValue({
@@ -1276,6 +1405,11 @@ describe('Test with mock', () => {
         ['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e'],
       ])
 
+      it('batch request can be created with empty parameters', () => {
+        const emptyBatch = rpc.createBatchRequest()
+        expect(emptyBatch).toHaveLength(0)
+      })
+
       it('should has init request', () => {
         expect(batch).toEqual([['getBlock', '0xffd50ddb91a842234ff8f0871b941a739928c2f4a6b5cfc39de96a3f87c2413e']])
       })
@@ -1363,15 +1497,23 @@ describe('Test with mock', () => {
             {
               jsonrpc: '2.0',
               result: {
+                active: true,
                 addresses: [
                   {
-                    address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                    score: '0x1',
+                    address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                    score: '0xff',
                   },
                 ],
-                is_outbound: null,
-                node_id: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                version: '0.32.0 (248aa88 2020-05-22)',
+                connections: '0xb',
+                node_id: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                protocols: [
+                  {
+                    id: '0x0',
+                    name: '/ckb/ping',
+                    support_versions: ['0.0.1'],
+                  },
+                ],
+                version: '0.34.0 (f37f598 2020-07-17)',
               },
               id,
             },
@@ -1429,15 +1571,23 @@ describe('Test with mock', () => {
             uncles: [],
           },
           {
+            active: true,
             addresses: [
               {
-                address: '/ip4/0.0.0.0/tcp/8115/p2p/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                score: '0x1',
+                address: '/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+                score: '0xff',
               },
             ],
-            isOutbound: null,
-            nodeId: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            version: '0.32.0 (248aa88 2020-05-22)',
+            connections: '0xb',
+            nodeId: 'QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS',
+            protocols: [
+              {
+                id: '0x0',
+                name: '/ckb/ping',
+                supportVersions: ['0.0.1'],
+              },
+            ],
+            version: '0.34.0 (f37f598 2020-07-17)',
           },
         ])
       })
