@@ -488,27 +488,6 @@ describe('Test with mock', () => {
       expect(res).toEqual([])
     })
 
-    it('get peers state', async () => {
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [],
-          id,
-        },
-      })
-      const res = await rpc.getPeersState()
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_peers_state',
-        params: [],
-      })
-      expect(res).toEqual({
-        blocksInFlight: undefined,
-        lastUpdated: undefined,
-      })
-    })
-
     it('get tip block number', async () => {
       axiosMock.mockResolvedValue({
         data: {

@@ -181,15 +181,6 @@ const formatter = {
     if (!Array.isArray(nodes)) return []
     return nodes.map(formatter.toRemoteNodeInfo)
   },
-  toPeersState: (state: RPC.PeersState): CKBComponents.PeersState => {
-    if (!state) return state
-    const { last_updated: lastUpdated, blocks_in_flight: blocksInFlight, ...rest } = state
-    return {
-      lastUpdated,
-      blocksInFlight,
-      ...rest,
-    }
-  },
   toCell: (cell: RPC.Cell): CKBComponents.Cell => {
     if (!cell) return cell
     const { lock, type, ...rest } = cell
