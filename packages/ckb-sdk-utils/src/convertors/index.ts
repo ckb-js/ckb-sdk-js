@@ -1,4 +1,3 @@
-import { TextDecoder, TextEncoder } from 'util'
 import { assertToBeHexStringOrBigint } from '../validators'
 import { HexStringWithout0xException } from '../exceptions'
 
@@ -65,20 +64,10 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
 export const bytesToHex = (bytes: Uint8Array): string =>
   `0x${[...bytes].map(b => b.toString(16).padStart(2, '0')).join('')}`
 
-export const bytesToUtf8 = (bytes: Uint8Array) => new TextDecoder().decode(bytes)
-
-export const hexToUtf8 = (hex: string) => bytesToUtf8(hexToBytes(hex))
-
-export const utf8ToBytes = (str: string) => new TextEncoder().encode(str)
-
-export const utf8ToHex = (str: string) => bytesToHex(utf8ToBytes(str))
-
 export default {
   toUint16Le,
   toUint32Le,
   toUint64Le,
   hexToBytes,
   bytesToHex,
-  hexToUtf8,
-  utf8ToBytes,
 }

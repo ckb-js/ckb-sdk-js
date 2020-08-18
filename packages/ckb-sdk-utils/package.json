@@ -38,8 +38,7 @@
   },
   "devDependencies": {
     "@types/bitcoinjs-lib": "5.0.0",
-    "@types/elliptic": "6.4.12",
-    "@types/utf8": "2.1.6"
+    "@types/elliptic": "6.4.12"
   },
   "gitHead": "42eda626fd2afdca1d4e2ef69199dd97c9b3763f"
 }
