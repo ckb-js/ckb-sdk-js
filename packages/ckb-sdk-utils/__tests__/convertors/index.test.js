@@ -1,12 +1,4 @@
-const {
-  toUint16Le,
-  toUint32Le,
-  toUint64Le,
-  hexToBytes,
-  bytesToHex,
-  utf8ToHex,
-  hexToUtf8,
-} = require('../../lib/convertors')
+const { toUint16Le, toUint32Le, toUint64Le, hexToBytes, bytesToHex } = require('../../lib/convertors')
 const { HexStringWithout0xException } = require('../../lib/exceptions')
 
 const {
@@ -15,8 +7,6 @@ const {
   uint64Le: uint64LeFixture,
   hexToBytes: hexToBytesFixture,
   bytesToHex: bytesToHexFixture,
-  utf8ToHex: utf8ToHexFixture,
-  hexToUtf8: hexToUtf8Fixture,
 } = require('./fixtures.json')
 
 describe('Test toUint16Le', () => {
@@ -76,23 +66,5 @@ describe('bytes to hex', () => {
   const fixtureTable = bytesToHexFixture.map(({ bytes, expected }) => [bytes, expected])
   test.each(fixtureTable)('%j => %s', (bytes, expected) => {
     expect(bytesToHex(bytes)).toEqual(expected)
-  })
-})
-
-describe('utf8 to hex', () => {
-  const fixtureTable = utf8ToHexFixture.map(({ utf8, expected }) => [utf8, expected])
-  test.each(fixtureTable)('%s => %s', (utf8, expected) => {
-    expect(utf8ToHex(utf8)).toBe(expected)
-  })
-})
-
-describe('hex to utf8', () => {
-  const fixtureTable = hexToUtf8Fixture.map(({ hex, expected }) => [hex, expected])
-  test.each(fixtureTable)('%s => %s', (hex, expected) => {
-    expect(hexToUtf8(hex)).toBe(expected)
-  })
-
-  it('hex string without 0x should throw an error', () => {
-    expect(() => hexToBytes('abcd')).toThrow(new HexStringWithout0xException('abcd'))
   })
 })
