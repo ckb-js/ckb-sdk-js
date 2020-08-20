@@ -52,7 +52,7 @@ The ckb-sdk-js is still under development and NOT production ready. You should g
 Due to safety concern, the SDK won’t generate private keys for you. You can use `openssl` to generate a private key:
 
 ```sh
-$ openssl rand 32 -hex
+$ openssl rand -hex 32
 ```
 
 For other cases, say, you're going to generate it in a JavaScript Project(Please don't), [Elliptic](https://github.com/indutny/elliptic/) may be the one you can use.
