@@ -226,7 +226,6 @@ The rpc module will throw an error when the result contains an error field, you 
 3. [Send Transaction with multiple private key](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js)
 4. [Deposit to and withdraw from Nervos DAO](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js)
 5. [Send Transaction with Lumos Collector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js)
-6. [Lumos Starter](https://github.com/Keith-CY/ckb-sdk-lumos-starter)
 
 # Development Process
 
