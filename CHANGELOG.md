@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.34.0...v0.35.0) (2020-08-24)
+
+
+### Bug Fixes
+
+* **rpc:** fix init parameter type of batch request ([2b80f59](https://github.com/nervosnetwork/ckb-sdk-js/commit/2b80f59b728831c6d084ef35359309a397c814c6))
+
+
+### Features
+
+* **rpc:** remove an RPC ([98eb935](https://github.com/nervosnetwork/ckb-sdk-js/commit/98eb935781715202207c4fd070bfc30cb0a65378))
+* **rpc:** update RPCs ([#477](https://github.com/nervosnetwork/ckb-sdk-js/pull/477))
+    - separate basic RPC by group
+    - update teh API of rpc#localNodeInfo, rpc#txPoolInfo, and rpc#getPeers
+    - add new RPCs: rpc#syncState, rpc#clearTxPool, rpc#setNetworkActive, rpc#addNode and rpc#removeNode
+* **utils:** add epoch module ([8d6478a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8d6478a24e13650037e2a29001fdf9fd2f50d40c))
+* **utils:** set the default address prefix 'ckb' ([3134eda](https://github.com/nervosnetwork/ckb-sdk-js/commit/3134edae7a7d6806c60c9f1679473701c07a4579))
+* **utils:** use strict validation on address ([bb23ce9](https://github.com/nervosnetwork/ckb-sdk-js/commit/bb23ce9ad5f4ef4e692a96662d5f7b49ad296784))
+* **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize ([8fbc43a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8fbc43a00499eb1e3e1fd1adadd4392c509d9dca))
+* **utils:** remove utils#toHexInLittleEndian which is deprecated ([a028887](https://github.com/nervosnetwork/ckb-sdk-js/commit/a028887ab2fd46679941cbc5fca940e3d1410e64))
+* **utils:** remove methods related to utf8 string ([f9cf9cc](https://github.com/nervosnetwork/ckb-sdk-js/pull/480/commits/f9cf9cced7ea518727eb50f4e471dbe0cba63c12))
+
+
+### BREAKING CHANGES
+
+* **rpc:** remove rpc#getPeersState
+* **rpc:** rpc#getPeers returns connectedDuration, lastPingDuration, protocols, syncState
+* **rpc:** rpc#localNodeInfo returns active, connections, protocols
+* **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize
+* **utils:** Set the default address prefix 'ckb' instead of 'ckt'
+* **utils:** The arg field in params of utils#fullPayloadToAddress is renamed to args
+* **utils:** Remove utils#toHexInLittleEndian which is deprecated
+* **utils:** Remove methods related to utf8 string
+
+
+
+
+
 # [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
 
 

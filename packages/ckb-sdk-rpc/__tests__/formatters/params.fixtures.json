@@ -390,5 +390,15 @@
       "param": "unknown",
       "exception": "Expect outputs validator to be 'default' or 'passthrough'"
     }
+  ],
+  "toBoolean": [
+    {
+      "param": true,
+      "expected": true
+    },
+    {
+      "param": false,
+      "expected": false
+    }
   ]
 }

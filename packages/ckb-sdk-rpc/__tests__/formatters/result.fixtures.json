@@ -493,13 +493,14 @@
       }
     }
   ],
-  "toNodeInfo": [
+  "toLocalNodeInfo": [
     {
       "result": null,
       "expected": null
     },
     {
       "result": {
+        "active": true,
         "addresses": [
           {
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -510,11 +511,19 @@
             "score": "1"
           }
         ],
-        "is_outbound": null,
+        "connections": "0x0",
         "node_id": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "protocols": [
+          {
+            "id": "0x64",
+            "name": "/ckb/syn",
+            "support_versions": ["1"]
+          }
+        ],
         "version": "0.9.0"
       },
       "expected": {
+        "active": true,
         "addresses": [
           {
             "address": "/ip4/192.168.0.2/tcp/8112/p2p/QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
@@ -525,8 +534,15 @@
             "score": "1"
           }
         ],
-        "isOutbound": null,
+        "connections": "0x0",
         "nodeId": "QmTRHCdrRtgUzYLNCin69zEvPvLYdxUZLLfLYyHVY3DZAS",
+        "protocols": [
+          {
+            "id": "0x64",
+            "name": "/ckb/syn",
+            "supportVersions": ["1"]
+          }
+        ],
         "version": "0.9.0"
       }
     }
@@ -542,6 +558,8 @@
         "pending": "0x34",
         "proposed": "0x22",
         "last_txs_updated_at": "0x0",
+        "tip_hash": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "tip_number": "0x400",
         "total_tx_cycles": "0x12",
         "total_tx_size": "0x156",
         "min_fee_rate": "0x3e8"
@@ -551,6 +569,8 @@
         "pending": "0x34",
         "proposed": "0x22",
         "lastTxsUpdatedAt": "0x0",
+        "tipHash": "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40",
+        "tipNumber": "0x400",
         "totalTxCycles": "0x12",
         "totalTxSize": "0x156",
         "minFeeRate": "0x3e8"
@@ -571,8 +591,26 @@
               "score": "1"
             }
           ],
+          "connected_duration": "0x2f",
+          "is_outbound": true,
+          "last_ping_duration": "0x1a",
           "node_id": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x4",
+              "version": "0.0.1"
+            }
+          ],
+          "sync_state": {
+            "best_known_header_hash": null,
+            "best_known_header_number": null,
+            "can_fetch_count": "0x80",
+            "inflight_count": "0xa",
+            "last_common_header_hash": null,
+            "last_common_header_number": null,
+            "unknown_header_list_size": "0x20"
+          },
+          "version": "0.34.0 (f37f598 2020-07-17)"
         },
         {
           "addresses": [
@@ -581,13 +619,26 @@
               "score": "255"
             }
           ],
+          "connected_duration": "0x95",
+          "is_outbound": true,
+          "last_ping_duration": "0x41",
           "node_id": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
-          "version": "unknown"
-        },
-        {
-          "addresses": [],
-          "node_id": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x0",
+              "version": "0.0.1"
+            }
+          ],
+          "sync_state": {
+            "best_known_header_hash": "0x2157c72b3eddd41a7a14c361173cd22ef27d7e0a29eda2e511ee0b3598c0b895",
+            "best_known_header_number": "0xdb835",
+            "can_fetch_count": "0x80",
+            "inflight_count": "0xa",
+            "last_common_header_hash": "0xc63026bd881d880bb142c855dc8153187543245f0a94391c831c75df31f263c4",
+            "last_common_header_number": "0x4dc08",
+            "unknown_header_list_size": "0x1f"
+          },
+          "version": "0.30.1 (5cc1b75 2020-03-23)"
         }
       ],
       "expected": [
@@ -598,8 +649,26 @@
               "score": "1"
             }
           ],
+          "connectedDuration": "0x2f",
+          "isOutbound": true,
+          "lastPingDuration": "0x1a",
           "nodeId": "QmaaaLB4uPyDpZwTQGhV63zuYrKm4reyN2tF1j2ain4oE7",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x4",
+              "version": "0.0.1"
+            }
+          ],
+          "syncState": {
+            "bestKnownHeaderHash": null,
+            "bestKnownHeaderNumber": null,
+            "canFetchCount": "0x80",
+            "inflightCount": "0xa",
+            "lastCommonHeaderHash": null,
+            "lastCommonHeaderNumber": null,
+            "unknownHeaderListSize": "0x20"
+          },
+          "version": "0.34.0 (f37f598 2020-07-17)"
         },
         {
           "addresses": [
@@ -608,33 +677,28 @@
               "score": "255"
             }
           ],
+          "connectedDuration": "0x95",
+          "isOutbound": true,
+          "lastPingDuration": "0x41",
           "nodeId": "QmRuGcpVC3vE7aEoB6fhUdq9uzdHbyweCnn1sDBSjfmcbM",
-          "version": "unknown"
-        },
-        {
-          "addresses": [],
-          "nodeId": "QmUddxwRqgTmT6tFujXbYPMLGLAE2Tciyv6uHGfdYFyDVa",
-          "version": "unknown"
+          "protocols": [
+            {
+              "id": "0x0",
+              "version": "0.0.1"
+            }
+          ],
+          "syncState": {
+            "bestKnownHeaderHash": "0x2157c72b3eddd41a7a14c361173cd22ef27d7e0a29eda2e511ee0b3598c0b895",
+            "bestKnownHeaderNumber": "0xdb835",
+            "canFetchCount": "0x80",
+            "inflightCount": "0xa",
+            "lastCommonHeaderHash": "0xc63026bd881d880bb142c855dc8153187543245f0a94391c831c75df31f263c4",
+            "lastCommonHeaderNumber": "0x4dc08",
+            "unknownHeaderListSize": "0x1f"
+          },
+          "version": "0.30.1 (5cc1b75 2020-03-23)"
         }
       ]
-    }
-  ],
-  "toPeersState": [
-    {
-      "result": null,
-      "expected": null
-    },
-    {
-      "result": {
-        "last_updated": "1557289448237",
-        "blocks_in_flight": "86",
-        "peer": "1"
-      },
-      "expected": {
-        "lastUpdated": "1557289448237",
-        "blocksInFlight": "86",
-        "peer": "1"
-      }
     }
   ],
   "toDepType": [
@@ -1353,6 +1417,34 @@
           "secondary": "0x17b93605"
         },
         "txsFee": "0x0"
+      }
+    }
+  ],
+  "toSyncState": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "best_known_block_number": "0x248623",
+        "best_known_block_timestamp": "0x173943c36e4",
+        "fast_time": "0x3e8",
+        "ibd": false,
+        "inflight_blocks_count": "0x0",
+        "low_time": "0x5dc",
+        "normal_time": "0x4e2",
+        "orphan_blocks_count": "0x0"
+      },
+      "expected": {
+        "bestKnownBlockNumber": "0x248623",
+        "bestKnownBlockTimestamp": "0x173943c36e4",
+        "fastTime": "0x3e8",
+        "ibd": false,
+        "inflightBlocksCount": "0x0",
+        "lowTime": "0x5dc",
+        "normalTime": "0x4e2",
+        "orphanBlocksCount": "0x0"
       }
     }
   ]

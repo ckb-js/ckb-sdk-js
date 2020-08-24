@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.34.0...v0.35.0) (2020-08-24)
+
+
+### Features
+
+* **utils:** remove utils#toHexInLittleEndian which is deprecated ([a028887](https://github.com/nervosnetwork/ckb-sdk-js/commit/a028887ab2fd46679941cbc5fca940e3d1410e64))
+
+
+### BREAKING CHANGES
+
+* **utils:** Remove utils#toHexInLittleEndian which is deprecated
+
+
+
+
+
 # [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
 
 
@@ -17,6 +33,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **utils:** set the default address prefix 'ckb' ([3134eda](https://github.com/nervosnetwork/ckb-sdk-js/commit/3134edae7a7d6806c60c9f1679473701c07a4579))
 * **utils:** use strict validation on address ([bb23ce9](https://github.com/nervosnetwork/ckb-sdk-js/commit/bb23ce9ad5f4ef4e692a96662d5f7b49ad296784))
 * **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize ([8fbc43a](https://github.com/nervosnetwork/ckb-sdk-js/commit/8fbc43a00499eb1e3e1fd1adadd4392c509d9dca))
+* **utils:** remove utils#toHexInLittleEndian which is deprecated ([a028887](https://github.com/nervosnetwork/ckb-sdk-js/commit/a028887ab2fd46679941cbc5fca940e3d1410e64))
+* **utils:** remove methods related to utf8 string ([f9cf9cc](https://github.com/nervosnetwork/ckb-sdk-js/pull/480/commits/f9cf9cced7ea518727eb50f4e471dbe0cba63c12))
 
 
 ### BREAKING CHANGES
@@ -24,6 +42,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **utils:** utils#calculateSerializedTxSizeInBlock is renamed to utils#getTransactionSize
 * **utils:** Set the default address prefix 'ckb' instead of 'ckt'
 * **utils:** The arg field in params of utils#fullPayloadToAddress is renamed to args
+* **utils:** Remove utils#toHexInLittleEndian which is deprecated
+* **utils:** Remove methods related to utf8 string
 
 
 

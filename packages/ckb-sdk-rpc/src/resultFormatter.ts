@@ -120,12 +120,39 @@ const formatter = {
       ...rest,
     }
   },
-  toNodeInfo: (info: RPC.NodeInfo): CKBComponents.NodeInfo => {
+  toLocalNodeInfo: (info: RPC.LocalNodeInfo): CKBComponents.LocalNodeInfo => {
     if (!info) return info
-    const { node_id: nodeId, is_outbound: isOutbound, ...rest } = info
+    const { node_id: nodeId, protocols, ...rest } = info
     return {
       nodeId,
+      protocols: protocols.map(({ id, name, support_versions: supportVersions }) => ({ id, name, supportVersions })),
+      ...rest,
+    }
+  },
+  toRemoteNodeInfo: (info: RPC.RemoteNodeInfo): CKBComponents.RemoteNodeInfo => {
+    if (!info) return info
+    const {
+      node_id: nodeId,
+      connected_duration: connectedDuration,
+      is_outbound: isOutbound,
+      last_ping_duration: lastPingDuration,
+      sync_state,
+      ...rest
+    } = info
+    return {
+      nodeId,
+      connectedDuration,
       isOutbound,
+      lastPingDuration,
+      syncState: {
+        bestKnownHeaderHash: sync_state.best_known_header_hash,
+        bestKnownHeaderNumber: sync_state.best_known_header_number,
+        canFetchCount: sync_state.can_fetch_count,
+        inflightCount: sync_state.inflight_count,
+        lastCommonHeaderHash: sync_state.last_common_header_hash,
+        lastCommonHeaderNumber: sync_state.last_common_header_number,
+        unknownHeaderListSize: sync_state.unknown_header_list_size,
+      },
       ...rest,
     }
   },
@@ -133,6 +160,8 @@ const formatter = {
     if (!info) return info
     const {
       last_txs_updated_at: lastTxsUpdatedAt,
+      tip_hash: tipHash,
+      tip_number: tipNumber,
       total_tx_cycles: totalTxCycles,
       total_tx_size: totalTxSize,
       min_fee_rate: minFeeRate,
@@ -140,24 +169,17 @@ const formatter = {
     } = info
     return {
       lastTxsUpdatedAt,
+      tipHash,
+      tipNumber,
       totalTxCycles,
       totalTxSize,
       minFeeRate,
       ...rest,
     }
   },
-  toPeers: (nodes: RPC.NodeInfo[]): CKBComponents.NodeInfo[] => {
+  toPeers: (nodes: RPC.RemoteNodeInfo[]): CKBComponents.RemoteNodeInfo[] => {
     if (!Array.isArray(nodes)) return []
-    return nodes.map(formatter.toNodeInfo)
-  },
-  toPeersState: (state: RPC.PeersState): CKBComponents.PeersState => {
-    if (!state) return state
-    const { last_updated: lastUpdated, blocks_in_flight: blocksInFlight, ...rest } = state
-    return {
-      lastUpdated,
-      blocksInFlight,
-      ...rest,
-    }
+    return nodes.map(formatter.toRemoteNodeInfo)
   },
   toCell: (cell: RPC.Cell): CKBComponents.Cell => {
     if (!cell) return cell
@@ -329,6 +351,21 @@ const formatter = {
       minerReward,
       txsFee,
       ...rest,
+    }
+  },
+  toSyncState: (state: RPC.SyncState): CKBComponents.SyncState => {
+    if (!state) {
+      return state
+    }
+    return {
+      bestKnownBlockNumber: state.best_known_block_number,
+      bestKnownBlockTimestamp: state.best_known_block_timestamp,
+      fastTime: state.fast_time,
+      ibd: state.ibd,
+      inflightBlocksCount: state.inflight_blocks_count,
+      lowTime: state.low_time,
+      normalTime: state.normal_time,
+      orphanBlocksCount: state.orphan_blocks_count,
     }
   },
 }

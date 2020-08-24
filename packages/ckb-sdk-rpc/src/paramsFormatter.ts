@@ -129,6 +129,9 @@ const formatter = {
     }
     throw new OutputsValidatorTypeException()
   },
+  toBoolean: (value: boolean) => {
+    return !!value
+  },
 }
 
 export default formatter

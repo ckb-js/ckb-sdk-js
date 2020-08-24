@@ -170,10 +170,32 @@ declare module RPC {
     alerts: AlertMessage[]
   }
 
-  export interface NodeInfo {
-    addresses: { address: string; score: string }[]
+  export interface LocalNodeInfo {
+    active: boolean
+    addresses: Record<'address' | 'score', string>[]
+    connections: string
     node_id: string
-    is_outbound: boolean | null
+    protocols: { id: string; name: string; support_versions: string[] }[]
+    version: string
+  }
+
+  export interface RemoteNodeInfo {
+    addresses: Record<'address' | 'score', string>[]
+    connected_duration: string
+    is_outbound: boolean
+    last_ping_duration: string
+    node_id: string
+    protocols: Record<'id' | 'version', string>[]
+    sync_state: Record<
+      | 'best_known_header_hash'
+      | 'best_known_header_number'
+      | 'can_fetch_count'
+      | 'inflight_count'
+      | 'last_common_header_hash'
+      | 'last_common_header_number'
+      | 'unknown_header_list_size',
+      string | null
+    >
     version: string
   }
 
@@ -184,13 +206,15 @@ declare module RPC {
   }
 
   export interface TxPoolInfo {
+    last_txs_updated_at: Timestamp
+    min_fee_rate: string
     orphan: Count
     pending: Count
     proposed: Count
-    last_txs_updated_at: Timestamp
+    tip_hash: Hash256
+    tip_number: BlockNumber
     total_tx_cycles: Cycles
     total_tx_size: Size
-    min_fee_rate: string
   }
 
   export interface Epoch {
@@ -247,6 +271,17 @@ declare module RPC {
       secondary: string
     }
     txs_fee: string
+  }
+
+  export interface SyncState {
+    best_known_block_number: string
+    best_known_block_timestamp: string
+    fast_time: string
+    ibd: boolean
+    inflight_blocks_count: string
+    low_time: string
+    normal_time: string
+    orphan_blocks_count: string
   }
 }
 /* eslint-enable camelcase */

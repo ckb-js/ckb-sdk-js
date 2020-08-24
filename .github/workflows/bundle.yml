@@ -1,0 +1,46 @@
+name: Bundle ckb.min.js
+
+on:
+  workflow_run:
+    workflows: ['Unit Tests']
+    branches: [master, develop]
+    types: [completed]
+
+jobs:
+  default:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 12
+
+      - name: Restore
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      
+      - name: Install Lerna
+        run: npm install -g lerna
+
+      - name: Install Deps
+        run: lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+
+      - name: Compile
+        run: |
+          lerna run tsc
+          echo "module.exports = require('@nervosnetwork/ckb-sdk-core').default;" > ./packages/ckb-sdk-core/ckb.js
+          npx browserify ./packages/ckb-sdk-core/ckb.js -o ./ckb-sdk.js
+          npx terser --compress --mangle -o ckb-sdk.min.js -- ckb-sdk.js
+      
+      - name: Upload Files
+        uses: actions/upload-artifact@v2
+        with:
+          name: ckb-sdk-js
+          path: ./ckb-sdk.min.js

@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.34.0...v0.35.0) (2020-08-24)
+
+
+### Bug Fixes
+
+* **rpc:** fix init parameter type of batch request ([2b80f59](https://github.com/nervosnetwork/ckb-sdk-js/commit/2b80f59b728831c6d084ef35359309a397c814c6))
+
+
+### Features
+
+* **rpc:** remove an RPC ([98eb935](https://github.com/nervosnetwork/ckb-sdk-js/commit/98eb935781715202207c4fd070bfc30cb0a65378))
+* **rpc:** update RPCs ([#477](https://github.com/nervosnetwork/ckb-sdk-js/pull/477))
+    - separate basic RPC by group
+    - update teh API of rpc#localNodeInfo, rpc#txPoolInfo, and rpc#getPeers
+    - add new RPCs: rpc#syncState, rpc#clearTxPool, rpc#setNetworkActive, rpc#addNode and rpc#removeNode
+
+
+### BREAKING CHANGES
+
+* **rpc:** remove rpc#getPeersState
+* **rpc:** rpc#getPeers returns connectedDuration, lastPingDuration, protocols, syncState
+* **rpc:** rpc#localNodeInfo returns active, connections, protocols
+
+
+
+
+
 # [0.34.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.33.0...v0.34.0) (2020-07-21)
 
 
