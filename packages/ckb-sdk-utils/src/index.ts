@@ -14,6 +14,7 @@ export * from './serialization'
 export * from './convertors'
 export * from './epochs'
 export * from './sizes'
+export * as systemScripts from './systemScripts'
 
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
 export const { blake2b, bech32, blake160 } = crypto
