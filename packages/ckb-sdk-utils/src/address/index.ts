@@ -1,4 +1,5 @@
 import { bech32, blake160 } from '..'
+import { SECP256K1_BLAKE160, SECP256K1_MULTISIG, ANYONE_CAN_PAY } from '../systemScripts'
 import { hexToBytes, bytesToHex } from '../convertors'
 import { HexStringWithout0xException, AddressException, AddressPayloadException } from '../exceptions'
 
@@ -151,4 +152,29 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
     throw new AddressException(address, err.type)
   }
   return encode === 'binary' ? payload : bytesToHex(payload)
+}
+
+export const addressToScript = (address: string): CKBComponents.Script => {
+  const payload = parseAddress(address)
+  const type = payload[0]
+
+  if (type === +AddressType.HashIdx) {
+    const codeHashIndices = [SECP256K1_BLAKE160, SECP256K1_MULTISIG, ANYONE_CAN_PAY]
+    const index = payload[1]
+    const args = payload.slice(2)
+    const script = codeHashIndices[index]
+    return {
+      codeHash: script.codeHash,
+      hashType: script.hashType,
+      args: bytesToHex(args),
+    }
+  }
+
+  const codeHashAndArgs = bytesToHex(payload.slice(1))
+  const hashType = type === +AddressType.DataCodeHash ? 'data' : 'type'
+  return {
+    codeHash: codeHashAndArgs.substr(0, 66),
+    hashType,
+    args: `0x${codeHashAndArgs.substr(66)}`,
+  }
 }
