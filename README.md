@@ -147,7 +147,7 @@ After that you can use the `ckb` object to generate addresses, send requests, et
 
 ## Basic RPC
 
-Please see [Basic RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base.ts#L156)
+Please see [Basic RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base/index.ts#L23)
 
 ## Batch Request
 
