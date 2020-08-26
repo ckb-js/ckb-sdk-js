@@ -17,15 +17,9 @@ export enum AddressType {
 export type CodeHashIndex = '0x00' | '0x01' | '0x02'
 
 export interface AddressOptions {
-  prefix: AddressPrefix
-  type: AddressType
-  codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256
-}
-
-export const defaultAddressOptions = {
-  prefix: AddressPrefix.Mainnet,
-  type: AddressType.HashIdx,
-  codeHashOrCodeHashIndex: '0x00',
+  prefix?: AddressPrefix
+  type?: AddressType
+  codeHashOrCodeHashIndex?: CodeHashIndex | CKBComponents.Hash256
 }
 
 /**
@@ -54,59 +48,40 @@ export const toAddressPayload = (
  * @name bech32Address
  * @description generate the address by bech32 algorithm
  * @param args, used as the identifier of an address, usually the public key hash is used.
- * @param {string} prefix, the prefix precedes the address.
- * @param {string} type, used to indicate which format is adopted to compose the address.
- * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to.
+ * @param {[string]} prefix, the prefix precedes the address, default to be ckb.
+ * @param {[string]} type, used to indicate which format is adopted to compose the address, default to be 0x01.
+ * @param {[string]} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to,
+ *                                            default to be 0x00.
  */
 export const bech32Address = (
   args: Uint8Array | string,
-  {
-    prefix = AddressPrefix.Mainnet,
-    type = AddressType.HashIdx,
-    codeHashOrCodeHashIndex = '0x00',
-  }: AddressOptions = defaultAddressOptions,
+  { prefix = AddressPrefix.Mainnet, type = AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' }: AddressOptions = {},
 ) => bech32.encode(prefix, bech32.toWords(toAddressPayload(args, type, codeHashOrCodeHashIndex)))
 
 /**
  * @name fullPayloadToAddress
  * @description generate the address with payload in full version format.
  * @param {string} args, used as the identifier of an address.
- * @param {string} prefix, the prefix precedes the address.
- * @param {string} type, used to indicate which format the address conforms to,
+ * @param {[string]} prefix, the prefix precedes the address, default to be ckb.
+ * @param {[string]} type, used to indicate which format the address conforms to, default to be 0x02,
  *                       with hash type of Data or with hash type of Type.
  * @param {string} codeHash, the code hash used in the full version payload.
  */
 export const fullPayloadToAddress = ({
   args,
-  prefix = AddressPrefix.Mainnet,
+  prefix,
   type = AddressType.DataCodeHash,
   codeHash,
 }: {
   args: string
-  prefix: AddressPrefix
-  type: AddressType.DataCodeHash | AddressType.TypeCodeHash
+  prefix?: AddressPrefix
+  type?: AddressType.DataCodeHash | AddressType.TypeCodeHash
   codeHash: CKBComponents.Hash256
-}) =>
-  bech32Address(args, {
-    prefix,
-    type,
-    codeHashOrCodeHashIndex: codeHash,
-  })
+}) => bech32Address(args, { prefix, type, codeHashOrCodeHashIndex: codeHash })
 
-export const pubkeyToAddress = (
-  pubkey: Uint8Array | string,
-  {
-    prefix = AddressPrefix.Mainnet,
-    type = AddressType.HashIdx,
-    codeHashOrCodeHashIndex = '0x00' as CodeHashIndex,
-  }: AddressOptions = defaultAddressOptions,
-) => {
+export const pubkeyToAddress = (pubkey: Uint8Array | string, options: AddressOptions = {}) => {
   const publicKeyHash = blake160(pubkey)
-  return bech32Address(publicKeyHash, {
-    prefix,
-    type,
-    codeHashOrCodeHashIndex,
-  })
+  return bech32Address(publicKeyHash, options)
 }
 
 const isValidShortVersionPayload = (payload: Uint8Array) => {
