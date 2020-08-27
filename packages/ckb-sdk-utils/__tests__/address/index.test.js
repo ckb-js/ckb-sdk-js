@@ -1,7 +1,14 @@
 const ckbUtils = require('../..')
 const fixtures = require('./fixtures.json')
 
-const { toAddressPayload, bech32Address, pubkeyToAddress, parseAddress, fullPayloadToAddress } = ckbUtils
+const {
+  toAddressPayload,
+  bech32Address,
+  pubkeyToAddress,
+  parseAddress,
+  fullPayloadToAddress,
+  addressToScript,
+} = ckbUtils
 
 describe('Test address module', () => {
   describe('toAddressPayload', () => {
@@ -88,6 +95,26 @@ describe('Test address module', () => {
       try {
         const actual = parseAddress(...params)
         expect(actual).toEqual(typeof expected === 'string' ? expected : new Uint8Array(expected))
+      } catch (err) {
+        expect(err).toEqual(new Error(exception))
+      }
+    })
+  })
+
+  describe('addressToScript', () => {
+    const fixtureTable = Object.entries(fixtures.addressToScript).map(([title, { params, expected, exception }]) => [
+      title,
+      params,
+      expected,
+      exception,
+    ])
+
+    test.each(fixtureTable)(`%s`, (_title, params, expected, exception) => {
+      expect.assertions(1)
+
+      try {
+        const actual = addressToScript(...params)
+        expect(actual).toEqual(expected)
       } catch (err) {
         expect(err).toEqual(new Error(exception))
       }
