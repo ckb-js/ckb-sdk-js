@@ -33,7 +33,8 @@
   "dependencies": {
     "@nervosnetwork/ckb-sdk-rpc": "0.35.0",
     "@nervosnetwork/ckb-sdk-utils": "0.35.0",
-    "@nervosnetwork/ckb-types": "0.35.0"
+    "@nervosnetwork/ckb-types": "0.35.0",
+    "tslib": "2.0.1"
   },
   "gitHead": "409da3a2e4a48a927a8ec884ed494b6bafbbfa5b"
 }
