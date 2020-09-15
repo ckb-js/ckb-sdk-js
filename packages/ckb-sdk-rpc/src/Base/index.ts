@@ -93,6 +93,7 @@ export interface Base {
   /**
    * @method getCellsByLockHash
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description rpc to get the collection of cells who have the corresponding lockhash,
    *              the meaning of lockhash could be found in ckb-types
    * @param {string} hash - hash of cell's lock script
@@ -189,6 +190,7 @@ export interface Base {
   /**
    * @method indexLockHash
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description create index for live cells and transactions by the hash of lock script
    * @param {string} lockHash, the hash of lock script
    * @param {string} [indexFrom], the starting block number(exclusive), an optional parameter,
@@ -202,6 +204,7 @@ export interface Base {
   /**
    * @method getLockHashIndexStates
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description get lock hash index states
    * @retrun {Promise<object[]>}
    */
@@ -210,6 +213,7 @@ export interface Base {
   /**
    * @method getLiveCellsByLockHash
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description return the live cells collection by the hash of lock script
    * @param {string} lockHash, the hash of lock script
    * @param {string} pageNumber
@@ -228,6 +232,7 @@ export interface Base {
   /**
    * @method getTransactionsByLockHash
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description retrun the transactions collection by the hash of lock script.
    *              return empty array when the `lock_hash` not indexed yet.
    * @param {string} lockHash, the hash of lock script
@@ -243,11 +248,15 @@ export interface Base {
     reverseOrder?: boolean,
   ) => Promise<CKBComponents.TransactionsByLockHash>
 
+  /**
+   * @deprecated since v0.36.0
+   */
   getCapacityByLockHash: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
 
   /**
    * @method deindexLockHash
    * @memberof DefaultRPC
+   * @deprecated since v0.36.0
    * @description remove index for live cells and transaction by the hash of lock script,
    *              returns empty array when the `lock_hash` not indexed yet.
    * @param {string} lockHash
