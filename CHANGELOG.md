@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.35.0...v0.36.0) (2020-09-21)
+
+
+### Code Refactoring
+
+* **utils:** remove redundant default options in the address module ([d74caac](https://github.com/nervosnetwork/ckb-sdk-js/commit/d74caac7121c8d1fc81ca1e8479200a9897c1726))
+
+
+### Features
+
+* **core:** parse scripts from addresses on generating transactions ([#488](https://github.com/nervosnetwork/ckb-sdk-js/issues/488)) ([9536f08](https://github.com/nervosnetwork/ckb-sdk-js/commit/9536f0811c0531599e0ee56e01802878f9b1f165))
+* **utils:** add system scripts ([567f15a](https://github.com/nervosnetwork/ckb-sdk-js/commit/567f15aea993ce5797bcecaadeeae27c3baf4aed))
+* **utils:** add the utils#addressToScript ([a78340a](https://github.com/nervosnetwork/ckb-sdk-js/commit/a78340a496f37f0239f5115ef886e2dbd1a9974e))
+
+
+### BREAKING CHANGES
+
+* **utils:** Remove the utils#defaultAddressOptions
+
+
+
+
+
 # [0.35.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.34.0...v0.35.0) (2020-08-24)
 
 
