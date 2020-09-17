@@ -19,12 +19,12 @@ describe('Test generate raw transaction', () => {
       expect.assertions(1)
       try {
         let fmtParams = params
-        if ('fromPublicKeyHash' in params) {
+        if ('inputScript' in params) {
           fmtParams = { ...params, capacity: BigInt(params.capacity), fee: BigInt(params.fee || 0) }
         } else {
           fmtParams = {
             ...params,
-            receivePairs: params.receivePairs.map(pair => ({ ...pair, capacity: BigInt(pair.capacity) })),
+            outputs: params.outputs.map(output => ({ ...output, capacity: BigInt(output.capacity) })),
             cells: new Map(params.cells),
             fee: BigInt(params.fee || 0),
           }

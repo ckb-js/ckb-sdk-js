@@ -26,7 +26,7 @@ interface RawTransactionParams extends RawTransactionParams.Base {
 
 interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
   fromAddresses: Address[]
-  receivePairs: { address: Address; capacity: Capacity }[]
+  receivePairs: { address: Address; capacity: Capacity; type?: CKBComponents.Script | null }[]
   cells: Map<LockHash, RawTransactionParams.Cell[]>
 }
 
@@ -149,22 +149,15 @@ class CKB {
     ...params
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
     if (this.#isSimpleTransaction(params)) {
-      const [fromPublicKeyHash, toPublicKeyHash] = [params.fromAddress, params.toAddress].map(
-        this.#extractPayloadFromAddress,
-      )
+      const [inputScript, outputScript] = [params.fromAddress, params.toAddress].map(this.utils.addressToScript)
 
       let availableCells = params.cells || []
-      if (!availableCells.length && deps) {
-        const lockHash = this.utils.scriptToHash({
-          codeHash: deps.codeHash,
-          hashType: deps.hashType,
-          args: toPublicKeyHash,
-        })
-        availableCells = this.cells.get(lockHash) ?? availableCells
+      if (!availableCells.length) {
+        availableCells = this.cells.get(this.utils.scriptToHash(inputScript)) ?? availableCells
       }
       return generateRawTransaction({
-        fromPublicKeyHash,
-        toPublicKeyHash,
+        inputScript,
+        outputScript,
         capacity: params.capacity,
         fee,
         safeMode,
@@ -176,14 +169,16 @@ class CKB {
     }
 
     if (this.#isComplexTransaction(params)) {
-      const fromPublicKeyHashes = params.fromAddresses.map(this.#extractPayloadFromAddress)
-      const receivePairs = params.receivePairs.map(pair => ({
-        publicKeyHash: this.#extractPayloadFromAddress(pair.address),
+      const inputScripts = params.fromAddresses.map(this.utils.addressToScript)
+      const outputs = params.receivePairs.map(pair => ({
+        lock: this.utils.addressToScript(pair.address),
         capacity: pair.capacity,
+        type: pair.type,
       }))
+
       return generateRawTransaction({
-        fromPublicKeyHashes,
-        receivePairs,
+        inputScripts,
+        outputs,
         cells: params.cells || this.cells,
         fee,
         safeMode,
@@ -369,12 +364,6 @@ class CKB {
     }
   }
 
-  #extractPayloadFromAddress = (address: string) => {
-    const HRP_SIZE = 6
-    const addressPayload = this.utils.parseAddress(address, 'hex')
-    return `0x${addressPayload.slice(HRP_SIZE)}`
-  }
-
   #secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
       throw new ParameterRequiredException('Secp256k1 dep')
@@ -415,6 +404,7 @@ class CKB {
         txHash: secp256k1DepTxHash,
         index: '0x0',
       },
+      depType: 'depGroup',
     }
   }
 
@@ -437,6 +427,7 @@ class CKB {
         txHash: daoDepTxHash,
         index: '0x2',
       },
+      depType: 'depGroup',
     }
   }
 }
