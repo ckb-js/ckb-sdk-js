@@ -1,10 +1,8 @@
-import { scriptToHash, JSBI } from '@nervosnetwork/ckb-sdk-utils'
+import { scriptToHash, JSBI, systemScripts } from '@nervosnetwork/ckb-sdk-utils'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 const MIN_CELL_CAPACITY = `0x${(61_00_000_000).toString(16)}`
-
-type ScriptBase = Omit<CKBComponents.Script, 'args'>
 
 export const getBigInts = ({ fee, capacityThreshold, changeThreshold }: { [key: string]: string | bigint }) => {
   assertToBeHexStringOrBigint(fee!)
@@ -20,63 +18,56 @@ export const getBigInts = ({ fee, capacityThreshold, changeThreshold }: { [key: 
 
 export const getKeyAndCellsPairs = (
   params:
-    | Pick<RawTransactionParams.Simple, 'fromPublicKeyHash' | 'toPublicKeyHash' | 'capacity' | 'cells'>
-    | Pick<RawTransactionParams.Complex, 'receivePairs' | 'fromPublicKeyHashes' | 'cells'>,
-  scriptBase: ScriptBase,
+    | Pick<RawTransactionParams.Simple, 'inputScript' | 'outputScript' | 'capacity' | 'cells'>
+    | Pick<RawTransactionParams.Complex, 'inputScripts' | 'outputs' | 'cells'>,
 ) => {
-  const fromPkhes = 'fromPublicKeyHash' in params ? [params.fromPublicKeyHash] : params.fromPublicKeyHashes
-  const toPkhAndCapacityPairs =
-    'toPublicKeyHash' in params
-      ? [{ publicKeyHash: params.toPublicKeyHash, capacity: params.capacity }]
-      : params.receivePairs
+  const inputScripts = 'inputScript' in params ? [params.inputScript] : params.inputScripts
+  const outputs: RawTransactionParams.Output[] =
+    'outputScript' in params ? [{ lock: params.outputScript, capacity: params.capacity }] : params.outputs
 
   let unspentCellsMap = new Map<RawTransactionParams.LockHash, RawTransactionParams.Cell[]>()
-  if ('fromPublicKeyHash' in params) {
-    const lockHash = scriptToHash({ ...scriptBase, args: params.fromPublicKeyHash })
+
+  if ('inputScript' in params) {
+    const lockHash = scriptToHash(params.inputScript)
     unspentCellsMap.set(lockHash, params.cells || [])
   } else {
     unspentCellsMap = params.cells || new Map()
   }
-  return { fromPkhes, toPkhAndCapacityPairs, unspentCellsMap }
+  return { inputScripts, outputs, unspentCellsMap }
 }
 
 export const getTargetOutputs = ({
-  toPkhAndCapacityPairs,
+  outputs,
   minCapacity,
-  scriptBase,
 }: {
-  toPkhAndCapacityPairs: ReturnType<typeof getKeyAndCellsPairs>['toPkhAndCapacityPairs']
+  outputs: ReturnType<typeof getKeyAndCellsPairs>['outputs']
   minCapacity: JSBI
-  scriptBase: ScriptBase
 }) => {
-  return toPkhAndCapacityPairs.map(pkhAndCapacity => {
-    const capacity = JSBI.BigInt(`${pkhAndCapacity.capacity}`)
+  return outputs.map(output => {
+    const capacity = JSBI.BigInt(`${output.capacity}`)
     if (JSBI.lessThan(capacity, minCapacity)) {
       throw new Error(`Capacity should be at least ${minCapacity} shannon`)
     }
-    return { capacity, lock: { ...scriptBase, args: pkhAndCapacity.publicKeyHash } }
+    return { ...output, capacity }
   })
 }
 
 export const getInputs = ({
-  fromPkhes,
-  scriptBase,
+  inputScripts,
   safeMode,
   costCapacity,
   unspentCellsMap,
 }: {
-  fromPkhes: ReturnType<typeof getKeyAndCellsPairs>['fromPkhes']
+  inputScripts: CKBComponents.Script[]
   unspentCellsMap: ReturnType<typeof getKeyAndCellsPairs>['unspentCellsMap']
-  scriptBase: ScriptBase
   safeMode: boolean
   costCapacity: JSBI
 }) => {
   const inputs: CKBComponents.CellInput[] = []
 
   let sum = JSBI.BigInt(0)
-  for (let i = 0; i < fromPkhes.length; i++) {
-    const pkh = fromPkhes[i]
-    const lockhash = scriptToHash({ ...scriptBase, args: pkh })
+  for (let i = 0; i < inputScripts.length; i++) {
+    const lockhash = scriptToHash(inputScripts[i])
     const unspentCells = unspentCellsMap.get(lockhash) || []
 
     for (let j = 0; j < unspentCells.length; j++) {
@@ -115,14 +106,21 @@ const generateRawTransaction = ({
     throw new Error('The dep is not loaded')
   }
 
-  const scriptBase: Omit<CKBComponents.Script, 'args'> = { codeHash: deps.codeHash, hashType: deps.hashType }
   const { targetFee, minCapacity, minChange, zeroBigInt } = getBigInts({ fee, capacityThreshold, changeThreshold })
-  const { fromPkhes, toPkhAndCapacityPairs, unspentCellsMap } = getKeyAndCellsPairs(params, scriptBase)
-  const targetOutputs = getTargetOutputs({ toPkhAndCapacityPairs, minCapacity, scriptBase })
+  const { inputScripts, outputs: toOutputs, unspentCellsMap } = getKeyAndCellsPairs(params)
+  const targetOutputs = getTargetOutputs({ outputs: toOutputs, minCapacity })
   const targetCapacity = targetOutputs.reduce((acc, o) => JSBI.add(acc, o.capacity), zeroBigInt)
   const costCapacity = JSBI.add(JSBI.add(targetCapacity, targetFee), minChange)
-  const changeOutput = { capacity: zeroBigInt, lock: { ...scriptBase, args: changePublicKeyHash || fromPkhes[0] } }
-  const { inputs, sum: inputSum } = getInputs({ fromPkhes, scriptBase, safeMode, costCapacity, unspentCellsMap })
+  const changeOutput = {
+    capacity: zeroBigInt,
+    lock: {
+      codeHash: systemScripts.SECP256K1_BLAKE160.codeHash,
+      hashType: systemScripts.SECP256K1_BLAKE160.hashType,
+      args: changePublicKeyHash || inputScripts[0].args,
+    },
+  }
+
+  const { inputs, sum: inputSum } = getInputs({ inputScripts, safeMode, costCapacity, unspentCellsMap })
 
   if (JSBI.greaterThan(inputSum, JSBI.add(targetCapacity, targetFee))) {
     changeOutput.capacity = JSBI.subtract(JSBI.subtract(inputSum, targetCapacity), targetFee)
@@ -133,11 +131,13 @@ const generateRawTransaction = ({
   if (JSBI.greaterThan(changeOutput.capacity, zeroBigInt)) {
     outputs.push({ ...changeOutput, capacity: `0x${changeOutput.capacity.toString(16)}` })
   }
+
+  const cellDeps = Array.isArray(deps) ? deps : [deps]
   const outputsData = outputs.map(() => '0x')
 
   const tx = {
     version: '0x0',
-    cellDeps: [{ outPoint: deps.outPoint, depType: 'depGroup' as CKBComponents.DepType }],
+    cellDeps: cellDeps.map(dep => ({ outPoint: dep.outPoint, depType: dep.depType })),
     headerDeps: [],
     inputs,
     outputs,

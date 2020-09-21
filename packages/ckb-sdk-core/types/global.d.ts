@@ -3,6 +3,7 @@ interface DepCellInfo {
   codeHash: CKBComponents.Hash256
   typeHash?: CKBComponents.Hash256
   outPoint: CKBComponents.OutPoint
+  depType: CKBComponents.DepType
 }
 
 interface CachedCell extends CKBComponents.CellIncludingOutPoint {
@@ -41,22 +42,26 @@ declare namespace RawTransactionParams {
   interface Base {
     fee?: Capacity
     safeMode: boolean
-    deps: DepCellInfo
+    deps: DepCellInfo | DepCellInfo[]
     capacityThreshold?: Capacity
     changeThreshold?: Capacity
     changePublicKeyHash?: PublicKeyHash
   }
 
   interface Simple extends Base {
-    fromPublicKeyHash: PublicKeyHash
-    toPublicKeyHash: PublicKeyHash
+    inputScript: CKBComponents.Script
+    outputScript: CKBComponents.Script
     capacity: Capacity
     cells?: Cell[]
   }
 
+  interface Output extends CKBComponents.CellOutput {
+    capacity: string | bigint
+  }
+
   interface Complex extends Base {
-    fromPublicKeyHashes: PublicKeyHash[]
-    receivePairs: { publicKeyHash: PublicKeyHash; capacity: Capacity }[]
+    inputScripts: CKBComponents.Script[]
+    outputs: Output[]
     cells?: Map<LockHash, Cell[]>
   }
 }

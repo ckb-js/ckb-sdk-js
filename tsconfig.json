@@ -5,7 +5,8 @@
     "lib": ["es6"],
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "sourceMap": true
+    "sourceMap": true,
+    "importHelpers": true
   },
   "exclude": ["node_modules", "**/*.spec.ts", "*/**/debug.ts"]
 }

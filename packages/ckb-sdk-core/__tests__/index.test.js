@@ -122,7 +122,7 @@ describe('ckb', () => {
     })
   })
 
-  describe('generate raw transactin', () => {
+  describe('generate raw transaction', () => {
     const fixtureTable = Object.entries(
       fixtures.generateRawTransaction,
     ).map(([title, { params, expected, exception }]) => [title, params, expected, exception])
@@ -130,11 +130,18 @@ describe('ckb', () => {
     test.each(fixtureTable)('%s', (_title, params, expected, exception) => {
       expect.assertions(1)
       try {
-        const rawTransaction = ckb.generateRawTransaction({
-          ...params,
-          capacity: BigInt(params.capacity),
-          fee: BigInt(params.fee || 0),
-        })
+        let fmtParams = params
+        if ('fromAddress' in params) {
+          fmtParams = { ...params, capacity: BigInt(params.capacity), fee: BigInt(params.fee || 0) }
+        } else {
+          fmtParams = {
+            ...params,
+            receivePairs: params.receivePairs.map(pair => ({ ...pair, capacity: BigInt(pair.capacity) })),
+            cells: new Map(params.cells),
+            fee: BigInt(params.fee || 0),
+          }
+        }
+        const rawTransaction = ckb.generateRawTransaction(fmtParams)
         expect(rawTransaction).toEqual(expected)
       } catch (err) {
         expect(err).toEqual(new Error(exception))

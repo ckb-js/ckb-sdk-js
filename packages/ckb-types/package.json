@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-types",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "description": "Type module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -23,5 +23,5 @@
   "scripts": {
     "doc": "../../node_modules/.bin/typedoc --out docs ./index.d.ts --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default --readme README.md"
   },
-  "gitHead": "409da3a2e4a48a927a8ec884ed494b6bafbbfa5b"
+  "gitHead": "d0adcbb7e6743fdcc049984534afab13f5ede178"
 }

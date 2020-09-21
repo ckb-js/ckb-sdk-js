@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.35.0...v0.36.0) (2020-09-21)
+
+
+### Features
+
+* **core:** parse scripts from addresses on generating transactions ([#488](https://github.com/nervosnetwork/ckb-sdk-js/issues/488)) ([9536f08](https://github.com/nervosnetwork/ckb-sdk-js/commit/9536f0811c0531599e0ee56e01802878f9b1f165))
+
+
+
+
+
 # [0.35.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.34.0...v0.35.0) (2020-08-24)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
