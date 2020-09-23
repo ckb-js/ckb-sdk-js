@@ -124,5 +124,12 @@
       "code": 101,
       "message": "Expect PERSONAL length to be 16, but 32 received"
     }
+  },
+  "ReconciliationException": {
+    "params": [],
+    "expected": {
+      "code": 105,
+      "message": "Fail to reconcile transaction, try to increase extra count or check the transaction"
+    }
   }
 }

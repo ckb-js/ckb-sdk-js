@@ -12,7 +12,7 @@ packages/*/lib
 playground.ts
 
 #docs
-docs
+/docs
 # ignore for deploy docs
 package-lock.json
 
