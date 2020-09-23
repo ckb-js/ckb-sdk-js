@@ -3,6 +3,7 @@ export enum ErrorCode {
   ParameterRequired,
   SignMessageFailed,
   AddressInvalid,
+  ReconciliationFailed,
 }
 
 export default ErrorCode
