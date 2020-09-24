@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 const b2wasm = require('blake2b-wasm')
+const blake2bjs = require('blake2b')
 const {
   OutLenTooSmallException,
   OutLenTooLargeException,
@@ -374,10 +375,24 @@ export const blake2b = (
   return new Blake2b(outlen, key, salt, personal)
 }
 
-export const ready = (cb: Function) => {
-  b2wasm.ready(() => {
-    cb()
-  })
+export const ready = (cb: Function) => {  
+  const ua = navigator.userAgent.toLowerCase()
+  const IOSVersion = ua.match(/cpu iphone os (.*?) like mac os/)
+  
+  // ios11 is not fully compatible wasm and change model to blakejs
+  if (IOSVersion && IOSVersion[1].split('_')[0] === 11) {
+    new Promise(() => {
+      // within the 64 byte ranges defined by the constants below
+      const output = new Uint8Array(64)
+      blake2bjs(output.length)
+    }).then(() => { 
+      cb()
+    })
+  } else {
+    b2wasm.ready(() => {
+      cb()
+    })
+  }
 }
 
 export default blake2b
