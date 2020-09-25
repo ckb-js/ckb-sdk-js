@@ -4,9 +4,9 @@
     "moduleResolution": "node",
     "target": "es6",
     "outDir": "lib",
-    "lib": ["es2017"],
+    "lib": ["DOM"],
     "typeRoots": ["types", "node_modules/@types", "node_modules"],
     "types": ["@nervosnetwork/ckb-types", "node"]
   },
-  "include": ["src"],
+  "include": ["src"]
 }

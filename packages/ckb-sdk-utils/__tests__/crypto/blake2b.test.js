@@ -1,4 +1,5 @@
 const { blake2b, PERSONAL } = require('../..')
+const { ready } = require('../../lib/crypto/blake2b')
 const fixtures = require('./blake2b.fixtures.json')
 
 describe('blake2b', () => {
@@ -45,5 +46,56 @@ describe('blake2b', () => {
       const digest = s.digest('hex')
       expect(digest).toBe(out)
     }
+  })
+})
+
+describe('blake2b-wasm-ready', () => {
+  afterEach(() => {
+    delete globalThis.navigator
+  })
+
+  describe("When it's in browser but not iOS 11", () => {
+    beforeEach(() => {
+      Object.defineProperty(globalThis, 'navigator', {
+        value: {
+          userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_4 like Mac OS X)',
+        },
+      })
+    })
+
+    it('callback should be invoked without error', () => {
+      expect.assertions(1)
+      ready(err => {
+        expect(err).toBeUndefined()
+      })
+    })
+  })
+
+  describe("When it's not in browser and navigator is undefined", () => {
+    beforeEach(() => {
+      delete globalThis.navigator
+    })
+    it('callback should be invoked without error', () => {
+      expect.assertions(1)
+      ready(err => {
+        expect(err).toBeUndefined()
+      })
+    })
+  })
+
+  describe("When it's iOS 11", () => {
+    beforeEach(() => {
+      Object.defineProperty(globalThis, 'navigator', {
+        value: {
+          userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_1 like Mac OS X)',
+        },
+      })
+    })
+    it('callback should be invoked with error', () => {
+      expect.assertions(1)
+      ready(err => {
+        expect(err).toEqual(new Error('blake2b-wasm is unavailable on iOS 11'))
+      })
+    })
   })
 })
