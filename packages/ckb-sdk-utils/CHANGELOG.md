@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.0...v0.36.1) (2020-09-26)
+
+
+### Features
+
+* **utils:** disable blake2b-wasm when the host is iOS 11 ([4c70554](https://github.com/nervosnetwork/ckb-sdk-js/commit/4c7055466aeb2b8cd2fda2ae927e88cb699d161b))
+* **utils:** add a method to reconcile transactions ([1ae64cd](https://github.com/nervosnetwork/ckb-sdk-js/commit/1ae64cd258cacffcb77e664bb3853dd4c7ec9150))
+
+
+
+
+
 # [0.36.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.35.0...v0.36.0) (2020-09-21)
 
 
