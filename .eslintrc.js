@@ -55,7 +55,8 @@ module.exports = {
     }]
   },
   "globals": {
-    "BigInt": "readonly"
+    "BigInt": "readonly",
+    "globalThis": "readonly",
   },
   "env": {
     "node": true,
