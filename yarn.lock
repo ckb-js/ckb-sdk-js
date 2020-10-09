@@ -2305,13 +2305,6 @@ bitcoinjs-lib@*:
     varuint-bitcoin "^1.0.4"
     wif "^2.0.1"
 
-blake2b-wasm@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/blake2b-wasm/-/blake2b-wasm-2.1.0.tgz#aa90ed687b8a92e1c01d1643db86bcf21caa2ab7"
-  integrity sha512-8zKXt9nk4cUCBU2jaUcSYcPA+UESwWOmb9Gsi8J35BifVb+tjVmbDhZbvmVmZEk6xZN1y35RNW6VqOwb0mkqsg==
-  dependencies:
-    nanoassert "^1.0.0"
-
 blake2b-wasm@^1.1.0:
   version "1.1.7"
   resolved "https://registry.npmjs.org/blake2b-wasm/-/blake2b-wasm-1.1.7.tgz#e4d075da10068e5d4c3ec1fb9accc4d186c55d81"

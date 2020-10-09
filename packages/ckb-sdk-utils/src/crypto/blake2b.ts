@@ -373,18 +373,4 @@ export const blake2b = (
   return new Blake2b(outlen, key, salt, personal)
 }
 
-export const ready = (cb: Function) => {
-  const iOSVersion = globalThis?.navigator?.userAgent.match(/cpu iphone os (.*?) like mac os/i)
-  if (iOSVersion?.[1].startsWith('11_')) {
-    cb(new Error(`blake2b-wasm is unavailable on iOS 11`))
-    return
-  }
-
-  /* eslint-disable global-require */
-  const b2wasm = require('blake2b-wasm')
-  b2wasm.ready((...args: unknown[]) => {
-    cb(...args)
-  })
-}
-
 export default blake2b
