@@ -1,13 +1,6 @@
-const {
-  privateKeyToPublicKey,
-  privateKeyToAddress,
-  scriptToHash,
-  rawTransactionToHash,
-  calculateTransactionFee,
-} = require('../..')
+const { privateKeyToPublicKey, privateKeyToAddress, scriptToHash, rawTransactionToHash } = require('../..')
 const exceptions = require('../../lib/exceptions')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
-const transactionFeeFixtures = require('./transactionFee.fixtures.json')
 
 const { ParameterRequiredException } = exceptions
 
@@ -88,24 +81,4 @@ describe('privateKeyToAddress', () => {
       prefix: 'ckt',
     }),
   ).toBe(fixture.testnetAddress)
-})
-
-describe('transaction fee', () => {
-  const fixtureTable = Object.entries(
-    transactionFeeFixtures,
-  ).map(([title, { transactionSize, feeRate, expected, exception }]) => [
-    title,
-    typeof transactionSize === 'number' ? BigInt(transactionSize) : transactionSize,
-    typeof feeRate === 'number' ? BigInt(feeRate) : feeRate,
-    expected,
-    exception,
-  ])
-  test.each(fixtureTable)('%s', (_title, transactionSize, feeRate, expected, exception) => {
-    if (undefined !== expected) {
-      expect(calculateTransactionFee(transactionSize, feeRate)).toBe(expected)
-    }
-    if (undefined !== exception) {
-      expect(() => calculateTransactionFee(transactionSize, feeRate)).toThrowError(exception)
-    }
-  })
 })

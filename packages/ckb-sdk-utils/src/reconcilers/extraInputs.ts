@@ -1,4 +1,5 @@
 import JSBI from 'jsbi'
+import calculateTransactionFee from '../calculateTransactionFee'
 import { getTransactionSize } from '../sizes'
 import { ReconciliationException } from '../exceptions'
 
@@ -14,14 +15,15 @@ declare namespace Reconciliation {
 }
 
 export const extraInputs = (params: Reconciliation.ExtraInputsParams): CKBComponents.RawTransactionToSign => {
-  const feeRate = JSBI.BigInt(`${params.feeRate}`)
   const changeThreshold = JSBI.BigInt(`${params.changeThreshold}`)
 
-  const size = JSBI.BigInt(getTransactionSize(params.tx))
+  const feeRate = JSBI.BigInt(`${params.feeRate}`)
   const currentChangeOutput = params.tx.outputs[params.tx.outputs.length - 1]
   const currentChange = JSBI.BigInt(currentChangeOutput.capacity)
 
-  const fee = JSBI.divide(JSBI.multiply(size, feeRate), JSBI.BigInt(1000))
+  const fee = JSBI.BigInt(
+    calculateTransactionFee(`0x${getTransactionSize(params.tx).toString(16)}`, `0x${feeRate.toString(16)}`),
+  )
   const lack = JSBI.subtract(JSBI.add(fee, changeThreshold), currentChange)
 
   if (JSBI.LE(lack, JSBI.BigInt(0))) {
