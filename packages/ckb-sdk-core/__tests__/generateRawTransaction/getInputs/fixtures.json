@@ -38,6 +38,7 @@
     "expected": {
       "inputs": [
         {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
           "previousOutput": {
             "txHash": "0x",
             "index": "0x0"
@@ -45,6 +46,7 @@
           "since": "0x0"
         },
         {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
           "previousOutput": {
             "txHash": "0x",
             "index": "0x1"
@@ -94,6 +96,7 @@
     "expected": {
       "inputs": [
         {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
           "previousOutput": {
             "txHash": "0x",
             "index": "0x0"
@@ -101,6 +104,7 @@
           "since": "0x0"
         },
         {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
           "previousOutput": {
             "txHash": "0x",
             "index": "0x2"

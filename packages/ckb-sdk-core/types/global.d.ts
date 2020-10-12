@@ -58,6 +58,8 @@ declare namespace RawTransactionParams {
     capacityThreshold?: Capacity
     changeThreshold?: Capacity
     changePublicKeyHash?: PublicKeyHash
+    witnesses?: Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
+    outputsData?: Array<string>
   }
 
   interface Simple extends Base {

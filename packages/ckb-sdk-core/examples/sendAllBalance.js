@@ -90,12 +90,6 @@ const generateRawTransaction = async () => {
 
 const sendAllBalance = async () => {
   const rawTx = await generateRawTransaction()
-  rawTx.witnesses = rawTx.inputs.map(() => "0x")
-  rawTx.witnesses[0] = {
-    lock: "",
-    inputType: "",
-    outputType: "",
-  }
   const signedTx = ckb.signTransaction(privateKey)(rawTx)
   // console.group('sign and send tx')
   // console.info(`signed tx: ${JSON.stringify(signedTx, null, 2)}`)

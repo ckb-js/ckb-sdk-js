@@ -1,4 +1,5 @@
 import { scriptToHash, JSBI, systemScripts } from '@nervosnetwork/ckb-sdk-utils'
+import { EMPTY_WITNESS_ARGS } from '@nervosnetwork/ckb-sdk-utils/lib/const'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
 const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -63,7 +64,7 @@ export const getInputs = ({
   safeMode: boolean
   costCapacity: JSBI
 }) => {
-  const inputs: CKBComponents.CellInput[] = []
+  const inputs: Array<CKBComponents.CellInput & { lockhash: string }> = []
 
   let sum = JSBI.BigInt(0)
   for (let i = 0; i < inputScripts.length; i++) {
@@ -74,7 +75,7 @@ export const getInputs = ({
       const c = unspentCells[j]
 
       if (!safeMode || (c.dataHash === EMPTY_DATA_HASH && !c.type)) {
-        inputs.push({ previousOutput: c.outPoint, since: '0x0' })
+        inputs.push({ previousOutput: c.outPoint, since: '0x0', lockhash })
         sum = JSBI.add(sum, JSBI.BigInt(c.capacity))
         if (JSBI.greaterThanOrEqual(sum, costCapacity)) {
           break
@@ -174,15 +175,28 @@ const generateRawTransaction = ({
   }
 
   const cellDeps = Array.isArray(deps) ? deps : [deps]
-  const outputsData = outputs.map(() => '0x')
+
+  const witnesses = params.witnesses ?? []
+  inputs.forEach((input, idx) => {
+    if (!witnesses[idx]) {
+      witnesses[idx] = input.lockhash !== inputs[idx - 1]?.lockhash ? EMPTY_WITNESS_ARGS : '0x'
+    }
+  })
+
+  const outputsData = params.outputsData ?? []
+  outputs.forEach((_, idx) => {
+    if (!outputsData[idx]) {
+      outputsData[idx] = '0x'
+    }
+  })
 
   const tx = {
     version: '0x0',
     cellDeps: cellDeps.map(dep => ({ outPoint: dep.outPoint, depType: dep.depType })),
     headerDeps: [],
-    inputs,
+    inputs: inputs.map(({ previousOutput, since }) => ({ previousOutput, since })),
     outputs,
-    witnesses: [],
+    witnesses,
     outputsData,
   }
 

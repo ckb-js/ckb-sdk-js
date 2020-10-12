@@ -61,11 +61,6 @@ const generateTransaction = async () => {
   const keys = new Map([sk1, sk2].map(sk => ([
     ckb.generateLockHash(`0x${ckb.utils.blake160(ckb.utils.privateKeyToPublicKey(sk), 'hex')}`), sk
   ])))
-  rawTransaction.witnesses = rawTransaction.inputs.map(() => ({
-    lock: '',
-    inputType: '',
-    outputType: ''
-  }))
   const cells = [...ckb.cells.values()].flat()
   const signedTransaction = ckb.signTransaction(keys)(rawTransaction, cells)
   return signedTransaction
