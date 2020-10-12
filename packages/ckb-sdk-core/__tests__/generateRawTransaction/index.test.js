@@ -1,7 +1,6 @@
 const { JSBI } = require('@nervosnetwork/ckb-sdk-utils')
 const {
   default: generateRawTransaction,
-  getKeyAndCellsPairs,
   getTargetOutputs,
   getInputs,
   getLeftCells,
@@ -31,29 +30,6 @@ describe('Test generate raw transaction', () => {
         }
         const rawTransaction = generateRawTransaction(fmtParams)
         expect(rawTransaction).toEqual(expected)
-      } catch (err) {
-        expect(err).toEqual(new Error(exception))
-      }
-    })
-  })
-
-  describe('getKeyAndCellsPairs', () => {
-    const fixtureTable = Object.entries(
-      fixtures.getKeyAndCellsPairs,
-    ).map(([title, { params, expected, exception }]) => [title, params, expected, exception])
-
-    test.each(fixtureTable)(`%s`, (_title, params, expected, exception) => {
-      expect.assertions(1)
-      try {
-        if (Array.isArray(expected.unspentCellsMap[0])) {
-          // eslint-disable-next-line
-          expected.unspentCellsMap = new Map(expected.unspentCellsMap)
-        }
-        if (Array.isArray(params[0].cells[0])) {
-          // eslint-disable-next-line
-          params[0].cells = new Map(params[0].cells)
-        }
-        expect(getKeyAndCellsPairs(...params)).toEqual(expected)
       } catch (err) {
         expect(err).toEqual(new Error(exception))
       }
