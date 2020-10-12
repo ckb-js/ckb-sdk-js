@@ -1,5 +1,5 @@
 const fixtures = require('./extraInputs.fixtures.json')
-const { extraInputs } = require('../../lib/reconciliation/extraInputs')
+const { extraInputs } = require('../../lib/reconcilers')
 
 describe('Test reconciliation by extra inputs strategy', () => {
   const fixtureTable = Object.entries(fixtures).map(([title, { params, expected, exception }]) => [

@@ -1,4 +1,4 @@
-const { extraInputs: reconciler } = require('@nervosnetwork/ckb-sdk-utils/lib/reconciliation')
+const { reconcilers } = require('@nervosnetwork/ckb-sdk-utils')
 const { default: generateRawTransaction } = require('../../lib/generateRawTransaction')
 
 const fixtures = require('./fixtures.json')
@@ -39,7 +39,7 @@ describe('Test generate raw transaction', () => {
     ])
 
     test.each(fixtureTable.slice(0, 1))(`%s`, (_title, params, expected) => {
-      Object.defineProperty(params[0].fee, 'reconciler', { value: reconciler })
+      Object.defineProperty(params[0].fee, 'reconciler', { value: reconcilers.extraInputs })
       expect.assertions(1)
       expect(generateRawTransaction(...params)).toEqual(expected)
     })
