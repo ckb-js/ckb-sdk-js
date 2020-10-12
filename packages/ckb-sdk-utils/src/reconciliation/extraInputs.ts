@@ -13,7 +13,7 @@ declare namespace Reconciliation {
   }
 }
 
-export const extraInputs = (params: Reconciliation.ExtraInputsParams): any => {
+export const extraInputs = (params: Reconciliation.ExtraInputsParams): CKBComponents.RawTransactionToSign => {
   const feeRate = JSBI.BigInt(`${params.feeRate}`)
   const changeThreshold = JSBI.BigInt(`${params.changeThreshold}`)
 

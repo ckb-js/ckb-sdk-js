@@ -93,6 +93,43 @@ export const getInputs = ({
   return { inputs, sum }
 }
 
+export const getLeftCells = ({
+  usedCells,
+  inputScripts,
+  unspentCellsMap,
+}: {
+  inputScripts: CKBComponents.Script[]
+  usedCells: CKBComponents.CellInput[]
+  unspentCellsMap: ReturnType<typeof getKeyAndCellsPairs>['unspentCellsMap']
+}): Array<{ capacity: string; outPoint: CKBComponents.OutPoint }> => {
+  const leftCells: Array<{ capacity: string; outPoint: CKBComponents.OutPoint }> = []
+
+  const isCellUsed = (cell: Pick<CachedCell, 'outPoint'>) =>
+    usedCells.some(
+      used =>
+        used.previousOutput?.txHash === cell.outPoint?.txHash && used.previousOutput?.index === cell.outPoint?.index,
+    )
+
+  inputScripts.forEach(script => {
+    const lockhash = scriptToHash(script)
+    const cells = unspentCellsMap.get(lockhash)
+    if (cells?.length) {
+      cells.forEach(cell => {
+        if (cell.dataHash === EMPTY_DATA_HASH && !cell.type && !isCellUsed(cell)) {
+          leftCells.push({
+            outPoint: cell.outPoint!,
+            capacity: cell.capacity,
+          })
+        }
+      })
+    }
+  })
+
+  return leftCells
+}
+
+const isFee = (fee: RawTransactionParams.Fee): fee is RawTransactionParams.Capacity => typeof fee !== 'object'
+
 const generateRawTransaction = ({
   fee = '0x0',
   changePublicKeyHash,
@@ -106,7 +143,11 @@ const generateRawTransaction = ({
     throw new Error('The dep is not loaded')
   }
 
-  const { targetFee, minCapacity, minChange, zeroBigInt } = getBigInts({ fee, capacityThreshold, changeThreshold })
+  const { targetFee, minCapacity, minChange, zeroBigInt } = getBigInts({
+    fee: isFee(fee) ? fee : '0x0',
+    capacityThreshold,
+    changeThreshold,
+  })
   const { inputScripts, outputs: toOutputs, unspentCellsMap } = getKeyAndCellsPairs(params)
   const targetOutputs = getTargetOutputs({ outputs: toOutputs, minCapacity })
   const targetCapacity = targetOutputs.reduce((acc, o) => JSBI.add(acc, o.capacity), zeroBigInt)
@@ -143,6 +184,11 @@ const generateRawTransaction = ({
     outputs,
     witnesses: [],
     outputsData,
+  }
+
+  if (!isFee(fee)) {
+    const leftCells = getLeftCells({ inputScripts, usedCells: tx.inputs, unspentCellsMap })
+    return fee.reconciler({ tx, feeRate: fee.feeRate, changeThreshold, cells: leftCells, extraCount: 10 })
   }
   return tx
 }
