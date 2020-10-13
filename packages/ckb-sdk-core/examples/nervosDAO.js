@@ -1,8 +1,22 @@
 /* eslint-disable */
+const path = require('path')
+const os = require('os')
+const { Indexer, CellCollector } = require('@ckb-lumos/indexer')
 const CKB = require('../lib').default
-const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
 
-const ckb = new CKB(nodeUrl)
+const CKB_URL = process.env.CKB_URL || 'http://localhost:8114' // example node url
+const LUMOS_DB = path.join(os.tmpdir(), 'lumos_db')
+
+/**
+ * lumos indexer
+ */
+const indexer = new Indexer(CKB_URL, LUMOS_DB)
+indexer.startForever()
+
+/**
+ * sdk
+ */
+const ckb = new CKB(CKB_URL)
 
 const sk = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
 const pk = ckb.utils.privateKeyToPublicKey(sk)
@@ -12,15 +26,15 @@ const addr = ckb.utils.privateKeyToAddress(sk)
 
 const loadCells = async () => {
   await ckb.loadDeps()
-  const lockHash = ckb.generateLockHash(
-    pkh
-  )
-  await ckb.loadCells({
-    lockHash,
-    start: BigInt(0),
-    end: BigInt(1000),
-    save: true
-  })
+  const lock = {
+    codeHash: ckb.config.secp256k1Dep.codeHash,
+    hashType: ckb.config.secp256k1Dep.hashType,
+    args: pkh
+  }
+  /**
+   * load cells from lumos as `examples/sendTransactionWithLumosCollector.js` shows
+   */
+  await ckb.loadCells({ indexer, CellCollector, lock, save: true })
 }
 
 const deposit = async () => {
