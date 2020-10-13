@@ -17,17 +17,17 @@
             [
               {
                 "capacity": "0x16b969d00",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "data": "0x",
                 "outPoint": { "txHash": "0x", "index": "0x0" }
               },
               {
                 "capacity": "0x16b969d00",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "data": "0x",
                 "outPoint": { "txHash": "0x", "index": "0x1" }
               },
               {
                 "capacity": "0x16b969d00",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "data": "0x",
                 "outPoint": { "txHash": "0x", "index": "0x2" }
               }
             ]
@@ -75,17 +75,17 @@
             [
               {
                 "capacity": "0x16b969d00",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "data": "0x",
                 "outPoint": { "txHash": "0x", "index": "0x0" }
               },
               {
                 "capacity": "0x16b969d00",
-                "dataHash": "0x",
+                "data": "0xff",
                 "outPoint": { "txHash": "0x", "index": "0x1" }
               },
               {
                 "capacity": "0x16b969d01",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "data": "0x",
                 "outPoint": { "txHash": "0x", "index": "0x2" }
               }
             ]
@@ -130,7 +130,7 @@
         "unspentCellsMap": [
           [
             "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
-            [{ "capacity": "0x16b969d00", "dataHash": "0x", "outPoint": { "txHash": "0x", "index": "0x0" } }]
+            [{ "capacity": "0x16b969d00", "data": "0x", "outPoint": { "txHash": "0x", "index": "0x0" } }]
           ]
         ]
       }

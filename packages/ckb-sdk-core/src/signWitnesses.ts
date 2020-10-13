@@ -5,7 +5,7 @@ import groupScripts from './groupScripts'
 type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type LockHash = string
 type TransactionHash = string
-type CachedLock = Pick<CachedCell, 'lock'>
+type CachedLock = { lock: CKBComponents.Script }
 
 export interface SignWitnesses {
   (key: SignatureProvider): (params: {

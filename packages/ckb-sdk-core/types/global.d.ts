@@ -6,12 +6,6 @@ interface DepCellInfo {
   depType: CKBComponents.DepType
 }
 
-interface CachedCell extends CKBComponents.CellIncludingOutPoint {
-  status: string
-  dataHash: string
-  type?: CKBComponents.Script | null
-}
-
 type StructuredWitness = CKBComponents.WitnessArgs | CKBComponents.Witness
 
 declare namespace LoadCellsParams {
@@ -38,7 +32,13 @@ declare namespace RawTransactionParams {
   type LockHash = string
   type PublicKeyHash = string
   type Capacity = string | bigint
-  type Cell = Pick<CachedCell, 'dataHash' | 'type' | 'capacity' | 'outPoint'>
+  type Cell = {
+    data: string
+    lock: CKBComponents.Script
+    type?: CKBComponents.Script
+    capacity: CKBComponents.Capacity
+    outPoint: CKBComponents.OutPoint
+  }
   type Fee =
     | Capacity
     | {

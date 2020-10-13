@@ -2,7 +2,7 @@ import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 
 type LockHash = string
 type Index = number
-type Cell = Pick<CachedCell, 'lock'>
+type Cell = { lock: CKBComponents.Script }
 
 export const groupScripts = (inputCells: Cell[]) => {
   const groups = new Map<LockHash, Index[]>()
