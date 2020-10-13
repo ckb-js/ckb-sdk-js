@@ -40,20 +40,6 @@ describe('ckb', () => {
     })
 
     it('load cells', async () => {
-      ckb.rpc = rpc
-      const lockHash = '0xe831b2179a00307607d254b6fae904047b1fb7f2c76968f305ec27841201739a'
-      const cells = await ckb.loadCells({
-        lockHash,
-        end: BigInt(100),
-        step: BigInt(100),
-        save: true,
-      })
-      expect(cells).toHaveLength(100)
-      expect(ckb.cells.size).toBe(1)
-      expect(ckb.cells.get(lockHash)).toHaveLength(100)
-    })
-
-    it('load cells from indexer', async () => {
       const indexer = jest.fn()
       const lock = {
         codeHash: '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2',

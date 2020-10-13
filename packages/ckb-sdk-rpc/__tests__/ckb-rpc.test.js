@@ -837,59 +837,6 @@ describe('Test with mock', () => {
       })
     })
 
-    it('get cells by lock hash', async () => {
-      const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0', '0x64']
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [
-            {
-              block_hash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-              capacity: '0x12479afc2a35',
-              cellbase: true,
-              lock: {
-                args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-                code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-                hash_type: 'type',
-              },
-              out_point: {
-                index: '0x0',
-                tx_hash: '0x0db670e7bab37e4f942acf47c7887009771e01b5a6b282eff32084c38533a2b2',
-              },
-              output_data_len: '0x0',
-              type: null,
-            },
-          ],
-          id,
-        },
-      })
-      const res = await rpc.getCellsByLockHash(...PARAMS)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_cells_by_lock_hash',
-        params: PARAMS,
-      })
-      expect(res).toEqual([
-        {
-          blockHash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-          capacity: '0x12479afc2a35',
-          cellbase: true,
-          lock: {
-            args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-            codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-            hashType: 'type',
-          },
-          outPoint: {
-            index: '0x0',
-            txHash: '0x0db670e7bab37e4f942acf47c7887009771e01b5a6b282eff32084c38533a2b2',
-          },
-          outputDataLen: '0x0',
-          type: null,
-        },
-      ])
-    })
-
     it('index lock hash', async () => {
       const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0']
       axiosMock.mockResolvedValue({
@@ -1416,13 +1363,13 @@ describe('Test with mock', () => {
       })
 
       it('should accept params in list', () => {
-        const multiParamBatch = rpc.createBatchRequest([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        expect(multiParamBatch).toEqual([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        multiParamBatch.add('getCellsByLockHash', '0x0', '0x1', '0x2')
+        const multiParamBatch = rpc.createBatchRequest([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        expect(multiParamBatch).toEqual([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        multiParamBatch.add('getLiveCellsByLockHash', '0x0', '0x1', '0x2')
         expect(multiParamBatch).toEqual([
-          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
           ['getPeers'],
-          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
         ])
       })
 

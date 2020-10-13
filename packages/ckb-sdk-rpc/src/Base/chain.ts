@@ -49,12 +49,6 @@ export default {
     resultFormatters: resultFmts.toHeader,
   },
 
-  getCellsByLockHash: {
-    method: 'get_cells_by_lock_hash',
-    paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
-    resultFormatters: resultFmts.toCellsIncludingOutPoint,
-  },
-
   getLiveCell: {
     method: 'get_live_cell',
     paramsFormatters: [paramsFmts.toOutPoint],
