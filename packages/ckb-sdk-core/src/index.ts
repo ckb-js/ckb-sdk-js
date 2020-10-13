@@ -6,8 +6,7 @@ import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
 
-import loadCells from './loadCells'
-import loadCellsFromIndexer, { isIndexerParams } from './loadCellsFromIndexer'
+import loadCellsFromIndexer from './loadCellsFromIndexer'
 import signWitnesses, { isMap } from './signWitnesses'
 import { filterCellsByInputs } from './utils'
 
@@ -90,25 +89,16 @@ class CKB {
 
   /**
    * @memberof Core
-   * @description The method used to load cells from chain
-   *              The most advisable usage is to call this method with a lumos indexer as shown in the tutorial
+   * @description The method used to load cells from lumos indexer as shown in the tutorial
    * @tutorial https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
    */
   public loadCells = async (
-    params: (LoadCellsParams.Normal | LoadCellsParams.FromIndexer) & {
+    params: LoadCellsParams.FromIndexer & {
       save?: boolean
     },
   ) => {
-    let lockHash = ''
-    let cells = []
-    if (isIndexerParams(params)) {
-      lockHash = this.utils.scriptToHash(params.lock)
-      cells = await loadCellsFromIndexer(params)
-    } else {
-      console.info(`Please use @ckb-lumos/indexer(https://www.npmjs.com/package/@ckb-lumos/indexer) with this method`)
-      lockHash = params.lockHash
-      cells = await loadCells({ lockHash, start: params.start, end: params.end, STEP: params.STEP, rpc: this.rpc })
-    }
+    const lockHash = this.utils.scriptToHash(params.lock)
+    const cells = await loadCellsFromIndexer(params)
     if (params.save) {
       this.cells.set(lockHash, cells)
     }

@@ -1,9 +1,3 @@
-export const isIndexerParams = (
-  params: LoadCellsParams.Normal | LoadCellsParams.FromIndexer,
-): params is LoadCellsParams.FromIndexer => {
-  return 'indexer' in params && 'CellCollector' in params
-}
-
 export const loadCellsFromIndexer = async ({
   CellCollector,
   indexer,
