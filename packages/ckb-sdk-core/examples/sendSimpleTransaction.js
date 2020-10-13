@@ -4,7 +4,7 @@ const CKB = require('../lib').default
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
   const privateKey = process.env.PRIV_KEY || '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // example private key
-  const blockAssemblerCodeHash = '0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
+  const blockAssemblerCodeHash = '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb project
 
   const ckb = new CKB(nodeUrl) // instantiate the JS SDK with provided node url
 
@@ -76,6 +76,13 @@ const bootstrap = async () => {
     prefix: 'ckt'
   })
 
+  /**
+   * @param fee - transaction fee, can be set in number directly, or use an reconciler to set by SDK
+   *                               say, fee: BigInt(100000) means transaction fee is 100000 shannons
+   *                                or, fee: { feeRate: '0x7d0', reconciler: ckb.utils.reconcilers.extraInputs } to set transaction fee by reconcilers.extraInputs with feeRate = 2000 shannons/Byte
+   *
+   * @external https://docs.nervos.org/docs/essays/faq#how-do-you-calculate-transaction-fee
+   */
   const rawTransaction = ckb.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
     toAddress,
@@ -86,12 +93,6 @@ const bootstrap = async () => {
     deps: ckb.config.secp256k1Dep,
   })
 
-  rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
-  rawTransaction.witnesses[0] = {
-    lock: '',
-    inputType: '',
-    outputType: ''
-  }
 
   const signedTx = ckb.signTransaction(privateKey)(rawTransaction)
   /**

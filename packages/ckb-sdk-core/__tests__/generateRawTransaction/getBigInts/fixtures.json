@@ -1,0 +1,47 @@
+{
+  "should return BigInts": {
+    "params": [
+      {
+        "fee": "0x10",
+        "capacityThreshold": "0x20",
+        "changeThreshold": "0x30"
+      }
+    ],
+    "expected": {
+      "targetFee": "0x10",
+      "minCapacity": "0x20",
+      "minChange": "0x30",
+      "zeroBigInt": "0x0"
+    }
+  },
+  "should throw an error when fee is invalid": {
+    "params": [
+      {
+        "fee": "10",
+        "capacityThreshold": "0x20",
+        "changeThreshold": "0x30"
+      }
+    ],
+    "exception": "Hex string 10 should start with 0x"
+  },
+  "should throw an error when capacityThreshold is invalid": {
+    "params": [
+      {
+        "fee": "0x10",
+        "capacityThreshold": "20",
+        "changeThreshold": "0x30"
+      }
+    ],
+    "exception": "Hex string 20 should start with 0x"
+  },
+  "should throw an error when changeThreshold is invalid": {
+    "params": [
+      {
+        "fee": "0x10",
+        "capacityThreshold": "0x20",
+        "changeThreshold": "30"
+      }
+    ],
+    "exception": "Hex string 30 should start with 0x"
+  }
+}

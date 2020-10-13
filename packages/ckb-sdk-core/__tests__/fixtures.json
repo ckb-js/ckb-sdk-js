@@ -17,7 +17,7 @@
         "txHash": "0x15fb8111fc78fa36da6af96c45ac4714cc9a33974fdae13cc524b29e1a488c7f",
         "index": "0x2"
       },
-      "depType": "depGroup"
+      "depType": "code"
     }
   },
   "signTransaction": {
@@ -606,7 +606,18 @@
         ],
         "outputsData": ["0x", "0x"],
         "version": "0x0",
-        "witnesses": []
+        "witnesses": [
+          {
+            "inputType": "",
+            "outputType": "",
+            "lock": ""
+          },
+          "0x",
+          "0x",
+          "0x",
+          "0x",
+          "0x"
+        ]
       }
     },
     "complex": {
@@ -872,7 +883,18 @@
         ],
         "outputsData": ["0x", "0x"],
         "version": "0x0",
-        "witnesses": []
+        "witnesses": [
+          {
+            "inputType": "",
+            "outputType": "",
+            "lock": ""
+          },
+          "0x",
+          "0x",
+          "0x",
+          "0x",
+          "0x"
+        ]
       }
     }
   },

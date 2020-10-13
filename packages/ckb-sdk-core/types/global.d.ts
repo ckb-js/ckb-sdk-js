@@ -38,14 +38,28 @@ declare namespace RawTransactionParams {
   type LockHash = string
   type PublicKeyHash = string
   type Capacity = string | bigint
-  export type Cell = Pick<CachedCell, 'dataHash' | 'type' | 'capacity' | 'outPoint'>
+  type Cell = Pick<CachedCell, 'dataHash' | 'type' | 'capacity' | 'outPoint'>
+  type Fee =
+    | Capacity
+    | {
+        feeRate: Capacity
+        reconciler: (params: {
+          tx: CKBComponents.RawTransactionToSign
+          feeRate: Capacity
+          changeThreshold: Capacity
+          cells: Array<{ capacity: string; outPoint: CKBComponents.OutPoint }>
+          extraCount: number
+        }) => CKBComponents.RawTransactionToSign
+      }
   interface Base {
-    fee?: Capacity
+    fee?: Fee
     safeMode: boolean
     deps: DepCellInfo | DepCellInfo[]
     capacityThreshold?: Capacity
     changeThreshold?: Capacity
     changePublicKeyHash?: PublicKeyHash
+    witnesses?: Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
+    outputsData?: Array<string>
   }
 
   interface Simple extends Base {

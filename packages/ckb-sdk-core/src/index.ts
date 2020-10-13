@@ -146,6 +146,8 @@ class CKB {
     deps,
     capacityThreshold,
     changeThreshold,
+    witnesses,
+    outputsData,
     ...params
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
     if (this.#isSimpleTransaction(params)) {
@@ -165,6 +167,8 @@ class CKB {
         deps,
         capacityThreshold,
         changeThreshold,
+        witnesses,
+        outputsData,
       })
     }
 
@@ -185,6 +189,8 @@ class CKB {
         deps,
         capacityThreshold,
         changeThreshold,
+        witnesses,
+        outputsData,
       })
     }
     throw new Error('Parameters of generateRawTransaction are invalid')
@@ -216,7 +222,7 @@ class CKB {
       fee,
       safeMode: true,
       cells,
-      deps: this.config.secp256k1Dep!,
+      deps: [this.config.secp256k1Dep!, this.config.daoDep!],
     })
 
     rawTx.outputs[0].type = {
@@ -226,12 +232,6 @@ class CKB {
     }
 
     rawTx.outputsData[0] = '0x0000000000000000'
-
-    rawTx.cellDeps.push({
-      outPoint: this.config.daoDep!.outPoint,
-      depType: 'code',
-    })
-    rawTx.witnesses.unshift({ lock: '', inputType: '', outputType: '' })
 
     return rawTx
   }
@@ -270,24 +270,16 @@ class CKB {
       capacity: '0x0',
       fee,
       safeMode: true,
-      deps: this.config.secp256k1Dep!,
+      deps: [this.config.secp256k1Dep!, this.config.daoDep!],
       capacityThreshold: '0x0',
       cells,
     })
 
-    rawTx.outputs.splice(0, 1)
-    rawTx.outputsData.splice(0, 1)
+    rawTx.outputs[0] = tx.transaction.outputs[+outPoint.index]
+    rawTx.outputsData[0] = encodedBlockNumber
 
     rawTx.inputs.unshift({ previousOutput: outPoint, since: '0x0' })
-    rawTx.outputs.unshift(tx.transaction.outputs[+outPoint.index])
-    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'code' })
     rawTx.headerDeps.push(depositBlockHeader.hash)
-    rawTx.outputsData.unshift(encodedBlockNumber)
-    rawTx.witnesses.unshift({
-      lock: '',
-      inputType: '',
-      outputType: '',
-    })
     return rawTx
   }
 
@@ -342,8 +334,8 @@ class CKB {
     return {
       version: '0x0',
       cellDeps: [
-        { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
-        { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
+        { outPoint: this.config.secp256k1Dep!.outPoint, depType: this.config.secp256k1Dep!.depType },
+        { outPoint: this.config.daoDep!.outPoint, depType: this.config.daoDep!.depType },
       ],
       headerDeps: [depositBlockHeader.hash, withdrawStartBlockHeader.hash],
       inputs: [
@@ -427,7 +419,7 @@ class CKB {
         txHash: daoDepTxHash,
         index: '0x2',
       },
-      depType: 'depGroup',
+      depType: 'code',
     }
   }
 }
