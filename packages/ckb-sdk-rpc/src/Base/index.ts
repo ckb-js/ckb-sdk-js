@@ -137,6 +137,18 @@ export interface Base {
   getBlockEconomicState: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockEconomicState>
 
   /**
+   * @method getTransactionProof
+   * @memberof DefaultRPC
+   * @description request merkle proof that transactions are included in a block
+   * @param {Array<string>} transactionHashes - transaction hashes, all transactions must be in the same block
+   * @param {[string]} blockHash - if specified, looks for transactions in the block with this hash
+   */
+  getTransactionProof: (
+    transactionHashes: CKBComponents.Hash[],
+    blockHash?: CKBComponents.Hash,
+  ) => Promise<CKBComponents.TransactionProof>
+
+  /**
    * @method getBlockByNumber
    * @memberof DefaultRPC
    * @description rpc to get block by its number

@@ -16,6 +16,12 @@ const formatter = {
     }
     return format(arg)
   },
+  toArray: (format?: (args: any) => any) => (arg: any) => {
+    if (typeof format !== 'function' || !Array.isArray(arg)) {
+      return arg
+    }
+    return arg.map(format)
+  },
   toHash: (hash: string): RPC.Hash256 => {
     if (typeof hash !== 'string') {
       throw new StringHashTypeException(hash)
