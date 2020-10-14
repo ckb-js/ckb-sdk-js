@@ -20,6 +20,11 @@ export default {
     resultFormatters: resultFmts.toBannedAddresses,
   },
 
+  clearBannedAddresses: {
+    method: 'clear_banned_addresses',
+    paramsFormatters: [],
+  },
+
   setBan: {
     method: 'set_ban',
     paramsFormatters: [],

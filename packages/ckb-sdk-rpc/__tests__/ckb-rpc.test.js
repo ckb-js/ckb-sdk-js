@@ -1141,6 +1141,24 @@ describe('Test with mock', () => {
       expect(res).toEqual([])
     })
 
+    it('clear banned addresses', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          jsonrpc: '2.0',
+          result: null,
+          id,
+        },
+      })
+      const res = await rpc.clearBannedAddresses()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'clear_banned_addresses',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('set address to be banned', async () => {
       const PARAMS = ['1.1.1.1', 'insert', null, true, 'No reason']
       axiosMock.mockResolvedValue({

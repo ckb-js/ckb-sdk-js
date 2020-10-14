@@ -155,7 +155,7 @@ export interface Base {
    * @param {object} transactionProof
    * @returns {Array<string>} hash list of transactions committed in the block
    */
-  verifyTransactionProof(transactionProof: CKBComponents.TransactionProof): Promise<CKBComponents.Hash[]>
+  verifyTransactionProof: (transactionProof: CKBComponents.TransactionProof) => Promise<CKBComponents.Hash[]>
 
   /**
    * @method getBlockByNumber
@@ -294,6 +294,14 @@ export interface Base {
    * @description Returns all banned IPs/Subnets
    */
   getBannedAddresses: () => Promise<CKBComponents.BannedAddresses>
+
+  /**
+   * @method clearBannedAddresses
+   * @memberof DefaultRPC
+   * @description clear all banned IPs/Subnets
+   * @returns <null>
+   */
+  clearBannedAddresses: () => Promise<null>
 
   /**
    * @method setBan
