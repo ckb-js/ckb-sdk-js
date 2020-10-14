@@ -30,7 +30,7 @@ interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
 }
 
 class CKB {
-  public cells: Map<LockHash, CachedCell[]> = new Map()
+  public cells: Map<LockHash, RawTransactionParams.Cell[]> = new Map()
 
   public rpc: RPC
 
@@ -109,7 +109,7 @@ class CKB {
 
   public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
+    cells: Pick<RawTransactionParams.Cell, 'outPoint' | 'lock'>[],
   ) => {
     if (!key) throw new ParameterRequiredException('Private key or address object')
     this.#validateTransactionToSign(transaction)

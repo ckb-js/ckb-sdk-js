@@ -2,7 +2,7 @@ import { scriptToHash, JSBI, systemScripts } from '@nervosnetwork/ckb-sdk-utils'
 import { EMPTY_WITNESS_ARGS } from '@nervosnetwork/ckb-sdk-utils/lib/const'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
-const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+const EMPTY_DATA = '0x'
 const MIN_CELL_CAPACITY = `0x${(61_00_000_000).toString(16)}`
 
 export const getBigInts = ({ fee, capacityThreshold, changeThreshold }: { [key: string]: string | bigint }) => {
@@ -74,7 +74,7 @@ export const getInputs = ({
     for (let j = 0; j < unspentCells.length; j++) {
       const c = unspentCells[j]
 
-      if (!safeMode || (c.dataHash === EMPTY_DATA_HASH && !c.type)) {
+      if (!safeMode || (c.data === EMPTY_DATA && !c.type)) {
         inputs.push({ previousOutput: c.outPoint, since: '0x0', lockhash })
         sum = JSBI.add(sum, JSBI.BigInt(c.capacity))
         if (JSBI.greaterThanOrEqual(sum, costCapacity)) {
@@ -105,7 +105,7 @@ export const getLeftCells = ({
 }): Array<{ capacity: string; outPoint: CKBComponents.OutPoint }> => {
   const leftCells: Array<{ capacity: string; outPoint: CKBComponents.OutPoint }> = []
 
-  const isCellUsed = (cell: Pick<CachedCell, 'outPoint'>) =>
+  const isCellUsed = (cell: Pick<RawTransactionParams.Cell, 'outPoint'>) =>
     usedCells.some(
       used =>
         used.previousOutput?.txHash === cell.outPoint?.txHash && used.previousOutput?.index === cell.outPoint?.index,
@@ -116,7 +116,7 @@ export const getLeftCells = ({
     const cells = unspentCellsMap.get(lockhash)
     if (cells?.length) {
       cells.forEach(cell => {
-        if (cell.dataHash === EMPTY_DATA_HASH && !cell.type && !isCellUsed(cell)) {
+        if (cell.data === EMPTY_DATA && !cell.type && !isCellUsed(cell)) {
           leftCells.push({
             outPoint: cell.outPoint!,
             capacity: cell.capacity,

@@ -371,7 +371,6 @@
         "isMainnet": false,
         "cells": [
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -382,11 +381,9 @@
               "index": "0x0"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-            "status": "live"
+            "data": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -397,11 +394,9 @@
               "index": "0x1"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -412,11 +407,9 @@
               "index": "0x2"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -427,11 +420,9 @@
               "index": "0x3"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -442,11 +433,9 @@
               "index": "0x4"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -457,11 +446,9 @@
               "index": "0x5"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -472,11 +459,9 @@
               "index": "0x6"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -487,11 +472,9 @@
               "index": "0x7"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -502,11 +485,9 @@
               "index": "0x8"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           },
           {
-            "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
             "lock": {
               "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
               "hashType": "type",
@@ -517,8 +498,7 @@
               "index": "0x9"
             },
             "capacity": "0x1fd52bc92e",
-            "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "status": "live"
+            "data": "0x"
           }
         ],
         "deps": {
@@ -641,7 +621,6 @@
             "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
             [
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -652,11 +631,9 @@
                   "index": "0x0"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-                "status": "live"
+                "data": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -667,11 +644,9 @@
                   "index": "0x1"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -682,11 +657,9 @@
                   "index": "0x2"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -697,11 +670,9 @@
                   "index": "0x3"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -712,11 +683,9 @@
                   "index": "0x4"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -727,11 +696,9 @@
                   "index": "0x5"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -742,11 +709,9 @@
                   "index": "0x6"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -757,11 +722,9 @@
                   "index": "0x7"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -772,11 +735,9 @@
                   "index": "0x8"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               },
               {
-                "blockHash": "0x355cd43b6b517be40ce69278b7c6d2017546e2d46557d59e31adff20646c845e",
                 "lock": {
                   "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
                   "hashType": "type",
@@ -787,8 +748,7 @@
                   "index": "0x9"
                 },
                 "capacity": "0x1fd52bc92e",
-                "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "status": "live"
+                "data": "0x"
               }
             ]
           ]
@@ -905,7 +865,6 @@
       "fee": "0x186a0",
       "cells": [
         {
-          "blockHash": "0xf15ea2efcee00a41afadabbb71d4ac4b614e602628d6d542bde9084f1c8b7107",
           "lock": {
             "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
             "hashType": "type",
@@ -916,9 +875,7 @@
             "index": "0x0"
           },
           "capacity": "0x2f766e9925",
-          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "status": "live",
-          "type": null
+          "data": "0x"
         }
       ]
     },
@@ -986,7 +943,6 @@
       "fee": "1000",
       "cells": [
         {
-          "blockHash": "0x7790fbe20bea5037c753caa8ee3c5a7937687b32bdcf73ebfa8abafb8108ffd4",
           "lock": {
             "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
             "hashType": "type",
@@ -997,12 +953,9 @@
             "index": "0x1"
           },
           "capacity": "0x182df62a85",
-          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "status": "live",
-          "type": null
+          "data": "0x"
         },
         {
-          "blockHash": "0xb8171c6953e55f56b92935b554fe2923358452970a143bdcb539a19ee0b30447",
           "lock": {
             "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
             "hashType": "type",
@@ -1013,9 +966,7 @@
             "index": "0x0"
           },
           "capacity": "0x2f765892a5",
-          "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "status": "live",
-          "type": null
+          "data": "0x"
         }
       ]
     }

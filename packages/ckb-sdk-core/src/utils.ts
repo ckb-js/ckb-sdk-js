@@ -1,5 +1,5 @@
 export const filterCellsByInputs = (
-  cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
+  cells: Pick<RawTransactionParams.Cell, 'outPoint' | 'lock'>[],
   inputs: Pick<CKBComponents.CellInput, 'previousOutput'>[],
 ) => {
   return inputs.map(input => {

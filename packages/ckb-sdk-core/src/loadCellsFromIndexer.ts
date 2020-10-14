@@ -15,22 +15,21 @@ export const loadCellsFromIndexer = async ({
     toBlock: end,
   })
 
-  const cells = []
-  const EMPTY_DATA_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+  const cells: RawTransactionParams.Cell[] = []
 
   /* eslint-disable no-restricted-syntax */
   for await (const cell of collector.collect()) {
     cells.push({
-      dataHash: cell.data === '0x' ? EMPTY_DATA_HASH : 'cell.data',
-      type: cell.cell_output.type || null,
+      data: cell.data,
+      lock,
+      type: cell.cell_output.type,
       capacity: cell.cell_output.capacity,
       outPoint: { txHash: cell.out_point.tx_hash, index: cell.out_point.index },
     })
   }
   /* eslint-enable no-restricted-syntax */
 
-  // TODO: add and prune fields
-  return cells as CachedCell[]
+  return cells
 }
 
 export default loadCellsFromIndexer
