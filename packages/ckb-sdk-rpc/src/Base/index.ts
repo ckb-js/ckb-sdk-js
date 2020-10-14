@@ -330,6 +330,14 @@ export interface Base {
    */
   removeNode: (peerId: string) => Promise<null>
 
+  /**
+   * @method pingPeers
+   * @memberof DefaultRPC
+   * @description request a ping sent to all connected peers to measure ping time
+   * @returns {Promise<null>}
+   */
+  pingPeers: () => Promise<null>
+
   /* Pool */
 
   /**

@@ -1145,6 +1145,24 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    it('ping peers', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const res = await rpc.pingPeers()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'ping_peers',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('get header', async () => {
       const BLOCK_HASH = '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4'
       axiosMock.mockResolvedValue({

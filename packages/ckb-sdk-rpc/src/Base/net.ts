@@ -45,4 +45,9 @@ export default {
     method: 'remove_node',
     paramsFormatters: [],
   },
+
+  pingPeers: {
+    method: 'ping_peers',
+    paramsFormatters: [],
+  },
 }
