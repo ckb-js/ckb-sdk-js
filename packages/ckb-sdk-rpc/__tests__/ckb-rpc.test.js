@@ -384,6 +384,114 @@ describe('Test with mock', () => {
         txsFee: '0x0',
       })
     })
+
+    describe('get transaction proof', () => {
+      it('with transaction hashes and block hash', async () => {
+        const BLOCK_HASH = '0x02530b25ad0ff677acc365cb73de3e8cc09c7ddd58272e879252e199d08df83b'
+        const TRANSACTION_HASHES = [
+          '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        ]
+
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              block_hash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+              proof: {
+                indices: ['0x0'],
+                lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+              },
+              witnesses_root: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            },
+          },
+        })
+        const res = await rpc.getTransactionProof(TRANSACTION_HASHES, BLOCK_HASH)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_transaction_proof',
+          params: [TRANSACTION_HASHES, BLOCK_HASH],
+        })
+        expect(res).toEqual({
+          blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          proof: {
+            indices: ['0x0'],
+            lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+          },
+          witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        })
+      })
+
+      it('with transaction hashes and without block hash', async () => {
+        const TRANSACTION_HASHES = [
+          '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        ]
+
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              block_hash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+              proof: {
+                indices: ['0x0'],
+                lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+              },
+              witnesses_root: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            },
+          },
+        })
+        const res = await rpc.getTransactionProof(TRANSACTION_HASHES)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_transaction_proof',
+          params: [TRANSACTION_HASHES],
+        })
+        expect(res).toEqual({
+          blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          proof: {
+            indices: ['0x0'],
+            lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+          },
+          witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        })
+      })
+    })
+    it('verify transaction proof', async () => {
+      const TRANSACTION_PROOF = {
+        blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        proof: {
+          indices: ['0x0'],
+          lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+        },
+        witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+      }
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: ['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'],
+        },
+      })
+      const res = await rpc.verifyTransactionProof(TRANSACTION_PROOF)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'verify_transaction_proof',
+        params: [
+          {
+            block_hash: TRANSACTION_PROOF.blockHash,
+            proof: TRANSACTION_PROOF.proof,
+            witnesses_root: TRANSACTION_PROOF.witnessesRoot,
+          },
+        ],
+      })
+      expect(res).toEqual(['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'])
+    })
     it('get blockchain info', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -1033,6 +1141,24 @@ describe('Test with mock', () => {
       expect(res).toEqual([])
     })
 
+    it('clear banned addresses', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          jsonrpc: '2.0',
+          result: null,
+          id,
+        },
+      })
+      const res = await rpc.clearBannedAddresses()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'clear_banned_addresses',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('set address to be banned', async () => {
       const PARAMS = ['1.1.1.1', 'insert', null, true, 'No reason']
       axiosMock.mockResolvedValue({
@@ -1141,6 +1267,24 @@ describe('Test with mock', () => {
         jsonrpc: '2.0',
         method: 'remove_node',
         params: [PEER_ID],
+      })
+      expect(res).toBeNull()
+    })
+
+    it('ping peers', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const res = await rpc.pingPeers()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'ping_peers',
+        params: [],
       })
       expect(res).toBeNull()
     })

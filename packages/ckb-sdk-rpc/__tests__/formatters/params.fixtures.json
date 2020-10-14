@@ -400,5 +400,29 @@
       "param": false,
       "expected": false
     }
+  ],
+  "toTransactionProof": [
+    {
+      "param": null,
+      "expected": null
+    },
+    {
+      "param": {
+        "blockHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "proof": {
+          "indices": ["0x0"],
+          "lemmas": ["0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
+        },
+        "witnessesRoot": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expected": {
+        "block_hash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "proof": {
+          "indices": ["0x0"],
+          "lemmas": ["0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
+        },
+        "witnesses_root": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
   ]
 }

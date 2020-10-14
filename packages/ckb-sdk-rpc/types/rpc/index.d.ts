@@ -283,5 +283,14 @@ declare module RPC {
     normal_time: string
     orphan_blocks_count: string
   }
+
+  export interface TransactionProof {
+    block_hash: Hash
+    proof: {
+      indices: Number[]
+      lemmas: Hash[]
+    }
+    witnesses_root: Hash
+  }
 }
 /* eslint-enable camelcase */

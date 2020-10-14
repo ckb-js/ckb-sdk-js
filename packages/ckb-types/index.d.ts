@@ -443,4 +443,13 @@ declare namespace CKBComponents {
     normalTime: string
     orphanBlocksCount: string
   }
+
+  export interface TransactionProof {
+    blockHash: Hash
+    proof: {
+      indices: Number[]
+      lemmas: Hash[]
+    }
+    witnessesRoot: Hash
+  }
 }

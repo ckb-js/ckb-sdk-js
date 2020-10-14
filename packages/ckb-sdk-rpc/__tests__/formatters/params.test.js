@@ -37,4 +37,22 @@ describe('params formatter', () => {
       expect(() => paramsFmt.toOptional(paramsFmt.toNumber)('20')).toThrow('Hex string 20 should start with 0x')
     })
   })
+
+  describe('toArray', () => {
+    it('toArray with other format should return the formatted value', () => {
+      expect(paramsFmt.toArray(paramsFmt.toNumber)([BigInt(20)])).toEqual(['0x14'])
+    })
+
+    it('toArray with invalid format should return the raw value', () => {
+      expect(paramsFmt.toArray()(['20'])).toEqual(['20'])
+    })
+
+    it('toArray with params not an array should return raw value', () => {
+      expect(paramsFmt.toArray(paramsFmt.toNumber)(BigInt(20))).toBe(BigInt(20))
+    })
+
+    it('toArray should throw errors which are thrown from other format', () => {
+      expect(() => paramsFmt.toArray(paramsFmt.toNumber)(['20'])).toThrow('Hex string 20 should start with 0x')
+    })
+  })
 })

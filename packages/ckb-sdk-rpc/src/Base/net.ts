@@ -20,6 +20,11 @@ export default {
     resultFormatters: resultFmts.toBannedAddresses,
   },
 
+  clearBannedAddresses: {
+    method: 'clear_banned_addresses',
+    paramsFormatters: [],
+  },
+
   setBan: {
     method: 'set_ban',
     paramsFormatters: [],
@@ -43,6 +48,11 @@ export default {
 
   removeNode: {
     method: 'remove_node',
+    paramsFormatters: [],
+  },
+
+  pingPeers: {
+    method: 'ping_peers',
     paramsFormatters: [],
   },
 }
