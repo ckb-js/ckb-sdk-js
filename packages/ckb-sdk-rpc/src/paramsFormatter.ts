@@ -138,6 +138,15 @@ const formatter = {
   toBoolean: (value: boolean) => {
     return !!value
   },
+  toTransactionProof: (proof: CKBComponents.TransactionProof): RPC.TransactionProof => {
+    if (!proof) return proof
+    const { blockHash: block_hash, witnessesRoot: witnesses_root, ...rest } = proof
+    return {
+      block_hash,
+      witnesses_root,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

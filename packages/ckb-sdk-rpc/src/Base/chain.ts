@@ -84,4 +84,9 @@ export default {
     paramsFormatters: [paramsFmts.toArray(paramsFmts.toHash), paramsFmts.toOptional(paramsFmts.toHash)],
     resultFormatters: resultFmts.toTransactionProof,
   },
+
+  verifyTransactionProof: {
+    method: 'verify_transaction_proof',
+    paramsFormatters: [paramsFmts.toTransactionProof],
+  },
 }

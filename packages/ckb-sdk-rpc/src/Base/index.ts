@@ -149,6 +149,15 @@ export interface Base {
   ) => Promise<CKBComponents.TransactionProof>
 
   /**
+   * @method verifyTransactionProof
+   * @memberof DefaultRPC
+   * @description verifies that a proof points to transactions in a block, returns transactions it commits to.
+   * @param {object} transactionProof
+   * @returns {Array<string>} hash list of transactions committed in the block
+   */
+  verifyTransactionProof(transactionProof: CKBComponents.TransactionProof): Promise<CKBComponents.Hash[]>
+
+  /**
    * @method getBlockByNumber
    * @memberof DefaultRPC
    * @description rpc to get block by its number

@@ -461,6 +461,37 @@ describe('Test with mock', () => {
         })
       })
     })
+    it('verify transaction proof', async () => {
+      const TRANSACTION_PROOF = {
+        blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        proof: {
+          indices: ['0x0'],
+          lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+        },
+        witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+      }
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: ['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'],
+        },
+      })
+      const res = await rpc.verifyTransactionProof(TRANSACTION_PROOF)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'verify_transaction_proof',
+        params: [
+          {
+            block_hash: TRANSACTION_PROOF.blockHash,
+            proof: TRANSACTION_PROOF.proof,
+            witnesses_root: TRANSACTION_PROOF.witnessesRoot,
+          },
+        ],
+      })
+      expect(res).toEqual(['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'])
+    })
     it('get blockchain info', async () => {
       axiosMock.mockResolvedValue({
         data: {
