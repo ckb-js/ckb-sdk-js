@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.37.0) (2020-10-25)
+
+
+### Features
+
+* **rpc:** add rpc#pingPeers, rpc#getTransactionProof, rpc#verifyTransactionProof and rpc#clearBannedAddresses ([#506](https://github.com/nervosnetwork/ckb-sdk-js/issues/506)) ([61efe5e](https://github.com/nervosnetwork/ckb-sdk-js/commit/61efe5e7b7638c7a41163e3b3b05bc92261f711a))
+* **rpc:** remove rpc#getCellsByLockHash ([#504](https://github.com/nervosnetwork/ckb-sdk-js/issues/504)) ([2071308](https://github.com/nervosnetwork/ckb-sdk-js/commit/20713087ede57289ecdc0c3188614d62f52f4f25))
+
+
+
+
+
 ## [0.36.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.36.2) (2020-10-20)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc

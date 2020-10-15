@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.37.0) (2020-10-25)
+
+
+### Features
+
+* **core:** prune cached cells according to data returned from lumos indexer ([5d09d61](https://github.com/nervosnetwork/ckb-sdk-js/commit/5d09d616cdf750c74eafa5728cba35a9dbd0e4dc))
+* **rpc:** remove rpc#getCellsByLockHash ([#504](https://github.com/nervosnetwork/ckb-sdk-js/issues/504)) ([2071308](https://github.com/nervosnetwork/ckb-sdk-js/commit/20713087ede57289ecdc0c3188614d62f52f4f25))
+
+
+
+
+
 ## [0.36.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.36.2) (2020-10-20)
 
 
