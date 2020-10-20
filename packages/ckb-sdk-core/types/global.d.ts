@@ -69,8 +69,10 @@ declare namespace RawTransactionParams {
     cells?: Cell[]
   }
 
-  interface Output extends CKBComponents.CellOutput {
+  interface Output {
     capacity: string | bigint
+    lock: CKBComponents.Script
+    type?: CKBComponents.Script | null
   }
 
   interface Complex extends Base {
