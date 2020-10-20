@@ -40,5 +40,5 @@
   "devDependencies": {
     "@nervosnetwork/ckb-types": "0.36.2"
   },
-  "gitHead": "b34332872a9168a1879d3020ca3546b72816823a"
+  "gitHead": "24e6c848ddc1dd8680225dd4b0c9803b14e0963a"
 }
