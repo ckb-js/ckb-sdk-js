@@ -1,0 +1,140 @@
+{
+  "should pass when capacity is enough": {
+    "params": [
+      {
+        "inputScripts": [
+          {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type"
+          }
+        ],
+        "safeMode": false,
+        "costCapacity": 12200000000,
+        "unspentCellsMap": [
+          [
+            "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+            [
+              {
+                "capacity": "0x16b969d00",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x0" }
+              },
+              {
+                "capacity": "0x16b969d00",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x1" }
+              },
+              {
+                "capacity": "0x16b969d00",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x2" }
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+          "previousOutput": {
+            "txHash": "0x",
+            "index": "0x0"
+          },
+          "since": "0x0"
+        },
+        {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+          "previousOutput": {
+            "txHash": "0x",
+            "index": "0x1"
+          },
+          "since": "0x0"
+        }
+      ],
+      "sum": 12200000000
+    }
+  },
+  "non-plain cells should be skipped when safeMode = true": {
+    "params": [
+      {
+        "inputScripts": [
+          {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type"
+          }
+        ],
+        "safeMode": true,
+        "costCapacity": 12200000000,
+        "unspentCellsMap": [
+          [
+            "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+            [
+              {
+                "capacity": "0x16b969d00",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x0" }
+              },
+              {
+                "capacity": "0x16b969d00",
+                "data": "0xff",
+                "outPoint": { "txHash": "0x", "index": "0x1" }
+              },
+              {
+                "capacity": "0x16b969d01",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x2" }
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+          "previousOutput": {
+            "txHash": "0x",
+            "index": "0x0"
+          },
+          "since": "0x0"
+        },
+        {
+          "lockhash": "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+          "previousOutput": {
+            "txHash": "0x",
+            "index": "0x2"
+          },
+          "since": "0x0"
+        }
+      ],
+      "sum": 12200000001
+    }
+  },
+  "should throw an error when capacity is not enough": {
+    "params": [
+      {
+        "inputScripts": [
+          {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType": "type"
+          }
+        ],
+        "safeMode": false,
+        "costCapacity": 12200000000,
+        "unspentCellsMap": [
+          [
+            "0x641238cd95b9f5e6224da1963a0bcaa2e972dc87e56eb1ded9a35dcebbc37ff4",
+            [{ "capacity": "0x16b969d00", "data": "0x", "outPoint": { "txHash": "0x", "index": "0x0" } }]
+          ]
+        ]
+      }
+    ],
+    "exception": "Input capacity is not enough"
+  }
+}

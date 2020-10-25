@@ -6,8 +6,7 @@ import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
 
-import loadCells from './loadCells'
-import loadCellsFromIndexer, { isIndexerParams } from './loadCellsFromIndexer'
+import loadCellsFromIndexer from './loadCellsFromIndexer'
 import signWitnesses, { isMap } from './signWitnesses'
 import { filterCellsByInputs } from './utils'
 
@@ -31,7 +30,7 @@ interface ComplexRawTransactoinParams extends RawTransactionParams.Base {
 }
 
 class CKB {
-  public cells: Map<LockHash, CachedCell[]> = new Map()
+  public cells: Map<LockHash, RawTransactionParams.Cell[]> = new Map()
 
   public rpc: RPC
 
@@ -90,25 +89,16 @@ class CKB {
 
   /**
    * @memberof Core
-   * @description The method used to load cells from chain
-   *              The most advisable usage is to call this method with a lumos indexer as shown in the tutorial
+   * @description The method used to load cells from lumos indexer as shown in the tutorial
    * @tutorial https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
    */
   public loadCells = async (
-    params: (LoadCellsParams.Normal | LoadCellsParams.FromIndexer) & {
+    params: LoadCellsParams.FromIndexer & {
       save?: boolean
     },
   ) => {
-    let lockHash = ''
-    let cells = []
-    if (isIndexerParams(params)) {
-      lockHash = this.utils.scriptToHash(params.lock)
-      cells = await loadCellsFromIndexer(params)
-    } else {
-      console.info(`Please use @ckb-lumos/indexer(https://www.npmjs.com/package/@ckb-lumos/indexer) with this method`)
-      lockHash = params.lockHash
-      cells = await loadCells({ lockHash, start: params.start, end: params.end, STEP: params.STEP, rpc: this.rpc })
-    }
+    const lockHash = this.utils.scriptToHash(params.lock)
+    const cells = await loadCellsFromIndexer(params)
     if (params.save) {
       this.cells.set(lockHash, cells)
     }
@@ -119,7 +109,7 @@ class CKB {
 
   public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: Pick<CachedCell, 'outPoint' | 'lock'>[],
+    cells: Pick<RawTransactionParams.Cell, 'outPoint' | 'lock'>[],
   ) => {
     if (!key) throw new ParameterRequiredException('Private key or address object')
     this.#validateTransactionToSign(transaction)
@@ -146,6 +136,8 @@ class CKB {
     deps,
     capacityThreshold,
     changeThreshold,
+    witnesses,
+    outputsData,
     ...params
   }: RawTransactionParams | ComplexRawTransactoinParams) => {
     if (this.#isSimpleTransaction(params)) {
@@ -165,6 +157,8 @@ class CKB {
         deps,
         capacityThreshold,
         changeThreshold,
+        witnesses,
+        outputsData,
       })
     }
 
@@ -185,6 +179,8 @@ class CKB {
         deps,
         capacityThreshold,
         changeThreshold,
+        witnesses,
+        outputsData,
       })
     }
     throw new Error('Parameters of generateRawTransaction are invalid')
@@ -216,7 +212,7 @@ class CKB {
       fee,
       safeMode: true,
       cells,
-      deps: this.config.secp256k1Dep!,
+      deps: [this.config.secp256k1Dep!, this.config.daoDep!],
     })
 
     rawTx.outputs[0].type = {
@@ -226,12 +222,6 @@ class CKB {
     }
 
     rawTx.outputsData[0] = '0x0000000000000000'
-
-    rawTx.cellDeps.push({
-      outPoint: this.config.daoDep!.outPoint,
-      depType: 'code',
-    })
-    rawTx.witnesses.unshift({ lock: '', inputType: '', outputType: '' })
 
     return rawTx
   }
@@ -270,24 +260,16 @@ class CKB {
       capacity: '0x0',
       fee,
       safeMode: true,
-      deps: this.config.secp256k1Dep!,
+      deps: [this.config.secp256k1Dep!, this.config.daoDep!],
       capacityThreshold: '0x0',
       cells,
     })
 
-    rawTx.outputs.splice(0, 1)
-    rawTx.outputsData.splice(0, 1)
+    rawTx.outputs[0] = tx.transaction.outputs[+outPoint.index]
+    rawTx.outputsData[0] = encodedBlockNumber
 
     rawTx.inputs.unshift({ previousOutput: outPoint, since: '0x0' })
-    rawTx.outputs.unshift(tx.transaction.outputs[+outPoint.index])
-    rawTx.cellDeps.push({ outPoint: this.config.daoDep!.outPoint, depType: 'code' })
     rawTx.headerDeps.push(depositBlockHeader.hash)
-    rawTx.outputsData.unshift(encodedBlockNumber)
-    rawTx.witnesses.unshift({
-      lock: '',
-      inputType: '',
-      outputType: '',
-    })
     return rawTx
   }
 
@@ -342,8 +324,8 @@ class CKB {
     return {
       version: '0x0',
       cellDeps: [
-        { outPoint: this.config.secp256k1Dep!.outPoint, depType: 'depGroup' },
-        { outPoint: this.config.daoDep!.outPoint, depType: 'code' },
+        { outPoint: this.config.secp256k1Dep!.outPoint, depType: this.config.secp256k1Dep!.depType },
+        { outPoint: this.config.daoDep!.outPoint, depType: this.config.daoDep!.depType },
       ],
       headerDeps: [depositBlockHeader.hash, withdrawStartBlockHeader.hash],
       inputs: [
@@ -427,7 +409,7 @@ class CKB {
         txHash: daoDepTxHash,
         index: '0x2',
       },
-      depType: 'depGroup',
+      depType: 'code',
     }
   }
 }

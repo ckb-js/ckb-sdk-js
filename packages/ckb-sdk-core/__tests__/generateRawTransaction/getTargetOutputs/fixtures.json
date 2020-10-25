@@ -1,0 +1,57 @@
+{
+  "should return outputs": {
+    "params": [
+      {
+        "outputs": [
+          {
+            "lock": {
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type"
+            },
+            "type": {
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type"
+            },
+            "capacity": 6200000000
+          }
+        ],
+        "minCapacity": 6100000000
+      }
+    ],
+    "expected": [
+      {
+        "capacity": 6200000000,
+        "lock": {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        },
+        "type": {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        }
+      }
+    ]
+  },
+  "should throw an error when capacity is too small": {
+    "params": [
+      {
+        "outputs": [
+          {
+            "lock": {
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+              "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+              "hashType": "type"
+            },
+            "capacity": 6000000000
+          }
+        ],
+        "minCapacity": 6100000000
+      }
+    ],
+    "exception": "Capacity should be at least 6100000000 shannon"
+  }
+}

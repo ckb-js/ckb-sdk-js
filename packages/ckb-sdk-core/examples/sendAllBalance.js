@@ -11,8 +11,6 @@ const address = ckb.utils.privateKeyToAddress(privateKey)
 
 const unspentCells = [
   {
-    blockHash:
-      "0x8810cc8f199ea0167ea592071f61b9b5b66f915ea982f30a96a95a59df7f15ca",
     lock: {
       codeHash:
         "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
@@ -26,14 +24,9 @@ const unspentCells = [
     },
     capacity: "0x2540be400",
 
-    dataHash:
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
-    status: "live",
-    type: null,
+    data: "0x",
   },
   {
-    blockHash:
-      "0x8810cc8f199ea0167ea592071f61b9b5b66f915ea982f30a96a95a59df7f15ca",
     lock: {
       codeHash:
         "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
@@ -46,10 +39,7 @@ const unspentCells = [
       index: "0x1",
     },
     capacity: "0x2540be400",
-    dataHash:
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
-    status: "live",
-    type: null,
+    data: "0x",
   },
 ]
 
@@ -90,12 +80,6 @@ const generateRawTransaction = async () => {
 
 const sendAllBalance = async () => {
   const rawTx = await generateRawTransaction()
-  rawTx.witnesses = rawTx.inputs.map(() => "0x")
-  rawTx.witnesses[0] = {
-    lock: "",
-    inputType: "",
-    outputType: "",
-  }
   const signedTx = ckb.signTransaction(privateKey)(rawTx)
   // console.group('sign and send tx')
   // console.info(`signed tx: ${JSON.stringify(signedTx, null, 2)}`)

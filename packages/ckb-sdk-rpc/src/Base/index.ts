@@ -91,23 +91,6 @@ export interface Base {
   getHeaderByNumber: (blockNumber: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.BlockHeader>
 
   /**
-   * @method getCellsByLockHash
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description rpc to get the collection of cells who have the corresponding lockhash,
-   *              the meaning of lockhash could be found in ckb-types
-   * @param {string} hash - hash of cell's lock script
-   * @param {string} from - the start block number
-   * @param {string} to - the end block number
-   * @return {object[]} array of objects including lock script, capacity, outPoint
-   */
-  getCellsByLockHash: (
-    hash: CKBComponents.Hash256,
-    from: CKBComponents.BlockNumber | bigint,
-    to: CKBComponents.BlockNumber | bigint,
-  ) => Promise<CKBComponents.CellIncludingOutPoint[]>
-
-  /**
    * @method getLiveCell
    * @memberof DefaultRPC
    * @description rpc to get a cell by outPoint, the meaning of outPoint could be found in ckb-types,
@@ -152,6 +135,27 @@ export interface Base {
    * @returns {Promise<BlockEconomicState>}
    */
   getBlockEconomicState: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockEconomicState>
+
+  /**
+   * @method getTransactionProof
+   * @memberof DefaultRPC
+   * @description request merkle proof that transactions are included in a block
+   * @param {Array<string>} transactionHashes - transaction hashes, all transactions must be in the same block
+   * @param {[string]} blockHash - if specified, looks for transactions in the block with this hash
+   */
+  getTransactionProof: (
+    transactionHashes: CKBComponents.Hash[],
+    blockHash?: CKBComponents.Hash,
+  ) => Promise<CKBComponents.TransactionProof>
+
+  /**
+   * @method verifyTransactionProof
+   * @memberof DefaultRPC
+   * @description verifies that a proof points to transactions in a block, returns transactions it commits to.
+   * @param {object} transactionProof
+   * @returns {Array<string>} hash list of transactions committed in the block
+   */
+  verifyTransactionProof: (transactionProof: CKBComponents.TransactionProof) => Promise<CKBComponents.Hash[]>
 
   /**
    * @method getBlockByNumber
@@ -292,6 +296,14 @@ export interface Base {
   getBannedAddresses: () => Promise<CKBComponents.BannedAddresses>
 
   /**
+   * @method clearBannedAddresses
+   * @memberof DefaultRPC
+   * @description clear all banned IPs/Subnets
+   * @returns <null>
+   */
+  clearBannedAddresses: () => Promise<null>
+
+  /**
    * @method setBan
    * @memberof DefaultRPC
    * @description insert or delete an IP/Subnet from the banned list
@@ -346,6 +358,14 @@ export interface Base {
    * @returns {Promise<null>}
    */
   removeNode: (peerId: string) => Promise<null>
+
+  /**
+   * @method pingPeers
+   * @memberof DefaultRPC
+   * @description request a ping sent to all connected peers to measure ping time
+   * @returns {Promise<null>}
+   */
+  pingPeers: () => Promise<null>
 
   /* Pool */
 

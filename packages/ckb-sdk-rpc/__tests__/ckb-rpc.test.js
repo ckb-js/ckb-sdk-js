@@ -384,6 +384,114 @@ describe('Test with mock', () => {
         txsFee: '0x0',
       })
     })
+
+    describe('get transaction proof', () => {
+      it('with transaction hashes and block hash', async () => {
+        const BLOCK_HASH = '0x02530b25ad0ff677acc365cb73de3e8cc09c7ddd58272e879252e199d08df83b'
+        const TRANSACTION_HASHES = [
+          '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        ]
+
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              block_hash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+              proof: {
+                indices: ['0x0'],
+                lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+              },
+              witnesses_root: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            },
+          },
+        })
+        const res = await rpc.getTransactionProof(TRANSACTION_HASHES, BLOCK_HASH)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_transaction_proof',
+          params: [TRANSACTION_HASHES, BLOCK_HASH],
+        })
+        expect(res).toEqual({
+          blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          proof: {
+            indices: ['0x0'],
+            lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+          },
+          witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        })
+      })
+
+      it('with transaction hashes and without block hash', async () => {
+        const TRANSACTION_HASHES = [
+          '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        ]
+
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              block_hash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+              proof: {
+                indices: ['0x0'],
+                lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+              },
+              witnesses_root: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            },
+          },
+        })
+        const res = await rpc.getTransactionProof(TRANSACTION_HASHES)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_transaction_proof',
+          params: [TRANSACTION_HASHES],
+        })
+        expect(res).toEqual({
+          blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          proof: {
+            indices: ['0x0'],
+            lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+          },
+          witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        })
+      })
+    })
+    it('verify transaction proof', async () => {
+      const TRANSACTION_PROOF = {
+        blockHash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        proof: {
+          indices: ['0x0'],
+          lemmas: ['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'],
+        },
+        witnessesRoot: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+      }
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: ['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'],
+        },
+      })
+      const res = await rpc.verifyTransactionProof(TRANSACTION_PROOF)
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'verify_transaction_proof',
+        params: [
+          {
+            block_hash: TRANSACTION_PROOF.blockHash,
+            proof: TRANSACTION_PROOF.proof,
+            witnesses_root: TRANSACTION_PROOF.witnessesRoot,
+          },
+        ],
+      })
+      expect(res).toEqual(['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'])
+    })
     it('get blockchain info', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -837,59 +945,6 @@ describe('Test with mock', () => {
       })
     })
 
-    it('get cells by lock hash', async () => {
-      const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0', '0x64']
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [
-            {
-              block_hash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-              capacity: '0x12479afc2a35',
-              cellbase: true,
-              lock: {
-                args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-                code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-                hash_type: 'type',
-              },
-              out_point: {
-                index: '0x0',
-                tx_hash: '0x0db670e7bab37e4f942acf47c7887009771e01b5a6b282eff32084c38533a2b2',
-              },
-              output_data_len: '0x0',
-              type: null,
-            },
-          ],
-          id,
-        },
-      })
-      const res = await rpc.getCellsByLockHash(...PARAMS)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_cells_by_lock_hash',
-        params: PARAMS,
-      })
-      expect(res).toEqual([
-        {
-          blockHash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-          capacity: '0x12479afc2a35',
-          cellbase: true,
-          lock: {
-            args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-            codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-            hashType: 'type',
-          },
-          outPoint: {
-            index: '0x0',
-            txHash: '0x0db670e7bab37e4f942acf47c7887009771e01b5a6b282eff32084c38533a2b2',
-          },
-          outputDataLen: '0x0',
-          type: null,
-        },
-      ])
-    })
-
     it('index lock hash', async () => {
       const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0']
       axiosMock.mockResolvedValue({
@@ -1086,6 +1141,24 @@ describe('Test with mock', () => {
       expect(res).toEqual([])
     })
 
+    it('clear banned addresses', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          jsonrpc: '2.0',
+          result: null,
+          id,
+        },
+      })
+      const res = await rpc.clearBannedAddresses()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'clear_banned_addresses',
+        params: [],
+      })
+      expect(res).toBeNull()
+    })
+
     it('set address to be banned', async () => {
       const PARAMS = ['1.1.1.1', 'insert', null, true, 'No reason']
       axiosMock.mockResolvedValue({
@@ -1194,6 +1267,24 @@ describe('Test with mock', () => {
         jsonrpc: '2.0',
         method: 'remove_node',
         params: [PEER_ID],
+      })
+      expect(res).toBeNull()
+    })
+
+    it('ping peers', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: null,
+        },
+      })
+      const res = await rpc.pingPeers()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'ping_peers',
+        params: [],
       })
       expect(res).toBeNull()
     })
@@ -1416,13 +1507,13 @@ describe('Test with mock', () => {
       })
 
       it('should accept params in list', () => {
-        const multiParamBatch = rpc.createBatchRequest([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        expect(multiParamBatch).toEqual([['getCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        multiParamBatch.add('getCellsByLockHash', '0x0', '0x1', '0x2')
+        const multiParamBatch = rpc.createBatchRequest([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        expect(multiParamBatch).toEqual([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
+        multiParamBatch.add('getLiveCellsByLockHash', '0x0', '0x1', '0x2')
         expect(multiParamBatch).toEqual([
-          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
           ['getPeers'],
-          ['getCellsByLockHash', '0x0', '0x1', '0x2'],
+          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
         ])
       })
 

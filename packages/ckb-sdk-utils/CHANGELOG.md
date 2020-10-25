@@ -3,9 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.37.0) (2020-10-25)
+
+
+### Features
+
+* **rpc:** add rpc#pingPeers, rpc#getTransactionProof, rpc#verifyTransactionProof and rpc#clearBannedAddresses ([#506](https://github.com/nervosnetwork/ckb-sdk-js/issues/506)) ([61efe5e](https://github.com/nervosnetwork/ckb-sdk-js/commit/61efe5e7b7638c7a41163e3b3b05bc92261f711a))
+* **utils:** remove support of blake2b-wasm@v2.1.0 ([b94d318](https://github.com/nervosnetwork/ckb-sdk-js/commit/b94d31886fe44f56812eedf5f035e41d9c0c9240))
+
+
+
+
+
 ## [0.36.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.36.2) (2020-10-20)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils
+
+
+### BREAKING CHANGES
+
+* **utils:** Remove explicit support of blake2b-wasm@v2.1.0
 
 
 

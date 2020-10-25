@@ -37,6 +37,12 @@ export default {
     resultFormatters: resultFmts.toBlock,
   },
 
+  getBlockByNumber: {
+    method: 'get_block_by_number',
+    paramsFormatters: [paramsFmts.toNumber],
+    resultFormatters: resultFmts.toBlock,
+  },
+
   getHeader: {
     method: 'get_header',
     paramsFormatters: [paramsFmts.toHash],
@@ -47,12 +53,6 @@ export default {
     method: 'get_header_by_number',
     paramsFormatters: [paramsFmts.toNumber],
     resultFormatters: resultFmts.toHeader,
-  },
-
-  getCellsByLockHash: {
-    method: 'get_cells_by_lock_hash',
-    paramsFormatters: [paramsFmts.toHash, paramsFmts.toNumber, paramsFmts.toNumber],
-    resultFormatters: resultFmts.toCellsIncludingOutPoint,
   },
 
   getLiveCell: {
@@ -79,9 +79,14 @@ export default {
     resultFormatters: resultFmts.toBlockEconomicState,
   },
 
-  getBlockByNumber: {
-    method: 'get_block_by_number',
-    paramsFormatters: [paramsFmts.toNumber],
-    resultFormatters: resultFmts.toBlock,
+  getTransactionProof: {
+    method: 'get_transaction_proof',
+    paramsFormatters: [paramsFmts.toArray(paramsFmts.toHash), paramsFmts.toOptional(paramsFmts.toHash)],
+    resultFormatters: resultFmts.toTransactionProof,
+  },
+
+  verifyTransactionProof: {
+    method: 'verify_transaction_proof',
+    paramsFormatters: [paramsFmts.toTransactionProof],
   },
 }

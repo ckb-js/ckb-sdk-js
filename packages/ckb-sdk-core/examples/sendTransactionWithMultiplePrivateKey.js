@@ -1,6 +1,21 @@
 /* eslint-disable */
+const path = require('path')
+const os = require('os')
+const { Indexer, CellCollector } = require('@ckb-lumos/indexer')
 const CKB = require('../lib').default
-const ckb = new CKB('http://localhost:8114')
+
+const CKB_URL = process.env.CKB_URL || 'http://localhost:8114'
+const LUMOS_DB = path.join(os.tmpdir(), 'lumos_db')
+/**
+ * lumos indexer
+ */
+const indexer = new Indexer(CKB_URL, LUMOS_DB)
+indexer.startForever()
+
+/**
+ * sdk
+ */
+const ckb = new CKB(CKB_URL)
 
 const sk1 = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // exmaple private key
 const sk2 = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' // example private key
@@ -22,19 +37,11 @@ const loadCells = async () => {
   const lockHash1 = ckb.utils.scriptToHash(lockScript1)
   const lockHash2 = ckb.utils.scriptToHash(lockScript2)
 
-  await ckb.loadCells({
-    lockHash: lockHash1,
-    start: BigInt(16),
-    end: BigInt(16),
-    save: true
-  })
-
-  await ckb.loadCells({
-    lockHash: lockHash2,
-    start: BigInt(17),
-    end: BigInt(17),
-    save: true
-  })
+  /**
+   * load cells from lumos as `examples/sendTransactionWithLumosCollector.js` shows
+   */
+  await ckb.loadCells({ indexer, CellCollector, lock: lockScript1, save: true })
+  await ckb.loadCells({ indexer, CellCollector, lock: lockScript2, save: true })
 
   const cell1 = ckb.cells.get(lockHash1)
   const cell2 = ckb.cells.get(lockHash2)
@@ -61,11 +68,6 @@ const generateTransaction = async () => {
   const keys = new Map([sk1, sk2].map(sk => ([
     ckb.generateLockHash(`0x${ckb.utils.blake160(ckb.utils.privateKeyToPublicKey(sk), 'hex')}`), sk
   ])))
-  rawTransaction.witnesses = rawTransaction.inputs.map(() => ({
-    lock: '',
-    inputType: '',
-    outputType: ''
-  }))
   const cells = [...ckb.cells.values()].flat()
   const signedTransaction = ckb.signTransaction(keys)(rawTransaction, cells)
   return signedTransaction

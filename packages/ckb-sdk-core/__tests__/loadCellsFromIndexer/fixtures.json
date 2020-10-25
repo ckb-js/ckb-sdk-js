@@ -1,31 +1,4 @@
 {
-  "isIndexerParams": {
-    "should return true when params.indexer !== undefined && params.CellCollector !== undefined": {
-      "params": [
-        {
-          "indexer": "indexer",
-          "CellCollector": "CellCollector"
-        }
-      ],
-      "expected": true
-    },
-    "should return false when params.indexer === undefined": {
-      "params": [
-        {
-          "CellCollector": "CellCollector"
-        }
-      ],
-      "expected": false
-    },
-    "should return false when params.CellCollector === undefined": {
-      "params": [
-        {
-          "indexer": "indexer"
-        }
-      ],
-      "expected": false
-    }
-  },
   "loadCellsFromIndexer": {
     "should return 10 cells": {
       "params": [

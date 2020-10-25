@@ -368,6 +368,17 @@ const formatter = {
       orphanBlocksCount: state.orphan_blocks_count,
     }
   },
+  toTransactionProof: (proof: RPC.TransactionProof): CKBComponents.TransactionProof => {
+    if (!proof) {
+      return proof
+    }
+    const { block_hash: blockHash, witnesses_root: witnessesRoot, ...rest } = proof
+    return {
+      blockHash,
+      witnessesRoot,
+      ...rest,
+    }
+  },
 }
 
 export default formatter

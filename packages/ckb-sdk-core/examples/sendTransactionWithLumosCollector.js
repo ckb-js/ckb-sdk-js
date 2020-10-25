@@ -51,7 +51,6 @@ const bootstrap = async () => {
     deps: secp256k1Dep,
   })
 
-  rawTx.witnesses = rawTx.inputs.map((_, i) => (i > 0 ? '0x' : { lock: '', inputType: '', outputType: '' }))
   const signedTx = ckb.signTransaction(PRI_KEY)(rawTx)
   const txHash = await ckb.rpc.sendTransaction(signedTx)
   console.info(`Transaction has been sent with tx hash ${txHash}`)

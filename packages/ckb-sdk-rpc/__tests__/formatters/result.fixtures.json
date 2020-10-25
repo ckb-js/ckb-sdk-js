@@ -1447,5 +1447,29 @@
         "orphanBlocksCount": "0x0"
       }
     }
+  ],
+  "toTransactionProof": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "block_hash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "proof": {
+          "indices": ["0x0"],
+          "lemmas": ["0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
+        },
+        "witnesses_root": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expected": {
+        "blockHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "proof": {
+          "indices": ["0x0"],
+          "lemmas": ["0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
+        },
+        "witnessesRoot": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
   ]
 }

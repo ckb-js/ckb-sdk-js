@@ -1,0 +1,174 @@
+{
+  "simpleParams": {
+    "params": [
+      {
+        "inputScript": {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        },
+        "outputScript": {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        },
+        "capacity": "0x111",
+        "cells": [
+          {
+            "lock": {
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type",
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+            },
+            "capacity": "0x222",
+            "data": "0x",
+            "outPoint": { "txHash": "0x", "index": "0x0" }
+          }
+        ]
+      }
+    ],
+    "expected": {
+      "inputScripts": [
+        {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        }
+      ],
+      "outputs": [
+        {
+          "lock": {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+            "hashType": "type"
+          },
+          "capacity": "0x111"
+        }
+      ],
+      "unspentCellsMap": [
+        [
+          "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+          [
+            {
+              "lock": {
+                "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+                "hashType": "type",
+                "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+              },
+              "capacity": "0x222",
+              "data": "0x",
+              "outPoint": { "txHash": "0x", "index": "0x0" }
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  "complexParams": {
+    "params": [
+      {
+        "inputScripts": [
+          {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+            "hashType": "type"
+          }
+        ],
+        "outputs": [
+          {
+            "lock": {
+              "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+              "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+              "hashType": "type"
+            },
+            "capacity": "0x111"
+          }
+        ],
+        "cells": [
+          [
+            "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+            [
+              {
+                "lock": {
+                  "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+                  "hashType": "type",
+                  "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+                },
+                "capacity": "0x222",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x0" }
+              }
+            ]
+          ],
+
+          [
+            "0x0eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            [
+              {
+                "lock": {
+                  "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+                  "hashType": "type",
+                  "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+                },
+                "capacity": "0x222",
+                "data": "0x",
+                "outPoint": { "txHash": "0x", "index": "0x0" }
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "expected": {
+      "inputScripts": [
+        {
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type"
+        }
+      ],
+      "outputs": [
+        {
+          "lock": {
+            "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6",
+            "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+            "hashType": "type"
+          },
+          "capacity": "0x111"
+        }
+      ],
+      "unspentCellsMap": [
+        [
+          "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+          [
+            {
+              "lock": {
+                "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+                "hashType": "type",
+                "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+              },
+              "capacity": "0x222",
+              "data": "0x",
+              "outPoint": { "txHash": "0x", "index": "0x0" }
+            }
+          ]
+        ],
+        [
+          "0x0eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          [
+            {
+              "lock": {
+                "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+                "hashType": "type",
+                "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+              },
+              "capacity": "0x222",
+              "data": "0x",
+              "outPoint": { "txHash": "0x", "index": "0x0" }
+            }
+          ]
+        ]
+      ]
+    }
+  }
+}
