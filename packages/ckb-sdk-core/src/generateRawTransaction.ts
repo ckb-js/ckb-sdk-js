@@ -1,4 +1,4 @@
-import { scriptToHash, JSBI, systemScripts } from '@nervosnetwork/ckb-sdk-utils'
+import { scriptToHash, JSBI } from '@nervosnetwork/ckb-sdk-utils'
 import { EMPTY_WITNESS_ARGS } from '@nervosnetwork/ckb-sdk-utils/lib/const'
 import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
 
@@ -133,7 +133,7 @@ const isFee = (fee: RawTransactionParams.Fee): fee is RawTransactionParams.Capac
 
 const generateRawTransaction = ({
   fee = '0x0',
-  changePublicKeyHash,
+  changeLockScript,
   safeMode = true,
   deps,
   capacityThreshold = MIN_CELL_CAPACITY,
@@ -153,13 +153,10 @@ const generateRawTransaction = ({
   const targetOutputs = getTargetOutputs({ outputs: toOutputs, minCapacity })
   const targetCapacity = targetOutputs.reduce((acc, o) => JSBI.add(acc, o.capacity), zeroBigInt)
   const costCapacity = JSBI.add(JSBI.add(targetCapacity, targetFee), minChange)
+
   const changeOutput = {
     capacity: zeroBigInt,
-    lock: {
-      codeHash: systemScripts.SECP256K1_BLAKE160.codeHash,
-      hashType: systemScripts.SECP256K1_BLAKE160.hashType,
-      args: changePublicKeyHash || inputScripts[0].args,
-    },
+    lock: changeLockScript || inputScripts[0],
   }
 
   const { inputs, sum: inputSum } = getInputs({ inputScripts, safeMode, costCapacity, unspentCellsMap })
