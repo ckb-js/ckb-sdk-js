@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.38.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.37.0...v0.38.0) (2020-11-20)
+
+
+### Bug Fixes
+
+* **core:** use change lock script instead of change public key hash ([b16bfc8](https://github.com/nervosnetwork/ckb-sdk-js/commit/b16bfc8788c551730e42179b43d6b5625ee3ed7c))
+
+
+### BREAKING CHANGES
+
+* **core:** `changePublicKeyHash` in `generateRawTransaction` is replaced with
+`changeLockScript`
+
+
+
+
+
 # [0.37.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.36.1...v0.37.0) (2020-10-25)
 
 
