@@ -109,7 +109,7 @@ class CKB {
 
   public signTransaction = (key: Key | Map<LockHash, Key>) => (
     transaction: CKBComponents.RawTransactionToSign,
-    cells: Pick<RawTransactionParams.Cell, 'outPoint' | 'lock'>[],
+    cells: Array<{ outPoint: CKBComponents.OutPoint; lock: CKBComponents.Script }> = [],
   ) => {
     if (!key) throw new ParameterRequiredException('Private key or address object')
     this.#validateTransactionToSign(transaction)

@@ -30,7 +30,6 @@ declare namespace LoadCellsParams {
 
 declare namespace RawTransactionParams {
   type LockHash = string
-  type PublicKeyHash = string
   type Capacity = string | bigint
   type Cell = {
     data: string
@@ -57,7 +56,7 @@ declare namespace RawTransactionParams {
     deps: DepCellInfo | DepCellInfo[]
     capacityThreshold?: Capacity
     changeThreshold?: Capacity
-    changePublicKeyHash?: PublicKeyHash
+    changeLockScript?: Script
     witnesses?: Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
     outputsData?: Array<string>
   }
