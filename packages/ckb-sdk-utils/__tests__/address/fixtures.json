@@ -154,10 +154,18 @@
         "args": "0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a"
       }
     },
-    "anyone can pay address": {
-      "params": ["ckt1qjr2r35c0f9vhcdgslx2fjwa9tylevr5qka7mfgmscd33wlhfykyhqf39tsxa6c9qjmn0e4ulffe00344y5due3gayw"],
+    "anyone can pay address on mainnet": {
+      "params": ["ckb1qypgzvf2uphwkpgykum7d0862wtmuddf9r0qw88kle"],
       "expected": {
-        "codeHash": "0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b",
+        "codeHash": "0xd369597ff47f29fbc0d47d2e3775370d1250b85140c670e4718af712983a2354",
+        "hashType": "type",
+        "args": "0x81312ae06eeb0504b737e6bcfa5397be35a928de"
+      }
+    },
+    "anyone can pay address on testnet": {
+      "params": ["ckt1qypgzvf2uphwkpgykum7d0862wtmuddf9r0qnzefn9"],
+      "expected": {
+        "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
         "hashType": "type",
         "args": "0x81312ae06eeb0504b737e6bcfa5397be35a928de"
       }
