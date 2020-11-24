@@ -29,12 +29,12 @@ describe('Test System Scripts', () => {
   })
 
   describe('Test anyone can pay', () => {
-    it("shouldn't has mainnet script", () => {
-      expect(systemScripts.ANYONE_CAN_PAY.mainnet).toBeUndefined()
+    it('should has mainnet script', () => {
+      expect(getInfo(systemScripts.ANYONE_CAN_PAY_MAINNET, true)).toEqual(fixtures.ANYONE_CAN_PAY.mainnet)
     })
 
     it('should has testnet script', () => {
-      expect(getInfo(systemScripts.ANYONE_CAN_PAY, false)).toEqual(fixtures.ANYONE_CAN_PAY.testnet)
+      expect(getInfo(systemScripts.ANYONE_CAN_PAY_TESTNET, false)).toEqual(fixtures.ANYONE_CAN_PAY.testnet)
     })
   })
 

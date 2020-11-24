@@ -1,5 +1,10 @@
 import { bech32, blake160 } from '..'
-import { SECP256K1_BLAKE160, SECP256K1_MULTISIG, ANYONE_CAN_PAY } from '../systemScripts'
+import {
+  SECP256K1_BLAKE160,
+  SECP256K1_MULTISIG,
+  ANYONE_CAN_PAY_MAINNET,
+  ANYONE_CAN_PAY_TESTNET,
+} from '../systemScripts'
 import { hexToBytes, bytesToHex } from '../convertors'
 import { HexStringWithout0xException, AddressException, AddressPayloadException } from '../exceptions'
 
@@ -159,7 +164,11 @@ export const addressToScript = (address: string): CKBComponents.Script => {
   const type = payload[0]
 
   if (type === +AddressType.HashIdx) {
-    const codeHashIndices = [SECP256K1_BLAKE160, SECP256K1_MULTISIG, ANYONE_CAN_PAY]
+    const codeHashIndices = [
+      SECP256K1_BLAKE160,
+      SECP256K1_MULTISIG,
+      address.startsWith(AddressPrefix.Mainnet) ? ANYONE_CAN_PAY_MAINNET : ANYONE_CAN_PAY_TESTNET,
+    ]
     const index = payload[1]
     const args = payload.slice(2)
     const script = codeHashIndices[index]
