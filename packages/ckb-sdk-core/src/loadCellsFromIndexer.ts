@@ -17,14 +17,18 @@ export const loadCellsFromIndexer = async ({
 
   const cells: RawTransactionParams.Cell[] = []
 
-  /* eslint-disable no-restricted-syntax */
-  for await (const cell of collector.collect()) {
+  /* eslint-disable no-restricted-syntax, camelcase */
+  for await (const {
+    data,
+    cell_output: { capacity, type },
+    out_point,
+  } of collector.collect()) {
     cells.push({
-      data: cell.data,
+      data,
       lock,
-      type: cell.cell_output.type,
-      capacity: cell.cell_output.capacity,
-      outPoint: { txHash: cell.out_point.tx_hash, index: cell.out_point.index },
+      type: type && { codeHash: type.code_hash, hashType: type.hash_type, args: type.args },
+      capacity,
+      outPoint: { txHash: out_point.tx_hash, index: out_point.index },
     })
   }
   /* eslint-enable no-restricted-syntax */
