@@ -59,12 +59,22 @@ export const SECP256K1_MULTISIG: SystemScript & OutPoints = {
  * @name ANYONE_CAN_PAY
  * @description ANYONE_CAN_PAY allows a recipient to provide cell capacity in asset transfer
  */
-export const ANYONE_CAN_PAY: SystemScript & Pick<OutPoints, 'testnetOutPoint'> = {
-  codeHash: '0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b',
+export const ANYONE_CAN_PAY_MAINNET: SystemScript & Pick<OutPoints, 'mainnetOutPoint'> = {
+  codeHash: '0xd369597ff47f29fbc0d47d2e3775370d1250b85140c670e4718af712983a2354',
+  hashType: 'type',
+  depType: 'depGroup',
+  mainnetOutPoint: {
+    txHash: '0x4153a2014952d7cac45f285ce9a7c5c0c0e1b21f2d378b82ac1433cb11c25c4d',
+    index: '0x0',
+  },
+}
+
+export const ANYONE_CAN_PAY_TESTNET: SystemScript & Pick<OutPoints, 'testnetOutPoint'> = {
+  codeHash: '0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356',
   hashType: 'type',
   depType: 'depGroup',
   testnetOutPoint: {
-    txHash: '0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c',
+    txHash: '0xec26b0f85ed839ece5f11c4c4e837ec359f5adc4420410f6453b1f6b60fb96a6',
     index: '0x0',
   },
 }

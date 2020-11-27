@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.38.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.0...v0.38.1) (2020-11-27)
+
+
+### Features
+
+* **utils:** update acp lock script ([6d9a85f](https://github.com/nervosnetwork/ckb-sdk-js/commit/6d9a85f05f393216fc06650fd650f43049874a20))
+
+
+
+
+
 # [0.38.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.37.0...v0.38.0) (2020-11-20)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

@@ -26,7 +26,7 @@
     ]
   },
   "optionalDependencies": {
-    "@ckb-lumos/indexer": "0.4.5"
+    "@ckb-lumos/indexer": "0.14.0"
   },
   "devDependencies": {
     "@cryptape/sdk-ts-config": "0.0.1",
