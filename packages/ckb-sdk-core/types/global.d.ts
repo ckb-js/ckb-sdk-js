@@ -56,7 +56,7 @@ declare namespace RawTransactionParams {
     deps: DepCellInfo | DepCellInfo[]
     capacityThreshold?: Capacity
     changeThreshold?: Capacity
-    changeLockScript?: Script
+    changeLockScript?: CKBComponents.Script
     witnesses?: Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
     outputsData?: Array<string>
   }
