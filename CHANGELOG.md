@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.38.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.1...v0.38.2) (2020-11-30)
+
+
+### Bug Fixes
+
+* **core:** fix the type declaration of changeLockScript ([23ad1db](https://github.com/nervosnetwork/ckb-sdk-js/commit/23ad1db7ca4fe9cc9011e5300a0a3efbfdb403ed))
+
+
+
+
+
 ## [0.38.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.0...v0.38.1) (2020-11-27)
 
 
