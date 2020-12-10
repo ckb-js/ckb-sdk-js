@@ -29,6 +29,7 @@ The ckb-sdk-js is still under development and NOT production ready. You should g
 - [RPC](#rpc)
 - [Errors](#errors)
 - [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
 - [Development Process](#development-process)
 
 <p>
@@ -228,6 +229,13 @@ The rpc module will throw an error when the result contains an error field, you 
 5. [Send Transaction with Lumos Collector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js)
 6. [SUDT](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sudt.js)
 
+# Troubleshooting
+
+## Indexer Module
+
+The Indexer Module in CKB has been deprecated since [v0.36.0](https://github.com/nervosnetwork/ckb/releases/tag/v0.36.0), please use [ckb-indexer](https://github.com/nervosnetwork/ckb-indexer) or [lumos-indexer](https://github.com/nervosnetwork/lumos/tree/develop/packages/indexer) instead.
+
+A simple example [sendTransactionWithLumosCollector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js) of wokring with lumos has beed added.
 
 # Development Process
 
