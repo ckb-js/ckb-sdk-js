@@ -27,6 +27,7 @@ The ckb-sdk-js is still under development and NOT production ready. You should g
 - [Modules](#modules)
 - [CORE](#core)
 - [RPC](#rpc)
+- [Utils](#utils)
 - [Errors](#errors)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
@@ -213,6 +214,10 @@ const https = require('https')
 const httpsAgent = new https.Agent({ keepAlive: true })
 ckb.rpc.setNode({ httpsAgent })
 ```
+
+# Utils
+
+[Most used utilities](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/README.md)
 
 # Errors
 
