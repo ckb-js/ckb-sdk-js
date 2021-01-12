@@ -379,6 +379,33 @@ const formatter = {
       ...rest,
     }
   },
+  toConsensus: (consensus: RPC.Consensus): CKBComponents.Consensus => {
+    if (!consensus) return consensus
+    return {
+      blockVersion: consensus.block_version,
+      cellbaseMaturity: consensus.cellbase_maturity,
+      daoTypeHash: consensus.dao_type_hash,
+      epochDurationTarget: consensus.epoch_duration_target,
+      genesisHash: consensus.genesis_hash,
+      id: consensus.id,
+      initialPrimaryEpochReward: consensus.initial_primary_epoch_reward,
+      maxBlockBytes: consensus.max_block_bytes,
+      maxBlockCycles: consensus.max_block_cycles,
+      maxBlockProposalsLimit: consensus.max_block_proposals_limit,
+      maxUnclesNum: consensus.max_uncles_num,
+      medianTimeBlockCount: consensus.median_time_block_count,
+      orphanRateTarget: consensus.orphan_rate_target,
+      permanentDifficultyInDummy: consensus.permanent_difficulty_in_dummy,
+      primaryEpochRewardHalvingInterval: consensus.primary_epoch_reward_halving_interval,
+      proposerRewardRatio: consensus.proposer_reward_ratio,
+      secondaryEpochReward: consensus.secondary_epoch_reward,
+      secp256k1Blake160MultisigAllTypeHash: consensus.secp256k1_blake160_multisig_all_type_hash,
+      secp256k1Blake160SighashAllTypeHash: consensus.secp256k1_blake160_sighash_all_type_hash,
+      txProposalWindow: consensus.tx_proposal_window,
+      txVersion: consensus.tx_version,
+      typeIdCodeHash: consensus.type_id_code_hash,
+    }
+  },
 }
 
 export default formatter
