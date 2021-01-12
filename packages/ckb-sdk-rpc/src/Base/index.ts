@@ -78,7 +78,7 @@ export interface Base {
    * @method getHeader
    * @memberof DefaultRPC
    * @description Returns the information about a block header by hash.
-   * @params {string} block hash
+   * @params {Promise<string>} block hash
    */
   getHeader: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
 
@@ -86,7 +86,7 @@ export interface Base {
    * @method getHeaderByNumber
    * @memberof DefaultRPC
    * @description Returns the information about a block header by block number
-   * @params {string} block number
+   * @params {Promise<string>} block number
    */
   getHeaderByNumber: (blockNumber: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.BlockHeader>
 
@@ -143,7 +143,7 @@ export interface Base {
    * @memberof DefaultRPC
    * @description request merkle proof that transactions are included in a block
    * @param {Array<string>} transactionHashes - transaction hashes, all transactions must be in the same block
-   * @param {[string]} blockHash - if specified, looks for transactions in the block with this hash
+   * @param {Promise<[string]>} blockHash - if specified, looks for transactions in the block with this hash
    */
   getTransactionProof: (
     transactionHashes: CKBComponents.Hash[],
@@ -155,9 +155,17 @@ export interface Base {
    * @memberof DefaultRPC
    * @description verifies that a proof points to transactions in a block, returns transactions it commits to.
    * @param {object} transactionProof
-   * @returns {Array<string>} hash list of transactions committed in the block
+   * @returns {Promise<Array<string>>} hash list of transactions committed in the block
    */
   verifyTransactionProof: (transactionProof: CKBComponents.TransactionProof) => Promise<CKBComponents.Hash[]>
+
+  /**
+   * @method getConsensus
+   * @memberof DefaultRPC
+   * @description return various consensus parameters.
+   * @returns {Promise<object>} consensus parameters
+   */
+  getConsensus: () => Promise<CKBComponents.Consensus>
 
   /**
    * @method getBlockByNumber
@@ -179,8 +187,6 @@ export interface Base {
    * @return {Promise<object>} dry run result, including cycles the transaction used.
    */
   dryRunTransaction: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
-
-  // skip _compute_transaction_hash
 
   calculateDaoMaximumWithdraw: (
     outPoint: CKBComponents.OutPoint,

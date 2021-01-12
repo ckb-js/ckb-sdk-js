@@ -89,4 +89,10 @@ export default {
     method: 'verify_transaction_proof',
     paramsFormatters: [paramsFmts.toTransactionProof],
   },
+
+  getConsensus: {
+    method: 'get_consensus',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toConsensus,
+  },
 }
