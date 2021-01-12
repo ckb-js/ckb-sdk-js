@@ -402,6 +402,17 @@ export interface Base {
    */
   clearTxPool: () => Promise<null>
 
+  /**
+   * @method getRawTxPool
+   * @memberof DefaultRPC
+   * @param {boolean | null} verbose - true for a json object, false for array of transaction ids, default=false
+   * @description Returns all transaction ids in tx pool as a json array of string transaction ids.
+   * @return {Promise<object>} CKBComponents.RawTxPool
+   */
+  getRawTxPool(): Promise<CKBComponents.TxPoolIds>
+  getRawTxPool(verbose: true): Promise<CKBComponents.TxPoolVerbosity>
+  getRawTxPool(verbose: false | null): Promise<CKBComponents.TxPoolIds>
+
   /* Stats */
 
   /**

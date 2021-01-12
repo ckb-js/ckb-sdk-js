@@ -197,6 +197,144 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    describe('get raw tx pool', () => {
+      it('verbose = true', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              proposed: {
+                '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+                  ancestors_count: '0x1',
+                  ancestors_cycles: '0x1a00e0',
+                  ancestors_size: '0x1d0',
+                  cycles: '0x1a00e0',
+                  fee: '0x989680',
+                  size: '0x1d0',
+                },
+              },
+              pending: {
+                '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+                  ancestors_count: '0x1',
+                  ancestors_cycles: '0x1a00e0',
+                  ancestors_size: '0x1d0',
+                  cycles: '0x1a00e0',
+                  fee: '0x989680',
+                  size: '0x1d0',
+                },
+              },
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(true)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [true],
+        })
+        expect(res).toEqual({
+          proposed: {
+            '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+              ancestorsCount: '0x1',
+              ancestorsCycles: '0x1a00e0',
+              ancestorsSize: '0x1d0',
+              cycles: '0x1a00e0',
+              fee: '0x989680',
+              size: '0x1d0',
+            },
+          },
+          pending: {
+            '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+              ancestorsCount: '0x1',
+              ancestorsCycles: '0x1a00e0',
+              ancestorsSize: '0x1d0',
+              cycles: '0x1a00e0',
+              fee: '0x989680',
+              size: '0x1d0',
+            },
+          },
+        })
+      })
+
+      it('verbose = false', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(false)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [false],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+
+      it('verbose = null', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(null)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [null],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+
+      it('verbose = undefined', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool()
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+    })
+
     it('get current epoch', async () => {
       axiosMock.mockResolvedValue({
         data: {
