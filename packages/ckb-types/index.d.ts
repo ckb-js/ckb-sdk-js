@@ -21,6 +21,9 @@ declare namespace CKBComponents {
   export type Cycles = string
   export type Size = string
   export type OutputsValidator = 'default' | 'passthrough' | undefined
+  export type RationalU256 = Record<'denom' | 'numer', string>
+  export type ProposalWindow = Record<'closest' | 'farthest', BlockNumber>
+  export type EpochNumberWithFraction = string
   export enum TransactionStatus {
     Pending = 'pending',
     Proposed = 'proposed',
@@ -451,5 +454,45 @@ declare namespace CKBComponents {
       lemmas: Hash[]
     }
     witnessesRoot: Hash
+  }
+
+  export type TxPoolIds = Record<'pending' | 'proposed', Array<Hash256>>
+
+  export interface TxVerbosity {
+    cycles: Cycles
+    size: Size
+    fee: Capacity
+    ancestorsSize: Size
+    ancestorsCycles: Cycles
+    ancestorsCount: Count
+  }
+
+  export type TxPoolVerbosity = Record<'pending' | 'proposed', Record<Hash256, TxVerbosity>>
+
+  export type RawTxPool = TxPoolIds | TxPoolVerbosity
+
+  export interface Consensus {
+    id: string
+    genesisHash: Hash256
+    daoTypeHash: Hash256 | null
+    secp256k1Blake160SighashAllTypeHash: Hash256 | null
+    secp256k1Blake160MultisigAllTypeHash: Hash256 | null
+    initialPrimaryEpochReward: Capacity
+    secondaryEpochReward: Capacity
+    maxUnclesNum: string
+    orphanRateTarget: RationalU256
+    epochDurationTarget: string
+    txProposalWindow: ProposalWindow
+    proposerRewardRatio: RationalU256
+    cellbaseMaturity: EpochNumberWithFraction
+    medianTimeBlockCount: Count
+    maxBlockCycles: Cycles
+    maxBlockBytes: string
+    blockVersion: Version
+    txVersion: Version
+    typeIdCodeHash: Hash256
+    maxBlockProposalsLimit: string
+    primaryEpochRewardHalvingInterval: string
+    permanentDifficultyInDummy: boolean
   }
 }
