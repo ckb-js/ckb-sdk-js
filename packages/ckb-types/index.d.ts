@@ -458,7 +458,7 @@ declare namespace CKBComponents {
 
   export type TxPoolIds = Record<'pending' | 'proposed', Array<Hash256>>
 
-  interface TxVerbosity {
+  export interface TxVerbosity {
     cycles: Cycles
     size: Size
     fee: Capacity

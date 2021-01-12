@@ -1,3 +1,7 @@
+const isTxPoolIds = (rawTxPool: RPC.RawTxPool): rawTxPool is RPC.TxPoolIds => {
+  return Array.isArray(rawTxPool.pending)
+}
+
 /* eslint-disable camelcase */
 const formatter = {
   toNumber: (number: RPC.BlockNumber): CKBComponents.BlockNumber => number.toString(),
@@ -405,6 +409,37 @@ const formatter = {
       txVersion: consensus.tx_version,
       typeIdCodeHash: consensus.type_id_code_hash,
     }
+  },
+  toRawTxPool: (rawTxPool: RPC.RawTxPool): CKBComponents.RawTxPool => {
+    if (!rawTxPool) return rawTxPool
+
+    if (isTxPoolIds(rawTxPool)) {
+      return rawTxPool
+    }
+
+    const toTxVerbosity = ({
+      ancestors_count: ancestorsCount,
+      ancestors_cycles: ancestorsCycles,
+      ancestors_size: ancestorsSize,
+      ...rest
+    }: RPC.TxVerbosity): CKBComponents.TxVerbosity => ({
+      ancestorsCount,
+      ancestorsCycles,
+      ancestorsSize,
+      ...rest,
+    })
+    const proposed: Record<CKBComponents.Hash256, CKBComponents.TxVerbosity> = {}
+    const pending: Record<CKBComponents.Hash256, CKBComponents.TxVerbosity> = {}
+
+    Object.keys(rawTxPool.proposed).forEach(hash => {
+      proposed[hash] = toTxVerbosity(rawTxPool.proposed[hash])
+    })
+
+    Object.keys(rawTxPool.pending).forEach(hash => {
+      pending[hash] = toTxVerbosity(rawTxPool.pending[hash])
+    })
+
+    return { proposed, pending }
   },
 }
 

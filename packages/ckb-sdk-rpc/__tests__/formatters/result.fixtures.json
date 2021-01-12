@@ -1545,5 +1545,61 @@
         "typeIdCodeHash": "0x00000000000000000000000000000000000000000000000000545950455f4944"
       }
     }
+  ],
+  "toRawTxPool": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": { "proposed": ["proposed_1", "proposed_2"], "pending": ["pending_1", "pending_2"] },
+      "expected": { "proposed": ["proposed_1", "proposed_2"], "pending": ["pending_1", "pending_2"] }
+    },
+    {
+      "result": {
+        "pending": {
+          "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": {
+            "cycles": "0x219eee",
+            "size": "0x112eee",
+            "fee": "0x16923f7dcfeee",
+            "ancestors_size": "0x112eee",
+            "ancestors_cycles": "0x219eee",
+            "ancestors_count": "0x1eee"
+          }
+        },
+        "proposed": {
+          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff": {
+            "cycles": "0x219fff",
+            "size": "0x112fff",
+            "fee": "0x16923f7dcffff",
+            "ancestors_size": "0x112fff",
+            "ancestors_cycles": "0x219fff",
+            "ancestors_count": "0x1fff"
+          }
+        }
+      },
+      "expected": {
+        "pending": {
+          "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": {
+            "cycles": "0x219eee",
+            "size": "0x112eee",
+            "fee": "0x16923f7dcfeee",
+            "ancestorsSize": "0x112eee",
+            "ancestorsCycles": "0x219eee",
+            "ancestorsCount": "0x1eee"
+          }
+        },
+        "proposed": {
+          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff": {
+            "cycles": "0x219fff",
+            "size": "0x112fff",
+            "fee": "0x16923f7dcffff",
+            "ancestorsSize": "0x112fff",
+            "ancestorsCycles": "0x219fff",
+            "ancestorsCount": "0x1fff"
+          }
+        }
+      }
+    }
   ]
 }
