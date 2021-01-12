@@ -23,6 +23,9 @@ declare module RPC {
   export type Difficulty = CKBComponents.Difficulty
   export type Cycles = CKBComponents.Cycles
   export type Size = CKBComponents.Size
+  export type RationalU256 = CKBComponents.RationalU256
+  export type ProposalWindow = CKBComponents.ProposalWindow
+  export type EpochNumberWithFraction = CKBComponents.EpochNumberWithFraction
 
   enum TransactionStatus {
     Pending = 'pending',
@@ -307,5 +310,30 @@ declare module RPC {
   export type TxPoolVerbosity = Record<'pending' | 'proposed', Record<Hash256, TxVerbosity>>
 
   export type RawTxPool = TxPoolIds | TxPoolVerbosity
+
+  export interface Consensus {
+    id: string
+    genesis_hash: Hash256
+    dao_type_hash: Hash256 | null
+    secp256k1_blake160_sighash_all_type_hash: Hash256 | null
+    secp256k1_blake160_multisig_all_type_hash: Hash256 | null
+    initial_primary_epoch_reward: Capacity
+    secondary_epoch_reward: Capacity
+    max_uncles_num: string
+    orphan_rate_target: RationalU256
+    epoch_duration_target: string
+    tx_proposal_window: ProposalWindow
+    proposer_reward_ratio: RationalU256
+    cellbase_maturity: EpochNumberWithFraction
+    median_time_block_count: Count
+    max_block_cycles: Cycles
+    max_block_bytes: string
+    block_version: Version
+    tx_version: Version
+    type_id_code_hash: Hash256
+    max_block_proposals_limit: string
+    primary_epoch_reward_halving_interval: string
+    permanent_difficulty_in_dummy: boolean
+  }
 }
 /* eslint-enable camelcase */
