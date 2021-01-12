@@ -452,4 +452,19 @@ declare namespace CKBComponents {
     }
     witnessesRoot: Hash
   }
+
+  export type TxPoolIds = Record<'pending' | 'proposed', Array<Hash256>>
+
+  interface TxVerbosity {
+    cycles: Cycles
+    size: Size
+    fee: Capacity
+    ancestorsSize: Size
+    ancestorsCycles: Cycles
+    ancestorsCount: Count
+  }
+
+  export type TxPoolVerbosity = Record<'pending' | 'proposed', Record<Hash256, TxVerbosity>>
+
+  export type RawTxPool = TxPoolIds | TxPoolVerbosity
 }

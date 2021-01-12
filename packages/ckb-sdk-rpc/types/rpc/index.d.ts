@@ -292,5 +292,20 @@ declare module RPC {
     }
     witnesses_root: Hash
   }
+
+  export type TxPoolIds = Record<'pending' | 'proposed', Array<Hash256>>
+
+  interface TxVerbosity {
+    cycles: Cycles
+    size: Size
+    fee: Capacity
+    ancestors_size: Size
+    ancestors_cycles: Cycles
+    ancestors_count: Count
+  }
+
+  export type TxPoolVerbosity = Record<'pending' | 'proposed', Record<Hash256, TxVerbosity>>
+
+  export type RawTxPool = TxPoolIds | TxPoolVerbosity
 }
 /* eslint-enable camelcase */
