@@ -122,6 +122,8 @@ export interface Base {
    * @description Returns each component of the created CKB in this block's cellbase, which is issued to
    *              a block N - 1 - ProposalWindow.farthest, where this block's height is N.
    * @param {string} blockHash
+   *
+   * @deprecated will be removed from v0.40.0
    */
   getCellbaseOutputCapacityDetails: (
     blockHash: CKBComponents.Hash,
@@ -184,10 +186,6 @@ export interface Base {
     outPoint: CKBComponents.OutPoint,
     withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
-
-  // skip estimate_fee_rate
-
-  // skip _compute_script_hash
 
   /* Indexer */
 
@@ -285,6 +283,8 @@ export interface Base {
    * @memberof DefaultRPC
    * @description rpc to get connected peers info
    * @return {Promise<object[]>} peers' node info
+   *
+   * @deprecated will be removed from v0.40.0
    */
   getPeers: () => Promise<CKBComponents.RemoteNodeInfo[]>
 
