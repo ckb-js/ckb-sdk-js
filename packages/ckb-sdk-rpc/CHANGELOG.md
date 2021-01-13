@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.2...v0.39.0) (2021-01-13)
+
+
+### Features
+
+* **rpc:** add rpc#getRawTxPool, rpc#getConsensus and deprecate rpc#getCellbaseOutputCapacityDetails, rpc#getPeersState ([#528](https://github.com/nervosnetwork/ckb-sdk-js/pull/528))
+
+
+
+
+
 ## [0.38.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.1...v0.38.2) (2020-11-30)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc

@@ -78,7 +78,7 @@ export interface Base {
    * @method getHeader
    * @memberof DefaultRPC
    * @description Returns the information about a block header by hash.
-   * @params {string} block hash
+   * @params {Promise<string>} block hash
    */
   getHeader: (blockHash: CKBComponents.Hash) => Promise<CKBComponents.BlockHeader>
 
@@ -86,7 +86,7 @@ export interface Base {
    * @method getHeaderByNumber
    * @memberof DefaultRPC
    * @description Returns the information about a block header by block number
-   * @params {string} block number
+   * @params {Promise<string>} block number
    */
   getHeaderByNumber: (blockNumber: CKBComponents.BlockNumber | bigint) => Promise<CKBComponents.BlockHeader>
 
@@ -122,6 +122,8 @@ export interface Base {
    * @description Returns each component of the created CKB in this block's cellbase, which is issued to
    *              a block N - 1 - ProposalWindow.farthest, where this block's height is N.
    * @param {string} blockHash
+   *
+   * @deprecated will be removed from v0.40.0
    */
   getCellbaseOutputCapacityDetails: (
     blockHash: CKBComponents.Hash,
@@ -141,7 +143,7 @@ export interface Base {
    * @memberof DefaultRPC
    * @description request merkle proof that transactions are included in a block
    * @param {Array<string>} transactionHashes - transaction hashes, all transactions must be in the same block
-   * @param {[string]} blockHash - if specified, looks for transactions in the block with this hash
+   * @param {Promise<[string]>} blockHash - if specified, looks for transactions in the block with this hash
    */
   getTransactionProof: (
     transactionHashes: CKBComponents.Hash[],
@@ -153,9 +155,17 @@ export interface Base {
    * @memberof DefaultRPC
    * @description verifies that a proof points to transactions in a block, returns transactions it commits to.
    * @param {object} transactionProof
-   * @returns {Array<string>} hash list of transactions committed in the block
+   * @returns {Promise<Array<string>>} hash list of transactions committed in the block
    */
   verifyTransactionProof: (transactionProof: CKBComponents.TransactionProof) => Promise<CKBComponents.Hash[]>
+
+  /**
+   * @method getConsensus
+   * @memberof DefaultRPC
+   * @description return various consensus parameters.
+   * @returns {Promise<object>} consensus parameters
+   */
+  getConsensus: () => Promise<CKBComponents.Consensus>
 
   /**
    * @method getBlockByNumber
@@ -178,16 +188,10 @@ export interface Base {
    */
   dryRunTransaction: (tx: CKBComponents.RawTransaction) => Promise<CKBComponents.RunDryResult>
 
-  // skip _compute_transaction_hash
-
   calculateDaoMaximumWithdraw: (
     outPoint: CKBComponents.OutPoint,
     withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
-
-  // skip estimate_fee_rate
-
-  // skip _compute_script_hash
 
   /* Indexer */
 
@@ -285,6 +289,8 @@ export interface Base {
    * @memberof DefaultRPC
    * @description rpc to get connected peers info
    * @return {Promise<object[]>} peers' node info
+   *
+   * @deprecated will be removed from v0.40.0
    */
   getPeers: () => Promise<CKBComponents.RemoteNodeInfo[]>
 
@@ -401,6 +407,17 @@ export interface Base {
    * @return {Promise<null>}
    */
   clearTxPool: () => Promise<null>
+
+  /**
+   * @method getRawTxPool
+   * @memberof DefaultRPC
+   * @param {boolean | null} verbose - true for a json object, false for array of transaction ids, default=false
+   * @description Returns all transaction ids in tx pool as a json array of string transaction ids.
+   * @return {Promise<object>} CKBComponents.RawTxPool
+   */
+  getRawTxPool(): Promise<CKBComponents.TxPoolIds>
+  getRawTxPool(verbose: true): Promise<CKBComponents.TxPoolVerbosity>
+  getRawTxPool(verbose: false | null): Promise<CKBComponents.TxPoolIds>
 
   /* Stats */
 

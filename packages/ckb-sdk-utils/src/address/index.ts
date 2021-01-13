@@ -14,7 +14,6 @@ export enum AddressPrefix {
 }
 
 export enum AddressType {
-  BinHash = '0x00',
   HashIdx = '0x01', // short version for locks with popular codehash
   DataCodeHash = '0x02', // full version with hash type 'Data'
   TypeCodeHash = '0x04', // full version with hash type 'Type'

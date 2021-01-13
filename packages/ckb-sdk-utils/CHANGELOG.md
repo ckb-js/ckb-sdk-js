@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.2...v0.39.0) (2021-01-13)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils
+
+
+
+
+
 ## [0.38.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.1...v0.38.2) (2020-11-30)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

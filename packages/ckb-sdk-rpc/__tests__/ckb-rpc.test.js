@@ -197,6 +197,144 @@ describe('Test with mock', () => {
       expect(res).toBeNull()
     })
 
+    describe('get raw tx pool', () => {
+      it('verbose = true', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              proposed: {
+                '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+                  ancestors_count: '0x1',
+                  ancestors_cycles: '0x1a00e0',
+                  ancestors_size: '0x1d0',
+                  cycles: '0x1a00e0',
+                  fee: '0x989680',
+                  size: '0x1d0',
+                },
+              },
+              pending: {
+                '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+                  ancestors_count: '0x1',
+                  ancestors_cycles: '0x1a00e0',
+                  ancestors_size: '0x1d0',
+                  cycles: '0x1a00e0',
+                  fee: '0x989680',
+                  size: '0x1d0',
+                },
+              },
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(true)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [true],
+        })
+        expect(res).toEqual({
+          proposed: {
+            '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+              ancestorsCount: '0x1',
+              ancestorsCycles: '0x1a00e0',
+              ancestorsSize: '0x1d0',
+              cycles: '0x1a00e0',
+              fee: '0x989680',
+              size: '0x1d0',
+            },
+          },
+          pending: {
+            '0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0': {
+              ancestorsCount: '0x1',
+              ancestorsCycles: '0x1a00e0',
+              ancestorsSize: '0x1d0',
+              cycles: '0x1a00e0',
+              fee: '0x989680',
+              size: '0x1d0',
+            },
+          },
+        })
+      })
+
+      it('verbose = false', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(false)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [false],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+
+      it('verbose = null', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool(null)
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [null],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+
+      it('verbose = undefined', async () => {
+        axiosMock.mockResolvedValue({
+          data: {
+            id,
+            jsonrpc: '2.0',
+            result: {
+              pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+              proposed: [],
+            },
+          },
+        })
+
+        const res = await rpc.getRawTxPool()
+        expect(axiosMock.mock.calls[0][0].data).toEqual({
+          id,
+          jsonrpc: '2.0',
+          method: 'get_raw_tx_pool',
+          params: [],
+        })
+        expect(res).toEqual({
+          pending: ['0x272881d99bfa40ded47f408e1783ee15990b479ec462f11668cdd3445cc132b0'],
+          proposed: [],
+        })
+      })
+    })
+
     it('get current epoch', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -492,6 +630,74 @@ describe('Test with mock', () => {
       })
       expect(res).toEqual(['0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3'])
     })
+
+    it('get consensus', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          id,
+          jsonrpc: '2.0',
+          result: {
+            block_version: '0x0',
+            cellbase_maturity: '0x10000000000',
+            dao_type_hash: '0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e',
+            epoch_duration_target: '0x3840',
+            genesis_hash: '0xeaa2c979898f80a12404578a9e1332d45c8ff2bf665457b10f9934203f230780',
+            id: 'ckb_dev',
+            initial_primary_epoch_reward: '0xae6c73c3e070',
+            max_block_bytes: '0x91c08',
+            max_block_cycles: '0x2540be400',
+            max_block_proposals_limit: '0x5dc',
+            max_uncles_num: '0x2',
+            median_time_block_count: '0x25',
+            orphan_rate_target: { denom: '0x28', numer: '0x1' },
+            permanent_difficulty_in_dummy: true,
+            primary_epoch_reward_halving_interval: '0x2238',
+            proposer_reward_ratio: { denom: '0xa', numer: '0x4' },
+            secondary_epoch_reward: '0x37d0c8e28542',
+            secp256k1_blake160_multisig_all_type_hash:
+              '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+            secp256k1_blake160_sighash_all_type_hash:
+              '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
+            tx_proposal_window: { closest: '0x2', farthest: '0xa' },
+            tx_version: '0x0',
+            type_id_code_hash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+          },
+        },
+      })
+
+      const res = await rpc.getConsensus()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'get_consensus',
+        params: [],
+      })
+      expect(res).toEqual({
+        blockVersion: '0x0',
+        cellbaseMaturity: '0x10000000000',
+        daoTypeHash: '0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e',
+        epochDurationTarget: '0x3840',
+        genesisHash: '0xeaa2c979898f80a12404578a9e1332d45c8ff2bf665457b10f9934203f230780',
+        id: 'ckb_dev',
+        initialPrimaryEpochReward: '0xae6c73c3e070',
+        maxBlockBytes: '0x91c08',
+        maxBlockCycles: '0x2540be400',
+        maxBlockProposalsLimit: '0x5dc',
+        maxUnclesNum: '0x2',
+        medianTimeBlockCount: '0x25',
+        orphanRateTarget: { denom: '0x28', numer: '0x1' },
+        permanentDifficultyInDummy: true,
+        primaryEpochRewardHalvingInterval: '0x2238',
+        proposerRewardRatio: { denom: '0xa', numer: '0x4' },
+        secondaryEpochReward: '0x37d0c8e28542',
+        secp256k1Blake160MultisigAllTypeHash: '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+        secp256k1Blake160SighashAllTypeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
+        txProposalWindow: { closest: '0x2', farthest: '0xa' },
+        txVersion: '0x0',
+        typeIdCodeHash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+      })
+    })
+
     it('get blockchain info', async () => {
       axiosMock.mockResolvedValue({
         data: {

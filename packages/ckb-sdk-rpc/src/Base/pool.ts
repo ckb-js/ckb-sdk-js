@@ -18,4 +18,10 @@ export default {
     method: 'clear_tx_pool',
     paramsFormatters: [],
   },
+
+  getRawTxPool: {
+    method: 'get_raw_tx_pool',
+    paramsFormatters: [],
+    resultFormatters: resultFmts.toRawTxPool,
+  },
 }
