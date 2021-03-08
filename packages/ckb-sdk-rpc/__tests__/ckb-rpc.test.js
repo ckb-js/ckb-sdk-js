@@ -451,32 +451,6 @@ describe('Test with mock', () => {
       })
       expect(res).toBe('0x4a8b4e8a4')
     })
-    it('get capacity by lock hash', async () => {
-      const LOCK_HASH = '0x4ceaa32f692948413e213ce6f3a83337145bde6e11fd8cb94377ce2637dcc412'
-      axiosMock.mockResolvedValue({
-        data: {
-          id,
-          jsonrpc: '2.0',
-          result: {
-            block_number: '0x400',
-            capacity: '0xb00fb84df292',
-            cells_count: '0x3f5',
-          },
-        },
-      })
-      const res = await rpc.getCapacityByLockHash(LOCK_HASH)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_capacity_by_lock_hash',
-        params: [LOCK_HASH],
-      })
-      expect(res).toEqual({
-        blockNumber: '0x400',
-        capacity: '0xb00fb84df292',
-        cellsCount: '0x3f5',
-      })
-    })
     it('get block economic state', async () => {
       const BLOCK_HASH = '0x02530b25ad0ff677acc365cb73de3e8cc09c7ddd58272e879252e199d08df83b'
 
@@ -1151,184 +1125,6 @@ describe('Test with mock', () => {
       })
     })
 
-    it('index lock hash', async () => {
-      const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0']
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: {
-            block_hash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-            block_number: '0x18',
-            lock_hash: '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674',
-          },
-          id,
-        },
-      })
-      const res = await rpc.indexLockHash(...PARAMS)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'index_lock_hash',
-        params: PARAMS,
-      })
-      expect(res).toEqual({
-        blockHash: '0x8b5de4cad43e62fdc391d897b94a97d1af369bbe2b7cbe1de20d432da5a23f4c',
-        blockNumber: '0x18',
-        lockHash: '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674',
-      })
-    })
-
-    it('deindex lock hash', async () => {
-      const LOCK_HASH = '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674'
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: null,
-          id,
-        },
-      })
-      const res = await rpc.deindexLockHash(LOCK_HASH)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'deindex_lock_hash',
-        params: [LOCK_HASH],
-      })
-      expect(res).toBeNull()
-    })
-
-    it('get live cells by lock hash', async () => {
-      const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0', '0x10', false]
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [
-            {
-              cell_output: {
-                capacity: '0x12479d77059e',
-                lock: {
-                  args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-                  code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-                  hash_type: 'type',
-                },
-                type: null,
-              },
-              cellbase: true,
-              created_by: {
-                block_number: '0x12',
-                index: '0x0',
-                tx_hash: '0xdda2f516ebfaf1d3ff5eecd65c78a22254127606339fec4a5328099ea0ddb7db',
-              },
-              output_data_len: '0x0',
-            },
-          ],
-          id,
-        },
-      })
-      const res = await rpc.getLiveCellsByLockHash(...PARAMS)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_live_cells_by_lock_hash',
-        params: PARAMS,
-      })
-      expect(res).toEqual([
-        {
-          cellOutput: {
-            capacity: '0x12479d77059e',
-            lock: {
-              args: '0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6',
-              codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-              hashType: 'type',
-            },
-            type: null,
-          },
-          cellbase: true,
-          createdBy: {
-            blockNumber: '0x12',
-            index: '0x0',
-            txHash: '0xdda2f516ebfaf1d3ff5eecd65c78a22254127606339fec4a5328099ea0ddb7db',
-          },
-          outputDataLen: '0x0',
-        },
-      ])
-    })
-
-    it('get lock hash index states', async () => {
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [
-            {
-              block_hash: '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4',
-              block_number: '0x8dd',
-              lock_hash: '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674',
-            },
-          ],
-          id,
-        },
-      })
-      const res = await rpc.getLockHashIndexStates()
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_lock_hash_index_states',
-        params: [],
-      })
-      expect(res).toEqual([
-        {
-          blockHash: '0x7c7f64c875b22807451620c9d1e9af460e851ffe82d85a90e1bccb1117e2e3a4',
-          blockNumber: '0x8dd',
-          lockHash: '0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674',
-        },
-      ])
-    })
-
-    it('get tranactions by lock hash', async () => {
-      const PARAMS = ['0x0da2fe99fe549e082d4ed483c2e968a89ea8d11aabf5d79e5cbf06522de6e674', '0x0', '0x10', false]
-      axiosMock.mockResolvedValue({
-        data: {
-          jsonrpc: '2.0',
-          result: [
-            {
-              consumed_by: {
-                block_number: '0x67c',
-                index: '0x0',
-                tx_hash: '0xfd9170c6a55095b7f878bfbddaa726446fa91414ec6fd61e8d5275451b91d854',
-              },
-              created_by: {
-                block_number: '0xc',
-                index: '0x0',
-                tx_hash: '0x5b8184b27bad1238809300cb116ad85bdd2cc1ce0736d619c1468774cf27d4ce',
-              },
-            },
-          ],
-          id,
-        },
-      })
-      const res = await rpc.getTransactionsByLockHash(...PARAMS)
-      expect(axiosMock.mock.calls[0][0].data).toEqual({
-        id,
-        jsonrpc: '2.0',
-        method: 'get_transactions_by_lock_hash',
-        params: PARAMS,
-      })
-      expect(res).toEqual([
-        {
-          consumedBy: {
-            blockNumber: '0x67c',
-            index: '0x0',
-            txHash: '0xfd9170c6a55095b7f878bfbddaa726446fa91414ec6fd61e8d5275451b91d854',
-          },
-          createdBy: {
-            blockNumber: '0xc',
-            index: '0x0',
-            txHash: '0x5b8184b27bad1238809300cb116ad85bdd2cc1ce0736d619c1468774cf27d4ce',
-          },
-        },
-      ])
-    })
-
     it('get banned addresses', async () => {
       axiosMock.mockResolvedValue({
         data: {
@@ -1713,13 +1509,16 @@ describe('Test with mock', () => {
       })
 
       it('should accept params in list', () => {
-        const multiParamBatch = rpc.createBatchRequest([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        expect(multiParamBatch).toEqual([['getLiveCellsByLockHash', '0x0', '0x1', '0x2'], ['getPeers']])
-        multiParamBatch.add('getLiveCellsByLockHash', '0x0', '0x1', '0x2')
-        expect(multiParamBatch).toEqual([
-          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
+        const multiParamBatch = rpc.createBatchRequest([
+          ['setBan', 'address', 'insert', null, true, 'mock request'],
           ['getPeers'],
-          ['getLiveCellsByLockHash', '0x0', '0x1', '0x2'],
+        ])
+        expect(multiParamBatch).toEqual([['setBan', 'address', 'insert', null, true, 'mock request'], ['getPeers']])
+        multiParamBatch.add('setBan', 'address', 'delete')
+        expect(multiParamBatch).toEqual([
+          ['setBan', 'address', 'insert', null, true, 'mock request'],
+          ['getPeers'],
+          ['setBan', 'address', 'delete'],
         ])
       })
 

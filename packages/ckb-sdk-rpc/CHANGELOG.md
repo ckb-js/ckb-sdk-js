@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.40.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.39.0...v0.40.0) (2021-03-08)
+
+
+### Features
+
+* **rpc:** remove indexer from RPC module ([b3ba942](https://github.com/nervosnetwork/ckb-sdk-js/commit/b3ba942f55af750559714194a9d91289469ea4c2))
+
+
+### BREAKING CHANGES
+
+* **rpc:** Remove the entire indexer from the RPC module
+
+
+
+
+
 # [0.39.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.38.2...v0.39.0) (2021-01-13)
 
 
