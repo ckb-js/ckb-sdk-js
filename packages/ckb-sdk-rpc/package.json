@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-rpc",
-  "version": "0.39.0",
+  "version": "0.40.0",
   "description": "RPC module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
@@ -33,12 +33,12 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-utils": "0.39.0",
+    "@nervosnetwork/ckb-sdk-utils": "0.40.0",
     "axios": "0.21.1",
     "tslib": "2.0.1"
   },
   "devDependencies": {
-    "@nervosnetwork/ckb-types": "0.39.0"
+    "@nervosnetwork/ckb-types": "0.40.0"
   },
   "gitHead": "94af87551108a40f79c1cead0db5d3cc5c679302"
 }
