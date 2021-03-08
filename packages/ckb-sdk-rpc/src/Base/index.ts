@@ -1,6 +1,5 @@
 import chainRpc from './chain'
 import experimentalRpc from './experimental'
-import indexerRpc from './indexer'
 import netRpc from './net'
 import poolRpc from './pool'
 import statsRpc from './stats'
@@ -12,7 +11,6 @@ export interface RpcPropertes {
 export const rpcProperties: RpcPropertes = {
   ...chainRpc,
   ...experimentalRpc,
-  ...indexerRpc,
   // skip minerRpc
   ...netRpc,
   ...poolRpc,
@@ -192,85 +190,6 @@ export interface Base {
     outPoint: CKBComponents.OutPoint,
     withdrawBlockHash: CKBComponents.Hash256,
   ) => Promise<string>
-
-  /* Indexer */
-
-  /**
-   * @method indexLockHash
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description create index for live cells and transactions by the hash of lock script
-   * @param {string} lockHash, the hash of lock script
-   * @param {string} [indexFrom], the starting block number(exclusive), an optional parameter,
-   *                              null means starting from the tip and 0 means starting from genesis
-   */
-  indexLockHash: (
-    lockHash: CKBComponents.Hash,
-    indexFrom?: CKBComponents.BlockNumber,
-  ) => Promise<CKBComponents.LockHashIndexState>
-
-  /**
-   * @method getLockHashIndexStates
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description get lock hash index states
-   * @retrun {Promise<object[]>}
-   */
-  getLockHashIndexStates: () => Promise<CKBComponents.LockHashIndexStates>
-
-  /**
-   * @method getLiveCellsByLockHash
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description return the live cells collection by the hash of lock script
-   * @param {string} lockHash, the hash of lock script
-   * @param {string} pageNumber
-   * @param {string} pageSize, max value is 50
-   * @param {boolean} [reverseOrder], return the live cells collection in reverse order,
-   *                                  an optional parameter, default to be false
-   * @return {Promise<object[]>}
-   */
-  getLiveCellsByLockHash: (
-    lockHash: CKBComponents.Hash256,
-    pageNumber: string | bigint,
-    pageSize: string | bigint,
-    reverseOrder?: boolean,
-  ) => Promise<CKBComponents.LiveCellsByLockHash>
-
-  /**
-   * @method getTransactionsByLockHash
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description retrun the transactions collection by the hash of lock script.
-   *              return empty array when the `lock_hash` not indexed yet.
-   * @param {string} lockHash, the hash of lock script
-   * @param {string} pageNumber
-   * @param {string} pageSize, max value is 50
-   * @param {boolean} [reverseOrder], return the transactions collection in reverse order,
-   *                                  an optional parameter, default to be false
-   */
-  getTransactionsByLockHash: (
-    lockHash: CKBComponents.Hash256,
-    pageNumber: string | bigint,
-    pageSize: string | bigint,
-    reverseOrder?: boolean,
-  ) => Promise<CKBComponents.TransactionsByLockHash>
-
-  /**
-   * @deprecated since v0.36.0
-   */
-  getCapacityByLockHash: (lockHash: CKBComponents.Hash) => Promise<CKBComponents.CapacityByLockHash>
-
-  /**
-   * @method deindexLockHash
-   * @memberof DefaultRPC
-   * @deprecated since v0.36.0
-   * @description remove index for live cells and transaction by the hash of lock script,
-   *              returns empty array when the `lock_hash` not indexed yet.
-   * @param {string} lockHash
-   * @retrun {Promise<null}
-   */
-  deindexLockHash: (lockHash: CKBComponents.Hash256) => Promise<null>
 
   /* skip Miner */
 
