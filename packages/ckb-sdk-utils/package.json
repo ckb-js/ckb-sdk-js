@@ -1,6 +1,6 @@
 {
   "name": "@nervosnetwork/ckb-sdk-utils",
-  "version": "0.41.1",
+  "version": "0.43.0",
   "description": "Utils module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
@@ -31,7 +31,7 @@
     "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-types": "0.41.1",
+    "@nervosnetwork/ckb-types": "0.43.0",
     "elliptic": "6.5.4",
     "jsbi": "3.1.3",
     "tslib": "2.0.1"
@@ -40,5 +40,5 @@
     "@types/bitcoinjs-lib": "5.0.0",
     "@types/elliptic": "6.4.12"
   },
-  "gitHead": "dcfd1347206ac0419d8fe2f5fd38c87970399443"
+  "gitHead": "2beba032c0421ba14fece41fa42f9879ab767fa1"
 }
