@@ -33,6 +33,7 @@ declare namespace CKBComponents {
   export type ScriptHashType = 'data' | 'type'
 
   export type DepType = 'code' | 'depGroup'
+  export type JsonBytes = string
 
   /**
    * @typedef Bytes, keep consistent with CKB
@@ -234,12 +235,14 @@ declare namespace CKBComponents {
    * @property uncles, uncle blocks
    * @property transactions
    * @property proposals
+   * @property extension
    */
   export interface Block {
     header: BlockHeader
     uncles: UncleBlock[]
     transactions: Transaction[]
     proposals: ProposalShortId[]
+    extension?: JsonBytes | null
   }
 
   /**

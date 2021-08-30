@@ -83,6 +83,7 @@ describe('Test with mock', () => {
               },
             ],
             uncles: [],
+            extension: '0x636b62',
           },
         },
       })
@@ -142,6 +143,7 @@ describe('Test with mock', () => {
           },
         ],
         uncles: [],
+        extension: '0x636b62',
       })
     })
     it('tx pool info', async () => {
