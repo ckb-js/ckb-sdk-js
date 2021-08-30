@@ -314,6 +314,7 @@ declare module RPC {
   export interface Consensus {
     id: string
     genesis_hash: Hash256
+    hardfork_features: Array<{ rfc: string; epoch_number: string | null }>
     dao_type_hash: Hash256 | null
     secp256k1_blake160_sighash_all_type_hash: Hash256 | null
     secp256k1_blake160_multisig_all_type_hash: Hash256 | null
