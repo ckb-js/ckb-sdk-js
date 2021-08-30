@@ -34,7 +34,7 @@
     "@nervosnetwork/ckb-sdk-rpc": "0.43.0",
     "@nervosnetwork/ckb-sdk-utils": "0.43.0",
     "@nervosnetwork/ckb-types": "0.43.0",
-    "tslib": "2.0.1"
+    "tslib": "2.3.1"
   },
   "gitHead": "2beba032c0421ba14fece41fa42f9879ab767fa1"
 }
