@@ -26,6 +26,7 @@ declare module RPC {
   export type RationalU256 = CKBComponents.RationalU256
   export type ProposalWindow = CKBComponents.ProposalWindow
   export type EpochNumberWithFraction = CKBComponents.EpochNumberWithFraction
+  export type JsonBytes = CKBComponents.JsonBytes
 
   enum TransactionStatus {
     Pending = 'pending',
@@ -155,6 +156,7 @@ declare module RPC {
     uncles: UncleBlock[]
     transactions: Transaction[]
     proposals: ProposalShortId[]
+    extension?: JsonBytes | null
   }
 
   export interface AlertMessage {
