@@ -8,13 +8,20 @@ const formatter = {
   toHash: (hash: RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: (header: RPC.Header): CKBComponents.BlockHeader => {
     if (!header) return header
-    const { compact_target, transactions_root, proposals_hash, uncles_hash, parent_hash, ...rest } = header
+    const {
+      compact_target: compactTarget,
+      transactions_root: transactionsRoot,
+      proposals_hash: proposalsHash,
+      extra_hash: extraHash,
+      parent_hash: parentHash,
+      ...rest
+    } = header
     return {
-      compactTarget: compact_target,
-      parentHash: parent_hash,
-      transactionsRoot: transactions_root,
-      proposalsHash: proposals_hash,
-      unclesHash: uncles_hash,
+      compactTarget,
+      parentHash,
+      transactionsRoot,
+      proposalsHash,
+      extraHash,
       ...rest,
     }
   },

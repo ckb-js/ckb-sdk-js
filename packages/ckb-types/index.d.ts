@@ -199,7 +199,7 @@ declare namespace CKBComponents {
    * @property nonce
    * @property timestamp
    * @property transactionsRoot
-   * @property unclesHash
+   * @property extraHash
    * @property version
    */
   export interface BlockHeader {
@@ -213,7 +213,7 @@ declare namespace CKBComponents {
     nonce: Nonce
     timestamp: Timestamp
     transactionsRoot: Hash256
-    unclesHash: Hash256
+    extraHash: Hash256
     version: Version
   }
 
