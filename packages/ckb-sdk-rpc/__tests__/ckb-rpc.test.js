@@ -637,6 +637,15 @@ describe('Test with mock', () => {
             tx_proposal_window: { closest: '0x2', farthest: '0xa' },
             tx_version: '0x0',
             type_id_code_hash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+            hardfork_features: [
+              { epoch_number: '0x0', rfc: '0028' },
+              { epoch_number: '0x0', rfc: '0029' },
+              { epoch_number: '0x0', rfc: '0030' },
+              { epoch_number: '0x0', rfc: '0031' },
+              { epoch_number: '0x0', rfc: '0032' },
+              { epoch_number: '0x0', rfc: '0036' },
+              { epoch_number: '0x0', rfc: '0038' },
+            ],
           },
         },
       })
@@ -671,6 +680,15 @@ describe('Test with mock', () => {
         txProposalWindow: { closest: '0x2', farthest: '0xa' },
         txVersion: '0x0',
         typeIdCodeHash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+        hardforkFeatures: [
+          { epochNumber: '0x0', rfc: '0028' },
+          { epochNumber: '0x0', rfc: '0029' },
+          { epochNumber: '0x0', rfc: '0030' },
+          { epochNumber: '0x0', rfc: '0031' },
+          { epochNumber: '0x0', rfc: '0032' },
+          { epochNumber: '0x0', rfc: '0036' },
+          { epochNumber: '0x0', rfc: '0038' },
+        ],
       })
     })
 

@@ -415,6 +415,9 @@ const formatter = {
       txProposalWindow: consensus.tx_proposal_window,
       txVersion: consensus.tx_version,
       typeIdCodeHash: consensus.type_id_code_hash,
+      hardforkFeatures:
+        consensus.hardfork_features?.map(({ epoch_number: epochNumber, ...rest }) => ({ epochNumber, ...rest })) ??
+        consensus.hardfork_features,
     }
   },
   toRawTxPool: (rawTxPool: RPC.RawTxPool): CKBComponents.RawTxPool => {

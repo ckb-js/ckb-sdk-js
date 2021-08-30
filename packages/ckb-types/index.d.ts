@@ -477,6 +477,7 @@ declare namespace CKBComponents {
   export interface Consensus {
     id: string
     genesisHash: Hash256
+    hardforkFeatures: Array<{ rfc: string; epochNumber: string | null }>
     daoTypeHash: Hash256 | null
     secp256k1Blake160SighashAllTypeHash: Hash256 | null
     secp256k1Blake160MultisigAllTypeHash: Hash256 | null
