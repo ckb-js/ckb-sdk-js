@@ -141,7 +141,7 @@ declare module RPC {
     nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
-    uncles_hash: Hash256
+    extra_hash: Hash256
     version: Version
   }
 
