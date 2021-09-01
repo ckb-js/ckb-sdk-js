@@ -8,6 +8,7 @@ const {
   parseAddress,
   fullPayloadToAddress,
   addressToScript,
+  scriptToAddress,
 } = ckbUtils
 
 describe('Test address module', () => {
@@ -114,6 +115,24 @@ describe('Test address module', () => {
 
       try {
         const actual = addressToScript(...params)
+        expect(actual).toEqual(expected)
+      } catch (err) {
+        expect(err).toEqual(new Error(exception))
+      }
+    })
+  })
+
+  describe('scriptToAddress', () => {
+    const fixtureTable = Object.entries(fixtures.scriptToAddress).map(([title, { params, expected, exception }]) => [
+      title,
+      params,
+      expected,
+      exception,
+    ])
+    test.each(fixtureTable)(`%s`, (_title, params, expected, exception) => {
+      expect.assertions(1)
+      try {
+        const actual = scriptToAddress(...params)
         expect(actual).toEqual(expected)
       } catch (err) {
         expect(err).toEqual(new Error(exception))

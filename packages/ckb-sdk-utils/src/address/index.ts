@@ -6,7 +6,16 @@ import {
   ANYONE_CAN_PAY_TESTNET,
 } from '../systemScripts'
 import { hexToBytes, bytesToHex } from '../convertors'
-import { HexStringWithout0xException, AddressException, AddressPayloadException } from '../exceptions'
+import {
+  HexStringWithout0xException,
+  AddressException,
+  AddressPayloadException,
+  CodeHashException,
+  HashTypeException,
+  ArgsLenException,
+} from '../exceptions'
+
+// TODO: deprecate outdated methods
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -14,11 +23,48 @@ export enum AddressPrefix {
 }
 
 export enum AddressType {
+  FullVersion = '0x00', // full version identified the hash_type and vm_version
   HashIdx = '0x01', // short version for locks with popular codehash
-  DataCodeHash = '0x02', // full version with hash type 'Data'
-  TypeCodeHash = '0x04', // full version with hash type 'Type'
+  DataCodeHash = '0x02', // full version with hash type 'Data', deprecated
+  TypeCodeHash = '0x04', // full version with hash type 'Type', deprecated
 }
 
+const payloadToAddress = (payload: Uint8Array, isMainnet = true) =>
+  bech32.encode(isMainnet ? AddressPrefix.Mainnet : AddressPrefix.Testnet, bech32.toWords(payload))
+
+const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Uint8Array => {
+  enum HashType {
+    data = '00',
+    type = '01',
+    data1 = '02',
+  }
+
+  if (!args.startsWith('0x')) {
+    throw new HexStringWithout0xException(args)
+  }
+
+  if (!codeHash.startsWith('0x') || codeHash.length !== 66) {
+    throw new CodeHashException(codeHash)
+  }
+
+  if (!HashType[hashType]) {
+    throw new HashTypeException(hashType)
+  }
+  const argsLen = args.length / 2 - 1
+
+  return hexToBytes(
+    `0x00${codeHash.slice(2)}${HashType[hashType]}${argsLen.toString(16).padStart(4, '0')}${args.slice(2)}`,
+  )
+}
+
+export const scriptToAddress = (script: CKBComponents.Script, isMainnet = true) =>
+  payloadToAddress(scriptToPayload(script), isMainnet)
+
+/**
+ * 0x00 SECP256K1 + blake160
+ * 0x01 SECP256k1 + multisig
+ * 0x02 anyone_can_pay
+ */
 export type CodeHashIndex = '0x00' | '0x01' | '0x02'
 
 export interface AddressOptions {
@@ -40,13 +86,34 @@ export const toAddressPayload = (
   type: AddressType = AddressType.HashIdx,
   codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00',
 ): Uint8Array => {
-  if (typeof args === 'string') {
-    if (!args.startsWith('0x')) {
-      throw new HexStringWithout0xException(args)
-    }
-    return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(args)])
+  if (typeof args === 'string' && !args.startsWith('0x')) {
+    throw new HexStringWithout0xException(args)
   }
-  return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...args])
+
+  if ([AddressType.DataCodeHash, AddressType.TypeCodeHash].includes(type)) {
+    /* eslint-disable max-len */
+    console.warn(
+      `Address of 'AddressType.DataCodeHash' or 'AddressType.TypeCodeHash' is deprecated, please use address of AddressPrefix.FullVersion`,
+    )
+  }
+
+  if (type !== AddressType.FullVersion) {
+    return new Uint8Array([
+      ...hexToBytes(type),
+      ...hexToBytes(codeHashOrCodeHashIndex),
+      ...(typeof args === 'string' ? hexToBytes(args) : args),
+    ])
+  }
+
+  if (!codeHashOrCodeHashIndex.startsWith('0x') || codeHashOrCodeHashIndex.length !== 66) {
+    throw new CodeHashException(codeHashOrCodeHashIndex)
+  }
+
+  return scriptToPayload({
+    codeHash: codeHashOrCodeHashIndex,
+    hashType: 'data1',
+    args: typeof args === 'string' ? args : bytesToHex(args),
+  })
 }
 
 /**
@@ -115,8 +182,9 @@ const isValidShortVersionPayload = (payload: Uint8Array) => {
   /* eslint-enable indent */
 }
 
-const isValidPayload = (payload: Uint8Array) => {
-  const [type, ...data] = payload
+const isPayloadValid = (payload: Uint8Array) => {
+  const type = payload[0]
+  const data = payload.slice(1)
   /* eslint-disable indent */
   switch (type) {
     case +AddressType.HashIdx: {
@@ -128,6 +196,28 @@ const isValidPayload = (payload: Uint8Array) => {
       if (data.length < 32) {
         throw new AddressPayloadException(payload, 'full')
       }
+      break
+    }
+    case +AddressType.FullVersion: {
+      const codeHash = data.slice(0, 32)
+      if (codeHash.length < 32) {
+        throw new CodeHashException(bytesToHex(codeHash))
+      }
+
+      const hashType = parseInt(data[32].toString(), 16)
+      if (hashType > 2) {
+        throw new HashTypeException(`0x${hashType.toString(16)}`)
+      }
+
+      const argsLen = data.slice(33, 35)
+      if (argsLen.length < 2) {
+        throw new ArgsLenException(bytesToHex(argsLen))
+      }
+
+      if (data.slice(35).length !== +bytesToHex(argsLen)) {
+        throw new ArgsLenException(bytesToHex(argsLen))
+      }
+
       break
     }
     default: {
@@ -151,9 +241,9 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
   const decoded = bech32.decode(address)
   const payload = bech32.fromWords(new Uint8Array(decoded.words))
   try {
-    isValidPayload(payload)
+    isPayloadValid(payload)
   } catch (err) {
-    throw new AddressException(address, err.type)
+    throw new AddressException(address, err.stack, err.type)
   }
   return encode === 'binary' ? payload : bytesToHex(payload)
 }
@@ -161,6 +251,21 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
 export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)
   const type = payload[0]
+
+  if (type === +AddressType.FullVersion) {
+    const HASH_TYPE: Record<string, CKBComponents.ScriptHashType> = {
+      '00': 'data',
+      '01': 'type',
+      '02': 'data1',
+    }
+    const p = bytesToHex(payload)
+
+    const codeHash = `0x${p.substr(4, 64)}`
+    const hashType = HASH_TYPE[p.substr(68, 2)]
+    const argLen = parseInt(p.substr(70, 4), 16)
+    const args = `0x${p.substr(74, argLen * 2)}`
+    return { codeHash, hashType, args }
+  }
 
   if (type === +AddressType.HashIdx) {
     const codeHashIndices = [

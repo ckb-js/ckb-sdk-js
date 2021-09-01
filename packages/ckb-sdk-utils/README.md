@@ -16,6 +16,7 @@ See [Full Doc](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/README.m
   - `utils.fullPayloadToAddress`: script to full version address
   - `utils.parseAddress`: get address payload
   - `utils.addressToScript`: get lock script from address
+  - `utils.scriptToAddress`: get full address from script
 
 - [Utils](#utils)
 
@@ -146,6 +147,19 @@ utils.addressToScript('ckb1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xly
 //   hashType: 'type',
 //   args: '0x36c329ed630d6ce750712a477543672adab57f4c'
 // }
+```
+
+```js
+/**
+ * @description generate full version address from script, the address conforms to format type 0x00
+ * @tutorial https://github.com/nervosnetwork/rfcs/pull/239/
+ */
+utils.scriptToAddress({
+  "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
+  "hashType": "type",
+  "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+})
+// ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqg0yp5wq
 ```
 
 ### Utils
