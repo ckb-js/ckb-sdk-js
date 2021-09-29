@@ -17,7 +17,7 @@ export * as systemScripts from './systemScripts'
 export * as reconcilers from './reconcilers'
 
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
-export const { blake2b, bech32, blake160 } = crypto
+export const { blake2b, bech32, bech32m, blake160 } = crypto
 
 export const scriptToHash = (script: CKBComponents.Script) => {
   if (!script) throw new ParameterRequiredException('Script')

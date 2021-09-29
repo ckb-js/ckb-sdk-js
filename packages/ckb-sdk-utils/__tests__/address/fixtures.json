@@ -4,11 +4,11 @@
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c"],
       "expected": [1, 0, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
     },
-    "should throw an error when its a full version address identified the hash_type and vm_version but code hash doesn't start with 0x":{
+    "should throw an error when its a full version address identifies the hash_type but code hash doesn't start with 0x": {
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", "0x00", "3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356"],
       "exception": "'3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356' is not a valid code hash"
     },
-    "should throw an error when its a full version address identified the hash_type and vm_version but code hash has invalid length":{
+    "should throw an error when its a full version address identifies the hash_type but code hash has invalid length": {
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", "0x00", "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135"],
       "exception": "'0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135' is not a valid code hash"
     }
@@ -35,17 +35,6 @@
         }
       ],
       "expected": "ckt1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5c02auef"
-    },
-    "data1 hash type":{
-      "params": [
-        {
-          "args": "0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101",
-          "type": "0x00",
-          "prefix": "ckt",
-          "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356"
-        }
-      ],
-      "expected": "ckt1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqsqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqg8gw2zh"
     },
     "default type = 0x02 and default prefix = ckb": {
       "params": [
@@ -125,13 +114,13 @@
     },
     "data hash type full version address": {
       "params": ["ckb1q2da0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xw3vumhs9nvu786dj9p0q5elx66t24n3kxgdwd2q8"],
-      "expected": [2, 155, 215, 224, 111, 62, 207, 75, 224, 242, 252, 210, 24, 139, 35, 241, 185, 252, 200, 142, 93, 75, 101, 168, 99, 123, 23, 114, 59, 189, 163, 204, 232, 179, 155, 188, 11, 54, 115, 199, 211, 100, 80, 188, 20, 207, 205, 173, 45, 85, 156, 108, 100 ]
+      "expected": [2, 155, 215, 224, 111, 62, 207, 75, 224, 242, 252, 210, 24, 139, 35, 241, 185, 252, 200, 142, 93, 75, 101, 168, 99, 123, 23, 114, 59, 189, 163, 204, 232, 179, 155, 188, 11, 54, 115, 199, 211, 100, 80, 188, 20, 207, 205, 173, 45, 85, 156, 108, 100]
     },
     "type hash type full version address": {
       "params": ["ckb1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xlydkr98kkxrtvuag8z2j8w4pkw2k6k4l5czfy37k"],
-      "expected": [4, 24, 146, 234, 64, 216, 43, 83, 198, 120, 255, 136, 49, 36, 80, 187, 177, 126, 22, 77, 122, 62, 10, 144, 148, 26, 165, 136, 57, 245, 111, 141, 242, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76 ]
+      "expected": [4, 24, 146, 234, 64, 216, 43, 83, 198, 120, 255, 136, 49, 36, 80, 187, 177, 126, 22, 77, 122, 62, 10, 144, 148, 26, 165, 136, 57, 245, 111, 141, 242, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
     },
-    "full version address identified the hash_type and vm_version": {
+    "full version address identifies the hash_type": {
       "params": ["ckt1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqgutrqyp"],
       "expected": [0, 52, 25, 161, 192, 158, 178, 86, 127, 101, 82, 238, 122, 142, 207, 253, 100, 21, 92, 255, 224, 241, 121, 110, 110, 97, 236, 8, 141, 116, 12, 19, 86, 1, 0, 23, 79, 178, 190, 46, 93, 12, 26, 59, 134, 148, 248, 50, 53, 10, 51, 193, 104, 93, 71, 122, 12, 1, 1]
     },
@@ -159,21 +148,13 @@
       "params": ["ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw"],
       "exception": "'ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw' is not a valid full version address"
     },
-    "should throw an error when full version address identified the hash_type and vm_version has invalid code hash": {
+    "should throw an error when full version address identifies the hash_type has invalid code hash": {
       "params": ["ckb1qqv6rsy7kft87e2jaeaganlavs24ellq79ukumnpasyg6aqvzdtqzukxep"],
       "exception": "'ckb1qqv6rsy7kft87e2jaeaganlavs24ellq79ukumnpasyg6aqvzdtqzukxep' is not a valid address"
     },
-    "should throw an error when full version address identified the hash_type and vm_version has invalid hash type": {
+    "should throw an error when full version address identifies the hash_type has invalid hash type": {
       "params": ["ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqcqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqgaxsc2r"],
       "exception": "'ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqcqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqgaxsc2r' is not a valid address"
-    },
-    "should throw an error when full version address identified the hash_type and vm_version has invalid args length": {
-      "params": ["ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqghy4uyeq"],
-      "exception": "'ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqghy4uyeq' is not a valid address"
-    },
-    "should throw an error when full version address identified the hash_type and vm_version has args not matching args len": {
-      "params": ["ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqz7etutjapsdrhp55lqer2z3nc95963m6psqszx2kx5s"],
-      "exception": "'ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqz7etutjapsdrhp55lqer2z3nc95963m6psqszx2kx5s' is not a valid address"
     }
   },
   "addressToScript": {
@@ -225,43 +206,43 @@
         "args": "0x36c329ed630d6ce750712a477543672adab57f4c"
       }
     },
-    "full version address identified the hash_type and vm_version": {
-      "params": ["ckt1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqgutrqyp"],
+    "full version address identifies the hash_type": {
+      "params": ["ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqxwquc4"],
       "expected": {
-        "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
+        "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
         "hashType": "type",
-        "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+        "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
       }
     }
   },
   "scriptToAddress": {
-    "full version mainnet address identified the hash_type and vm_version": {
+    "full version mainnet address identifies the hash_type": {
       "params": [
         {
-          "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
+          "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
           "hashType": "type",
-          "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
         }
       ],
-      "expected": "ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqg0yp5wq"
+      "expected": "ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqxwquc4"
     },
-    "full version testnet address identified the hash_type and vm_version": {
+    "full version testnet address identifies the hash_type": {
       "params": [
         {
-          "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
+          "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
           "hashType": "type",
-          "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
         },
         false
       ],
-      "expected": "ckt1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqgutrqyp"
+      "expected": "ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqgutnjd"
     },
     "should throw an error when args doesn't start with 0x": {
       "params": [
         {
           "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
           "hashType": "type",
-          "args":"4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
         }
       ],
       "exception": "Hex string 4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101 should start with 0x"
@@ -271,7 +252,7 @@
         {
           "codeHash": "3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
           "hashType": "type",
-          "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
         }
       ],
       "exception": "'3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356' is not a valid code hash"
@@ -281,7 +262,7 @@
         {
           "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135",
           "hashType": "type",
-          "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
         }
       ],
       "exception": "'0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135' is not a valid code hash"
@@ -291,7 +272,7 @@
         {
           "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
           "hashType": "type1",
-          "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+          "args": "0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
         }
       ],
       "exception": "'type1' is not a valid hash type"

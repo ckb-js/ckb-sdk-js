@@ -39,18 +39,9 @@ export class HashTypeException extends Error {
   }
 }
 
-export class ArgsLenException extends Error {
-  code = ErrorCode.AddressInvalid
-
-  constructor(argsLen: string) {
-    super(`'${argsLen}' is not a valid args length`)
-  }
-}
-
 export default {
   AddressPayloadException,
   AddressException,
   CodeHashException,
   HashTypeException,
-  ArgsLenException,
 }

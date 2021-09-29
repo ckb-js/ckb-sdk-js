@@ -62,13 +62,6 @@
       "message": "'0x03' is not a valid hash type"
     }
   },
-  "ArgsLenException": {
-    "params": [""],
-    "expected": {
-      "code": 104,
-      "message": "'' is not a valid args length"
-    }
-  },
   "OutLenTooSmallException": {
     "params": [16, 32],
     "expected": {

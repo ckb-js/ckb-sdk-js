@@ -13,10 +13,10 @@ See [Full Doc](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/README.m
   - `utils.privateKeyToAddress`: get address from private key
   - `utils.pubkeyToAddress`: get address from public key
   - `utils.bech32Address`: args to short/full version address
-  - `utils.fullPayloadToAddress`: script to full version address
+  - <del>`utils.fullPayloadToAddress`: script to full version address of obselete version, **deprecated and use `utils.scriptToAddress` instead**</del>
   - `utils.parseAddress`: get address payload
   - `utils.addressToScript`: get lock script from address
-  - `utils.scriptToAddress`: get full address from script
+  - `utils.scriptToAddress`: get full address of new version from script
 
 - [Utils](#utils)
 
@@ -151,15 +151,15 @@ utils.addressToScript('ckb1qsvf96jqmq4483ncl7yrzfzshwchu9jd0glq4yy5r2jcsw04d7xly
 
 ```js
 /**
- * @description generate full version address from script, the address conforms to format type 0x00
+ * @description generate full address of new version from script, the address conforms to format type 0x00
  * @tutorial https://github.com/nervosnetwork/rfcs/pull/239/
  */
 utils.scriptToAddress({
-  "codeHash": "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356",
+  "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
   "hashType": "type",
-  "args":"0x4fb2be2e5d0c1a3b8694f832350a33c1685d477a0c0101"
+  "args":"0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
 })
-// ckb1qq6pngwqn6e9vlm92th84rk0l4jp2h8lurchjmnwv8kq3rt5psf4vqgqza8m903wt5xp5wuxjnurydg2x0qksh280gxqzqg0yp5wq
+// ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqxwquc4
 ```
 
 ### Utils
