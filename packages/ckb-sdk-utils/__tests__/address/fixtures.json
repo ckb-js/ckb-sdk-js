@@ -206,17 +206,25 @@
         "args": "0x36c329ed630d6ce750712a477543672adab57f4c"
       }
     },
-    "full version address identifies the hash_type": {
+    "full version address identifies hash_type = type": {
       "params": ["ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqxwquc4"],
       "expected": {
         "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
         "hashType": "type",
         "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
       }
+    },
+    "full version address identifies hash_type = data1": {
+      "params": ["ckt1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvq4nnw7qkdnnclfkg59uzn8umtfd2kwxceq225jvu"],
+      "expected": {
+        "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176",
+        "hashType": "data1",
+        "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
+      }
     }
   },
   "scriptToAddress": {
-    "full version mainnet address identifies the hash_type": {
+    "full version mainnet address identifies hash_type = type": {
       "params": [
         {
           "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
@@ -226,7 +234,7 @@
       ],
       "expected": "ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqxwquc4"
     },
-    "full version testnet address identifies the hash_type": {
+    "full version testnet address identifies hash_type = type": {
       "params": [
         {
           "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
@@ -236,6 +244,27 @@
         false
       ],
       "expected": "ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqdnnw7qkdnnclfkg59uzn8umtfd2kwxceqgutnjd"
+    },
+    "full version mainnet address identifies hash_type = data1": {
+      "params": [
+        {
+          "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176",
+          "hashType": "data1",
+          "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
+        }
+      ],
+      "expected": "ckb1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvq4nnw7qkdnnclfkg59uzn8umtfd2kwxceqyclaxy"
+    },
+    "full version testnet address identifies hash_type = data1": {
+      "params": [
+        {
+          "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176",
+          "hashType": "data1",
+          "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
+        },
+        false
+      ],
+      "expected": "ckt1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvq4nnw7qkdnnclfkg59uzn8umtfd2kwxceq225jvu"
     },
     "should throw an error when args doesn't start with 0x": {
       "params": [
