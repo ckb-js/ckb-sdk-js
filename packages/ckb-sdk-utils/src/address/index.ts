@@ -12,6 +12,7 @@ import {
   AddressPayloadException,
   CodeHashException,
   HashTypeException,
+  ParameterRequiredException,
 } from '../exceptions'
 
 const MAX_BECH32_LIMIT = 1023
@@ -34,7 +35,7 @@ export enum AddressType {
  * @description payload to a full address of new version
  */
 const payloadToAddress = (payload: Uint8Array, isMainnet = true) =>
-  bech32m.encode(isMainnet ? AddressPrefix.Mainnet : AddressPrefix.Testnet, bech32.toWords(payload), MAX_BECH32_LIMIT)
+  bech32m.encode(isMainnet ? AddressPrefix.Mainnet : AddressPrefix.Testnet, bech32m.toWords(payload), MAX_BECH32_LIMIT)
 
 const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Uint8Array => {
   if (!args.startsWith('0x')) {
@@ -83,7 +84,8 @@ export interface AddressOptions {
 
 /**
  * @function toAddressPayload
- * @description payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
+ * @description obsolete payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
+ *             new payload = type(00) | code hash | hash type(00|01|02) | args
  * @see https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md
  * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
  * @param {string} type, used to indicate which format is adopted to compose the address.
@@ -93,6 +95,7 @@ export const toAddressPayload = (
   args: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
   codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00',
+  hashType?: CKBComponents.ScriptHashType,
 ): Uint8Array => {
   if (typeof args === 'string' && !args.startsWith('0x')) {
     throw new HexStringWithout0xException(args)
@@ -117,9 +120,13 @@ export const toAddressPayload = (
     throw new CodeHashException(codeHashOrCodeHashIndex)
   }
 
+  if (!hashType) {
+    throw new ParameterRequiredException('hashType')
+  }
+
   return scriptToPayload({
     codeHash: codeHashOrCodeHashIndex,
-    hashType: 'data1',
+    hashType,
     args: typeof args === 'string' ? args : bytesToHex(args),
   })
 }

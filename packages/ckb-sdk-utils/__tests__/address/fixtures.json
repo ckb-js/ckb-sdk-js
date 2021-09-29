@@ -4,6 +4,10 @@
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c"],
       "expected": [1, 0, 54, 195, 41, 237, 99, 13, 108, 231, 80, 113, 42, 71, 117, 67, 103, 42, 218, 181, 127, 76]
     },
+    "full address of new version specifies hash_type = type": {
+      "params": ["0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64", "0x00", "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176", "data1"],
+      "expected": [0, 166, 86, 241, 114, 182, 180, 92, 36, 83, 7, 174, 181, 167, 163, 122, 23, 111, 0, 47, 111, 34, 233, 37, 130, 197, 139, 247, 186, 54, 46, 65, 118, 2, 179, 155, 188, 11, 54, 115, 199, 211, 100, 80, 188, 20, 207, 205, 173, 45, 85, 156, 108, 100]
+    },
     "should throw an error when its a full version address identifies the hash_type but code hash doesn't start with 0x": {
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", "0x00", "3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356"],
       "exception": "'3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356' is not a valid code hash"
@@ -11,6 +15,10 @@
     "should throw an error when its a full version address identifies the hash_type but code hash has invalid length": {
       "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", "0x00", "0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135"],
       "exception": "'0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c135' is not a valid code hash"
+    },
+    "should throw an error when its a full version address identifies the hash_type but hash_type is missing": {
+      "params": ["0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64", "0x00", "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8"],
+      "exception": "hashType is required"
     }
   },
   "fullPayloadToAddress": {
