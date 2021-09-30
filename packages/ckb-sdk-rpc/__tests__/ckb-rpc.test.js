@@ -1691,12 +1691,22 @@ describe('Test with mock', () => {
 
   describe('ckb-rpc errors', () => {
     it('throw raw error', async () => {
-      expect(() => rpc.getBlock(0)).toThrow('Expect hash to be string, but 0 received')
+      expect.assertions(1)
+      try {
+        await rpc.getBlock(0)
+      } catch (err) {
+        expect(err.message).toEqual('Expect hash to be string, but 0 received')
+      }
     })
 
     describe('batch request', () => {
       it('should throw method not found error', () => {
-        expect(() => rpc.createBatchRequest([['Unknown', []]])).toThrow('[Batch Request]: Method Unknown is not found')
+        expect.assertions(1)
+        try {
+          rpc.createBatchRequest([['Unknown', []]])
+        } catch (err) {
+          expect(err.message).toEqual('[Batch Request]: Method Unknown is not found')
+        }
       })
 
       describe('should throw errors with index', () => {
