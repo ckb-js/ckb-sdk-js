@@ -1,4 +1,4 @@
-import { bech32, blake160 } from '..'
+import { blake160, bech32, bech32m } from '..'
 import {
   SECP256K1_BLAKE160,
   SECP256K1_MULTISIG,
@@ -6,7 +6,18 @@ import {
   ANYONE_CAN_PAY_TESTNET,
 } from '../systemScripts'
 import { hexToBytes, bytesToHex } from '../convertors'
-import { HexStringWithout0xException, AddressException, AddressPayloadException } from '../exceptions'
+import {
+  HexStringWithout0xException,
+  AddressException,
+  AddressPayloadException,
+  CodeHashException,
+  HashTypeException,
+  ParameterRequiredException,
+} from '../exceptions'
+
+const MAX_BECH32_LIMIT = 1023
+
+// TODO: deprecate outdated methods
 
 export enum AddressPrefix {
   Mainnet = 'ckb',
@@ -14,11 +25,55 @@ export enum AddressPrefix {
 }
 
 export enum AddressType {
+  FullVersion = '0x00', // full version identifies the hash_type
   HashIdx = '0x01', // short version for locks with popular codehash
-  DataCodeHash = '0x02', // full version with hash type 'Data'
-  TypeCodeHash = '0x04', // full version with hash type 'Type'
+  DataCodeHash = '0x02', // full version with hash type 'Data', deprecated
+  TypeCodeHash = '0x04', // full version with hash type 'Type', deprecated
 }
 
+/**
+ * @description payload to a full address of new version
+ */
+const payloadToAddress = (payload: Uint8Array, isMainnet = true) =>
+  bech32m.encode(isMainnet ? AddressPrefix.Mainnet : AddressPrefix.Testnet, bech32m.toWords(payload), MAX_BECH32_LIMIT)
+
+const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Uint8Array => {
+  if (!args.startsWith('0x')) {
+    throw new HexStringWithout0xException(args)
+  }
+
+  if (!codeHash.startsWith('0x') || codeHash.length !== 66) {
+    throw new CodeHashException(codeHash)
+  }
+
+  enum HashType {
+    data = '00',
+    type = '01',
+    data1 = '02',
+  }
+
+  if (!HashType[hashType]) {
+    throw new HashTypeException(hashType)
+  }
+
+  return hexToBytes(`0x00${codeHash.slice(2)}${HashType[hashType]}${args.slice(2)}`)
+}
+
+/**
+ * @function scriptToAddress
+ * @description The only way recommended to generated a full address of new version
+ * @param {object} script
+ * @param {booealn} isMainnet
+ * @returns {string} address
+ */
+export const scriptToAddress = (script: CKBComponents.Script, isMainnet = true) =>
+  payloadToAddress(scriptToPayload(script), isMainnet)
+
+/**
+ * 0x00 SECP256K1 + blake160
+ * 0x01 SECP256k1 + multisig
+ * 0x02 anyone_can_pay
+ */
 export type CodeHashIndex = '0x00' | '0x01' | '0x02'
 
 export interface AddressOptions {
@@ -29,7 +84,8 @@ export interface AddressOptions {
 
 /**
  * @function toAddressPayload
- * @description payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
+ * @description obsolete payload = type(01) | code hash index(00) | args(blake160-formatted pubkey)
+ *             new payload = type(00) | code hash | hash type(00|01|02) | args
  * @see https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md
  * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
  * @param {string} type, used to indicate which format is adopted to compose the address.
@@ -39,18 +95,44 @@ export const toAddressPayload = (
   args: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
   codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00',
+  hashType?: CKBComponents.ScriptHashType,
 ): Uint8Array => {
-  if (typeof args === 'string') {
-    if (!args.startsWith('0x')) {
-      throw new HexStringWithout0xException(args)
-    }
-    return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...hexToBytes(args)])
+  if (typeof args === 'string' && !args.startsWith('0x')) {
+    throw new HexStringWithout0xException(args)
   }
-  return new Uint8Array([...hexToBytes(type), ...hexToBytes(codeHashOrCodeHashIndex), ...args])
+
+  if ([AddressType.DataCodeHash, AddressType.TypeCodeHash].includes(type)) {
+    /* eslint-disable max-len */
+    console.warn(
+      `Address of 'AddressType.DataCodeHash' or 'AddressType.TypeCodeHash' is deprecated, please use address of AddressPrefix.FullVersion`,
+    )
+  }
+
+  if (type !== AddressType.FullVersion) {
+    return new Uint8Array([
+      ...hexToBytes(type),
+      ...hexToBytes(codeHashOrCodeHashIndex),
+      ...(typeof args === 'string' ? hexToBytes(args) : args),
+    ])
+  }
+
+  if (!codeHashOrCodeHashIndex.startsWith('0x') || codeHashOrCodeHashIndex.length !== 66) {
+    throw new CodeHashException(codeHashOrCodeHashIndex)
+  }
+
+  if (!hashType) {
+    throw new ParameterRequiredException('hashType')
+  }
+
+  return scriptToPayload({
+    codeHash: codeHashOrCodeHashIndex,
+    hashType,
+    args: typeof args === 'string' ? args : bytesToHex(args),
+  })
 }
 
 /**
- * @name bech32Address
+ * @function bech32Address
  * @description generate the address by bech32 algorithm
  * @param args, used as the identifier of an address, usually the public key hash is used.
  * @param {[string]} prefix, the prefix precedes the address, default to be ckb.
@@ -61,11 +143,12 @@ export const toAddressPayload = (
 export const bech32Address = (
   args: Uint8Array | string,
   { prefix = AddressPrefix.Mainnet, type = AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' }: AddressOptions = {},
-) => bech32.encode(prefix, bech32.toWords(toAddressPayload(args, type, codeHashOrCodeHashIndex)))
+) => bech32.encode(prefix, bech32.toWords(toAddressPayload(args, type, codeHashOrCodeHashIndex)), MAX_BECH32_LIMIT)
 
 /**
+ * @deprecated
  * @name fullPayloadToAddress
- * @description generate the address with payload in full version format.
+ * @description deprecated method to generate the address with payload in full version format. Use scriptToAddress instead.
  * @param {string} args, used as the identifier of an address.
  * @param {[string]} prefix, the prefix precedes the address, default to be ckb.
  * @param {[string]} type, used to indicate which format the address conforms to, default to be 0x02,
@@ -115,8 +198,9 @@ const isValidShortVersionPayload = (payload: Uint8Array) => {
   /* eslint-enable indent */
 }
 
-const isValidPayload = (payload: Uint8Array) => {
-  const [type, ...data] = payload
+const isPayloadValid = (payload: Uint8Array) => {
+  const type = payload[0]
+  const data = payload.slice(1)
   /* eslint-disable indent */
   switch (type) {
     case +AddressType.HashIdx: {
@@ -128,6 +212,19 @@ const isValidPayload = (payload: Uint8Array) => {
       if (data.length < 32) {
         throw new AddressPayloadException(payload, 'full')
       }
+      break
+    }
+    case +AddressType.FullVersion: {
+      const codeHash = data.slice(0, 32)
+      if (codeHash.length < 32) {
+        throw new CodeHashException(bytesToHex(codeHash))
+      }
+
+      const hashType = parseInt(data[32].toString(), 16)
+      if (hashType > 2) {
+        throw new HashTypeException(`0x${hashType.toString(16)}`)
+      }
+
       break
     }
     default: {
@@ -148,12 +245,18 @@ export declare interface ParseAddress {
  *         e.g. 0x | 01 | 00 | e2fa82e70b062c8644b80ad7ecf6e015e5f352f6
  */
 export const parseAddress: ParseAddress = (address: string, encode: 'binary' | 'hex' = 'binary'): any => {
-  const decoded = bech32.decode(address)
-  const payload = bech32.fromWords(new Uint8Array(decoded.words))
+  let payload: Uint8Array = new Uint8Array()
   try {
-    isValidPayload(payload)
+    const decoded = bech32.decode(address, MAX_BECH32_LIMIT)
+    payload = new Uint8Array(bech32.fromWords(new Uint8Array(decoded.words)))
+  } catch {
+    const decoded = bech32m.decode(address, MAX_BECH32_LIMIT)
+    payload = new Uint8Array(bech32m.fromWords(new Uint8Array(decoded.words)))
+  }
+  try {
+    isPayloadValid(payload)
   } catch (err) {
-    throw new AddressException(address, err.type)
+    throw new AddressException(address, err.stack, err.type)
   }
   return encode === 'binary' ? payload : bytesToHex(payload)
 }
@@ -161,6 +264,20 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
 export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)
   const type = payload[0]
+
+  if (type === +AddressType.FullVersion) {
+    const HASH_TYPE: Record<string, CKBComponents.ScriptHashType> = {
+      '00': 'data',
+      '01': 'type',
+      '02': 'data1',
+    }
+    const p = bytesToHex(payload)
+
+    const codeHash = `0x${p.substr(4, 64)}`
+    const hashType = HASH_TYPE[p.substr(68, 2)]
+    const args = `0x${p.substr(70)}`
+    return { codeHash, hashType, args }
+  }
 
   if (type === +AddressType.HashIdx) {
     const codeHashIndices = [

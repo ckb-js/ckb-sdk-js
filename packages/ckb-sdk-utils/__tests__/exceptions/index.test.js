@@ -1,7 +1,7 @@
 const exceptions = require('../../lib/exceptions')
 const fixtures = require('./fixtures.json')
 
-describe.only('Test exceptions', () => {
+describe('Test exceptions', () => {
   const fixtureTable = Object.entries(fixtures).map(([exceptionName, { params, expected }]) => [
     exceptionName,
     params,
