@@ -34,7 +34,7 @@ declare module RPC {
     Committed = 'committed',
   }
 
-  export type ScriptHashType = 'data' | 'type'
+  export type ScriptHashType = CKBComponents.ScriptHashType
 
   export type DepType = 'code' | 'dep_group'
 
