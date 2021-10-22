@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.101.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.43.0...v0.101.0) (2021-10-25)
+
+
+### Features
+
+* extends hash_type to 'data' | 'type' | 'data1' ([#555](https://github.com/nervosnetwork/ckb-sdk-js/issues/555)) ([30c49e8](https://github.com/nervosnetwork/ckb-sdk-js/commit/30c49e8960a704eb76dd0c5e0d8f370212a84a6d))
+
+
+
+
+
 # [0.43.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.41.1...v0.43.0) (2021-06-29)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

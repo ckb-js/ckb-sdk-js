@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.101.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.43.0...v0.101.0) (2021-10-25)
+
+
+### Features
+
+* **rpc:** rename 'uncles_hash' to 'extra_hash' in block header ([58c055c](https://github.com/nervosnetwork/ckb-sdk-js/commit/58c055c4b25fbd1f7abf78c334ca27e6c2566623))
+
+
+### BREAKING CHANGES
+
+* **rpc:** The field 'uncles_hash' in block header is renamed to 'extra_hash'
+
+ref: https://github.com/nervosnetwork/rfcs/pull/224
+
+
+
+
+
 # [0.43.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.41.1...v0.43.0) (2021-06-29)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
