@@ -46,7 +46,7 @@ describe('Test with mock', () => {
               proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               timestamp: '0x5cd2b117',
               transactions_root: '0xc47d5b78b3c4c4c853e2a32810818940d0ee403423bea9ec7b8e566d9595206c',
-              uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               version: '0x0',
             },
             proposals: [],
@@ -83,6 +83,7 @@ describe('Test with mock', () => {
               },
             ],
             uncles: [],
+            extension: '0x636b62',
           },
         },
       })
@@ -105,7 +106,7 @@ describe('Test with mock', () => {
           proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
           timestamp: '0x5cd2b117',
           transactionsRoot: '0xc47d5b78b3c4c4c853e2a32810818940d0ee403423bea9ec7b8e566d9595206c',
-          unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+          extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
           version: '0x0',
         },
         proposals: [],
@@ -142,6 +143,7 @@ describe('Test with mock', () => {
           },
         ],
         uncles: [],
+        extension: '0x636b62',
       })
     })
     it('tx pool info', async () => {
@@ -635,6 +637,15 @@ describe('Test with mock', () => {
             tx_proposal_window: { closest: '0x2', farthest: '0xa' },
             tx_version: '0x0',
             type_id_code_hash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+            hardfork_features: [
+              { epoch_number: '0x0', rfc: '0028' },
+              { epoch_number: '0x0', rfc: '0029' },
+              { epoch_number: '0x0', rfc: '0030' },
+              { epoch_number: '0x0', rfc: '0031' },
+              { epoch_number: '0x0', rfc: '0032' },
+              { epoch_number: '0x0', rfc: '0036' },
+              { epoch_number: '0x0', rfc: '0038' },
+            ],
           },
         },
       })
@@ -669,6 +680,15 @@ describe('Test with mock', () => {
         txProposalWindow: { closest: '0x2', farthest: '0xa' },
         txVersion: '0x0',
         typeIdCodeHash: '0x00000000000000000000000000000000000000000000000000545950455f4944',
+        hardforkFeatures: [
+          { epochNumber: '0x0', rfc: '0028' },
+          { epochNumber: '0x0', rfc: '0029' },
+          { epochNumber: '0x0', rfc: '0030' },
+          { epochNumber: '0x0', rfc: '0031' },
+          { epochNumber: '0x0', rfc: '0032' },
+          { epochNumber: '0x0', rfc: '0036' },
+          { epochNumber: '0x0', rfc: '0038' },
+        ],
       })
     })
 
@@ -829,7 +849,7 @@ describe('Test with mock', () => {
               proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               timestamp: '0x172a8804ad1',
               transactions_root: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-              uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               version: '0x0',
             },
             proposals: [],
@@ -890,7 +910,7 @@ describe('Test with mock', () => {
           proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
           timestamp: '0x172a8804ad1',
           transactionsRoot: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-          unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+          extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
           version: '0x0',
         },
         proposals: [],
@@ -945,7 +965,7 @@ describe('Test with mock', () => {
             proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             timestamp: '0x172a8804ad1',
             transactions_root: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-            uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             version: '0x0',
           },
           id,
@@ -969,7 +989,7 @@ describe('Test with mock', () => {
         proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         timestamp: '0x172a8804ad1',
         transactionsRoot: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-        unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         version: '0x0',
       })
     })
@@ -1307,7 +1327,7 @@ describe('Test with mock', () => {
             proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             timestamp: '0x172a8804ad1',
             transactions_root: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-            uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             version: '0x0',
           },
           id,
@@ -1331,7 +1351,7 @@ describe('Test with mock', () => {
         proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         timestamp: '0x172a8804ad1',
         transactionsRoot: '0xcde937f363e195a97467061a45a6b5b318da02fc3fec5e76ab298e41ace0b7a1',
-        unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         version: '0x0',
       })
     })
@@ -1352,7 +1372,7 @@ describe('Test with mock', () => {
             proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             timestamp: '0x1725940cb91',
             transactions_root: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
-            uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
             version: '0x0',
           },
           id,
@@ -1376,7 +1396,7 @@ describe('Test with mock', () => {
         proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         timestamp: '0x1725940cb91',
         transactionsRoot: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
-        unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         version: '0x0',
       })
     })
@@ -1539,7 +1559,7 @@ describe('Test with mock', () => {
                   proposals_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
                   timestamp: '0x1725940cb91',
                   transactions_root: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
-                  uncles_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                  extra_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
                   version: '0x0',
                 },
                 proposals: [],
@@ -1617,7 +1637,7 @@ describe('Test with mock', () => {
               proposalsHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               timestamp: '0x1725940cb91',
               transactionsRoot: '0xcd95e31e21734fb796de0070407c1d4f91ec00d699f840e5ad9aa293443744e6',
-              unclesHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              extraHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
               version: '0x0',
             },
             proposals: [],
@@ -1671,12 +1691,22 @@ describe('Test with mock', () => {
 
   describe('ckb-rpc errors', () => {
     it('throw raw error', async () => {
-      expect(() => rpc.getBlock(0)).toThrow('Expect hash to be string, but 0 received')
+      expect.assertions(1)
+      try {
+        await rpc.getBlock(0)
+      } catch (err) {
+        expect(err.message).toEqual('Expect hash to be string, but 0 received')
+      }
     })
 
     describe('batch request', () => {
       it('should throw method not found error', () => {
-        expect(() => rpc.createBatchRequest([['Unknown', []]])).toThrow('[Batch Request]: Method Unknown is not found')
+        expect.assertions(1)
+        try {
+          rpc.createBatchRequest([['Unknown', []]])
+        } catch (err) {
+          expect(err.message).toEqual('[Batch Request]: Method Unknown is not found')
+        }
       })
 
       describe('should throw errors with index', () => {

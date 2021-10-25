@@ -38,14 +38,28 @@
     "params": ["Invalid Payload", "short"],
     "expected": {
       "code": 104,
-      "message": "Invalid Payload is not a valid short version address payload"
+      "message": "'Invalid Payload' is not a valid short version address payload"
     }
   },
   "AddressException": {
-    "params": ["Invalid Address", "full"],
+    "params": ["Invalid Address", "", "full"],
     "expected": {
       "code": 104,
-      "message": "Invalid Address is not a valid full version address"
+      "message": "'Invalid Address' is not a valid full version address"
+    }
+  },
+  "CodeHashException": {
+    "params": ["0x"],
+    "expected": {
+      "code": 104,
+      "message": "'0x' is not a valid code hash"
+    }
+  },
+  "HashTypeException": {
+    "params": ["0x03"],
+    "expected": {
+      "code": 104,
+      "message": "'0x03' is not a valid hash type"
     }
   },
   "OutLenTooSmallException": {

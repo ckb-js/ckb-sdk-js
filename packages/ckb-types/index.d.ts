@@ -30,9 +30,10 @@ declare namespace CKBComponents {
     Committed = 'committed',
   }
 
-  export type ScriptHashType = 'data' | 'type'
+  export type ScriptHashType = 'data' | 'type' | 'data1'
 
   export type DepType = 'code' | 'depGroup'
+  export type JsonBytes = string
 
   /**
    * @typedef Bytes, keep consistent with CKB
@@ -199,7 +200,7 @@ declare namespace CKBComponents {
    * @property nonce
    * @property timestamp
    * @property transactionsRoot
-   * @property unclesHash
+   * @property extraHash
    * @property version
    */
   export interface BlockHeader {
@@ -213,7 +214,7 @@ declare namespace CKBComponents {
     nonce: Nonce
     timestamp: Timestamp
     transactionsRoot: Hash256
-    unclesHash: Hash256
+    extraHash: Hash256
     version: Version
   }
 
@@ -234,12 +235,14 @@ declare namespace CKBComponents {
    * @property uncles, uncle blocks
    * @property transactions
    * @property proposals
+   * @property extension
    */
   export interface Block {
     header: BlockHeader
     uncles: UncleBlock[]
     transactions: Transaction[]
     proposals: ProposalShortId[]
+    extension?: JsonBytes | null
   }
 
   /**
@@ -474,6 +477,7 @@ declare namespace CKBComponents {
   export interface Consensus {
     id: string
     genesisHash: Hash256
+    hardforkFeatures: Array<{ rfc: string; epochNumber: string | null }>
     daoTypeHash: Hash256 | null
     secp256k1Blake160SighashAllTypeHash: Hash256 | null
     secp256k1Blake160MultisigAllTypeHash: Hash256 | null

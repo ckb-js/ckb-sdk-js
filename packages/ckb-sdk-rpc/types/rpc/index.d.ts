@@ -26,6 +26,7 @@ declare module RPC {
   export type RationalU256 = CKBComponents.RationalU256
   export type ProposalWindow = CKBComponents.ProposalWindow
   export type EpochNumberWithFraction = CKBComponents.EpochNumberWithFraction
+  export type JsonBytes = CKBComponents.JsonBytes
 
   enum TransactionStatus {
     Pending = 'pending',
@@ -33,7 +34,7 @@ declare module RPC {
     Committed = 'committed',
   }
 
-  export type ScriptHashType = 'data' | 'type'
+  export type ScriptHashType = CKBComponents.ScriptHashType
 
   export type DepType = 'code' | 'dep_group'
 
@@ -141,7 +142,7 @@ declare module RPC {
     nonce: CKBComponents.Nonce
     timestamp: Timestamp
     transactions_root: Hash256
-    uncles_hash: Hash256
+    extra_hash: Hash256
     version: Version
   }
 
@@ -155,6 +156,7 @@ declare module RPC {
     uncles: UncleBlock[]
     transactions: Transaction[]
     proposals: ProposalShortId[]
+    extension?: JsonBytes | null
   }
 
   export interface AlertMessage {
@@ -314,6 +316,7 @@ declare module RPC {
   export interface Consensus {
     id: string
     genesis_hash: Hash256
+    hardfork_features: Array<{ rfc: string; epoch_number: string | null }>
     dao_type_hash: Hash256 | null
     secp256k1_blake160_sighash_all_type_hash: Hash256 | null
     secp256k1_blake160_multisig_all_type_hash: Hash256 | null

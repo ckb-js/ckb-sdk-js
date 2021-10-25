@@ -8,13 +8,20 @@ const formatter = {
   toHash: (hash: RPC.Hash256): CKBComponents.Hash256 => hash,
   toHeader: (header: RPC.Header): CKBComponents.BlockHeader => {
     if (!header) return header
-    const { compact_target, transactions_root, proposals_hash, uncles_hash, parent_hash, ...rest } = header
+    const {
+      compact_target: compactTarget,
+      transactions_root: transactionsRoot,
+      proposals_hash: proposalsHash,
+      extra_hash: extraHash,
+      parent_hash: parentHash,
+      ...rest
+    } = header
     return {
-      compactTarget: compact_target,
-      parentHash: parent_hash,
-      transactionsRoot: transactions_root,
-      proposalsHash: proposals_hash,
-      unclesHash: uncles_hash,
+      compactTarget,
+      parentHash,
+      transactionsRoot,
+      proposalsHash,
+      extraHash,
       ...rest,
     }
   },
@@ -408,6 +415,9 @@ const formatter = {
       txProposalWindow: consensus.tx_proposal_window,
       txVersion: consensus.tx_version,
       typeIdCodeHash: consensus.type_id_code_hash,
+      hardforkFeatures:
+        consensus.hardfork_features?.map(({ epoch_number: epochNumber, ...rest }) => ({ epochNumber, ...rest })) ??
+        consensus.hardfork_features,
     }
   },
   toRawTxPool: (rawTxPool: RPC.RawTxPool): CKBComponents.RawTxPool => {
