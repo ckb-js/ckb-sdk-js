@@ -10,7 +10,7 @@
     "cm": "git-cz",
     "build:lib": "lerna run tsc",
     "clean:lib": "rimraf **/packages/*/lib",
-    "docs": "typedoc --out docs --entryPointStrategy packages 'packages/*' packages/ckb-types/index.d.ts --name CKB-SDK.js --excludeExternals --theme default --readme README.md --readme README.md",
+    "docs": "typedoc --out docs --entryPointStrategy packages 'packages/*' --name CKB-SDK.js --excludeExternals --theme default --readme README.md",
     "publish": "lerna run tsc && lerna publish --from-package",
     "test": "jest --coverage"
   },
