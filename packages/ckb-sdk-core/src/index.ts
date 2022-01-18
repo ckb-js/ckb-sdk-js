@@ -130,6 +130,80 @@ class CKB {
     }
   }
 
+  /**
+   * @description Generate a raw transaction object to sign
+   * @param {object} txObject, 1-1 tx or m-n tx
+   * @returns rawTxToSign
+   * @example 1-1 tx
+   *```
+   *          {
+   *            fromAddress:          Address, specify the address of inputs
+   *            toAddress:            Address, specify the address included in outputs
+   *            capacity:             Capacity, specify the value to transfer in this tx
+   * 
+   *            cells?:               Array<RawTransactionParams.Cell>, provide
+   *                                  live cells to generate input cells in this tx
+   * 
+   *            fee?:                 Fee, specify the fee or fee reconciler
+   *                                  along with this tx, fee reconciler allows
+   *                                  fee calculation on the fly
+   * 
+   *            safeMode:             boolean, specify whether to skip cell
+   *                                  containing data or type script or not,
+   *                                  default to be true
+   * 
+   *            deps:                 DepCellInfo | Array<DepCellInfo>
+   *                                  specify deps included in this tx, filling
+   *                                  in the `cellDeps` field of a raw tx
+   * 
+   *            capacityThreshold?:   Capacity, specify the minimal capacity of
+   *                                  each outputs, default to be 6_100_000_000
+   *                                  shannon(61 CKB) for a bare cell
+   * 
+   *            changeThreshold?:     Capacity, specify the minimal capacity of
+   *                                  the change cell, default to be 6_100_000_000
+   *                                  shannon(61 CKB) for a bare cell, useful on
+   *                                  sending a tx without change by setting it 0
+   * 
+   *            changeLockScript?:    CKBComponents.Script, specify the change
+   *                                  receiver of this tx, default to be the owner
+   *                                  of the first input
+   * 
+   *            witnesses?:           Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
+   *                                  specify the witness list of this tx
+   * 
+   *            outputsData?:         Array<string>, specify the output data list
+   *                                  of this tx
+   *          }
+   * ```
+   * @example m-n tx
+   * ```
+   *          {
+   *            fromAddresses:        Address[], specify the address of inputs
+   * 
+   *            receivePairs:         Array<{ 
+   *                                    address: Address;
+   *                                    capacity: Capacity;
+   *                                    type?: CKBComponents.Script | null
+   *                                  }>
+   *                                  specify address, capacity and type lock 
+   *                                  of outputs
+   * 
+   *            cells:                Map<LockHash, RawTransactionParams.Cell[]>
+   *                                  provide live cells to generate input cells
+   *                                  in this tx
+   * 
+   *            fee?:                 same as that in 1-1 tx
+   *            safeMode:             same as that in 1-1 tx
+   *            deps:                 same as that in 1-1 tx
+   *            capacityThreshold?:   same as that in 1-1 tx
+   *            changeThreshold?:     same as that in 1-1 tx
+   *            changeLockScript?:    same as that in 1-1 tx
+   *            witnesses?:           same as that in 1-1 tx
+   *            outputsData?:         same as that in 1-1 tx
+   *          }
+   * ```
+   */
   public generateRawTransaction = ({
     fee,
     safeMode = true,
