@@ -36,9 +36,9 @@ jobs:
         run: |
           lerna run tsc
           echo "module.exports = require('@nervosnetwork/ckb-sdk-core').default;" > ./packages/ckb-sdk-core/ckb.js
-          npx browserify ./packages/ckb-sdk-core/ckb.js -o ./ckb-sdk.js
+          npx browserify ./packages/ckb-sdk-core/ckb.js -o ./ckb-sdk.js -s CKBCore
           npx terser --compress --mangle -o ckb-sdk.min.js -- ckb-sdk.js
-      
+
       - name: Upload Files
         uses: actions/upload-artifact@v2
         with:
