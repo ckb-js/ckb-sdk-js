@@ -14,7 +14,7 @@
 
 JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
-The ckb-sdk-js is still under development and NOT production ready. You should get familiar with CKB transaction structure and RPC before using it.
+The ckb-sdk-js is still under development and aim for providing low-level APIs of data construction. You should get familiar with CKB transaction structure and RPCs before using it and design your own DApp SDK based on this one.
 
 <details>
 <summary>ToC</summary>
