@@ -9,6 +9,7 @@
     "tsc": "lerna run tsc",
     "cm": "git-cz",
     "build:lib": "lerna run tsc",
+    "build:umd": "./scripts/bundle-umd.sh",
     "clean:lib": "rimraf **/packages/*/lib",
     "docs": "typedoc --out docs --entryPointStrategy packages 'packages/*' --name CKB-SDK.js --excludeExternals --theme default --readme README.md",
     "publish": "lerna run tsc && lerna publish --from-package",
