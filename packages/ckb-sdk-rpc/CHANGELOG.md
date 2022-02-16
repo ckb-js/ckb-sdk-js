@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.102.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.101.0...v0.102.0) (2022-02-16)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc
+
+
+
+
+
 # [0.101.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.43.0...v0.101.0) (2021-10-25)
 
 
