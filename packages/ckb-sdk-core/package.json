@@ -9,10 +9,12 @@
   "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
+    "umd": "umd",
     "test": "__tests__"
   },
   "files": [
     "lib",
+    "umd",
     "types"
   ],
   "publishConfig": {
