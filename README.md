@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg)](./LICENSE)
 [![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
 [![SNYK](https://github.com/nervosnetwork/ckb-sdk-js/workflows/SNYK/badge.svg)](https://github.com/nervosnetwork/ckb-sdk-js/actions?query=workflow%3ASNYK)
-[![Deploy Docs](https://github.com/nervosnetwork/ckb-sdk-js/workflows/Deploy%20Docs/badge.svg)](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckb.html)
+[![Deploy Docs](https://github.com/nervosnetwork/ckb-sdk-js/workflows/Deploy%20Docs/badge.svg)](https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html)
 
 JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
