@@ -4,7 +4,7 @@ import { hexToBytes } from './convertors'
 import { pubkeyToAddress, AddressOptions } from './address'
 import { ParameterRequiredException } from './exceptions'
 import crypto from './crypto'
-import { serializeScript } from './serialization/script'
+import { serializeOutput, serializeScript } from './serialization';
 import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
 import { PERSONAL } from './const'
 
@@ -44,3 +44,29 @@ export const privateKeyToPublicKey = (privateKey: string) => {
 
 export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
   pubkeyToAddress(privateKeyToPublicKey(privateKey), options)
+
+export const calculateMaximumWithdraw = (
+  depositCell: CKBComponents.CellOutput,
+  depositAr: string,
+  withdrawAr: string
+) => {
+    const depositCellSerialized = serializeOutput(depositCell).slice(2).length / 2;
+    console.log(depositCellSerialized);
+    const occupiedCapacity = JSBI.asUintN(
+      64,
+      JSBI.multiply(JSBI.BigInt(100000000), JSBI.BigInt(depositCellSerialized))
+    );
+    return JSBI.add(
+      JSBI.divide(
+        JSBI.multiply(
+          JSBI.subtract(
+            JSBI.asUintN(64, JSBI.BigInt(depositCell.capacity)),
+            occupiedCapacity
+          ),
+          JSBI.asUintN(64, JSBI.BigInt(withdrawAr))
+        ),
+        JSBI.asUintN(64, JSBI.BigInt(depositAr))
+      ),
+      occupiedCapacity
+    ).toString()
+}

@@ -432,21 +432,7 @@ class CKB {
     const depositAr = this.#extracDaoData(depositHeader.dao).ar
     const withDrawHeader = await this.rpc.getHeader(withdrawBlockHash)
     const withdrawAr = this.#extracDaoData(withDrawHeader.dao).ar
-    const { JSBI } = this.utils
-    const occupiedCapacity = JSBI.asUintN(64, JSBI.BigInt(10200000000));
-    return JSBI.add(
-      JSBI.divide(
-        JSBI.multiply(
-          JSBI.subtract(
-            JSBI.asUintN(64, JSBI.BigInt(depositCell.capacity)),
-            occupiedCapacity
-          ),
-          JSBI.asUintN(64, JSBI.BigInt(withdrawAr))
-        ),
-        JSBI.asUintN(64, JSBI.BigInt(depositAr))
-      ),
-      occupiedCapacity
-    ).toString()
+    return utils.calculateMaximumWithdraw(depositCell, depositAr, withdrawAr);
   }
 
   #extracDaoData = (dao: CKBComponents.DAO) => {
