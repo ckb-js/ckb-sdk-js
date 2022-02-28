@@ -1,7 +1,7 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException, HexStringWithout0xException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
@@ -417,6 +417,49 @@ class CKB {
           outputType: '',
         },
       ],
+    }
+  }
+
+  public calculateDaoMaximumWithdraw = async (
+      outPoint: CKBComponents.OutPoint,
+      withdrawBlockHash: string
+  ): Promise<string> => {
+    const depositTx = await this.rpc.getTransaction(outPoint.txHash)
+    if (depositTx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+    const depositCell = depositTx.transaction.outputs[+outPoint.index]
+    const depositBlockHash = depositTx.txStatus.blockHash
+    const depositHeader = await this.rpc.getHeader(depositBlockHash)
+    const depositAr = this.#extracDaoData(depositHeader.dao).ar
+    const withDrawHeader = await this.rpc.getHeader(withdrawBlockHash)
+    const withdrawAr = this.#extracDaoData(withDrawHeader.dao).ar
+    const { JSBI } = this.utils
+    const occupiedCapacity = JSBI.asUintN(64, JSBI.BigInt(10200000000));
+    return JSBI.add(
+      JSBI.divide(
+        JSBI.multiply(
+          JSBI.subtract(
+            JSBI.asUintN(64, JSBI.BigInt(depositCell.capacity)),
+            occupiedCapacity
+          ),
+          JSBI.asUintN(64, JSBI.BigInt(withdrawAr))
+        ),
+        JSBI.asUintN(64, JSBI.BigInt(depositAr))
+      ),
+      occupiedCapacity
+    ).toString()
+  }
+
+  #extracDaoData = (dao: CKBComponents.DAO) => {
+    if (!dao.startsWith('0x')) {
+      throw new HexStringWithout0xException(dao)
+    }
+    const value = dao.replace('0x', '');
+    const toBigEndian = utils.toBigEndian;
+    return {
+      c: toBigEndian(`0x${value.slice(0, 8)}`),
+      ar: toBigEndian(`0x${value.slice(16, 32)}`),
+      s: toBigEndian(`0x${value.slice(32, 48)}`),
+      u: toBigEndian(`0x${value.slice(48, 64)}`)
     }
   }
 
