@@ -51,7 +51,6 @@ export const calculateMaximumWithdraw = (
   withdrawAr: string
 ) => {
     const depositCellSerialized = serializeOutput(depositCell).slice(2).length / 2;
-    console.log(depositCellSerialized);
     const occupiedCapacity = JSBI.asUintN(
       64,
       JSBI.multiply(JSBI.BigInt(100000000), JSBI.BigInt(depositCellSerialized))

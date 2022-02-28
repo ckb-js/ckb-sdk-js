@@ -1,4 +1,4 @@
-const { privateKeyToPublicKey, privateKeyToAddress, scriptToHash, rawTransactionToHash } = require('../..')
+const { privateKeyToPublicKey, privateKeyToAddress, scriptToHash, rawTransactionToHash, calculateMaximumWithdraw } = require('../..')
 const exceptions = require('../../lib/exceptions')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 
@@ -81,4 +81,26 @@ describe('privateKeyToAddress', () => {
       prefix: 'ckt',
     }),
   ).toBe(fixture.testnetAddress)
+})
+
+describe('calculate-maximum-withdraw', () => {
+  const outputCell = {
+    "capacity":"0xe8d4a51000",
+    "lock":{
+        "args":"0xf601cac75568afec3b9c9af1e1ff730062007685",
+        "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+        "hashType":"type"
+    },
+    "type":{
+        "args":"0x",
+        "codeHash":"0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e",
+        "hashType":"type"
+    }
+  };
+  expect(
+    calculateMaximumWithdraw(
+    outputCell,
+    '0x0025c969c0e8f93e',
+    '0x0025cb34dbf9c694'
+  )).toBe('1000182611968')
 })

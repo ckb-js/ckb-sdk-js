@@ -71,7 +71,7 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
  export const toBigEndian = (leHex: string) => {
   assertToBeHexString(leHex)
   const bytes = hexToBytes(leHex);
-  return `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16), '')}`
+  return `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16).padStart(2, '0'), '')}`
 }
 
 export const bytesToHex = (bytes: Uint8Array): string =>
