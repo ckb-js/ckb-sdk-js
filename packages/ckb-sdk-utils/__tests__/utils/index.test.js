@@ -1,4 +1,4 @@
-const { privateKeyToPublicKey, privateKeyToAddress, scriptToHash, rawTransactionToHash, calculateMaximumWithdraw } = require('../..')
+const { privateKeyToPublicKey, privateKeyToAddress, scriptToHash, rawTransactionToHash, calculateMaximumWithdraw, extractDAOData } = require('../..')
 const exceptions = require('../../lib/exceptions')
 const rawTransactionToHashFixtures = require('./rawTransactionToHash.fixtures.json')
 
@@ -100,7 +100,15 @@ describe('calculate-maximum-withdraw', () => {
   expect(
     calculateMaximumWithdraw(
     outputCell,
-    '0x0025c969c0e8f93e',
-    '0x0025cb34dbf9c694'
+    '0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407',
+    '0x9bafffa73e432e3c94c6f9db34cb25009f9e4efe4b5fd60200ea63c6d4ffb407'
   )).toBe('1000182611968')
+})
+
+describe('extract header dao', () => {
+  const DAOData = extractDAOData('0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407');
+  expect(DAOData.c).toBe('0x3c227c84a62caf1a');
+  expect(DAOData.ar).toBe('0x0025c969c0e8f93e');
+  expect(DAOData.s).toBe('0x02d3e211632a2120');
+  expect(DAOData.u).toBe('0x07b46e3949936000');
 })

@@ -1,8 +1,8 @@
 import JSBI from 'jsbi'
 import ECPair from './ecpair'
-import { hexToBytes } from './convertors'
+import { hexToBytes, toBigEndian } from './convertors'
 import { pubkeyToAddress, AddressOptions } from './address'
-import { ParameterRequiredException } from './exceptions'
+import { ParameterRequiredException, HexStringWithout0xException } from './exceptions'
 import crypto from './crypto'
 import { serializeOutput, serializeScript } from './serialization';
 import { serializeRawTransaction, serializeTransaction, serializeWitnessArgs } from './serialization/transaction'
@@ -45,10 +45,24 @@ export const privateKeyToPublicKey = (privateKey: string) => {
 export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
   pubkeyToAddress(privateKeyToPublicKey(privateKey), options)
 
+
+export const extractDAOData = (dao: CKBComponents.DAO) => {
+  if (!dao.startsWith('0x')) {
+    throw new HexStringWithout0xException(dao)
+  }
+  const value = dao.replace('0x', '');
+  return {
+    c: toBigEndian(`0x${value.slice(0, 16)}`),
+    ar: toBigEndian(`0x${value.slice(16, 32)}`),
+    s: toBigEndian(`0x${value.slice(32, 48)}`),
+    u: toBigEndian(`0x${value.slice(48, 64)}`)
+  }
+}
+
 export const calculateMaximumWithdraw = (
   depositCell: CKBComponents.CellOutput,
-  depositAr: string,
-  withdrawAr: string
+  depositDAO: CKBComponents.DAO,
+  withdrawDAO: CKBComponents.DAO
 ) => {
     const depositCellSerialized = serializeOutput(depositCell).slice(2).length / 2;
     const occupiedCapacity = JSBI.asUintN(
@@ -62,9 +76,9 @@ export const calculateMaximumWithdraw = (
             JSBI.asUintN(64, JSBI.BigInt(depositCell.capacity)),
             occupiedCapacity
           ),
-          JSBI.asUintN(64, JSBI.BigInt(withdrawAr))
+          JSBI.asUintN(64, JSBI.BigInt(extractDAOData(withdrawDAO).ar))
         ),
-        JSBI.asUintN(64, JSBI.BigInt(depositAr))
+        JSBI.asUintN(64, JSBI.BigInt(extractDAOData(depositDAO).ar))
       ),
       occupiedCapacity
     ).toString()

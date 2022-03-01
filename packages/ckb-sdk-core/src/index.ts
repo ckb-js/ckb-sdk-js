@@ -1,7 +1,7 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { ParameterRequiredException, HexStringWithout0xException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
 import generateRawTransaction from './generateRawTransaction'
@@ -428,25 +428,11 @@ class CKB {
     if (depositTx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
     const depositCell = depositTx.transaction.outputs[+outPoint.index]
     const depositBlockHash = depositTx.txStatus.blockHash
-    const depositHeader = await this.rpc.getHeader(depositBlockHash)
-    const depositAr = this.#extracDaoData(depositHeader.dao).ar
-    const withDrawHeader = await this.rpc.getHeader(withdrawBlockHash)
-    const withdrawAr = this.#extracDaoData(withDrawHeader.dao).ar
-    return utils.calculateMaximumWithdraw(depositCell, depositAr, withdrawAr);
-  }
-
-  #extracDaoData = (dao: CKBComponents.DAO) => {
-    if (!dao.startsWith('0x')) {
-      throw new HexStringWithout0xException(dao)
-    }
-    const value = dao.replace('0x', '');
-    const toBigEndian = utils.toBigEndian;
-    return {
-      c: toBigEndian(`0x${value.slice(0, 8)}`),
-      ar: toBigEndian(`0x${value.slice(16, 32)}`),
-      s: toBigEndian(`0x${value.slice(32, 48)}`),
-      u: toBigEndian(`0x${value.slice(48, 64)}`)
-    }
+    const [depositHeader, withDrawHeader] = await Promise.all([
+      this.rpc.getHeader(depositBlockHash),
+      this.rpc.getHeader(withdrawBlockHash)
+    ])
+    return utils.calculateMaximumWithdraw(depositCell, depositHeader.dao, withDrawHeader.dao);
   }
 
   #secp256k1DepsShouldBeReady = () => {
