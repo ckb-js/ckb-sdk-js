@@ -176,4 +176,44 @@ describe('ckb', () => {
       expect(tx).toEqual(expected)
     })
   })
+
+  describe('calculate dao maximum withdraw', () => {
+    it('normal', async () => {
+      ckb.rpc = {
+        getTransaction: jest.fn().mockResolvedValueOnce({
+          txStatus: { status: 'committed' },
+          transaction: {
+            outputs: [
+              {
+                "capacity":"0xe8d4a51000",
+                "lock":{
+                    "args":"0xf601cac75568afec3b9c9af1e1ff730062007685",
+                    "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                    "hashType":"type"
+                },
+                "type":{
+                    "args":"0x",
+                    "codeHash":"0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e",
+                    "hashType":"type"
+                }
+              }
+            ]
+          }
+        }),
+        getHeader: jest.fn()
+          .mockResolvedValueOnce({ dao: '0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407' })
+          .mockResolvedValueOnce({ dao: '0x9bafffa73e432e3c94c6f9db34cb25009f9e4efe4b5fd60200ea63c6d4ffb407' })
+      }
+      const res = await ckb.calculateDaoMaximumWithdraw({ tx: '', index: '0x0' }, '')
+      expect(res).toBe('1000182611968');
+      ckb.rpc = rpc;
+    })
+    it('exception', async () => {
+      ckb.rpc = {
+        getTransaction: jest.fn().mockResolvedValueOnce({ txStatus: {}})
+      }
+      await expect(ckb.calculateDaoMaximumWithdraw({ tx: '', index: '0x0' }, '')).rejects.toThrow('Transaction is not committed yet')
+      ckb.rpc = rpc;
+    })
+  })
 })
