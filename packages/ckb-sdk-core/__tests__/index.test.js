@@ -178,7 +178,7 @@ describe('ckb', () => {
   })
 
   describe('calculate dao maximum withdraw', () => {
-    it('normal', async () => {
+    it('normal withdraw hash', async () => {
       ckb.rpc = {
         getTransaction: jest.fn().mockResolvedValueOnce({
           txStatus: { status: 'committed' },
@@ -197,7 +197,8 @@ describe('ckb', () => {
                     "hashType":"type"
                 }
               }
-            ]
+            ],
+            outputsData: ["0x0000000000000000","0x"]
           }
         }),
         getHeader: jest.fn()
@@ -205,7 +206,93 @@ describe('ckb', () => {
           .mockResolvedValueOnce({ dao: '0x9bafffa73e432e3c94c6f9db34cb25009f9e4efe4b5fd60200ea63c6d4ffb407' })
       }
       const res = await ckb.calculateDaoMaximumWithdraw({ tx: '', index: '0x0' }, '')
-      expect(res).toBe('1000182611968');
+      expect(res).toBe('1000183501854');
+      ckb.rpc = rpc;
+    })
+    it('another normal withdraw hash', async () => {
+      ckb.rpc = {
+        getTransaction: jest.fn().mockResolvedValueOnce({
+            "transaction":{
+                "outputs":[
+                    {
+                        "capacity":"0x6fc23ac00",
+                        "lock":{
+                            "args":"0x4cc2e6526204ae6a2e8fcf12f7ad472f41a1606d5b9624beebd215d780809f6aa10000001000000030000000990000009cdfb2824302e0cd0ee1fb4ac9849c8c2348ab84f2e7d2c6e12e8b6f5f5f378d69000000100000003000000031000000deec13a7b8e100579541384ccaf4b5223733e4a5483c3aec95ddc4c1d5ea5b2201340000004cc2e6526204ae6a2e8fcf12f7ad472f41a1606d5b9624beebd215d780809f6a153ab336340f7985b8b9e412b7968fedabd69a9cb0040000000000c0",
+                            "codeHash":"0x5a2506bb68d81a11dcadad4cb7eae62a17c43c619fe47ac8037bc8ce2dd90360",
+                            "hashType":"type"
+                        },
+                        "type":null
+                    },
+                    {
+                        "capacity":"0x83e607de09",
+                        "lock":{
+                            "args":"0x2718f00d61e6fb37eed98cfdf6b30bde38cad8f6",
+                            "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                            "hashType":"type"
+                        },
+                        "type":null
+                    }
+                ],
+                "outputsData":[
+                    "0x",
+                    "0x"
+                ],
+            },
+            "txStatus":{
+                "blockHash":"0x8c14f374c5934613dbb0f9cbebb0edaabe259291a08e2dd3afbb291b1b8be359",
+                "reason":null,
+                "status":"committed"
+            }
+        }),
+        getHeader: jest.fn()
+          .mockResolvedValueOnce({ dao: '0x7e9a4d29f532433cb8dbe56b64ce2500b4c9c67a3fccda020098a1f224a4b707' })
+          .mockResolvedValueOnce({ dao: '0xd87090655733433c2395d67a64ce2500d73e963e54ccda0200f244c504a4b707' })
+      }
+      const res = await ckb.calculateDaoMaximumWithdraw({index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'}, '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691')
+      expect(res).toBe('30000000155');
+      ckb.rpc = rpc;
+    })
+    it('normal withdraw outputpoint', async () => {
+      ckb.rpc = {
+        getTransaction: jest.fn().mockResolvedValue({
+            "transaction":{
+                "outputs":[
+                    {
+                        "capacity":"0x6fc23ac00",
+                        "lock":{
+                            "args":"0x4cc2e6526204ae6a2e8fcf12f7ad472f41a1606d5b9624beebd215d780809f6aa10000001000000030000000990000009cdfb2824302e0cd0ee1fb4ac9849c8c2348ab84f2e7d2c6e12e8b6f5f5f378d69000000100000003000000031000000deec13a7b8e100579541384ccaf4b5223733e4a5483c3aec95ddc4c1d5ea5b2201340000004cc2e6526204ae6a2e8fcf12f7ad472f41a1606d5b9624beebd215d780809f6a153ab336340f7985b8b9e412b7968fedabd69a9cb0040000000000c0",
+                            "codeHash":"0x5a2506bb68d81a11dcadad4cb7eae62a17c43c619fe47ac8037bc8ce2dd90360",
+                            "hashType":"type"
+                        },
+                        "type":null
+                    },
+                    {
+                        "capacity":"0x83e607de09",
+                        "lock":{
+                            "args":"0x2718f00d61e6fb37eed98cfdf6b30bde38cad8f6",
+                            "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                            "hashType":"type"
+                        },
+                        "type":null
+                    }
+                ],
+                "outputsData":[
+                    "0x",
+                    "0x"
+                ],
+            },
+            "txStatus":{
+                "blockHash":"0x8c14f374c5934613dbb0f9cbebb0edaabe259291a08e2dd3afbb291b1b8be359",
+                "reason":null,
+                "status":"committed"
+            }
+        }),
+        getHeader: jest.fn()
+          .mockResolvedValueOnce({ dao: '0x7e9a4d29f532433cb8dbe56b64ce2500b4c9c67a3fccda020098a1f224a4b707' })
+          .mockResolvedValueOnce({ dao: '0xd87090655733433c2395d67a64ce2500d73e963e54ccda0200f244c504a4b707' })
+      }
+      const res = await ckb.calculateDaoMaximumWithdraw({index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'}, '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691')
+      expect(res).toBe('30000000155');
       ckb.rpc = rpc;
     })
     it('exception', async () => {

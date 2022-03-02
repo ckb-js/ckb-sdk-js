@@ -421,18 +421,34 @@ class CKB {
   }
 
   public calculateDaoMaximumWithdraw = async (
-      outPoint: CKBComponents.OutPoint,
-      withdrawBlockHash: string
+      depositOutPoint: CKBComponents.OutPoint,
+      withdraw: CKBComponents.Hash | CKBComponents.OutPoint
   ): Promise<string> => {
-    const depositTx = await this.rpc.getTransaction(outPoint.txHash)
-    if (depositTx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
-    const depositCell = depositTx.transaction.outputs[+outPoint.index]
-    const depositBlockHash = depositTx.txStatus.blockHash
+    let tx = await this.rpc.getTransaction(depositOutPoint.txHash)
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+    const depositBlockHash = tx.txStatus.blockHash
+    let celloutput = tx.transaction.outputs[+depositOutPoint.index];
+    let celloutputData = tx.transaction.outputsData[+depositOutPoint.index];
+    let withdrawBlockHash: CKBComponents.Hash;
+    if (typeof withdraw === 'string') {
+      withdrawBlockHash = withdraw
+    } else {
+      tx = await this.rpc.getTransaction(withdraw.txHash);
+      if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+      withdrawBlockHash = tx.txStatus.blockHash;
+      celloutput = tx.transaction.outputs[+withdraw.index];
+      celloutputData = tx.transaction.outputsData[+withdraw.index];
+    }
     const [depositHeader, withDrawHeader] = await Promise.all([
       this.rpc.getHeader(depositBlockHash),
       this.rpc.getHeader(withdrawBlockHash)
     ])
-    return utils.calculateMaximumWithdraw(depositCell, depositHeader.dao, withDrawHeader.dao);
+    return utils.calculateMaximumWithdraw(
+      celloutput,
+      celloutputData,
+      depositHeader.dao,
+      withDrawHeader.dao
+    )
   }
 
   #secp256k1DepsShouldBeReady = () => {
