@@ -103,7 +103,7 @@ describe('calculate-maximum-withdraw', () => {
     '0x0000000000000000',
     '0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407',
     '0x9bafffa73e432e3c94c6f9db34cb25009f9e4efe4b5fd60200ea63c6d4ffb407'
-  )).toBe('1000183501854')
+  )).toBe('0xe8df95141e')
 })
 
 describe('extract header dao', () => {

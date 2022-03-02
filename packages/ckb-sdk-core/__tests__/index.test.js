@@ -206,7 +206,7 @@ describe('ckb', () => {
           .mockResolvedValueOnce({ dao: '0x9bafffa73e432e3c94c6f9db34cb25009f9e4efe4b5fd60200ea63c6d4ffb407' })
       }
       const res = await ckb.calculateDaoMaximumWithdraw({ tx: '', index: '0x0' }, '')
-      expect(res).toBe('1000183501854')
+      expect(res).toBe('0xe8df95141e')
       ckb.rpc = rpc
     })
     it('another normal withdraw hash', async () => {
@@ -249,7 +249,7 @@ describe('ckb', () => {
           .mockResolvedValueOnce({ dao: '0xd87090655733433c2395d67a64ce2500d73e963e54ccda0200f244c504a4b707' })
       }
       const res = await ckb.calculateDaoMaximumWithdraw({index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'}, '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691')
-      expect(res).toBe('30000000155')
+      expect(res).toBe('0x6fc23ac9b')
       ckb.rpc = rpc
     })
     it('normal withdraw outputpoint', async () => {
@@ -292,7 +292,7 @@ describe('ckb', () => {
           .mockResolvedValueOnce({ dao: '0xd87090655733433c2395d67a64ce2500d73e963e54ccda0200f244c504a4b707' })
       }
       const res = await ckb.calculateDaoMaximumWithdraw({index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'}, '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691')
-      expect(res).toBe('30000000155')
+      expect(res).toBe('0x6fc23ac9b')
       ckb.rpc = rpc
     })
     it('exception', async () => {

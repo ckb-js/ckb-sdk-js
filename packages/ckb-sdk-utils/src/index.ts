@@ -72,7 +72,7 @@ export const calculateMaximumWithdraw = (
       128,
       JSBI.multiply(JSBI.BigInt(100000000), JSBI.BigInt(depositCellSerialized))
     )
-    return JSBI.add(
+    return `0x${JSBI.add(
       JSBI.divide(
         JSBI.multiply(
           JSBI.subtract(
@@ -84,5 +84,5 @@ export const calculateMaximumWithdraw = (
         JSBI.asUintN(128, JSBI.BigInt(extractDAOData(depositDAO).ar))
       ),
       occupiedCapacity
-    ).toString()
+    ).toString(16)}`
 }
