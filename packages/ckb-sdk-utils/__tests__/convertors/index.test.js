@@ -1,4 +1,4 @@
-const { toUint16Le, toUint32Le, toUint64Le, hexToBytes, bytesToHex } = require('../../lib/convertors')
+const { toUint16Le, toUint32Le, toUint64Le, hexToBytes, bytesToHex, toBigEndian } = require('../../lib/convertors')
 const { HexStringWithout0xException } = require('../../lib/exceptions')
 
 const {
@@ -67,4 +67,8 @@ describe('bytes to hex', () => {
   test.each(fixtureTable)('%j => %s', (bytes, expected) => {
     expect(bytesToHex(bytes)).toEqual(expected)
   })
+})
+
+describe('to big endian', () => {
+  expect(toBigEndian('0x3ef9e8c069c92500')).toBe('0x0025c969c0e8f93e')
 })

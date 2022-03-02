@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.102.2](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.101.0...v0.102.2) (2022-03-02)
+
+### Features
+
+* add `extractDAOData` to deserialize DAO field in block header ([#578](https://github.com/nervosnetwork/ckb-sdk-js/pull/578))
+* add `calculateMaximumWithdraw` to calculate maximum withdraw capacity offline ([#578](https://github.com/nervosnetwork/ckb-sdk-js/pull/578))
+
+
+
+
+
 ## [0.102.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.101.0...v0.102.1) (2022-02-17)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils
