@@ -96,7 +96,7 @@ describe('calculate-maximum-withdraw', () => {
         "codeHash":"0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e",
         "hashType":"type"
     }
-  };
+  }
   expect(
     calculateMaximumWithdraw(
     outputCell,
@@ -107,9 +107,9 @@ describe('calculate-maximum-withdraw', () => {
 })
 
 describe('extract header dao', () => {
-  const DAOData = extractDAOData('0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407');
-  expect(DAOData.c).toBe('0x3c227c84a62caf1a');
-  expect(DAOData.ar).toBe('0x0025c969c0e8f93e');
-  expect(DAOData.s).toBe('0x02d3e211632a2120');
-  expect(DAOData.u).toBe('0x07b46e3949936000');
+  const DAOData = extractDAOData('0x1aaf2ca6847c223c3ef9e8c069c9250020212a6311e2d30200609349396eb407')
+  expect(DAOData.c).toBe('0x3c227c84a62caf1a')
+  expect(DAOData.ar).toBe('0x0025c969c0e8f93e')
+  expect(DAOData.s).toBe('0x02d3e211632a2120')
+  expect(DAOData.u).toBe('0x07b46e3949936000')
 })
