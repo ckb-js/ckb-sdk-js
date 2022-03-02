@@ -420,6 +420,37 @@ class CKB {
     }
   }
 
+  public calculateDaoMaximumWithdraw = async (
+      depositOutPoint: CKBComponents.OutPoint,
+      withdraw: CKBComponents.Hash | CKBComponents.OutPoint
+  ): Promise<string> => {
+    let tx = await this.rpc.getTransaction(depositOutPoint.txHash)
+    if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+    const depositBlockHash = tx.txStatus.blockHash
+    let celloutput = tx.transaction.outputs[+depositOutPoint.index]
+    let celloutputData = tx.transaction.outputsData[+depositOutPoint.index]
+    let withdrawBlockHash: CKBComponents.Hash
+    if (typeof withdraw === 'string') {
+      withdrawBlockHash = withdraw
+    } else {
+      tx = await this.rpc.getTransaction(withdraw.txHash)
+      if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
+      withdrawBlockHash = tx.txStatus.blockHash
+      celloutput = tx.transaction.outputs[+withdraw.index]
+      celloutputData = tx.transaction.outputsData[+withdraw.index]
+    }
+    const [depositHeader, withDrawHeader] = await Promise.all([
+      this.rpc.getHeader(depositBlockHash),
+      this.rpc.getHeader(withdrawBlockHash)
+    ])
+    return utils.calculateMaximumWithdraw(
+      celloutput,
+      celloutputData,
+      depositHeader.dao,
+      withDrawHeader.dao
+    )
+  }
+
   #secp256k1DepsShouldBeReady = () => {
     if (!this.config.secp256k1Dep) {
       throw new ParameterRequiredException('Secp256k1 dep')
