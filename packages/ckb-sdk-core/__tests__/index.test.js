@@ -291,7 +291,10 @@ describe('ckb', () => {
           .mockResolvedValueOnce({ dao: '0x7e9a4d29f532433cb8dbe56b64ce2500b4c9c67a3fccda020098a1f224a4b707' })
           .mockResolvedValueOnce({ dao: '0xd87090655733433c2395d67a64ce2500d73e963e54ccda0200f244c504a4b707' })
       }
-      const res = await ckb.calculateDaoMaximumWithdraw({index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'}, '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691')
+      const res = await ckb.calculateDaoMaximumWithdraw(
+        {index: '0x0', txHash: '0xabd4f1b9e914cd859cb7ecf4f57009ef7cd2d84a799ed61acff904bdf5fea91a'},
+        {index: '0x0', txHash: '0x04914c83fa9ea4126279ebe2d2cdff74235f63227821882e4e16f6a908f43691' }
+      )
       expect(res).toBe('0x6fc23ac9b')
       ckb.rpc = rpc
     })
