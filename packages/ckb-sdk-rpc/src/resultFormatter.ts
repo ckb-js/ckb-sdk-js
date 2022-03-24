@@ -75,7 +75,7 @@ const formatter = {
       ...rest,
     }
   },
-  toTransaction: (tx: RPC.Transaction): CKBComponents.Transaction => {
+  toRawTransaction: (tx: RPC.RawTransaction): CKBComponents.RawTransaction => {
     if (!tx) return tx
     const {
       cell_deps: cellDeps = [],
@@ -94,6 +94,14 @@ const formatter = {
       ...rest,
     }
   },
+  toTransaction: (tx: RPC.Transaction): CKBComponents.Transaction => {
+    if (!tx) return tx
+    const { hash, ...rawTx } = tx
+    return {
+      ...formatter.toRawTransaction(rawTx),
+      hash: formatter.toHash(hash),
+    }
+  },
   toUncleBlock: (uncleBlock: RPC.UncleBlock): CKBComponents.UncleBlock => {
     if (!uncleBlock) return uncleBlock
     const { header, ...rest } = uncleBlock
@@ -102,7 +110,6 @@ const formatter = {
       ...rest,
     }
   },
-
   toBlock: (block: RPC.Block): CKBComponents.Block => {
     if (!block) return block
     const { header, uncles = [], transactions = [], ...rest } = block

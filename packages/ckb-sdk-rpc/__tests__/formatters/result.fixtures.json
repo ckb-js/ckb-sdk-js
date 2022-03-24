@@ -181,6 +181,87 @@
       }
     }
   ],
+  "toRawTransaction": [
+    {
+      "result": null,
+      "expected": null
+    },
+    {
+      "result": {
+        "cell_deps": [],
+        "header_deps": [],
+        "inputs": [
+          {
+            "previous_output": {
+              "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "4294967295"
+            },
+            "since": "0"
+          }
+        ],
+        "outputs": [
+          {
+            "capacity": "5000000000000",
+            "lock": {
+              "args": "0x",
+              "code_hash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "hash_type": "data"
+            },
+            "type": null
+          }
+        ],
+        "version": "0",
+        "witnesses": [],
+        "outputs_data": [
+          "0x"
+        ]
+      },
+      "expected": {
+        "cellDeps": [],
+        "headerDeps": [],
+        "inputs": [
+          {
+            "previousOutput": {
+              "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "index": "4294967295"
+            },
+            "since": "0"
+          }
+        ],
+        "outputs": [
+          {
+            "capacity": "5000000000000",
+            "lock": {
+              "args": "0x",
+              "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "hashType": "data"
+            },
+            "type": null
+          }
+        ],
+        "version": "0",
+        "witnesses": [],
+        "outputsData": [
+          "0x"
+        ]
+      }
+    },
+    {
+      "result": {
+        "version": "0",
+        "witnesses": []
+      },
+      "expected": {
+        "cellDeps": [],
+        "headerDeps": [],
+        "inputs": [],
+        "outputs": [],
+        "version": "0",
+        "witnesses": [],
+        "outputsData": []
+      }
+    }
+  ],
   "toTransaction": [
     {
       "result": null,
