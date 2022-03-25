@@ -89,12 +89,13 @@ export interface AddressOptions {
  * @see https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md
  * @param {string | Uint8Array} args, use as the identifier of an address, usually the public key hash is used.
  * @param {string} type, used to indicate which format is adopted to compose the address.
- * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to
+ * @param {string} codeHashOrCodeHashIndex, the referenced code hash or code hash index the address binds to,
+ *                 default to be secp256k1 code hash/code hash index
  */
 export const toAddressPayload = (
   args: string | Uint8Array,
   type: AddressType = AddressType.HashIdx,
-  codeHashOrCodeHashIndex: CodeHashIndex | CKBComponents.Hash256 = '0x00',
+  codeHashOrCodeHashIndex?: CodeHashIndex | CKBComponents.Hash256,
   hashType?: CKBComponents.ScriptHashType,
 ): Uint8Array => {
   if (typeof args === 'string' && !args.startsWith('0x')) {
@@ -108,12 +109,20 @@ export const toAddressPayload = (
     )
   }
 
+  if (!codeHashOrCodeHashIndex) {
+    codeHashOrCodeHashIndex = type === AddressType.HashIdx ? '0x00' : SECP256K1_BLAKE160.codeHash
+  }
+
   if (type !== AddressType.FullVersion) {
     return new Uint8Array([
       ...hexToBytes(type),
       ...hexToBytes(codeHashOrCodeHashIndex),
       ...(typeof args === 'string' ? hexToBytes(args) : args),
     ])
+  }
+
+  if (!hashType && codeHashOrCodeHashIndex === SECP256K1_BLAKE160.codeHash) {
+    hashType = SECP256K1_BLAKE160.hashType
   }
 
   if (!codeHashOrCodeHashIndex.startsWith('0x') || codeHashOrCodeHashIndex.length !== 66) {
@@ -142,7 +151,7 @@ export const toAddressPayload = (
  */
 export const bech32Address = (
   args: Uint8Array | string,
-  { prefix = AddressPrefix.Mainnet, type = AddressType.HashIdx, codeHashOrCodeHashIndex = '0x00' }: AddressOptions = {},
+  { prefix = AddressPrefix.Mainnet, type = AddressType.HashIdx, codeHashOrCodeHashIndex = '' }: AddressOptions = {},
 ) => bech32.encode(prefix, bech32.toWords(toAddressPayload(args, type, codeHashOrCodeHashIndex)), MAX_BECH32_LIMIT)
 
 /**
