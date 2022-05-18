@@ -40,10 +40,10 @@ The ckb-sdk-js is still under development and aim for providing low-level APIs o
 
 # TypeDoc
 
-- [Global](https://nervosnetwork.github.io/ckb-sdk-js/globals.html)
-- [Core](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckb.html)
-- [RPC](https://nervosnetwork.github.io/ckb-sdk-js/classes/ckbrpc.html)
-- [Types](https://nervosnetwork.github.io/ckb-sdk-js/modules/ckbcomponents.html)
+- [Global](https://nervosnetwork.github.io/ckb-sdk-js/index.html)
+- [Core](https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html)
+- [RPC](https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_rpc.default.html)
+- [Types](https://nervosnetwork.github.io/ckb-sdk-js/modules/_nervosnetwork_ckb_types.CKBComponents.html)
 
 # Introduction
 
