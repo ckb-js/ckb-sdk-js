@@ -89,7 +89,7 @@ const bootstrap = async () => {
   })
 
 
-  const signedTx = ckb.signTransaction(privateKey)(rawTransaction)
+  const signedTx = await ckb.signTransaction(privateKey)(rawTransaction)
   /**
    * to see the signed transaction
    */

@@ -41,5 +41,39 @@
         "outputType": ""
       }
     ]
+  },
+  "sign with multisig config": {
+    "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "multisigConfig": {
+      "r": 0,
+      "m": 2,
+      "n": 3,
+      "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+    },
+    "expected": [
+      {
+        "lock": "0x52e62abe0aa34889eef6a27f29e78a500e6534e91c3ddbeaab0ea4f5a4a53a12628773309a9b18d047f318d3647315626bfab7c64ca95a21a1e1fe32a8eec6a201",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ]
   }
 }

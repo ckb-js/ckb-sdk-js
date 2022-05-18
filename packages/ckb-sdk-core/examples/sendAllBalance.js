@@ -80,7 +80,7 @@ const generateRawTransaction = async () => {
 
 const sendAllBalance = async () => {
   const rawTx = await generateRawTransaction()
-  const signedTx = ckb.signTransaction(privateKey)(rawTx)
+  const signedTx = await ckb.signTransaction(privateKey)(rawTx)
   // console.group('sign and send tx')
   // console.info(`signed tx: ${JSON.stringify(signedTx, null, 2)}`)
   // const realTxHash = await ckb.rpc.sendTransaction(signedTx)

@@ -1,13 +1,17 @@
 import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
+import { serizeMultisigConfig, MultisigConfig } from './multisig'
 
-type SignatureProvider = string | ((message: string | Uint8Array) => string)
-type TransactionHash = string
+export type SignatureProvider = string
+  | ((message: string | Uint8Array, witness: StructuredWitness[]) => string)
+  | ((message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>)
+  type TransactionHash = string
 
-const signWitnessGroup = (
+const signWitnessGroup = async (
   sk: SignatureProvider,
   transactionHash: TransactionHash,
   witnessGroup: StructuredWitness[],
+  multisigConfig?: MultisigConfig
 ) => {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')
@@ -19,6 +23,9 @@ const signWitnessGroup = (
   const emptyWitness = {
     ...witnessGroup[0],
     lock: `0x${'0'.repeat(130)}`,
+  }
+  if (multisigConfig) {
+    emptyWitness.lock = `${serizeMultisigConfig(multisigConfig)}${'0'.repeat(130 * multisigConfig.m)}`
   }
 
   const serializedEmptyWitnessBytes = hexToBytes(serializeWitnessArgs(emptyWitness))
@@ -40,9 +47,9 @@ const signWitnessGroup = (
     const keyPair = new ECPair(sk)
     emptyWitness.lock = keyPair.signRecoverable(message)
   } else {
-    emptyWitness.lock = sk(message)
+    emptyWitness.lock = await sk(message, [emptyWitness, ...witnessGroup.slice(1)])
   }
-  return [serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
+  return [multisigConfig ? emptyWitness : serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
 }
 
 export default signWitnessGroup

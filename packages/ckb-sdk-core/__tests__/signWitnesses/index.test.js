@@ -4,7 +4,7 @@ const fixtures = require('./fixtures.json')
 
 describe('test sign witnesses', () => {
   const fixtureTable = Object.entries(fixtures).map(
-    ([title, { privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, expected, exception }]) => [
+    ([title, { privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, expected, exception, multisigConfig }]) => [
       title,
       privateKey,
       privateKeys,
@@ -12,6 +12,7 @@ describe('test sign witnesses', () => {
       transactionHash,
       witnesses,
       inputCells,
+      multisigConfig,
       exception,
       expected,
     ],
@@ -19,28 +20,31 @@ describe('test sign witnesses', () => {
 
   test.each(fixtureTable)(
     '%s',
-    (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, exception, expected) => {
+    async (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, multisigConfig, exception, expected) => {
       if (exception !== undefined) {
         const key = privateKey || (privateKeys && new Map(privateKeys))
-        expect(() =>
+        await expect(
           signWitnesses(key)({
             transactionHash,
             witnesses,
             inputCells,
-          }),
-        ).toThrowError(exception)
+            multisigConfig
+          })
+        ).rejects.toThrowError(exception)
       } else if (privateKey !== undefined) {
-        const signedWitnesses = signWitnesses(privateKey)({
+        const signedWitnesses = await signWitnesses(privateKey)({
           transactionHash,
           witnesses,
+          multisigConfig
         })
         expect(signedWitnesses).toEqual(expected)
       } else if (privateKeys !== undefined) {
         const keys = new Map(privateKeys)
-        const signedWitnesses = signWitnesses(keys)({
+        const signedWitnesses = await signWitnesses(keys)({
           transactionHash,
           witnesses,
           inputCells,
+          multisigConfig
         })
         expect(signedWitnesses).toEqual(expected)
       } else if (signatureProviders !== undefined) {
@@ -48,10 +52,11 @@ describe('test sign witnesses', () => {
         signatureProviders.forEach(([lockHash, key]) => {
           sigProviderMaps.set(lockHash, (message) => new ECPair(key).signRecoverable(message))
         })
-        const signedWitnesses = signWitnesses(sigProviderMaps)({
+        const signedWitnesses = await signWitnesses(sigProviderMaps)({
           transactionHash,
           witnesses,
           inputCells,
+          multisigConfig
         })
         expect(signedWitnesses).toEqual(expected)
       }

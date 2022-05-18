@@ -9,6 +9,7 @@ import generateRawTransaction from './generateRawTransaction'
 import loadCellsFromIndexer from './loadCellsFromIndexer'
 import signWitnesses, { isMap } from './signWitnesses'
 import { filterCellsByInputs } from './utils'
+import { MultisigConfig } from './multisig'
 
 type Key = string
 type Address = string
@@ -107,7 +108,12 @@ class CKB {
 
   public signWitnesses = signWitnesses
 
-  public signTransaction = (key: Key | Map<LockHash, Key>) => (
+  public signTransaction = (key: Key | Map<LockHash, Key | {
+    sk: Key
+    blake160: string
+    config: MultisigConfig
+    signatures: string[]
+  }>) => async (
     transaction: CKBComponents.RawTransactionToSign,
     cells: Array<{ outPoint: CKBComponents.OutPoint; lock: CKBComponents.Script }> = [],
   ) => {
@@ -117,16 +123,14 @@ class CKB {
     const transactionHash = this.utils.rawTransactionToHash(transaction)
     const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
 
-    const signedWitnesses = this.signWitnesses(key)({
+    const witnesses = await this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
       inputCells,
     })
     return {
       ...transaction,
-      witnesses: signedWitnesses.map(witness =>
-        typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness),
-      ),
+      witnesses
     }
   }
 

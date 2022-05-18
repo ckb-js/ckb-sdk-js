@@ -16,12 +16,26 @@
     ],
     "expected": [
       "0x55000000100000005500000055000000410000005bc073bf55db333d5680ddf36e4814b9ce2118cfe4504f95c7d3e9a7548e16886cf1a1481fd80ce70d5e19108a43fd17fa32aad0d46c30c3410001ed2934ad2f00",
+      "0x10000000100000001000000010000000"
+    ]
+  },
+  "multi group no cells": {
+    "privateKeys": [
+      [
+        "0xc6a5303d5fb970e2bd4e81e984c0a52b7bc5b42ab2b777583ea2cb74868f5708",
+        "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f"
+      ]
+    ],
+    "inputCells": [],
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
       {
         "lock": "",
         "inputType": "",
         "outputType": ""
       }
-    ]
+    ],
+    "exception": "Cell shouldn't be empty when key is Map"
   },
   "multi groups": {
     "privateKeys": [
@@ -83,11 +97,7 @@
     "expected": [
       "0x5500000010000000550000005500000041000000d59792eee1e67747d25a36304bf155665a9b552ecda2d84390ba6acfc422dc3f4b599165078ed98c4e930dec79866b50984f3458c5010faefce6574b9659329501",
       "0x550000001000000055000000550000004100000091af5eeb1632565dc4a9fb1c6e08d1f1c7da96e10ee00595a2db208f1d15faca03332a1f0f7a0f8522f6e112bb8dde4ed0015d1683b998744a0d8644f0dfd0f800",
-      {
-        "lock": "",
-        "inputType": "",
-        "outputType": ""
-      },
+      "0x10000000100000001000000010000000",
       {
         "lock": "",
         "inputType": "",
@@ -155,11 +165,7 @@
     "expected": [
       "0x5500000010000000550000005500000041000000d59792eee1e67747d25a36304bf155665a9b552ecda2d84390ba6acfc422dc3f4b599165078ed98c4e930dec79866b50984f3458c5010faefce6574b9659329501",
       "0x550000001000000055000000550000004100000091af5eeb1632565dc4a9fb1c6e08d1f1c7da96e10ee00595a2db208f1d15faca03332a1f0f7a0f8522f6e112bb8dde4ed0015d1683b998744a0d8644f0dfd0f800",
-      {
-        "lock": "",
-        "inputType": "",
-        "outputType": ""
-      },
+      "0x10000000100000001000000010000000",
       {
         "lock": "",
         "inputType": "",
@@ -258,5 +264,175 @@
     "privateKey": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
     "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
     "exception": "Witnesses is empty"
+  },
+  "spec256 and multisig sign multi groups": {
+    "privateKeys": [
+      [
+        "0xf6e72cadbef39c71be1f128fb335db67e8a95e408814e30e1a6d609aef684c00",
+        {
+          "sk": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+          "blake160": "0x7c021957a27000e794f25828270f187c791443e3",
+          "config": {
+            "r": 0,
+            "m": 2,
+            "n": 3,
+            "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+          },
+          "signatures": []
+        }
+      ],
+      [
+        "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+        "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ]
+    ],
+    "inputCells": [
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      }
+    ],
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "expected": [
+      {
+        "lock": "0x000002037c021957a27000e794f25828270f187c791443e3d93b3564ef1b2dcf7bca781f968b3c7d2db85fd1b7672fcde903607f6bb150a730085c2a43c422fa52e62abe0aa34889eef6a27f29e78a500e6534e91c3ddbeaab0ea4f5a4a53a12628773309a9b18d047f318d3647315626bfab7c64ca95a21a1e1fe32a8eec6a201",
+        "inputType": "",
+        "outputType": ""
+      },
+      "0x550000001000000055000000550000004100000091af5eeb1632565dc4a9fb1c6e08d1f1c7da96e10ee00595a2db208f1d15faca03332a1f0f7a0f8522f6e112bb8dde4ed0015d1683b998744a0d8644f0dfd0f800",
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      "0x10000000100000001000000010000000"
+    ]
+  },
+  "spec256 and multisig sign multi groups second sign": {
+    "privateKeys": [
+      [
+        "0xf6e72cadbef39c71be1f128fb335db67e8a95e408814e30e1a6d609aef684c00",
+        {
+          "sk": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+          "blake160": "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1",
+          "config": {
+            "r": 0,
+            "m": 2,
+            "n": 3,
+            "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+          },
+          "signatures": ["0x7c021957a27000e794f25828270f187c791443e3"]
+        }
+      ],
+      [
+        "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+        "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ]
+    ],
+    "inputCells": [
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      }
+    ],
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      {
+        "lock": "0x000002037c021957a27000e794f25828270f187c791443e3d93b3564ef1b2dcf7bca781f968b3c7d2db85fd1b7672fcde903607f6bb150a730085c2a43c422fa5ce7f8c8a6368e9755cb7cfe5f4e40aa68c9b8fbb91894c9c5b8ac4ec52df67274d00c95e55b1f3911d9b7dc4ba0ca890652d68fe48fa1ed2f98ed8b5abd801700",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "expected": [
+      "0xd600000010000000d6000000d6000000c2000000000002037c021957a27000e794f25828270f187c791443e3d93b3564ef1b2dcf7bca781f968b3c7d2db85fd1b7672fcde903607f6bb150a730085c2a43c422fa5ce7f8c8a6368e9755cb7cfe5f4e40aa68c9b8fbb91894c9c5b8ac4ec52df67274d00c95e55b1f3911d9b7dc4ba0ca890652d68fe48fa1ed2f98ed8b5abd80170052e62abe0aa34889eef6a27f29e78a500e6534e91c3ddbeaab0ea4f5a4a53a12628773309a9b18d047f318d3647315626bfab7c64ca95a21a1e1fe32a8eec6a201",
+      "0x550000001000000055000000550000004100000091af5eeb1632565dc4a9fb1c6e08d1f1c7da96e10ee00595a2db208f1d15faca03332a1f0f7a0f8522f6e112bb8dde4ed0015d1683b998744a0d8644f0dfd0f800",
+      "0x10000000100000001000000010000000",
+      "0x10000000100000001000000010000000"
+    ]
   }
 }

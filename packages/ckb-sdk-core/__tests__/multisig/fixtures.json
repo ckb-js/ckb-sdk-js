@@ -1,0 +1,82 @@
+{
+  "test serizeMultisigConfig, exception with config is less than 0": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": -1,
+      "m": 2,
+      "n": 3,
+      "blake160s": []
+    },
+    "exception": "For multisig sign, signer should between 0 and 255"
+  },
+  "test serizeMultisigConfig, exception with config is grater than 255": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": 256,
+      "m": 2,
+      "n": 3,
+      "blake160s": []
+    },
+    "exception": "For multisig sign, signer should between 0 and 255"
+  },
+  "test serizeMultisigConfig, exception with r is greater than n": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": 4,
+      "m": 2,
+      "n": 3,
+      "blake160s": []
+    },
+    "exception": "For m of n multisig sign, r shouldn't be greater than n"
+  },
+  "test serizeMultisigConfig, exception with m is greater than n": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": 1,
+      "m": 4,
+      "n": 3,
+      "blake160s": []
+    },
+    "exception": "For m of n multisig sign, m shouldn't be greater than n"
+  },
+  "test serizeMultisigConfig, exception blake160s length not equal with n": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": 1,
+      "m": 2,
+      "n": 3,
+      "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"]
+    },
+    "exception": "For m of n multisig sign, signer's length should equal with n"
+  },
+  "test serizeMultisigConfig": {
+    "functionName": "serizeMultisigConfig",
+    "config": {
+      "r": 1,
+      "m": 2,
+      "n": 3,
+      "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xb7672fcde903607f6bb150a730085c2a43c422fa", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"]
+    },
+    "expected": "0x000102037c021957a27000e794f25828270f187c791443e3b7672fcde903607f6bb150a730085c2a43c422fad93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"
+  },
+  "test hashMultisig": {
+    "functionName": "hashMultisig",
+    "config": {
+      "r": 0,
+      "m": 2,
+      "n": 3,
+      "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+    },
+    "expected": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+  },
+  "test getMultisigScriptHash": {
+    "functionName": "getMultisigScriptHash",
+    "config": {
+      "r": 0,
+      "m": 2,
+      "n": 3,
+      "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+    },
+    "expected": "0xf6e72cadbef39c71be1f128fb335db67e8a95e408814e30e1a6d609aef684c00"
+  }
+}

@@ -45,7 +45,7 @@ const deposit = async () => {
     capacity: BigInt(10200000000),
     fee: BigInt(100000)
   })
-  const signed = ckb.signTransaction(sk)(depositTx)
+  const signed = await ckb.signTransaction(sk)(depositTx)
 
   const txHash = await ckb.rpc.sendTransaction(signed)
   const depositOutPoint = {
@@ -84,7 +84,7 @@ const starWithdrawing = async () => {
     outPoint: depositOutPoint,
     fee: 10000n
   })
-  const signed = ckb.signTransaction(sk)(tx)
+  const signed = await ckb.signTransaction(sk)(tx)
   const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
@@ -127,7 +127,7 @@ const withdraw = async () => {
     withdrawOutPoint: startWithDrawOutPoint,
     fee: BigInt(100000)
   })
-  const signed = ckb.signTransaction(sk)(tx)
+  const signed = await ckb.signTransaction(sk)(tx)
   const txHash = await ckb.rpc.sendTransaction(signed)
   const outPoint = {
     txHash,
