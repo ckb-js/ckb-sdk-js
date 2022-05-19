@@ -14,6 +14,7 @@ import {
   HashTypeException,
   ParameterRequiredException,
   AddressFormatTypeException,
+  AddressFormatTypeAndEncodeMethodNotMatchException,
 } from '../exceptions'
 
 const MAX_BECH32_LIMIT = 1023
@@ -30,6 +31,11 @@ export enum AddressType {
   HashIdx = '0x01', // short version for locks with popular codehash
   DataCodeHash = '0x02', // full version with hash type 'Data', deprecated
   TypeCodeHash = '0x04', // full version with hash type 'Type', deprecated
+}
+
+export enum Bech32Type {
+  Bech32 = 'bech32',
+  Bech32m = 'bech32m',
 }
 
 /**
@@ -182,8 +188,11 @@ export const pubkeyToAddress = (pubkey: Uint8Array | string, options: AddressOpt
   return bech32Address(publicKeyHash, options)
 }
 
-const isValidShortVersionPayload = (payload: Uint8Array) => {
-  const [, index, ...data] = payload
+const isValidShortVersionPayload = (payload: Uint8Array, bech32Type?: Bech32Type) => {
+  const [type, index, ...data] = payload
+  if (bech32Type !== Bech32Type.Bech32) {
+    throw new AddressFormatTypeAndEncodeMethodNotMatchException(type, bech32Type)
+  }
   /* eslint-disable indent */
   switch (index) {
     case 0: // secp256k1 + blake160
@@ -208,23 +217,29 @@ const isValidShortVersionPayload = (payload: Uint8Array) => {
   /* eslint-enable indent */
 }
 
-const isPayloadValid = (payload: Uint8Array) => {
+const isPayloadValid = (payload: Uint8Array, bech32Type: Bech32Type) => {
   const type = payload[0]
   const data = payload.slice(1)
   /* eslint-disable indent */
   switch (type) {
     case +AddressType.HashIdx: {
-      isValidShortVersionPayload(payload)
+      isValidShortVersionPayload(payload, bech32Type)
       break
     }
     case +AddressType.DataCodeHash:
     case +AddressType.TypeCodeHash: {
+      if (bech32Type !== Bech32Type.Bech32) {
+        throw new AddressFormatTypeAndEncodeMethodNotMatchException(type, bech32Type)
+      }
       if (data.length < 32) {
         throw new AddressPayloadException(payload, 'full')
       }
       break
     }
     case +AddressType.FullVersion: {
+      if (bech32Type !== Bech32Type.Bech32m) {
+        throw new AddressFormatTypeAndEncodeMethodNotMatchException(type, bech32Type)
+      }
       const codeHash = data.slice(0, 32)
       if (codeHash.length < 32) {
         throw new CodeHashException(bytesToHex(codeHash))
@@ -255,17 +270,24 @@ export declare interface ParseAddress {
  *         e.g. 0x | 01 | 00 | e2fa82e70b062c8644b80ad7ecf6e015e5f352f6
  */
 export const parseAddress: ParseAddress = (address: string, encode: 'binary' | 'hex' = 'binary'): any => {
+  let bech32Type: Bech32Type | undefined
   let payload: Uint8Array = new Uint8Array()
   try {
     const decoded = bech32.decode(address, MAX_BECH32_LIMIT)
+    bech32Type = Bech32Type.Bech32
     payload = new Uint8Array(bech32.fromWords(new Uint8Array(decoded.words)))
   } catch {
     const decoded = bech32m.decode(address, MAX_BECH32_LIMIT)
+    bech32Type = Bech32Type.Bech32m
     payload = new Uint8Array(bech32m.fromWords(new Uint8Array(decoded.words)))
   }
+
   try {
-    isPayloadValid(payload)
+    isPayloadValid(payload, bech32Type)
   } catch (err) {
+    if (err instanceof AddressFormatTypeAndEncodeMethodNotMatchException) {
+      throw err
+    }
     throw new AddressException(address, err.stack, err.type)
   }
   return encode === 'binary' ? payload : bytesToHex(payload)

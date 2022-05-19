@@ -47,10 +47,19 @@ export class AddressFormatTypeException extends Error {
   }
 }
 
+export class AddressFormatTypeAndEncodeMethodNotMatchException extends Error {
+  code = ErrorCode.AddressInvalid
+
+  constructor(type: number, bech32Type: 'bech32' | 'bech32m' | 'unknown' = 'unknown') {
+    super(`Address format type 0x${type.toString(16).padStart(2, '0')} doesn't match encode method ${bech32Type}`)
+  }
+}
+
 export default {
   AddressPayloadException,
   AddressException,
   CodeHashException,
   HashTypeException,
   AddressFormatTypeException,
+  AddressFormatTypeAndEncodeMethodNotMatchException,
 }
