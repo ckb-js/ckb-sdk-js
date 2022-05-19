@@ -31,6 +31,10 @@
     "should throw an error when its a full version address but hash_type is missing while code hash is not secp256k1 code hash": {
       "params": ["0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64", "0x00", "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3ccee"],
       "exception": "hashType is required"
+    },
+    "should throw an error when address format type is invalid(0x03)": {
+      "params": ["0x36c329ed630d6ce750712a477543672adab57f4c", "0x03", "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8"],
+      "exception": "0x03 is not a valid address format type"
     }
   },
   "fullPayloadToAddress": {
@@ -152,7 +156,7 @@
       "params": ["ckt1qyprdsefa43s6m882pcj53m4gdnj4k440axqqfmyd9c"],
       "exception": "'ckt1qyprdsefa43s6m882pcj53m4gdnj4k440axqqfmyd9c' is not a valid short version address"
     },
-    "should throw an error when deprecated address's address type format 0x03 is invalid": {
+    "should throw an error when deprecated address has invalid address type format 0x03": {
       "params": ["ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2"],
       "exception": "'ckt1qwn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvdkr98kkxrtvuag8z2j8w4pkw2k6k4l5ctv25r2' is not a valid address"
     },
@@ -164,11 +168,11 @@
       "params": ["ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw"],
       "exception": "'ckb1qsqcjt4ypkpt20r83lugxyj9pwa30cty6737p2gfgx493qul2cgvrxhw' is not a valid full version address"
     },
-    "should throw an error when full version address identifies the hash_type has invalid code hash(bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8)": {
+    "should throw an error when full version address has invalid code hash(bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8)": {
       "params": ["ckt1qq9a0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsjzla0h"],
       "exception": "'ckt1qq9a0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsjzla0h' is not a valid address"
     },
-    "should throw an error when full version address invalid hash_type 0x03 is invalid": {
+    "should throw an error when full version address has invalid hash_type 0x03": {
       "params": ["ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqcvf0k9sc40s3azmpfvhyuudhahpsj72tseeza5p"],
       "exception": "'ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqcvf0k9sc40s3azmpfvhyuudhahpsj72tseeza5p' is not a valid address"
     },

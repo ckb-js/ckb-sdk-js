@@ -109,6 +109,12 @@ export const toAddressPayload = (
     throw new HexStringWithout0xException(args)
   }
 
+  if (
+    ![AddressType.HashIdx, AddressType.DataCodeHash, AddressType.TypeCodeHash, AddressType.FullVersion].includes(type)
+  ) {
+    throw new AddressFormatTypeException(+type)
+  }
+
   if ([AddressType.DataCodeHash, AddressType.TypeCodeHash].includes(type)) {
     /* eslint-disable max-len */
     console.warn(
