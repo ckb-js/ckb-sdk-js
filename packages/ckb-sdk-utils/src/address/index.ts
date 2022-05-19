@@ -13,6 +13,7 @@ import {
   CodeHashException,
   HashTypeException,
   ParameterRequiredException,
+  AddressFormatTypeException,
 } from '../exceptions'
 
 const MAX_BECH32_LIMIT = 1023
@@ -274,41 +275,47 @@ export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)
   const type = payload[0]
 
-  if (type === +AddressType.FullVersion) {
-    const HASH_TYPE: Record<string, CKBComponents.ScriptHashType> = {
-      '00': 'data',
-      '01': 'type',
-      '02': 'data1',
+  switch (type) {
+    case +AddressType.FullVersion: {
+      const HASH_TYPE: Record<string, CKBComponents.ScriptHashType> = {
+        '00': 'data',
+        '01': 'type',
+        '02': 'data1',
+      }
+      const p = bytesToHex(payload)
+
+      const codeHash = `0x${p.substr(4, 64)}`
+      const hashType = HASH_TYPE[p.substr(68, 2)]
+      const args = `0x${p.substr(70)}`
+      return { codeHash, hashType, args }
     }
-    const p = bytesToHex(payload)
-
-    const codeHash = `0x${p.substr(4, 64)}`
-    const hashType = HASH_TYPE[p.substr(68, 2)]
-    const args = `0x${p.substr(70)}`
-    return { codeHash, hashType, args }
-  }
-
-  if (type === +AddressType.HashIdx) {
-    const codeHashIndices = [
-      SECP256K1_BLAKE160,
-      SECP256K1_MULTISIG,
-      address.startsWith(AddressPrefix.Mainnet) ? ANYONE_CAN_PAY_MAINNET : ANYONE_CAN_PAY_TESTNET,
-    ]
-    const index = payload[1]
-    const args = payload.slice(2)
-    const script = codeHashIndices[index]
-    return {
-      codeHash: script.codeHash,
-      hashType: script.hashType,
-      args: bytesToHex(args),
+    case +AddressType.HashIdx: {
+      const codeHashIndices = [
+        SECP256K1_BLAKE160,
+        SECP256K1_MULTISIG,
+        address.startsWith(AddressPrefix.Mainnet) ? ANYONE_CAN_PAY_MAINNET : ANYONE_CAN_PAY_TESTNET,
+      ]
+      const index = payload[1]
+      const args = payload.slice(2)
+      const script = codeHashIndices[index]
+      return {
+        codeHash: script.codeHash,
+        hashType: script.hashType,
+        args: bytesToHex(args),
+      }
     }
-  }
-
-  const codeHashAndArgs = bytesToHex(payload.slice(1))
-  const hashType = type === +AddressType.DataCodeHash ? 'data' : 'type'
-  return {
-    codeHash: codeHashAndArgs.substr(0, 66),
-    hashType,
-    args: `0x${codeHashAndArgs.substr(66)}`,
+    case +AddressType.DataCodeHash:
+    case +AddressType.TypeCodeHash: {
+      const codeHashAndArgs = bytesToHex(payload.slice(1))
+      const hashType = type === +AddressType.DataCodeHash ? 'data' : 'type'
+      return {
+        codeHash: codeHashAndArgs.substr(0, 66),
+        hashType,
+        args: `0x${codeHashAndArgs.substr(66)}`,
+      }
+    }
+    default: {
+      throw new AddressFormatTypeException(type)
+    }
   }
 }

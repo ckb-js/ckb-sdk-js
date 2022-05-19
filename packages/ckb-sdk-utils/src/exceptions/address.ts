@@ -39,9 +39,18 @@ export class HashTypeException extends Error {
   }
 }
 
+export class AddressFormatTypeException extends Error {
+  code = ErrorCode.AddressInvalid
+
+  constructor(type: number) {
+    super(`0x${type.toString(16).padStart(2, '0')} is not a valid address format type`)
+  }
+}
+
 export default {
   AddressPayloadException,
   AddressException,
   CodeHashException,
   HashTypeException,
+  AddressFormatTypeException,
 }
