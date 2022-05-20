@@ -62,6 +62,20 @@
       "message": "'0x03' is not a valid hash type"
     }
   },
+  "AddressFormatTypeException": {
+    "params": [3],
+    "expected": {
+      "code": 104,
+      "message": "0x03 is not a valid address format type"
+    }
+  },
+  "AddressFormatTypeAndEncodeMethodNotMatchException": {
+    "params": [3, "bech32"],
+    "expected": {
+      "code": 104,
+      "message": "Address format type 0x03 doesn't match encode method bech32"
+    }
+  },
   "OutLenTooSmallException": {
     "params": [16, 32],
     "expected": {
