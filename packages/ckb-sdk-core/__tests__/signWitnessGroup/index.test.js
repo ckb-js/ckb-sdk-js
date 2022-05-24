@@ -14,12 +14,12 @@ describe('test sign witness group', () => {
     expected,
   ])
 
-  test.each(fixtureTable)('%s', async (_title, privateKey, transactionHash, witnesses, multisigConfig, exception, expected) => {
+  test.each(fixtureTable)('%s', (_title, privateKey, transactionHash, witnesses, multisigConfig, exception, expected) => {
     expect.assertions(1)
     if (exception !== undefined) {
-      await expect(signWitnessGroup(privateKey, transactionHash, witnesses, multisigConfig)).rejects.toThrowError(exception)
+      expect(() => signWitnessGroup(privateKey, transactionHash, witnesses, multisigConfig)).toThrowError(exception)
     } else if (privateKey !== undefined) {
-      const signedWitnessGroup = await signWitnessGroup(privateKey, transactionHash, witnesses, multisigConfig)
+      const signedWitnessGroup = signWitnessGroup(privateKey, transactionHash, witnesses, multisigConfig)
       expect(signedWitnessGroup).toEqual(expected)
     }
   })

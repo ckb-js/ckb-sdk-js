@@ -20,19 +20,19 @@ describe('test sign witnesses', () => {
 
   test.each(fixtureTable)(
     '%s',
-    async (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, multisigConfig, exception, expected) => {
+    (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, multisigConfig, exception, expected) => {
       if (exception !== undefined) {
         const key = privateKey || (privateKeys && new Map(privateKeys))
-        await expect(
-          signWitnesses(key)({
+        expect(
+          () => signWitnesses(key)({
             transactionHash,
             witnesses,
             inputCells,
             multisigConfig
           })
-        ).rejects.toThrowError(exception)
+        ).toThrowError(exception)
       } else if (privateKey !== undefined) {
-        const signedWitnesses = await signWitnesses(privateKey)({
+        const signedWitnesses = signWitnesses(privateKey)({
           transactionHash,
           witnesses,
           multisigConfig
@@ -40,7 +40,7 @@ describe('test sign witnesses', () => {
         expect(signedWitnesses).toEqual(expected)
       } else if (privateKeys !== undefined) {
         const keys = new Map(privateKeys)
-        const signedWitnesses = await signWitnesses(keys)({
+        const signedWitnesses = signWitnesses(keys)({
           transactionHash,
           witnesses,
           inputCells,
@@ -52,7 +52,7 @@ describe('test sign witnesses', () => {
         signatureProviders.forEach(([lockHash, key]) => {
           sigProviderMaps.set(lockHash, (message) => new ECPair(key).signRecoverable(message))
         })
-        const signedWitnesses = await signWitnesses(sigProviderMaps)({
+        const signedWitnesses = signWitnesses(sigProviderMaps)({
           transactionHash,
           witnesses,
           inputCells,

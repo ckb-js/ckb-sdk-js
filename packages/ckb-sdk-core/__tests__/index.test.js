@@ -97,10 +97,10 @@ describe('ckb', () => {
       expected,
       exception,
     ])
-    test.each(fixtureTable)('%s', async (_title, privateKey, transaction, expected, exception) => {
+    test.each(fixtureTable)('%s', (_title, privateKey, transaction, expected, exception) => {
       expect.assertions(1)
       try {
-        const signedTransactionWithPrivateKey = await ckb.signTransaction(privateKey)(transaction)
+        const signedTransactionWithPrivateKey = ckb.signTransaction(privateKey)(transaction)
         expect(signedTransactionWithPrivateKey).toEqual(expected)
       } catch (err) {
         expect(err).toEqual(new Error(exception))

@@ -2,17 +2,28 @@ import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs } from 
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
 import { serizeMultisigConfig, MultisigConfig } from './multisig'
 
-export type SignatureProvider = string
-  | ((message: string | Uint8Array, witness: StructuredWitness[]) => string)
-  | ((message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>)
-  type TransactionHash = string
+export type SignatureProvider = string | ((message: string | Uint8Array) => string)
+type TransactionHash = string
 
-const signWitnessGroup = async (
+function signWitnessGroup(
   sk: SignatureProvider,
   transactionHash: TransactionHash,
   witnessGroup: StructuredWitness[],
   multisigConfig?: MultisigConfig
-) => {
+): StructuredWitness[]
+function signWitnessGroup(
+  sk: (message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>,
+  transactionHash: TransactionHash,
+  witnessGroup: StructuredWitness[],
+  multisigConfig?: MultisigConfig
+): Promise<StructuredWitness[]>
+
+function signWitnessGroup(
+  sk: SignatureProvider | ((message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>),
+  transactionHash: TransactionHash,
+  witnessGroup: StructuredWitness[],
+  multisigConfig?: MultisigConfig
+) {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')
   }
@@ -46,10 +57,18 @@ const signWitnessGroup = async (
   if (typeof sk === 'string') {
     const keyPair = new ECPair(sk)
     emptyWitness.lock = keyPair.signRecoverable(message)
+    return [multisigConfig ? emptyWitness : serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
   } else {
-    emptyWitness.lock = await sk(message, [emptyWitness, ...witnessGroup.slice(1)])
+    const skResult = sk(message, [emptyWitness, ...witnessGroup.slice(1)])
+    if (typeof skResult === 'string') {
+      emptyWitness.lock = skResult
+      return [multisigConfig ? emptyWitness : serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
+    }
+    return skResult.then(res => {
+      emptyWitness.lock = res
+      return [multisigConfig ? emptyWitness : serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
+    })
   }
-  return [multisigConfig ? emptyWitness : serializeWitnessArgs(emptyWitness), ...witnessGroup.slice(1)]
 }
 
 export default signWitnessGroup

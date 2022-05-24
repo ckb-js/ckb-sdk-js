@@ -113,7 +113,7 @@ class CKB {
     blake160: string
     config: MultisigConfig
     signatures: string[]
-  }>) => async (
+  }>) => (
     transaction: CKBComponents.RawTransactionToSign,
     cells: Array<{ outPoint: CKBComponents.OutPoint; lock: CKBComponents.Script }> = [],
   ) => {
@@ -123,7 +123,7 @@ class CKB {
     const transactionHash = this.utils.rawTransactionToHash(transaction)
     const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
 
-    const witnesses = await this.signWitnesses(key)({
+    const witnesses = this.signWitnesses(key)({
       transactionHash,
       witnesses: transaction.witnesses,
       inputCells,

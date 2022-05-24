@@ -18,26 +18,26 @@ export interface SignWitnesses {
   (key: SignatureProvider): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
-  }) => Promise<StructuredWitness[]>
+  }) => StructuredWitness[]
   (key: Map<LockHash, SignatureProvider | MultisigOption>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
     skipMissingKeys: boolean
-  }) => Promise<StructuredWitness[]>
+  }) => StructuredWitness[]
   (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
     skipMissingKeys?: boolean
-  }) => Promise<StructuredWitness[]>
+  }) => StructuredWitness[]
 }
 
 export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
 }
 
-const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>) => async ({
+const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>) => ({
   transactionHash,
   witnesses = [],
   inputCells = [],
@@ -75,7 +75,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
       let signStatus = SignStatus.Signed
       if (typeof sk === 'object') {
-        const witnessIncludeSignature = (await signWitnessGroup(sk.sk, transactionHash, ws, sk.config))[0]
+        const witnessIncludeSignature = signWitnessGroup(sk.sk, transactionHash, ws, sk.config)[0]
         // is multisig sign
         const firstWitness = rawWitnesses[indices[0]]
         if (typeof firstWitness !== 'object') {
@@ -91,7 +91,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
         rawWitnesses[indices[0]] = firstWitSigned
         signStatus = getMultisigStatus(sk.config, [...sk.signatures, sk.blake160])
       } else {
-        const witnessIncludeSignature = (await signWitnessGroup(sk, transactionHash, ws))[0]
+        const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
         rawWitnesses[indices[0]] = witnessIncludeSignature
       }
       if (signStatus === SignStatus.Signed) {
@@ -104,7 +104,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
     return rawWitnesses
   }
 
-  const signedWitnesses = await signWitnessGroup(key, transactionHash, witnesses)
+  const signedWitnesses = signWitnessGroup(key, transactionHash, witnesses)
   return signedWitnesses.map(wit => typeof wit === 'string' ? wit : serializeWitnessArgs(wit))
 }
 
