@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.103.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.102.3...v0.103.1) (2022-05-31)
+
+
+### Bug Fixes
+
+* add address format type validation in utils.toAddressPayload ([8cf043c](https://github.com/nervosnetwork/ckb-sdk-js/commit/8cf043cbf6d89eef90c1eb55958ba609e71d2bba))
+* fix default code hash/code hash index in toAddressPayload ([e72a29d](https://github.com/nervosnetwork/ckb-sdk-js/commit/e72a29d46615bc09fc9ff726e30abb5f70ac26d7))
+* reinforce restriction of address format type and bech32(m) ([816e8ea](https://github.com/nervosnetwork/ckb-sdk-js/commit/816e8eab1154ca393b12ed1272f0bf8c753ac448))
+
+
+
+
+
 # [0.103.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.102.3...v0.103.0) (2022-05-09)
 
 
