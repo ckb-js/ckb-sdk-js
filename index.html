@@ -1,0 +1,222 @@
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>CKB-SDK.js</title><meta name="description" content="Documentation for CKB-SDK.js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">CKB-SDK.js</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> CKB-SDK.js</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#ckb-sdk-javascript" id="ckb-sdk-javascript" style="color: inherit; text-decoration: none;">
+  <h1>CKB SDK JavaScript</h1>
+</a>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Master</th>
+<th>Develop</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unit Tests</td>
+<td><a href="https://github.com/nervosnetwork/ckb-sdk-js/actions?query=branch%3Amaster+workflow%3A%22Unit+Tests%22"><img src="https://github.com/nervosnetwork/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=master" alt="Unit Tests"></a></td>
+<td><a href="https://github.com/nervosnetwork/ckb-sdk-js/actions?query=branch%3Adevelop+workflow%3A%22Unit+Tests%22"><img src="https://github.com/nervosnetwork/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=develop" alt="Unit Tests"></a></td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td><a href="https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master"><img src="https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master/graph/badge.svg" alt="Codecov"></a></td>
+<td><a href="https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop"><img src="https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop/graph/badge.svg" alt="Codecov"></a></td>
+</tr>
+</tbody></table>
+<p><a href="https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core"><img src="https://img.shields.io/npm/v/@nervosnetwork/ckb-sdk-core/latest.svg" alt="NPM"></a>
+<a href="https://packagequality.com/#?package=@nervosnetwork/ckb-sdk-core"><img src="https://npm.packagequality.com/shield/%40nervosnetwork%2Fckb-sdk-core.svg" alt="Package Quality"></a>
+<a href="./LICENSE"><img src="https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg" alt="License"></a>
+<a href="https://t.me/nervos_ckb_dev"><img src="https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg" alt="Telegram Group"></a>
+<a href="https://github.com/nervosnetwork/ckb-sdk-js/actions?query=workflow%3ASNYK"><img src="https://github.com/nervosnetwork/ckb-sdk-js/workflows/SNYK/badge.svg" alt="SNYK"></a>
+<a href="https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html"><img src="https://github.com/nervosnetwork/ckb-sdk-js/workflows/Deploy%20Docs/badge.svg" alt="Deploy Docs"></a></p>
+<p>JavaScript SDK for Nervos <a href="https://github.com/nervosnetwork/ckb">CKB</a>.</p>
+<p>The ckb-sdk-js is still under development and aim for providing low-level APIs of data construction. You should get familiar with CKB transaction structure and RPCs before using it and design your own DApp SDK based on this one.</p>
+<details>
+<summary>ToC</summary>
+<p>
+
+<ul>
+<li><a href="#typedoc">Type Doc</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#modules">Modules</a></li>
+<li><a href="#core">CORE</a></li>
+<li><a href="#rpc">RPC</a></li>
+<li><a href="#utils">Utils</a></li>
+<li><a href="#errors">Errors</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#development-process">Development Process</a></li>
+</ul>
+<p>
+</details>
+
+<hr>
+
+<a href="#typedoc" id="typedoc" style="color: inherit; text-decoration: none;">
+  <h1>TypeDoc</h1>
+</a>
+<ul>
+<li><a href="https://nervosnetwork.github.io/ckb-sdk-js/index.html">Global</a></li>
+<li><a href="https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html">Core</a></li>
+<li><a href="https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_rpc.default.html">RPC</a></li>
+<li><a href="https://nervosnetwork.github.io/ckb-sdk-js/modules/_nervosnetwork_ckb_types.CKBComponents.html">Types</a></li>
+</ul>
+
+<a href="#introduction" id="introduction" style="color: inherit; text-decoration: none;">
+  <h1>Introduction</h1>
+</a>
+<p><code>@nervosnetwork/ckb-sdk-core</code> is the SDK used to interact with <a href="https://github.com/nervosnetwork/ckb">Nervos CKB</a>, which is an open source project of public blockchain.</p>
+
+<a href="#before-everything" id="before-everything" style="color: inherit; text-decoration: none;">
+  <h2>Before everything</h2>
+</a>
+<p>Due to safety concern, the SDK won’t generate private keys for you. You can use <code>openssl</code> to generate a private key:</p>
+<pre><code class="language-sh"><span class="hl-0">$ openssl rand -hex 32</span>
+</code></pre>
+<p>For other cases, say, you&#39;re going to generate it in a JavaScript Project(Please don&#39;t), <a href="https://github.com/indutny/elliptic/">Elliptic</a> may be the one you can use.</p>
+
+<a href="#about-nervos-ckb" id="about-nervos-ckb" style="color: inherit; text-decoration: none;">
+  <h2>About Nervos CKB</h2>
+</a>
+<blockquote>
+<p>Nervos CKB is the layer 1 of Nervos Network, a public blockchain with PoW and cell model.</p>
+</blockquote>
+<blockquote>
+<p>Nervos project defines a suite of scalable and interoperable blockchain protocols. Nervos CKB uses those protocols to create a self-evolving distributed network with a novel economic model, data model and more.</p>
+</blockquote>
+<blockquote>
+<p><em>Notice:</em> The ckb process will send stack trace to sentry on Rust panics. This is enabled by default before mainnet, which can be opted out by setting the option dsn to empty in the config file.</p>
+</blockquote>
+
+<a href="#about-nervosnetworkckb-sdk-core" id="about-nervosnetworkckb-sdk-core" style="color: inherit; text-decoration: none;">
+  <h2>About @nervosnetwork/ckb-sdk-core</h2>
+</a>
+<p><code>@nervosnetwork/ckb-sdk-core</code> is an SDK implemented by JavaScript, and published in <a href="https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core/">NPM Registry</a>, which provides APIs for developers to send requests to the CKB blockchain.</p>
+<p>This SDK can be used both in Browsers and <a href="https://nodejs.org">Node.js</a> as it&#39;s source code is implemented by TypeScript, which is a superset of JavaScript and compiled into ES6. For some browsers that have old versions, some polyfills might be injected.</p>
+
+<a href="#prerequisites" id="prerequisites" style="color: inherit; text-decoration: none;">
+  <h1>Prerequisites</h1>
+</a>
+<p>We are going to use <a href="https://yarnpkg.com/">yarn</a> for the next steps, which is similar to <a href="https://npmjs.com">npm</a>, so feel free to pick one.</p>
+<p>For the developers who are interested in contribution.</p>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h1>Installation</h1>
+</a>
+<pre><code class="language-sh"><span class="hl-0">$ yarn add @nervosnetwork/ckb-sdk-core </span><span class="hl-1"># install the SDK into your project</span>
+</code></pre>
+
+<a href="#modules" id="modules" style="color: inherit; text-decoration: none;">
+  <h1>Modules</h1>
+</a>
+<p>This SDK includes several modules:</p>
+<details>
+<summary>
+  RPC <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-rpc" alt="rpc">Code</a>
+</summary>
+<dd>
+
+<p>Used to send RPC request to the CKB, the list could be found in <a href="https://github.com/nervosnetwork/ckb/blob/develop/util/jsonrpc-types/src/blockchain.rs">CKB Project</a></p>
+<p>Interfaces could be found in <code>DefaultRPC</code> class in this module.</p>
+</dd>
+
+</details>
+
+<details>
+<summary>
+  Utils <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-utils" alt="utils">Code</a>
+</summary>
+<dd>
+
+<p>The Utils module provides useful methods for other modules.</p>
+</dd>
+</details>
+
+<details>
+<summary>
+  Types <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-types" alt="types">Code</a>
+</summary>
+<dd>
+
+<p>The Types module used to provide the type definition of CKB Components according to the <a href="https://github.com/nervosnetwork/ckb/blob/develop/util/jsonrpc-types/src/blockchain.rs">CKB Project</a>.</p>
+<p>CKB Project compiles to the snake case convetion, which listed in the types/CKB_RPC in the RPC module.</p>
+<p>TypeScript compiles to the PascalCase convention, which listed in this module.</p>
+</dd>
+</details>
+
+
+<a href="#core" id="core" style="color: inherit; text-decoration: none;">
+  <h1>CORE</h1>
+</a>
+<p>All the modules above are integrated into the core module. You can find <code>rpc</code> and <code>utils</code> in the core instance.</p>
+<p>To use the core module, you need to import it in your project and instantiate it with a node object. For now, the node object only contains one field named <code>url</code>, the URI of the blockchain node your are going to communicate with.</p>
+<pre><code class="language-javascript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">CKB</span><span class="hl-0"> = </span><span class="hl-4">require</span><span class="hl-0">(</span><span class="hl-5">&#39;@nervosnetwork/ckb-sdk-core&#39;</span><span class="hl-0">).</span><span class="hl-6">default</span><br/><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">nodeUrl</span><span class="hl-0"> = </span><span class="hl-5">&#39;http://localhost:8114&#39;</span><br/><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">ckb</span><span class="hl-0"> = </span><span class="hl-2">new</span><span class="hl-0"> </span><span class="hl-4">CKB</span><span class="hl-0">(</span><span class="hl-6">nodeUrl</span><span class="hl-0">)</span>
+</code></pre>
+<p>After that you can use the <code>ckb</code> object to generate addresses, send requests, etc.</p>
+
+<a href="#rpc" id="rpc" style="color: inherit; text-decoration: none;">
+  <h1>RPC</h1>
+</a>
+
+<a href="#basic-rpc" id="basic-rpc" style="color: inherit; text-decoration: none;">
+  <h2>Basic RPC</h2>
+</a>
+<p>Please see <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base/index.ts#L23">Basic RPC</a></p>
+
+<a href="#batch-request" id="batch-request" style="color: inherit; text-decoration: none;">
+  <h2>Batch Request</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-1">/**</span><br/><span class="hl-1"> * The following batch includes two requests</span><br/><span class="hl-1"> *   1. getBlock(&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;)</span><br/><span class="hl-1"> *   2. getTransactionsByLockHash(&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;, &#39;0x0&#39;, &#39;0x1)</span><br/><span class="hl-1"> */</span><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">batch</span><span class="hl-0"> = </span><span class="hl-6">rpc</span><span class="hl-0">.</span><span class="hl-4">createBatchRequest</span><span class="hl-0">([</span><br/><span class="hl-0">  [</span><span class="hl-5">&#39;getBlock&#39;</span><span class="hl-0">, </span><span class="hl-5">&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;</span><span class="hl-0">],</span><br/><span class="hl-0">  [</span><span class="hl-5">&#39;getTransactionsByLockHash&#39;</span><span class="hl-0">, </span><span class="hl-5">&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;</span><span class="hl-0">, </span><span class="hl-5">&#39;0x0&#39;</span><span class="hl-0">, </span><span class="hl-5">&#39;0x1&#39;</span><span class="hl-0">],</span><br/><span class="hl-0">])</span><br/><br/><span class="hl-1">/**</span><br/><span class="hl-1"> * Add a request and the batch should include three requests</span><br/><span class="hl-1"> *  1. getBlock(&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;)</span><br/><span class="hl-1"> *  2. getTransactionsByLockHash(&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;, &#39;0x0&#39;, &#39;0x1)</span><br/><span class="hl-1"> *  3. getTransactionsByLockHash(&#39;0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc&#39;, &#39;0x0&#39;, &#39;0x1)</span><br/><span class="hl-1"> */</span><br/><span class="hl-6">batch</span><span class="hl-0">.</span><span class="hl-4">add</span><span class="hl-0">(</span><br/><span class="hl-0">  </span><span class="hl-5">&#39;getTransactionsByLockHash&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">&#39;0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">&#39;0x0&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">&#39;0x1&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">)</span><br/><br/><span class="hl-1">/**</span><br/><span class="hl-1"> * Remove a request by index and the batch should include two requests</span><br/><span class="hl-1"> *  1. getBlock(&#39;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&#39;)</span><br/><span class="hl-1"> *  2. getTransactionsByLockHash(&#39;0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc&#39;, &#39;0x0&#39;, &#39;0x1)</span><br/><span class="hl-1"> */</span><br/><span class="hl-6">batch</span><span class="hl-0">.</span><span class="hl-4">remove</span><span class="hl-0">(</span><span class="hl-7">1</span><span class="hl-0">)</span><br/><br/><span class="hl-1">/**</span><br/><span class="hl-1"> * Send the batch request</span><br/><span class="hl-1"> */</span><br/><span class="hl-6">batch</span><span class="hl-0">.</span><span class="hl-4">exec</span><span class="hl-0">().</span><span class="hl-4">then</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">)</span><br/><span class="hl-1">// [</span><br/><span class="hl-1">//   { &quot;header&quot;: { }, &quot;uncles&quot;: [], &quot;transactions&quot;: [], &quot;proposals&quot;: [] },</span><br/><span class="hl-1">//   [ { &quot;consumedBy&quot;: { }, &quot;createdBy&quot;: { } } ]</span><br/><span class="hl-1">// ]</span><br/><br/><span class="hl-1">// chaning usage</span><br/><span class="hl-6">batch</span><span class="hl-0">.</span><span class="hl-4">add</span><span class="hl-0">().</span><span class="hl-4">remove</span><span class="hl-0">().</span><span class="hl-4">exec</span><span class="hl-0">()</span>
+</code></pre>
+
+<a href="#persistent-connection" id="persistent-connection" style="color: inherit; text-decoration: none;">
+  <h2>Persistent Connection</h2>
+</a>
+<p>Please add <code>httpAgent</code> or <code>httpsAgent</code> to enable the persistent connection.</p>
+<p>If the SDK is running in Node.js, the following steps make the persistent connection available.</p>
+<pre><code class="language-javascript"><span class="hl-1">// HTTP Agent</span><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">http</span><span class="hl-0"> = </span><span class="hl-4">require</span><span class="hl-0">(</span><span class="hl-5">&#39;http&#39;</span><span class="hl-0">)</span><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">httpAgent</span><span class="hl-0"> = </span><span class="hl-2">new</span><span class="hl-0"> </span><span class="hl-6">http</span><span class="hl-0">.</span><span class="hl-4">Agent</span><span class="hl-0">({ </span><span class="hl-6">keepAlive:</span><span class="hl-0"> </span><span class="hl-2">true</span><span class="hl-0"> })</span><br/><span class="hl-6">ckb</span><span class="hl-0">.</span><span class="hl-6">rpc</span><span class="hl-0">.</span><span class="hl-4">setNode</span><span class="hl-0">({ </span><span class="hl-6">httpAgent</span><span class="hl-0"> })</span><br/><br/><span class="hl-1">// HTTPS Agent</span><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">https</span><span class="hl-0"> = </span><span class="hl-4">require</span><span class="hl-0">(</span><span class="hl-5">&#39;https&#39;</span><span class="hl-0">)</span><br/><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">httpsAgent</span><span class="hl-0"> = </span><span class="hl-2">new</span><span class="hl-0"> </span><span class="hl-6">https</span><span class="hl-0">.</span><span class="hl-4">Agent</span><span class="hl-0">({ </span><span class="hl-6">keepAlive:</span><span class="hl-0"> </span><span class="hl-2">true</span><span class="hl-0"> })</span><br/><span class="hl-6">ckb</span><span class="hl-0">.</span><span class="hl-6">rpc</span><span class="hl-0">.</span><span class="hl-4">setNode</span><span class="hl-0">({ </span><span class="hl-6">httpsAgent</span><span class="hl-0"> })</span>
+</code></pre>
+
+<a href="#utils" id="utils" style="color: inherit; text-decoration: none;">
+  <h1>Utils</h1>
+</a>
+<p><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/README.md">Most used utilities</a></p>
+
+<a href="#errors" id="errors" style="color: inherit; text-decoration: none;">
+  <h1>Errors</h1>
+</a>
+<ol>
+<li>RPC Errors</li>
+</ol>
+<p>The rpc module will throw an error when the result contains an error field, you need to handle it manually.</p>
+
+<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+  <h1>Examples</h1>
+</a>
+<ol>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendSimpleTransaction.js">Send Simple Transaction</a></li>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendAllBalance.js">Send All Balance</a></li>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js">Send Transaction with multiple private key</a></li>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js">Deposit to and withdraw from Nervos DAO</a></li>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js">Send Transaction with Lumos Collector</a></li>
+<li><a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sudt.js">SUDT</a></li>
+</ol>
+
+<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+  <h1>Troubleshooting</h1>
+</a>
+
+<a href="#indexer-module" id="indexer-module" style="color: inherit; text-decoration: none;">
+  <h2>Indexer Module</h2>
+</a>
+<p>The Indexer Module in CKB has been deprecated since <a href="https://github.com/nervosnetwork/ckb/releases/tag/v0.36.0">v0.36.0</a>, please use <a href="https://github.com/nervosnetwork/ckb-indexer">ckb-indexer</a> or <a href="https://github.com/nervosnetwork/lumos/tree/develop/packages/indexer">lumos-indexer</a> instead.</p>
+<p>A simple example <a href="https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js">sendTransactionWithLumosCollector</a> of wokring with lumos has beed added.</p>
+
+<a href="#development-process" id="development-process" style="color: inherit; text-decoration: none;">
+  <h1>Development Process</h1>
+</a>
+<p>This project used <a href="https://github.com/lerna/lerna/">lerna</a> for packages management, which needs to be bootstrapped by the following steps:</p>
+<pre><code class="language-sh"><span class="hl-0">$ yarn add lerna --exact --ignore-workspace-root-check </span><span class="hl-1"># to install the lerna package in this project, could be skipped if the lerna has been installed globally</span><br/><span class="hl-0">$ npx lerna bootstrap </span><span class="hl-1"># install the depedencies and link the packages in the project</span><br/><span class="hl-0">$ yarn run tsc </span><span class="hl-1"># build packages with tsc command</span>
+</code></pre>
+<p>After the second step, namely the bootstrap, all module packages are linked together, and used as in one package.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/_nervosnetwork_ckb_sdk_core.html">@nervosnetwork/ckb-<wbr/>sdk-<wbr/>core</a></li><li class=" tsd-kind-module"><a href="modules/_nervosnetwork_ckb_sdk_rpc.html">@nervosnetwork/ckb-<wbr/>sdk-<wbr/>rpc</a></li><li class=" tsd-kind-module"><a href="modules/_nervosnetwork_ckb_sdk_utils.html">@nervosnetwork/ckb-<wbr/>sdk-<wbr/>utils</a></li><li class=" tsd-kind-module"><a href="modules/_nervosnetwork_ckb_types.html">@nervosnetwork/ckb-<wbr/>types</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li><li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
