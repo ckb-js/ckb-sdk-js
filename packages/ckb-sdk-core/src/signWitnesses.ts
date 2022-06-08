@@ -2,7 +2,7 @@ import { serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitnessGroup, { SignatureProvider } from './signWitnessGroup'
 import groupScripts from './groupScripts'
-import { getMultisigStatus, MultisigConfig, serializeMultisigConfig, SignStatus } from './multisig'
+import { getMultisigStatus, isMultisigConfig, MultisigConfig, serializeMultisigConfig, SignStatus } from './multisig'
 
 type LockHash = string
 type TransactionHash = string
@@ -35,6 +35,20 @@ export interface SignWitnesses {
 
 export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
+}
+
+function isMultisigOption(params: any): params is MultisigOption {
+  if (params.sk && params.blake160 && params.config && params.signatures) {
+    if ((typeof params.sk === 'string' || typeof params.sk === 'function')
+      && typeof params.blake160 === 'string'
+      && Array.isArray(params.signatures)
+      && isMultisigConfig(params.config)
+    ) {
+        return true
+    }
+    throw new Error('Multisig options is incorrect')
+  }
+  return false
 }
 
 const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>) => ({
@@ -71,7 +85,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
 
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
       let signStatus = SignStatus.Signed
-      if (typeof sk === 'object') {
+      if (typeof sk === 'object' && isMultisigOption(sk)) {
         const witnessIncludeSignature = signWitnessGroup(sk.sk, transactionHash, ws, sk.config)[0]
         // is multisig sign
         const firstWitness = rawWitnesses[indices[0]]

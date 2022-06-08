@@ -1,4 +1,4 @@
-const { serializeMultisigConfig, hashMultisig, getMultisigStatus } = require('../../lib/multisig')
+const { serializeMultisigConfig, hashMultisig, getMultisigStatus, isMultisigConfig } = require('../../lib/multisig')
 const fixtures = require('./fixtures.json')
 
 describe('test serializeMultisigConfig', () => {
@@ -64,6 +64,22 @@ describe('test getMultisigStatus', () => {
         const result = getMultisigStatus(config, signatures)
         expect(result).toEqual(expected)
       }
+    },
+  )
+})
+describe('test isMultisigConfig', () => {
+  const table = Object.entries(fixtures.isMultisigConfig).map(
+    ([title, { config, expected }]) => [
+      title,
+      config,
+      expected
+    ],
+  )
+
+  test.each(table)(
+    '%s',
+    (_title, config, expected) => {
+      expect(isMultisigConfig(config)).toEqual(expected)
     },
   )
 })

@@ -117,5 +117,33 @@
       "signatures": ["0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"],
       "exception": "More signature for multisig"
     }
+  },
+  "isMultisigConfig": {
+    "false with loss field": {
+      "config": {
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": false
+    },
+    "false with unmatch field type": {
+      "config": {
+        "r": "0",
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": false
+    },
+    "success": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": true
+    }
   }
 }

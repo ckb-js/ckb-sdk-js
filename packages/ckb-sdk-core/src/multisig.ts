@@ -7,6 +7,14 @@ export type MultisigConfig = {
   blake160s: string[]
 }
 
+export function isMultisigConfig(config: any): config is MultisigConfig {
+  return config
+    && typeof config.r === 'number'
+    && typeof config.m === 'number'
+    && typeof config.n === 'number'
+    && Array.isArray(config.blake160s)
+}
+
 export type Signatures = Record<CKBComponents.Hash, CKBComponents.Bytes[]>
 
 export enum SignStatus {

@@ -434,5 +434,80 @@
       "0x10000000100000001000000010000000",
       "0x10000000100000001000000010000000"
     ]
+  },
+  "sign with multisig config, but config is incorrect": {
+    "privateKeys": [
+      [
+        "0xf6e72cadbef39c71be1f128fb335db67e8a95e408814e30e1a6d609aef684c00",
+        {
+          "sk": "0xdcec27d0d975b0378471183a03f7071dea8532aaf968be796719ecd20af6988f",
+          "blake160": "0x7c021957a27000e794f25828270f187c791443e3",
+          "config": {
+            "m": 2,
+            "n": 3,
+            "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+          },
+          "signatures": []
+        }
+      ],
+      [
+        "0x0fec94c611533c9588c8ddfed557b9024f4431a65ace4b1e7106388ddd5dd87b",
+        "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ]
+    ],
+    "inputCells": [
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+          "hashType": "type",
+          "args": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+        }
+      },
+      {
+        "lock": {
+          "codeHash": "0x1892ea40d82b53c678ff88312450bbb17e164d7a3e0a90941aa58839f56f8df2",
+          "hashType": "type",
+          "args": "0xe2fa82e70b062c8644b80ad7ecf6e015e5f352f6"
+        }
+      }
+    ],
+    "transactionHash": "0x4a4bcfef1b7448e27edf533df2f1de9f56be05eba645fb83f42d55816797ad2a",
+    "witnesses": [
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      },
+      {
+        "lock": "",
+        "inputType": "",
+        "outputType": ""
+      }
+    ],
+    "exception": "Multisig options is incorrect"
   }
 }
