@@ -51,7 +51,7 @@ const bootstrap = async () => {
     deps: secp256k1Dep,
   })
 
-  const signedTx = await ckb.signTransaction(PRI_KEY)(rawTx)
+  const signedTx = ckb.signTransaction(PRI_KEY)(rawTx)
   const txHash = await ckb.rpc.sendTransaction(signedTx)
   console.info(`Transaction has been sent with tx hash ${txHash}`)
   return txHash

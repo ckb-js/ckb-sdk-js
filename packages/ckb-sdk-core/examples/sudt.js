@@ -112,7 +112,7 @@ class SudtAccount {
       hashType: CONFIG.acpDep.hashType,
       args: this.sender.publicKeyHash,
     }
-    const signedTx = await this.ckb.signTransaction(this.sender.privateKey)(rawTx)
+    const signedTx = this.ckb.signTransaction(this.sender.privateKey)(rawTx)
     return this.ckb.rpc.sendTransaction(signedTx)
   }
 
@@ -136,7 +136,7 @@ class SudtAccount {
       args: this.ckb.utils.scriptToHash(this.sender.lock),
     }
     rawTx.outputsData[0] = `0x${Buffer.from(amount.toString(16).padStart(32, '0'), 'hex').reverse().toString('hex')}`
-    const signedTx = await this.ckb.signTransaction(this.sender.privateKey)(rawTx)
+    const signedTx = this.ckb.signTransaction(this.sender.privateKey)(rawTx)
     return this.ckb.rpc.sendTransaction(signedTx)
   }
 
@@ -192,7 +192,7 @@ class SudtAccount {
     })
     rawTx.witnesses.push('0x')
 
-    const signedTx = await this.ckb.signTransaction(this.sender.privateKey)(rawTx)
+    const signedTx = this.ckb.signTransaction(this.sender.privateKey)(rawTx)
     return this.ckb.rpc.sendTransaction(signedTx)
   }
 }

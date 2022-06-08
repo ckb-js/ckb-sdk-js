@@ -69,7 +69,7 @@ const generateTransaction = async () => {
     ckb.generateLockHash(`0x${ckb.utils.blake160(ckb.utils.privateKeyToPublicKey(sk), 'hex')}`), sk
   ])))
   const cells = [...ckb.cells.values()].flat()
-  const signedTransaction = await ckb.signTransaction(keys)(rawTransaction, cells)
+  const signedTransaction = ckb.signTransaction(keys)(rawTransaction, cells)
   return signedTransaction
 }
 
