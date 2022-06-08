@@ -84,7 +84,6 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
       }
 
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
-      let signStatus = SignStatus.Signed
       if (typeof sk === 'object' && isMultisigOption(sk)) {
         const witnessIncludeSignature = signWitnessGroup(sk.sk, transactionHash, ws, sk.config)[0]
         // is multisig sign
@@ -100,23 +99,22 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
         }
         const firstWitSigned = { ...firstWitness, lock: lockAfterSign }
         rawWitnesses[indices[0]] = firstWitSigned
-        signStatus = getMultisigStatus(sk.config, [...sk.signatures, sk.blake160])
+        if(getMultisigStatus(sk.config, [...sk.signatures, sk.blake160]) === SignStatus.Signed) {
+          indices.forEach(idx => {
+            const wit = rawWitnesses[idx]
+            rawWitnesses[idx] = typeof wit === 'string' ? wit : serializeWitnessArgs(wit)
+          })
+        }
       } else {
         const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
         rawWitnesses[indices[0]] = witnessIncludeSignature
-      }
-      if (signStatus === SignStatus.Signed) {
-        indices.forEach(idx => {
-          const wit = rawWitnesses[idx]
-          rawWitnesses[idx] = typeof wit === 'string' ? wit : serializeWitnessArgs(wit)
-        })
       }
     })
     return rawWitnesses
   }
 
   const signedWitnesses = signWitnessGroup(key, transactionHash, witnesses)
-  return signedWitnesses.map(wit => typeof wit === 'string' ? wit : serializeWitnessArgs(wit))
+  return signedWitnesses
 }
 
 export default signWitnesses
