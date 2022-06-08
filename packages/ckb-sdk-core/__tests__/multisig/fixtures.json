@@ -66,17 +66,6 @@
       "expected": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
     }
   },
-  "getMultisigScriptHash": {
-    "normal": {
-      "config": {
-        "r": 0,
-        "m": 2,
-        "n": 3,
-        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
-      },
-      "expected": "0xf6e72cadbef39c71be1f128fb335db67e8a95e408814e30e1a6d609aef684c00"
-    }
-  },
   "getMultisigStatus": {
     "Unsigned": {
       "config": {
@@ -108,14 +97,24 @@
       "signatures": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"],
       "expected": "Signed"
     },
-    "exception with More signature for multisig": {
+    "exception with More signature for multisig, all signatures overflow": {
       "config": {
         "r": 1,
         "m": 2,
         "n": 3,
         "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
       },
-      "signatures": ["0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"],
+      "signatures": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"],
+      "exception": "More signature for multisig"
+    },
+    "exception with More signature for multisig, m signatures overflow": {
+      "config": {
+        "r": 1,
+        "m": 1,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": ["0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"],
       "exception": "More signature for multisig"
     }
   }

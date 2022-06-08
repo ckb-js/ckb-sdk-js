@@ -1,4 +1,4 @@
-import { blake2b, PERSONAL, hexToBytes, scriptToHash, systemScripts } from '@nervosnetwork/ckb-sdk-utils'
+import { blake2b, PERSONAL, hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 
 export type MultisigConfig = {
   r: number
@@ -44,14 +44,6 @@ export const hashMultisig = (config: MultisigConfig) => {
   const blake2bHash = blake2b(32, null, null, PERSONAL)
   blake2bHash.update(hexToBytes(serializeMultisigConfig(config)))
   return `0x${blake2bHash.digest('hex')}`.slice(0, 42)
-}
-
-export const getMultisigScriptHash = (config: MultisigConfig) => {
-  return scriptToHash({
-    args: hashMultisig(config),
-    codeHash: systemScripts.SECP256K1_MULTISIG.codeHash,
-    hashType: systemScripts.SECP256K1_MULTISIG.hashType
-  })
 }
 
 export const getMultisigStatus = (config: MultisigConfig, signatures: CKBComponents.Bytes[] = []) => {

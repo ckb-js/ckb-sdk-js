@@ -1,4 +1,4 @@
-const { serializeMultisigConfig, getMultisigScriptHash, hashMultisig, getMultisigStatus } = require('../../lib/multisig')
+const { serializeMultisigConfig, hashMultisig, getMultisigStatus } = require('../../lib/multisig')
 const fixtures = require('./fixtures.json')
 
 describe('test serializeMultisigConfig', () => {
@@ -39,28 +39,6 @@ describe('test hashMultisig', () => {
         expect(() => hashMultisig(config)).toThrowError(exception)
       } else {
         const result = hashMultisig(config)
-        expect(result).toEqual(expected)
-      }
-    },
-  )
-})
-describe('test getMultisigScriptHash', () => {
-  const getMultisigScriptHashTable = Object.entries(fixtures.getMultisigScriptHash).map(
-    ([title, { config, expected, exception }]) => [
-      title,
-      config,
-      exception,
-      expected
-    ],
-  )
-
-  test.each(getMultisigScriptHashTable)(
-    '%s',
-    (_title, config, exception, expected) => {
-      if (exception !== undefined) {
-        expect(() =>getMultisigScriptHash(config)).toThrowError(exception)
-      } else {
-        const result = getMultisigScriptHash(config)
         expect(result).toEqual(expected)
       }
     },
