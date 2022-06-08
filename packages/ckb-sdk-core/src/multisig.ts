@@ -34,7 +34,7 @@ const validateMultisigConfig = (config: MultisigConfig) => {
   if (config.n !== config.blake160s.length) throw new Error(`For m of n multisig sign, signer's length should equal with n`)
 }
 
-export const serizeMultisigConfig = (config: MultisigConfig) => {
+export const serializeMultisigConfig = (config: MultisigConfig) => {
   validateMultisigConfig(config)
   // default s is 00
   return `0x00${toHex(config.r)}${toHex(config.m)}${toHex(config.n)}${config.blake160s.reduce((pre, cur) => pre + cur.slice(2), '')}`
@@ -42,7 +42,7 @@ export const serizeMultisigConfig = (config: MultisigConfig) => {
 
 export const hashMultisig = (config: MultisigConfig) => {
   const blake2bHash = blake2b(32, null, null, PERSONAL)
-  blake2bHash.update(hexToBytes(serizeMultisigConfig(config)))
+  blake2bHash.update(hexToBytes(serializeMultisigConfig(config)))
   return `0x${blake2bHash.digest('hex')}`.slice(0, 42)
 }
 
@@ -55,22 +55,25 @@ export const getMultisigScriptHash = (config: MultisigConfig) => {
 }
 
 export const getMultisigStatus = (config: MultisigConfig, signatures: CKBComponents.Bytes[] = []) => {
-  let signed = 0
-  signatures.forEach(blake160 => {
-    if (config.blake160s.includes(blake160)) {
-      signed += 1
+  let signedForM = 0
+  let signedForR = 0
+  for (let i = 0; i < config.n; i++) {
+    if (signatures.includes(config.blake160s[i])) {
+      if (i < config.r) {
+        signedForR += 1
+      } else {
+        signedForM += 1
+      }
     }
-  })
-  if (signed === 0) {
+  }
+  if (signedForM + signedForR === 0) {
     return SignStatus.Unsigned
   }
-  if (signed < config.m) {
-    return SignStatus.PartiallySigned
+  if (signedForM > config.m - config.r) {
+    throw new Error('More signature for multisig')
   }
-  for (let i = 0; i < config.r; i++) {
-    if (!signatures.includes(config.blake160s[i])) {
-      return SignStatus.PartiallySigned
-    }
+  if (signedForM + signedForR < config.m) {
+    return SignStatus.PartiallySigned
   }
   return SignStatus.Signed
 }

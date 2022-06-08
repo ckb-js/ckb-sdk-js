@@ -2,7 +2,7 @@ import { serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
 import signWitnessGroup, { SignatureProvider } from './signWitnessGroup'
 import groupScripts from './groupScripts'
-import { getMultisigStatus, MultisigConfig, serizeMultisigConfig, SignStatus } from './multisig'
+import { getMultisigStatus, MultisigConfig, serializeMultisigConfig, SignStatus } from './multisig'
 
 type LockHash = string
 type TransactionHash = string
@@ -59,19 +59,16 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
     const rawWitnesses = witnesses
     const restWitnesses = witnesses.slice(inputCells.length)
     const groupedScripts = groupScripts(inputCells)
-    const lockhashes = [...groupedScripts.keys()]
-    for (let i = 0; i < lockhashes.length; i++) {
-      const lockhash = lockhashes[i];
+    groupedScripts.forEach((indices, lockhash) => {
       const sk = key.get(lockhash)
       if (!sk) {
         if (!skipMissingKeys) {
           throw new Error(`The signature provider to sign lockhash ${lockhash} is not found`)
         } else {
-          continue
+          return
         }
       }
 
-      const indices = groupedScripts.get(lockhash)!
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
       let signStatus = SignStatus.Signed
       if (typeof sk === 'object') {
@@ -85,7 +82,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
         if (firstWitness.lock) {
           lockAfterSign = firstWitness.lock + lockAfterSign?.slice(2)
         } else {
-          lockAfterSign = serizeMultisigConfig(sk.config) + lockAfterSign?.slice(2)
+          lockAfterSign = serializeMultisigConfig(sk.config) + lockAfterSign?.slice(2)
         }
         const firstWitSigned = { ...firstWitness, lock: lockAfterSign }
         rawWitnesses[indices[0]] = firstWitSigned
@@ -100,7 +97,7 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
           rawWitnesses[idx] = typeof wit === 'string' ? wit : serializeWitnessArgs(wit)
         })
       }
-    }
+    })
     return rawWitnesses
   }
 

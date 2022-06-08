@@ -1,6 +1,6 @@
 import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
-import { serizeMultisigConfig, MultisigConfig } from './multisig'
+import { serializeMultisigConfig, MultisigConfig } from './multisig'
 
 export type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type TransactionHash = string
@@ -36,7 +36,7 @@ function signWitnessGroup(
     lock: `0x${'0'.repeat(130)}`,
   }
   if (multisigConfig) {
-    emptyWitness.lock = `${serizeMultisigConfig(multisigConfig)}${'0'.repeat(130 * multisigConfig.m)}`
+    emptyWitness.lock = `${serializeMultisigConfig(multisigConfig)}${'0'.repeat(130 * multisigConfig.m)}`
   }
 
   const serializedEmptyWitnessBytes = hexToBytes(serializeWitnessArgs(emptyWitness))

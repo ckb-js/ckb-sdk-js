@@ -1,24 +1,89 @@
-const multisig = require('../../lib/multisig')
+const { serializeMultisigConfig, getMultisigScriptHash, hashMultisig, getMultisigStatus } = require('../../lib/multisig')
 const fixtures = require('./fixtures.json')
 
-describe('test multisig functions', () => {
-  const fixtureTable = Object.entries(fixtures).map(
-    ([title, { functionName, config, expected, exception }]) => [
+describe('test serializeMultisigConfig', () => {
+  const serializeMultisigConfigTable = Object.entries(fixtures.serializeMultisigConfig).map(
+    ([title, { config, expected, exception }]) => [
       title,
-      functionName,
+      config,
+      exception,
+      expected
+    ],
+  )
+  test.each(serializeMultisigConfigTable)(
+    '%s',
+    (_title, config, exception, expected) => {
+      if (exception !== undefined) {
+        expect(() =>serializeMultisigConfig(config)).toThrowError(exception)
+      } else {
+        const result = serializeMultisigConfig(config)
+        expect(result).toEqual(expected)
+      }
+    },
+  )
+})
+describe('test hashMultisig', () => {
+  const hashMultisigTable = Object.entries(fixtures.hashMultisig).map(
+    ([title, { config, expected, exception }]) => [
+      title,
       config,
       exception,
       expected
     ],
   )
 
-  test.each(fixtureTable)(
+  test.each(hashMultisigTable)(
     '%s',
-    (_title, functionName, config, exception, expected) => {
+    (_title, config, exception, expected) => {
       if (exception !== undefined) {
-        expect(() =>multisig[functionName](config)).toThrowError(exception)
+        expect(() => hashMultisig(config)).toThrowError(exception)
       } else {
-        const result = multisig[functionName](config)
+        const result = hashMultisig(config)
+        expect(result).toEqual(expected)
+      }
+    },
+  )
+})
+describe('test getMultisigScriptHash', () => {
+  const getMultisigScriptHashTable = Object.entries(fixtures.getMultisigScriptHash).map(
+    ([title, { config, expected, exception }]) => [
+      title,
+      config,
+      exception,
+      expected
+    ],
+  )
+
+  test.each(getMultisigScriptHashTable)(
+    '%s',
+    (_title, config, exception, expected) => {
+      if (exception !== undefined) {
+        expect(() =>getMultisigScriptHash(config)).toThrowError(exception)
+      } else {
+        const result = getMultisigScriptHash(config)
+        expect(result).toEqual(expected)
+      }
+    },
+  )
+})
+describe('test getMultisigStatus', () => {
+  const table = Object.entries(fixtures.getMultisigStatus).map(
+    ([title, { config, signatures, expected, exception }]) => [
+      title,
+      config,
+      signatures,
+      exception,
+      expected
+    ],
+  )
+
+  test.each(table)(
+    '%s',
+    (_title, config, signatures, exception, expected) => {
+      if (exception !== undefined) {
+        expect(() =>getMultisigStatus(config, signatures)).toThrowError(exception)
+      } else {
+        const result = getMultisigStatus(config, signatures)
         expect(result).toEqual(expected)
       }
     },
