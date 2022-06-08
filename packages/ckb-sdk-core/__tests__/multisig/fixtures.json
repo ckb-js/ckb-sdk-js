@@ -20,12 +20,12 @@
     },
     "exception with r shouldn't be greater than n": {
       "config": {
-        "r": 4,
+        "r": 3,
         "m": 2,
         "n": 3,
         "blake160s": []
       },
-      "exception": "For m of n multisig sign, r shouldn't be greater than n"
+      "exception": "For m of n multisig sign, r shouldn't be greater than m"
     },
     "exception with m is greater than n": {
       "config": {

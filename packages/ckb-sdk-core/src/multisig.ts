@@ -30,7 +30,7 @@ const validateMultisigConfig = (config: MultisigConfig) => {
   validateMultisigCount(config.m)
   validateMultisigCount(config.n)
   if (config.m > config.n) throw new Error(`For m of n multisig sign, m shouldn't be greater than n`)
-  if (config.r > config.n) throw new Error(`For m of n multisig sign, r shouldn't be greater than n`)
+  if (config.r > config.m) throw new Error(`For m of n multisig sign, r shouldn't be greater than m`)
   if (config.n !== config.blake160s.length) throw new Error(`For m of n multisig sign, signer's length should equal with n`)
 }
 
