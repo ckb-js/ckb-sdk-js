@@ -121,7 +121,7 @@
   "isMultisigConfig": {
     "false with loss field": {
       "config": {
-        "m": 2,
+        "m": "2",
         "n": 3,
         "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
       },
@@ -129,7 +129,7 @@
     },
     "false with unmatch field type": {
       "config": {
-        "r": "0",
+        "r": "a",
         "m": 2,
         "n": 3,
         "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]

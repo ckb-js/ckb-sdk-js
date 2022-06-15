@@ -9,9 +9,9 @@ export type MultisigConfig = {
 
 export function isMultisigConfig(config: any): config is MultisigConfig {
   return config
-    && typeof config.r === 'number'
-    && typeof config.m === 'number'
-    && typeof config.n === 'number'
+    && !Number.isNaN(+config.r)
+    && !Number.isNaN(+config.m)
+    && !Number.isNaN(+config.n)
     && Array.isArray(config.blake160s)
 }
 
