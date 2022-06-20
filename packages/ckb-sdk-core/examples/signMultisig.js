@@ -1,12 +1,24 @@
-const signWitnesses = require('../lib/signWitnesses').default
 const CKB = require('../lib').default
 const { hashMultisig } = require('../lib/multisig')
 
+const alice = {
+  blake160: '0xc9dc0591a8edf3ddbd48e3dd24c85d68706df86f',
+  privateKey: '0x13f88a4a4f06cdbe693ef77b8fcbda1d44ea28567c47a7284e7542bc3eafe6c7'
+}
+const bob = {
+  blake160: '0x8aa16d7f71b352fa8c3bd4ca790ca4b662343381',
+  privateKey: '0x51594d34890e2c817ac0a58d702a4c19cc314000f308926de739faa460f149c9'
+}
+const charlie = {
+  blake160: '0x6f8f1a16bf40f0171bbb6d5abcec5473485f916b',
+  privateKey: '0xac5f70a5b36e645eebfaad00357e3b1d94b9d50718824a818ec08b90c68a48af'
+}
+
 const multisigConfig = {
-  r: 1,
+  r: 0,
   m: 2,
   n: 3,
-  blake160s: ['0x36c329ed630d6ce750712a477543672adab57f4c', '0xe2193df51d78411601796b35b17b4f8f2cd85bd0', '0xe2193df51d78411601796b35b17b4f8f2cd80000']
+  blake160s: [alice.blake160, bob.blake160, charlie.blake160]
 }
 const ckb = new CKB('http://localhost:8114')
 const multisigLockScript = {
@@ -16,53 +28,45 @@ const multisigLockScript = {
 }
 const multisigLockHash = ckb.utils.scriptToHash(multisigLockScript)
 
+const inputCells = [
+  {
+      "previousOutput":{
+          "txHash":"0x4a978176babec5441a9a15182f3cc35799b60b4fc09e0a478f9fc640c32aa7f0",
+          "index":"0x0"
+      },
+      "since": "0x0",
+      "lock": multisigLockScript
+  }
+]
 const tx = {
   "cellDeps":[
       {
-          "outPoint":{
-              "txHash":"0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37",
-              "index":"0x1"
-          },
+          "outPoint": ckb.utils.systemScripts.SECP256K1_MULTISIG.testnetOutPoint,
           "depType":"depGroup"
       }
   ],
   "headerDeps":[
 
   ],
-  "inputs":[
-      {
-          "previousOutput":{
-              "txHash":"0x6a7f62794154b6b46748bc1f178357d183523da669407e5d5769213545887d29",
-              "index":"0x1"
-          },
-          "since": "0x0",
-          "lock": multisigLockScript
-      }
-  ],
+  "inputs": inputCells.map(v => ({
+    since: v.since,
+    previousOutput: v.previousOutput
+  })),
   "outputs":[
       {
-          "capacity": "0x16b969d00",
-          "lock":{
-              "args":"0x62260b4dd406bee8a021185edaa60b7a77f7e99a",
-              "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
-              "hashType":"type"
+          "capacity": `0x${BigInt('6100000000').toString(16)}`,
+          "lock": {
+              "args": "0x62260b4dd406bee8a021185edaa60b7a77f7e99a",
+              "codeHash": ckb.utils.systemScripts.SECP256K1_BLAKE160.codeHash,
+              "hashType": ckb.utils.systemScripts.SECP256K1_BLAKE160.hashType,
           },
-          "data":"0x"
       },
       {
-          "capacity": "0x15dce04904",
+          "capacity": `0x${(BigInt('100000000000') - BigInt('6100000000') - BigInt('593')).toString(16)}`,
           "lock": multisigLockScript,
-          "data":"0x"
       }
   ],
-  "witnesses":[
-
-  ],
-  "signatures":{
-
-  },
   "version":"0x0",
-  "fee":"508",
   "outputsData":[
       "0x",
       "0x"
@@ -70,9 +74,10 @@ const tx = {
 }
 const transactionHash = ckb.utils.rawTransactionToHash(tx)
 
-const aliceSign = signWitnesses(new Map([[multisigLockHash, {
-  sk: '0xe8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35',
-  blake160: '0xe2193df51d78411601796b35b17b4f8f2cd85bd0',
+// will be PartiallySigned after alice sign
+const aliceSign = ckb.signWitnesses(new Map([[multisigLockHash, {
+  sk: alice.privateKey,
+  blake160: alice.blake160,
   config: multisigConfig,
   signatures: []
 }]]))({
@@ -84,20 +89,23 @@ const aliceSign = signWitnesses(new Map([[multisigLockHash, {
       outputType: ""
     }
   ],
-  inputCells: tx.inputs
+  inputCells
 })
-// PartiallySigned
 
-// deliver alice's blake160 to signatures, and deliver signed witness as witness parameter
-const bobSign = signWitnesses(new Map([[multisigLockHash, {
-  sk: '0xe79f3207ea4980b7fed79956d5934249ceac4751a4fae01a0f7c4a96884bc4e3',
-  blake160: '0x36c329ed630d6ce750712a477543672adab57f4c',
+// deliver alice's blake160 to signatures, and deliver signed witness as witness parameter will be Signed after bob sign
+const bobSign = ckb.signWitnesses(new Map([[multisigLockHash, {
+  sk: bob.privateKey,
+  blake160: bob.blake160,
   config: multisigConfig,
-  signatures: ['0xe2193df51d78411601796b35b17b4f8f2cd85bd0']
+  signatures: [alice.blake160]
 }]]))({
   transactionHash,
   witnesses: aliceSign,
-  inputCells: tx.inputs
-})
+  inputCells
+});
 
-// Signed
+(async function(){
+  tx.witnesses = bobSign
+  const txHash = await ckb.rpc.sendTransaction(tx)
+  console.log(txHash)
+}())
