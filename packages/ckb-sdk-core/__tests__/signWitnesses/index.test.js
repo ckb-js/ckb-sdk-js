@@ -4,7 +4,7 @@ const fixtures = require('./fixtures.json')
 
 describe('test sign witnesses', () => {
   const fixtureTable = Object.entries(fixtures).map(
-    ([title, { privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, expected, exception, multisigConfig }]) => [
+    ([title, { privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, expected, exception, skipMissingKeys }]) => [
       title,
       privateKey,
       privateKeys,
@@ -12,7 +12,7 @@ describe('test sign witnesses', () => {
       transactionHash,
       witnesses,
       inputCells,
-      multisigConfig,
+      skipMissingKeys,
       exception,
       expected,
     ],
@@ -20,7 +20,7 @@ describe('test sign witnesses', () => {
 
   test.each(fixtureTable)(
     '%s',
-    (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, multisigConfig, exception, expected) => {
+    (_title, privateKey, privateKeys, signatureProviders, transactionHash, witnesses, inputCells, skipMissingKeys, exception, expected) => {
       if (exception !== undefined) {
         const key = privateKey || (privateKeys && new Map(privateKeys))
         expect(
@@ -28,14 +28,15 @@ describe('test sign witnesses', () => {
             transactionHash,
             witnesses,
             inputCells,
-            multisigConfig
+            skipMissingKeys,
           })
         ).toThrowError(exception)
       } else if (privateKey !== undefined) {
         const signedWitnesses = signWitnesses(privateKey)({
           transactionHash,
           witnesses,
-          multisigConfig
+          inputCells,
+          skipMissingKeys,
         })
         expect(signedWitnesses).toEqual(expected)
       } else if (privateKeys !== undefined) {
@@ -44,7 +45,7 @@ describe('test sign witnesses', () => {
           transactionHash,
           witnesses,
           inputCells,
-          multisigConfig
+          skipMissingKeys
         })
         expect(signedWitnesses).toEqual(expected)
       } else if (signatureProviders !== undefined) {
@@ -56,7 +57,7 @@ describe('test sign witnesses', () => {
           transactionHash,
           witnesses,
           inputCells,
-          multisigConfig
+          skipMissingKeys
         })
         expect(signedWitnesses).toEqual(expected)
       }

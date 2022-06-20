@@ -48,7 +48,7 @@ function isMultisigOption(params: any): params is MultisigOption {
     }
     throw new Error('Multisig options is incorrect')
   }
-  return false
+  throw new Error('Multisig options miss some property')
 }
 
 const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>) => ({
