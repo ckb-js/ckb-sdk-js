@@ -42,7 +42,7 @@ const tx = {
   "cellDeps":[
       {
           "outPoint": ckb.utils.systemScripts.SECP256K1_MULTISIG.testnetOutPoint,
-          "depType":"depGroup"
+          "depType": ckb.utils.systemScripts.SECP256K1_MULTISIG.depType
       }
   ],
   "headerDeps":[
