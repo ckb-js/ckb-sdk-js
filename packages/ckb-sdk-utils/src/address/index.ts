@@ -67,6 +67,7 @@ const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Ui
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/helpers/encodeToAddress]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/index.ts#L182}
  * @function scriptToAddress
  * @description The only way recommended to generated a full address of new version
  * @param {object} script
