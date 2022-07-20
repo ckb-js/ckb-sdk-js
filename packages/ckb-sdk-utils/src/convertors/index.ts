@@ -44,6 +44,9 @@ export const toUint64Le = (uint64: string | bigint) => {
   return `0x${viewLeft}${viewRight}`
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/helpers/hexToByteArray]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/utils.ts#L3}
+ */
 export const hexToBytes = (rawhex: string | number | bigint) => {
   if (rawhex === '') return new Uint8Array()
   if (typeof rawhex === 'string' && !rawhex.startsWith('0x')) {
@@ -74,6 +77,9 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
   return `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16).padStart(2, '0'), '')}`
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/helpers/byteArrayToHex]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/utils.ts#L18}
+ */
 export const bytesToHex = (bytes: Uint8Array): string =>
   `0x${[...bytes].map(b => b.toString(16).padStart(2, '0')).join('')}`
 

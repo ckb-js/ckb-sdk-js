@@ -16,6 +16,7 @@ export const getOffsets = (elmLengths: number[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/array]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/codec/src/molecule/layout.ts#L47}
  * @name serializeArray
  * @description The array is a fixed-size type: it has a fixed-size type and a fixed length.
  *              The size of an array is the size of inner type times the length.
@@ -30,6 +31,7 @@ export const serializeArray = (array: string | Uint8Array) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/struct]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/codec/src/molecule/layout.ts#L87}
  * @name serializeStruct
  * @type Struct is a fixed-size type: all fields in struct is fixed-size,
  *              and it has a fixed quantity of fields.
@@ -47,6 +49,7 @@ export const serializeStruct = (struct: Map<string, string | Uint8Array>) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/fixvec]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/codec/src/molecule/layout.ts#L125}
  * @name serializeFixVec
  * @type FixVec, a fixed-size vector is a vector whose items have a fixed size
  * @tutorial There are two steps of serializing a serializeFixVec
@@ -64,6 +67,7 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/dynvec]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/codec/src/molecule/layout.ts#L148}
  * @name serializeDynVec
  * @type DynVec, a dynamic-size vector is a vector whose items have a dynamic size
  * @tutorial There are three steps of serializing a dynvec
@@ -89,6 +93,7 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/table]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/codec/src/molecule/layout.ts#L210}
  * @name serializeTable
  * @type Table, the table is a dynamic-size type, It can be considered as a dynvec but the length is fixed.
  */

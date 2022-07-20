@@ -300,6 +300,9 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
   return encode === 'binary' ? payload : bytesToHex(payload)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/helpers/addressToScript]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/index.ts#L180}
+ */
 export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)
   const type = payload[0]
