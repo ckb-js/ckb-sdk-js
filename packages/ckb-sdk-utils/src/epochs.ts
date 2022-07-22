@@ -7,6 +7,9 @@ export interface EpochInfo {
   number: string
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/base/since.generateAbsoluteEpochSince]{@link https://lumos-website.vercel.app/api/modules/base.html#generateabsoluteepochsince}
+ */
 export const serializeEpoch = ({ length, index, number }: EpochInfo): string => {
   assertToBeHexString(length)
   assertToBeHexString(index)
@@ -26,6 +29,9 @@ export const serializeEpoch = ({ length, index, number }: EpochInfo): string => 
   return `0x${epochSince.toString(16)}`
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/base/since.parseEpoch]{@link https://lumos-website.vercel.app/api/modules/base.html#parseepoch}
+ */
 export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
   length: `0x${JSBI.bitwiseAnd(
     JSBI.signedRightShift(JSBI.BigInt(epoch), JSBI.BigInt(40)),

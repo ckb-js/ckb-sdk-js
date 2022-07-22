@@ -1,6 +1,7 @@
 import { serializeWitnessArgs, serializeTransaction } from './serialization/transaction'
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/common-script/common.getTransactionSize]{@link https://lumos-website.vercel.app/api/modules/common_scripts.html#gettransactionsize}
  * @name getTransactionSize
  * @description return the size of a transaction cost in a block, 4 bytes more than the serialized transaction.
  * @param {Object} transaction - Raw transaction

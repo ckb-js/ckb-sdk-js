@@ -67,7 +67,7 @@ const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Ui
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/encodeToAddress]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/index.ts#L182}
+ * @deprecated please migrate to [@ckb-lumos/helpers/encodeToAddress]{@link https://lumos-website.vercel.app/api/modules/helpers.html#encodetoaddress}
  * @function scriptToAddress
  * @description The only way recommended to generated a full address of new version
  * @param {object} script
@@ -155,6 +155,7 @@ export const toAddressPayload = (
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/helpers/generateAddress]{@link https://lumos-website.vercel.app/api/modules/helpers.html#generateaddress}
  * @function bech32Address
  * @description generate the address by bech32 algorithm
  * @param args, used as the identifier of an address, usually the public key hash is used.
@@ -190,6 +191,10 @@ export const fullPayloadToAddress = ({
   codeHash: CKBComponents.Hash256
 }) => bech32Address(args, { prefix, type, codeHashOrCodeHashIndex: codeHash })
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/helpers/generateSecp256k1Blake160Address]{@link https://lumos-website.vercel.app/api/modules/helpers.html#generatesecp256k1blake160address}
+ * @function pubkeyToAddress
+ */
 export const pubkeyToAddress = (pubkey: Uint8Array | string, options: AddressOptions = {}) => {
   const publicKeyHash = blake160(pubkey)
   return bech32Address(publicKeyHash, options)
@@ -301,7 +306,7 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/addressToScript]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/index.ts#L180}
+ * @deprecated please migrate to [@ckb-lumos/helpers/addressToScript]{@link https://lumos-website.vercel.app/api/modules/helpers.html#addresstoscript}
  */
 export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)

@@ -4,6 +4,7 @@ import { HexStringWithout0xException } from '../exceptions'
 /**
  * Converts an uint16 into a hex string in little endian
  *
+ * @deprecated please migrate to [@ckb-lumos/codec/Uint16LE]{@link  https://lumos-website.vercel.app/api/modules/codec.html#uint16le-2}
  * @memberof convertors
  * @param {string|bigint} uint16 The uint16 to convert
  * @returns {string} Returns a hex string
@@ -18,6 +19,7 @@ export const toUint16Le = (uint16: string | bigint) => {
 /**
  * Converts an uint32 into a hex string in little endian
  *
+ * @deprecated please migrate to [@ckb-lumos/codec/Uint32LE]{@link  https://lumos-website.vercel.app/api/modules/codec.html#uint32le-2}
  * @memberof convertors
  * @param {string|bigint} uint32 The uint32 to convert
  * @returns {string} Returns a hex string
@@ -32,6 +34,7 @@ export const toUint32Le = (uint32: string | bigint) => {
 /**
  * Converts an uint64 into a hex string in little endian
  *
+ * @deprecated please migrate to [@ckb-lumos/codec/Uint64LE]{@link  https://lumos-website.vercel.app/api/modules/codec.html#uint64le-2}
  * @memberof convertors
  * @param {string|bigint} uint64 The uint64 to convert
  * @returns {string} Returns a hex string
@@ -45,7 +48,7 @@ export const toUint64Le = (uint64: string | bigint) => {
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/hexToByteArray]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/utils.ts#L3}
+ * @deprecated please migrate to [@ckb-lumos/helpers/hexToByteArray]{@link https://lumos-website.vercel.app/api/modules/helpers.html#hextobytearray}
  */
 export const hexToBytes = (rawhex: string | number | bigint) => {
   if (rawhex === '') return new Uint8Array()
@@ -78,7 +81,7 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/byteArrayToHex]{@link https://github.com/nervosnetwork/lumos/blob/9ed7ce413ce0ed3aeb2b0b691cca5f4d6fb9af36/packages/helpers/src/utils.ts#L18}
+ * @deprecated please migrate to [@ckb-lumos/helpers/byteArrayToHex]{@link https://lumos-website.vercel.app/api/modules/helpers.html#bytearraytohex}
  */
 export const bytesToHex = (bytes: Uint8Array): string =>
   `0x${[...bytes].map(b => b.toString(16).padStart(2, '0')).join('')}`
