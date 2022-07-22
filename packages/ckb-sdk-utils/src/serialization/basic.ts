@@ -16,6 +16,7 @@ export const getOffsets = (elmLengths: number[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/array]{@link https://lumos-website.vercel.app/api/modules/codec.html#array-3}
  * @name serializeArray
  * @description The array is a fixed-size type: it has a fixed-size type and a fixed length.
  *              The size of an array is the size of inner type times the length.
@@ -30,6 +31,7 @@ export const serializeArray = (array: string | Uint8Array) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/struct]{@link https://lumos-website.vercel.app/api/modules/codec.html#struct-2}
  * @name serializeStruct
  * @type Struct is a fixed-size type: all fields in struct is fixed-size,
  *              and it has a fixed quantity of fields.
@@ -47,6 +49,7 @@ export const serializeStruct = (struct: Map<string, string | Uint8Array>) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/fixvec]{@link https://lumos-website.vercel.app/api/modules/codec.html#fixvec}
  * @name serializeFixVec
  * @type FixVec, a fixed-size vector is a vector whose items have a fixed size
  * @tutorial There are two steps of serializing a serializeFixVec
@@ -64,6 +67,7 @@ export const serializeFixVec = (fixVec: string | (string | Uint8Array)[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/dynvec]{@link https://lumos-website.vercel.app/api/modules/codec.html#dynvec}
  * @name serializeDynVec
  * @type DynVec, a dynamic-size vector is a vector whose items have a dynamic size
  * @tutorial There are three steps of serializing a dynvec
@@ -89,6 +93,7 @@ export const serializeDynVec = (dynVec: (string | Uint8Array)[]) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/table]{@link https://lumos-website.vercel.app/api/modules/codec.html#table-2}
  * @name serializeTable
  * @type Table, the table is a dynamic-size type, It can be considered as a dynvec but the length is fixed.
  */
@@ -107,6 +112,7 @@ export const serializeTable = (table: Map<string, string | Uint8Array>) => {
 }
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/codec/option]{@link https://lumos-website.vercel.app/api/modules/codec.html#option-2}
  * @name serializeOption
  * @type Option is a dynamic-size type
  * @tutorial Serialize an option depends on whether it is empty or not

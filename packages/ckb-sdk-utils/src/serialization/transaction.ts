@@ -11,6 +11,9 @@ import {
 
 export const serializeVersion = (version: CKBComponents.Version) => toUint32Le(version)
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeOutPoint]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizeoutpoint}
+ */
 export const serializeOutPoint = (outPoint: CKBComponents.OutPoint | null) => {
   if (!outPoint) return ''
   const struct = new Map<string, string>([
@@ -26,6 +29,9 @@ export const serializeDepType = (type: CKBComponents.DepType) => {
   throw new TypeError("Dep type must be either of 'code' or 'depGroup'")
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeCellDep]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizecelldep}
+ */
 export const serializeCellDep = (dep: CKBComponents.CellDep) => {
   const serializedOutPoint = serializeOutPoint(dep.outPoint)
   const serializedDepType = serializeDepType(dep.depType)
@@ -46,6 +52,9 @@ export const serializeHeaderDeps = (deps: CKBComponents.Hash256[]) => {
   return serializeFixVec(serializedHeaderDepList)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeCellInput]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizecellinput}
+ */
 export const serializeInput = (input: CKBComponents.CellInput) => {
   const serializedOutPoint = serializeOutPoint(input.previousOutput)
   const serializedSince = toUint64Le(input.since)
@@ -61,6 +70,9 @@ export const serializeInputs = (inputs: CKBComponents.CellInput[]) => {
   return serializeFixVec(serializedInputList)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeCellOutput]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizecelloutput}
+ */
 export const serializeOutput = (output: CKBComponents.CellOutput) => {
   const serializedCapacity = toUint64Le(output.capacity)
   const serializedLockScript = serializeScript(output.lock)
@@ -83,6 +95,9 @@ export const serializeOutputsData = (outputsData: CKBComponents.Hash[]) => {
   return serializeDynVec(serializedOutputsDatumList)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeWitnessArgs]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizewitnessargs}
+ */
 export const serializeWitnessArgs = (witnessArgs: CKBComponents.WitnessArgs) => {
   const [serializedLock, serializedInputType, serializedOutputType] = [
     witnessArgs.lock,
@@ -108,6 +123,9 @@ export const serializeWitnesses = (witnesses: CKBComponents.Witness[]) => {
   return serializeDynVec(serializedWitnessList)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeRawTransaction]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizerawtransaction}
+ */
 export const serializeRawTransaction = (
   rawTransaction: Pick<
     CKBComponents.RawTransaction,
@@ -133,6 +151,9 @@ export const serializeRawTransaction = (
   return serializeTable(table)
 }
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeTransaction]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizetransaction}
+ */
 export const serializeTransaction = (rawTransaction: CKBComponents.RawTransaction) => {
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
   const serializedWitnesses = serializeWitnesses(rawTransaction.witnesses || [])

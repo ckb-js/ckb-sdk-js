@@ -2,6 +2,7 @@ import JSBI from 'jsbi'
 import { assertToBeHexStringOrBigint } from './validators'
 
 /**
+ * @deprecated please migrate to [@ckb-lumos/common-script/common.calculatefee]{@link https://lumos-website.vercel.app/api/modules/common_scripts.html#calculatefee-2}
  * @function calculateTransactionFee
  * @description calculate the transaction fee by transaction size and fee rate
  * @param {string | bigint} transactionSize, the byte size of transaction

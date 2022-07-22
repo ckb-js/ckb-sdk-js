@@ -12,6 +12,9 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
 
 export const serializeArgs = (args: string) => serializeFixVec(args)
 
+/**
+ * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeScript]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizescript}
+ */
 export const serializeScript = (script: CKBComponents.Script) => {
   if (!script) throw new ParameterRequiredException('Script')
   const { codeHash = '', hashType, args = '' } = script
