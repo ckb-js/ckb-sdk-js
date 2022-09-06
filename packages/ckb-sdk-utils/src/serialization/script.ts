@@ -1,8 +1,14 @@
 import { serializeArray, serializeTable, serializeFixVec } from './basic'
 import { ParameterRequiredException } from '../exceptions'
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializecodehash example}
+ */
 export const serializeCodeHash = (codeHash: CKBComponents.Hash256) => serializeArray(codeHash)
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializehashtype example}
+ */
 export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   if (hashType === 'data') return '0x00'
   if (hashType === 'type') return '0x01'
@@ -10,10 +16,13 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   throw new TypeError("Hash type must be either of 'data' or 'type'")
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializeargs example}
+ */
 export const serializeArgs = (args: string) => serializeFixVec(args)
 
 /**
- * @deprecated please migrate to [@ckb-lumos/toolkit/normalizers.NormalizeScript]{@link https://lumos-website.vercel.app/api/modules/toolkit.normalizers.html#normalizescript}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializescript example}
  */
 export const serializeScript = (script: CKBComponents.Script) => {
   if (!script) throw new ParameterRequiredException('Script')
