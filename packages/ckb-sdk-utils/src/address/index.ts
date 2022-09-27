@@ -67,7 +67,7 @@ const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Ui
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/encodeToAddress]{@link https://lumos-website.vercel.app/api/modules/helpers.html#encodetoaddress}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/helpers.html#encodetoaddress @ckb-lumos/helpers/encodeToAddress} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#scripttoaddress example}
  * @function scriptToAddress
  * @description The only way recommended to generated a full address of new version
  * @param {object} script
@@ -155,7 +155,7 @@ export const toAddressPayload = (
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/generateAddress]{@link https://lumos-website.vercel.app/api/modules/helpers.html#generateaddress}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/helpers.html#generateaddress @ckb-lumos/helpers/generateAddress} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#bech32address example}
  * @function bech32Address
  * @description generate the address by bech32 algorithm
  * @param args, used as the identifier of an address, usually the public key hash is used.
@@ -192,7 +192,7 @@ export const fullPayloadToAddress = ({
 }) => bech32Address(args, { prefix, type, codeHashOrCodeHashIndex: codeHash })
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/generateSecp256k1Blake160Address]{@link https://lumos-website.vercel.app/api/modules/helpers.html#generatesecp256k1blake160address}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/helpers.html#generatesecp256k1blake160address @ckb-lumos/helpers/generateSecp256k1Blake160Address} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#pubkeytoaddress example}
  * @function pubkeyToAddress
  */
 export const pubkeyToAddress = (pubkey: Uint8Array | string, options: AddressOptions = {}) => {
@@ -278,6 +278,7 @@ export declare interface ParseAddress {
   (address: string, encode: 'binary' | 'hex'): Uint8Array | string
 }
 /**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/helpers.html#addresstoscript @ckb-lumos/helpers/addressToScript} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#parseaddress example}
  * @return addressPayload, consists of type | params | publicKeyHash
  *         e.g. 0x | 01 | 00 | e2fa82e70b062c8644b80ad7ecf6e015e5f352f6
  */
@@ -306,7 +307,7 @@ export const parseAddress: ParseAddress = (address: string, encode: 'binary' | '
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/helpers/addressToScript]{@link https://lumos-website.vercel.app/api/modules/helpers.html#addresstoscript}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/helpers.html#addresstoscript @ckb-lumos/helpers/addressToScript} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#addresstoscript example}
  */
 export const addressToScript = (address: string): CKBComponents.Script => {
   const payload = parseAddress(address)

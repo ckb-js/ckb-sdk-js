@@ -8,7 +8,7 @@ export interface EpochInfo {
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/base/since.generateAbsoluteEpochSince]{@link https://lumos-website.vercel.app/api/modules/base.html#generateabsoluteepochsince}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html#generateabsoluteepochsince @ckb-lumos/base/since.generateAbsoluteEpochSince} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializeepoch example}
  */
 export const serializeEpoch = ({ length, index, number }: EpochInfo): string => {
   assertToBeHexString(length)
@@ -30,7 +30,7 @@ export const serializeEpoch = ({ length, index, number }: EpochInfo): string => 
 }
 
 /**
- * @deprecated please migrate to [@ckb-lumos/base/since.parseEpoch]{@link https://lumos-website.vercel.app/api/modules/base.html#parseepoch}
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html#parseepoch @ckb-lumos/base/since.parseEpoch} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#parseepoch example}
  */
 export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
   length: `0x${JSBI.bitwiseAnd(
@@ -44,6 +44,7 @@ export const parseEpoch = (epoch: CKBComponents.EpochInHeader) => ({
 })
 
 /**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/common_scripts.html#calculatedaoearliestsince @ckb-lumos/lumos/commons.dao.calculateDaoEarliestSince} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#getwithdrawepoch example}
  * @memberof Utils
  * @function getWithdrawEpoch
  * @description Calculate the minimum epoch to withdraw the deposit by deposit epoch and withdrawing epoch

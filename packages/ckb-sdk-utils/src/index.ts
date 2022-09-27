@@ -21,6 +21,9 @@ export * as reconcilers from './reconcilers'
 export { serializeScript, serializeRawTransaction, serializeTransaction, serializeWitnessArgs, JSBI, PERSONAL }
 export const { blake2b, bech32, bech32m, blake160 } = crypto
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/lumos.html#utils @ckb-lumos/lumos/utils} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#scripttohash example}
+ */
 export const scriptToHash = (script: CKBComponents.Script) => {
   if (!script) throw new ParameterRequiredException('Script')
   const serializedScript = serializeScript(script)
@@ -30,6 +33,9 @@ export const scriptToHash = (script: CKBComponents.Script) => {
   return `0x${digest}` as string
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/lumos.html#utils @ckb-lumos/lumos/utils} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#rawtransactiontohash example}
+ */
 export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTransaction, 'witnesses'>) => {
   if (!rawTransaction) throw new ParameterRequiredException('Raw transaction')
   const serializedRawTransaction = serializeRawTransaction(rawTransaction)
@@ -39,15 +45,23 @@ export const rawTransactionToHash = (rawTransaction: Omit<CKBComponents.RawTrans
   return `0x${digest}` as string
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/hd.html#privatekeytoblake160 @ckb-lumos/hd} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#privatekeytopublickey example}
+ */
 export const privateKeyToPublicKey = (privateKey: string) => {
   const keyPair = new ECPair(privateKey)
   return keyPair.publicKey
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/hd.html#privatekeytoblake160 @ckb-lumos/hd} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#privatekeytoaddress example}
+ */
 export const privateKeyToAddress = (privateKey: string, options: AddressOptions) =>
   pubkeyToAddress(privateKeyToPublicKey(privateKey), options)
 
-
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/common_scripts.html @ckb-lumos/common-scripts/lib/dao} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#extractdaodata example}
+ */
 export const extractDAOData = (dao: CKBComponents.DAO) => {
   if (!dao.startsWith('0x')) {
     throw new HexStringWithout0xException(dao)
@@ -61,6 +75,9 @@ export const extractDAOData = (dao: CKBComponents.DAO) => {
   }
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/common_scripts.html @ckb-lumos/lumos/commons} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#calculatemaximumwithdraw example}
+ */
 export const calculateMaximumWithdraw = (
   outputCell: CKBComponents.CellOutput,
   outputDataCapacity: CKBComponents.Bytes,
