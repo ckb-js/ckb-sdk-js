@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 14
+          node-version: 18
 
       - name: Restore
         uses: actions/cache@v2
@@ -25,7 +25,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      
+
       - name: Install Lerna
         run: npm install -g lerna
 
