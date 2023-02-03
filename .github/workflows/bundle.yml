@@ -26,11 +26,8 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install Lerna
-        run: npm install -g lerna
-
       - name: Install Deps
-        run: lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
 
       - name: Compile
         run: |
