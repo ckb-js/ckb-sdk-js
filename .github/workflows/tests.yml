@@ -10,30 +10,45 @@ jobs:
   default:
     strategy:
       matrix:
-        node: [12, 14, 16]
+        node: [16, 18]
         os: [macos-latest, ubuntu-18.04]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Skip when run node.js@18 on ubuntu for compatibility reason
+        id: is_skip
+        if: matrix.os == 'ubuntu-18.04' && matrix.node == '18'
+        run: echo 'IS_SKIP=true' >> $GITHUB_OUTPUT
+
       - uses: actions/checkout@v2
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
+
       - name: Setup Node
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
         uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ matrix.node }}
+
       - name: Restore
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
         uses: actions/cache@v2
         with:
           path: |
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Lerna
-        run: npm install -g lerna
+
       - name: Install Deps
-        run: lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
+        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+
       - name: Compile
-        run: lerna run tsc
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
+        run: npx lerna run tsc
+
       - name: Test
+        if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
         run: yarn run test
+
       - name: Upload codecov
         if: matrix.os == 'macos-latest' && matrix.node == '14'
         uses: codecov/codecov-action@v1

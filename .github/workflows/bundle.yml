@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Restore
         uses: actions/cache@v2
@@ -25,12 +25,9 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      
-      - name: Install Lerna
-        run: npm install -g lerna
 
       - name: Install Deps
-        run: lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
 
       - name: Compile
         run: |
