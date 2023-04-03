@@ -350,6 +350,8 @@ export interface Base {
   getBlockchainInfo: () => Promise<CKBComponents.BlockchainInfo>
 
   /* skip Subscription */
+
+  getFeeRateStats: () => Promise<CKBComponents.FeeRateStats>
 }
 
 export class Base {

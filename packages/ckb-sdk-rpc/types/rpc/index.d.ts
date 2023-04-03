@@ -257,6 +257,11 @@ declare module RPC {
     fee_rate: string
   }
 
+  export type FeeRateStats = {
+    mean: string
+    median: string
+  }
+
   export interface CapacityByLockHash {
     block_number: BlockNumber
     capacity: Capacity

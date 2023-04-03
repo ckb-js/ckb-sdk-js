@@ -499,4 +499,14 @@ declare namespace CKBComponents {
     primaryEpochRewardHalvingInterval: string
     permanentDifficultyInDummy: boolean
   }
+
+  /**
+   * FeeRateStatistics
+   * mean: Uint64 - mean
+   * median: Uint64 - median
+   */
+  export type FeeRateStats = {
+    mean: string
+    median: string
+  }
 }

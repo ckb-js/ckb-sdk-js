@@ -392,7 +392,7 @@ describe('Test with mock', () => {
         startNumber: '0x0',
       })
     })
-    it.skip('dryRunTransaction', async () => {})
+    it.skip('dryRunTransaction', async () => { })
     it('get cellbase output capacity details', async () => {
       const BLOCK_HASH = '0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40'
       axiosMock.mockResolvedValue({
@@ -721,6 +721,30 @@ describe('Test with mock', () => {
         epoch: '0xa00090000e2',
         isInitialBlockDownload: true,
         medianTime: '0x172a87eeab0',
+      })
+    })
+
+    it('get fee fate statistics', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          jsonrpc: '2.0',
+          result: {
+            mean: '0xe79d',
+            median: '0x14a8',
+          },
+          id,
+        },
+      })
+      const res = await rpc.getFeeRateStats()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'get_fee_rate_statics',
+        params: [],
+      })
+      expect(res).toEqual({
+        mean: '0xe79d',
+        median: '0x14a8',
       })
     })
 
