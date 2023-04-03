@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.107.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.103.1...v0.107.0) (2023-04-03)
+
+### Features
+
+* extends hash_type to 'data' | 'type' | 'data1' ([#555](https://github.com/nervosnetwork/ckb-sdk-js/issues/555)) ([30c49e8](https://github.com/nervosnetwork/ckb-sdk-js/commit/30c49e8960a704eb76dd0c5e0d8f370212a84a6d))
+* add rpc of "get_fee_rate_statics" ([#608](https://github.com/ckb-js/ckb-sdk-js/pull/608))
+
+
+
+
+
 ## [0.103.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.102.3...v0.103.1) (2022-05-31)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc

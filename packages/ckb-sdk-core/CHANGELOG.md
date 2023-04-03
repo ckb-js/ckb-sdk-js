@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.107.0](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.103.1...v0.107.0) (2023-04-03)
+
+
+### Features
+
+* Sign support multisig. ([#593](https://github.com/nervosnetwork/ckb-sdk-js/issues/593)) ([3ad7abd](https://github.com/nervosnetwork/ckb-sdk-js/commit/3ad7abde0b29e65898b4a93976002b1275caac60))
+
+
+
+
+
 ## [0.103.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.102.3...v0.103.1) (2022-05-31)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core

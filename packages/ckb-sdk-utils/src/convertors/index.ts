@@ -4,6 +4,7 @@ import { HexStringWithout0xException } from '../exceptions'
 /**
  * Converts an uint16 into a hex string in little endian
  *
+ * @deprecated please migrate to {@link  https://lumos-website.vercel.app/api/modules/codec.html#uint16le-2 @ckb-lumos/codec/Uint16LE} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#touint16le example}
  * @memberof convertors
  * @param {string|bigint} uint16 The uint16 to convert
  * @returns {string} Returns a hex string
@@ -18,6 +19,7 @@ export const toUint16Le = (uint16: string | bigint) => {
 /**
  * Converts an uint32 into a hex string in little endian
  *
+ * @deprecated please migrate to {@link  https://lumos-website.vercel.app/api/modules/codec.html#uint32le-2 @ckb-lumos/codec/Uint32LE} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#touint32le example}
  * @memberof convertors
  * @param {string|bigint} uint32 The uint32 to convert
  * @returns {string} Returns a hex string
@@ -32,6 +34,7 @@ export const toUint32Le = (uint32: string | bigint) => {
 /**
  * Converts an uint64 into a hex string in little endian
  *
+ * @deprecated please migrate to {@link  https://lumos-website.vercel.app/api/modules/codec.html#uint64le-2 @ckb-lumos/codec/Uint64LE} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#touint64le example}
  * @memberof convertors
  * @param {string|bigint} uint64 The uint64 to convert
  * @returns {string} Returns a hex string
@@ -44,6 +47,9 @@ export const toUint64Le = (uint64: string | bigint) => {
   return `0x${viewLeft}${viewRight}`
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/codec.html#bytify @ckb-lumos/codec/bytes} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#hextobytes example}
+ */
 export const hexToBytes = (rawhex: string | number | bigint) => {
   if (rawhex === '') return new Uint8Array()
   if (typeof rawhex === 'string' && !rawhex.startsWith('0x')) {
@@ -64,6 +70,7 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
 /**
  * Converts a hex string in little endian into big endian
  *
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/codec.html#hexify @ckb-lumos/codec/bytes} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#tobigendian example}
  * @memberof convertors
  * @param {string} le16 The hex string to convert
  * @returns {string} Returns a big endian
@@ -74,6 +81,9 @@ export const hexToBytes = (rawhex: string | number | bigint) => {
   return `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16).padStart(2, '0'), '')}`
 }
 
+/**
+ * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/codec.html#hexify @ckb-lumos/codec/bytes} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#hextobytes example}
+ */
 export const bytesToHex = (bytes: Uint8Array): string =>
   `0x${[...bytes].map(b => b.toString(16).padStart(2, '0')).join('')}`
 

@@ -1,0 +1,149 @@
+{
+  "serializeMultisigConfig": {
+    "exception with config is less than 0": {
+      "config": {
+        "r": -1,
+        "m": 2,
+        "n": 3,
+        "blake160s": []
+      },
+      "exception": "For multisig sign, signer should between 0 and 255"
+    },
+    "exception with config is grater than 255": {
+      "config": {
+        "r": 256,
+        "m": 2,
+        "n": 3,
+        "blake160s": []
+      },
+      "exception": "For multisig sign, signer should between 0 and 255"
+    },
+    "exception with r shouldn't be greater than n": {
+      "config": {
+        "r": 3,
+        "m": 2,
+        "n": 3,
+        "blake160s": []
+      },
+      "exception": "For m of n multisig sign, r shouldn't be greater than m"
+    },
+    "exception with m is greater than n": {
+      "config": {
+        "r": 1,
+        "m": 4,
+        "n": 3,
+        "blake160s": []
+      },
+      "exception": "For m of n multisig sign, m shouldn't be greater than n"
+    },
+    "exception blake160s length not equal with n": {
+      "config": {
+        "r": 1,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"]
+      },
+      "exception": "For m of n multisig sign, signer's length should equal with n"
+    },
+    "test serializeMultisigConfig": {
+      "config": {
+        "r": 1,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xb7672fcde903607f6bb150a730085c2a43c422fa", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"]
+      },
+      "expected": "0x000102037c021957a27000e794f25828270f187c791443e3b7672fcde903607f6bb150a730085c2a43c422fad93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"
+    }
+  },
+  "hashMultisig": {
+    "normal": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "expected": "0xe7db180742a9b5c4f2d9319d74982503fbc88a37"
+    }
+  },
+  "getMultisigStatus": {
+    "Unsigned": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": [],
+      "expected": "Unsigned"
+    },
+    "PartiallySigned": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": ["0x7c021957a27000e794f25828270f187c791443e3"],
+      "expected": "PartiallySigned"
+    },
+    "Signed": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"],
+      "expected": "Signed"
+    },
+    "exception with More signature for multisig, all signatures overflow": {
+      "config": {
+        "r": 1,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"],
+      "exception": "More signature for multisig"
+    },
+    "exception with More signature for multisig, m signatures overflow": {
+      "config": {
+        "r": 1,
+        "m": 1,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3", "0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1", "0xb7672fcde903607f6bb150a730085c2a43c422fa"]
+      },
+      "signatures": ["0xd93b3564ef1b2dcf7bca781f968b3c7d2db85fd1"],
+      "exception": "More signature for multisig"
+    }
+  },
+  "isMultisigConfig": {
+    "false with loss field": {
+      "config": {
+        "m": "2",
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": false
+    },
+    "false with unmatch field type": {
+      "config": {
+        "r": "a",
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": false
+    },
+    "success": {
+      "config": {
+        "r": 0,
+        "m": 2,
+        "n": 3,
+        "blake160s": ["0x7c021957a27000e794f25828270f187c791443e3"]
+      },
+      "expected": true
+    }
+  }
+}

@@ -1,24 +1,31 @@
+import { serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
 import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
-import signWitnessGroup from './signWitnessGroup'
+import signWitnessGroup, { SignatureProvider } from './signWitnessGroup'
 import groupScripts from './groupScripts'
+import { getMultisigStatus, isMultisigConfig, MultisigConfig, serializeMultisigConfig, SignStatus } from './multisig'
 
-type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type LockHash = string
 type TransactionHash = string
 type CachedLock = { lock: CKBComponents.Script }
+export type MultisigOption = {
+  sk: SignatureProvider
+  blake160: string
+  config: MultisigConfig
+  signatures: string[]
+}
 
 export interface SignWitnesses {
   (key: SignatureProvider): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
   }) => StructuredWitness[]
-  (key: Map<LockHash, SignatureProvider>): (params: {
+  (key: Map<LockHash, SignatureProvider | MultisigOption>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells: CachedLock[]
     skipMissingKeys: boolean
   }) => StructuredWitness[]
-  (key: SignatureProvider | Map<LockHash, SignatureProvider>): (params: {
+  (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>): (params: {
     transactionHash: TransactionHash
     witnesses: StructuredWitness[]
     inputCells?: CachedLock[]
@@ -30,7 +37,21 @@ export const isMap = <K = any, V = any>(val: any): val is Map<K, V> => {
   return val.size !== undefined
 }
 
-const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider>) => ({
+function isMultisigOption(params: any): params is MultisigOption {
+  if (params.sk && params.blake160 && params.config && params.signatures) {
+    if ((typeof params.sk === 'string' || typeof params.sk === 'function')
+      && typeof params.blake160 === 'string'
+      && Array.isArray(params.signatures)
+      && isMultisigConfig(params.config)
+    ) {
+        return true
+    }
+    throw new Error('Multisig options is incorrect')
+  }
+  throw new Error('Multisig options miss some property')
+}
+
+const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, SignatureProvider | MultisigOption>) => ({
   transactionHash,
   witnesses = [],
   inputCells = [],
@@ -46,10 +67,12 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
   if (!witnesses.length) throw new Error('Witnesses is empty')
 
   if (isMap(key)) {
+    if (!inputCells.length) {
+      throw new Error(`Cell shouldn't be empty when key is Map`)
+    }
     const rawWitnesses = witnesses
     const restWitnesses = witnesses.slice(inputCells.length)
     const groupedScripts = groupScripts(inputCells)
-
     groupedScripts.forEach((indices, lockhash) => {
       const sk = key.get(lockhash)
       if (!sk) {
@@ -61,9 +84,31 @@ const signWitnesses: SignWitnesses = (key: SignatureProvider | Map<LockHash, Sig
       }
 
       const ws = [...indices.map(idx => witnesses[idx]), ...restWitnesses]
-
-      const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
-      rawWitnesses[indices[0]] = witnessIncludeSignature
+      if (typeof sk === 'object' && isMultisigOption(sk)) {
+        const witnessIncludeSignature = signWitnessGroup(sk.sk, transactionHash, ws, sk.config)[0]
+        // is multisig sign
+        const firstWitness = rawWitnesses[indices[0]]
+        if (typeof firstWitness !== 'object') {
+          throw new Error('The first witness in the group should be type of WitnessArgs')
+        }
+        let lockAfterSign = (witnessIncludeSignature as CKBComponents.WitnessArgs).lock
+        if (firstWitness.lock) {
+          lockAfterSign = firstWitness.lock + lockAfterSign?.slice(2)
+        } else {
+          lockAfterSign = serializeMultisigConfig(sk.config) + lockAfterSign?.slice(2)
+        }
+        const firstWitSigned = { ...firstWitness, lock: lockAfterSign }
+        rawWitnesses[indices[0]] = firstWitSigned
+        if(getMultisigStatus(sk.config, [...sk.signatures, sk.blake160]) === SignStatus.Signed) {
+          indices.forEach(idx => {
+            const wit = rawWitnesses[idx]
+            rawWitnesses[idx] = typeof wit === 'string' ? wit : serializeWitnessArgs(wit)
+          })
+        }
+      } else {
+        const witnessIncludeSignature = signWitnessGroup(sk, transactionHash, ws)[0]
+        rawWitnesses[indices[0]] = witnessIncludeSignature
+      }
     })
     return rawWitnesses
   }
