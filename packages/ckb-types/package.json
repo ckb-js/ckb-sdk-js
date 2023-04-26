@@ -1,9 +1,9 @@
 {
   "name": "@nervosnetwork/ckb-types",
-  "version": "0.107.0",
+  "version": "0.109.0",
   "description": "Type module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
-  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js#readme",
+  "homepage": "https://github.com/ckb-js/ckb-sdk-js#readme",
   "license": "MIT",
   "types": "index.d.ts",
   "directories": {
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
+    "url": "git+https://github.com/ckb-js/ckb-sdk-js.git"
   },
   "bugs": {
-    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+    "url": "https://github.com/ckb-js/ckb-sdk-js/issues"
   },
-  "gitHead": "592c7cb58fd830f8bc07f5f08551811ba0197195"
+  "gitHead": "10530318adf792f033abf7e449eaea956c4aea1d"
 }

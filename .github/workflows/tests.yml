@@ -11,26 +11,26 @@ jobs:
     strategy:
       matrix:
         node: [16, 18]
-        os: [macos-latest, ubuntu-18.04]
+        os: [macos-latest, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Skip when run node.js@18 on ubuntu for compatibility reason
         id: is_skip
-        if: matrix.os == 'ubuntu-18.04' && matrix.node == '18'
+        if: matrix.os == 'ubuntu-22.04' && matrix.node == '18'
         run: echo 'IS_SKIP=true' >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
 
       - name: Setup Node
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
       - name: Restore
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -50,7 +50,7 @@ jobs:
         run: yarn run test
 
       - name: Upload codecov
-        if: matrix.os == 'macos-latest' && matrix.node == '14'
+        if: matrix.os == 'macos-latest' && matrix.node == '18'
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

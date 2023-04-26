@@ -1,9 +1,9 @@
 {
   "name": "@nervosnetwork/ckb-sdk-rpc",
-  "version": "0.107.0",
+  "version": "0.109.0",
   "description": "RPC module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
-  "homepage": "https://github.com/nervosnetwork/ckb-sdk-js/packages/ckb-rpc#readme",
+  "homepage": "https://github.com/ckb-js/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nervosnetwork/ckb-sdk-js.git"
+    "url": "git+https://github.com/ckb-js/ckb-sdk-js.git"
   },
   "scripts": {
     "tsc": "tsc",
@@ -30,15 +30,15 @@
     "test:watch": "../../node_modules/.bin/jest --watch"
   },
   "bugs": {
-    "url": "https://github.com/nervosnetwork/ckb-sdk-js/issues"
+    "url": "https://github.com/ckb-js/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-utils": "0.107.0",
+    "@nervosnetwork/ckb-sdk-utils": "0.109.0",
     "axios": "0.21.4",
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@nervosnetwork/ckb-types": "0.107.0"
+    "@nervosnetwork/ckb-types": "0.109.0"
   },
-  "gitHead": "592c7cb58fd830f8bc07f5f08551811ba0197195"
+  "gitHead": "10530318adf792f033abf7e449eaea956c4aea1d"
 }

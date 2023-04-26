@@ -7,7 +7,7 @@ export default {
     resultFormatters: resultFmts.toBlockchainInfo,
   },
   getFeeRateStats: {
-    method: 'get_fee_rate_statics',
+    method: 'get_fee_rate_statistics',
     paramsFormatters: [],
   },
 }

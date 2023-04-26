@@ -2,15 +2,15 @@
 
 | Service  | Master                                                                                                                                                   | Develop                                                                                                                                                    |
 | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Unit Tests   | [![Unit Tests](https://github.com/nervosnetwork/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=master)](https://github.com/nervosnetwork/ckb-sdk-js/actions?query=branch%3Amaster+workflow%3A%22Unit+Tests%22)                      | [![Unit Tests](https://github.com/nervosnetwork/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=develop)](https://github.com/nervosnetwork/ckb-sdk-js/actions?query=branch%3Adevelop+workflow%3A%22Unit+Tests%22)                       |
-| Coverage | [![Codecov](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master/graph/badge.svg)](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/master) | [![Codecov](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop/graph/badge.svg)](https://codecov.io/gh/nervosnetwork/ckb-sdk-js/branch/develop) |
+| Unit Tests   | [![Unit Tests](https://github.com/ckb-js/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=master)](https://github.com/ckb-js/ckb-sdk-js/actions?query=branch%3Amaster+workflow%3A%22Unit+Tests%22)                      | [![Unit Tests](https://github.com/ckb-js/ckb-sdk-js/workflows/Unit%20Tests/badge.svg?branch=develop)](https://github.com/ckb-js/ckb-sdk-js/actions?query=branch%3Adevelop+workflow%3A%22Unit+Tests%22)                       |
+| Coverage | [![Codecov](https://codecov.io/gh/ckb-js/ckb-sdk-js/branch/master/graph/badge.svg)](https://codecov.io/gh/ckb-js/ckb-sdk-js/branch/master) | [![Codecov](https://codecov.io/gh/ckb-js/ckb-sdk-js/branch/develop/graph/badge.svg)](https://codecov.io/gh/ckb-js/ckb-sdk-js/branch/develop) |
 
 [![NPM](https://img.shields.io/npm/v/@nervosnetwork/ckb-sdk-core/latest.svg)](https://www.npmjs.com/package/@nervosnetwork/ckb-sdk-core)
 [![Package Quality](https://npm.packagequality.com/shield/%40nervosnetwork%2Fckb-sdk-core.svg)](https://packagequality.com/#?package=@nervosnetwork/ckb-sdk-core)
 [![License](https://img.shields.io/npm/l/@nervosnetwork/ckb-sdk-core.svg)](./LICENSE)
 [![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
-[![SNYK](https://github.com/nervosnetwork/ckb-sdk-js/workflows/SNYK/badge.svg)](https://github.com/nervosnetwork/ckb-sdk-js/actions?query=workflow%3ASNYK)
-[![Deploy Docs](https://github.com/nervosnetwork/ckb-sdk-js/workflows/Deploy%20Docs/badge.svg)](https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html)
+[![SNYK](https://github.com/ckb-js/ckb-sdk-js/workflows/SNYK/badge.svg)](https://github.com/ckb-js/ckb-sdk-js/actions?query=workflow%3ASNYK)
+[![Deploy Docs](https://github.com/ckb-js/ckb-sdk-js/workflows/Deploy%20Docs/badge.svg)](https://nervosnetwork.github.io/ckb-sdk-js/classes/_nervosnetwork_ckb_sdk_core.default.html)
 
 JavaScript SDK for Nervos [CKB](https://github.com/nervosnetwork/ckb).
 
@@ -91,7 +91,7 @@ This SDK includes several modules:
 
 <details>
 <summary>
-  RPC <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-rpc" alt="rpc">Code</a>
+  RPC <a href="https://github.com/ckb-js/ckb-sdk-js/tree/develop/packages/ckb-sdk-rpc" alt="rpc">Code</a>
 </summary>
 <dd>
 
@@ -105,7 +105,7 @@ Interfaces could be found in `DefaultRPC` class in this module.
 
 <details>
 <summary>
-  Utils <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-utils" alt="utils">Code</a>
+  Utils <a href="https://github.com/ckb-js/ckb-sdk-js/tree/develop/packages/ckb-sdk-utils" alt="utils">Code</a>
 </summary>
 <dd>
 
@@ -116,7 +116,7 @@ The Utils module provides useful methods for other modules.
 
 <details>
 <summary>
-  Types <a href="https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-types" alt="types">Code</a>
+  Types <a href="https://github.com/ckb-js/ckb-sdk-js/tree/develop/packages/ckb-types" alt="types">Code</a>
 </summary>
 <dd>
 
@@ -149,7 +149,7 @@ After that you can use the `ckb` object to generate addresses, send requests, et
 
 ## Basic RPC
 
-Please see [Basic RPC](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base/index.ts#L23)
+Please see [Basic RPC](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-rpc/src/Base/index.ts#L23)
 
 ## Batch Request
 
@@ -217,7 +217,7 @@ ckb.rpc.setNode({ httpsAgent })
 
 # Utils
 
-[Most used utilities](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/README.md)
+[Most used utilities](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/README.md)
 
 # Errors
 
@@ -227,12 +227,12 @@ The rpc module will throw an error when the result contains an error field, you 
 
 # Examples
 
-1. [Send Simple Transaction](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendSimpleTransaction.js)
-2. [Send All Balance](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendAllBalance.js)
-3. [Send Transaction with multiple private key](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js)
-4. [Deposit to and withdraw from Nervos DAO](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js)
-5. [Send Transaction with Lumos Collector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js)
-6. [SUDT](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sudt.js)
+1. [Send Simple Transaction](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendSimpleTransaction.js)
+2. [Send All Balance](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendAllBalance.js)
+3. [Send Transaction with multiple private key](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithMultiplePrivateKey.js)
+4. [Deposit to and withdraw from Nervos DAO](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/nervosDAO.js)
+5. [Send Transaction with Lumos Collector](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js)
+6. [SUDT](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sudt.js)
 
 # Troubleshooting
 
@@ -240,7 +240,7 @@ The rpc module will throw an error when the result contains an error field, you 
 
 The Indexer Module in CKB has been deprecated since [v0.36.0](https://github.com/nervosnetwork/ckb/releases/tag/v0.36.0), please use [ckb-indexer](https://github.com/nervosnetwork/ckb-indexer) or [lumos-indexer](https://github.com/nervosnetwork/lumos/tree/develop/packages/indexer) instead.
 
-A simple example [sendTransactionWithLumosCollector](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js) of wokring with lumos has beed added.
+A simple example [sendTransactionWithLumosCollector](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js) of wokring with lumos has beed added.
 
 # Development Process
 
