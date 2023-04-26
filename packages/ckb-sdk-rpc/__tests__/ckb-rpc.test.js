@@ -739,7 +739,7 @@ describe('Test with mock', () => {
       expect(axiosMock.mock.calls[0][0].data).toEqual({
         id,
         jsonrpc: '2.0',
-        method: 'get_fee_rate_statics',
+        method: 'get_fee_rate_statistics',
         params: [],
       })
       expect(res).toEqual({
@@ -760,7 +760,7 @@ describe('Test with mock', () => {
       expect(axiosMock.mock.calls[0][0].data).toEqual({
         id,
         jsonrpc: '2.0',
-        method: 'get_fee_rate_statics',
+        method: 'get_fee_rate_statistics',
         params: [],
       })
       expect(res).toEqual(null)
