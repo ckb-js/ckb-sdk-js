@@ -351,7 +351,7 @@ export interface Base {
 
   /* skip Subscription */
 
-  getFeeRateStats: () => Promise<CKBComponents.FeeRateStats>
+  getFeeRateStats: () => Promise<CKBComponents.FeeRateStats | null>
 }
 
 export class Base {

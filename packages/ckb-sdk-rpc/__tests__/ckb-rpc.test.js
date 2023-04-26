@@ -739,13 +739,31 @@ describe('Test with mock', () => {
       expect(axiosMock.mock.calls[0][0].data).toEqual({
         id,
         jsonrpc: '2.0',
-        method: 'get_fee_rate_statics',
+        method: 'get_fee_rate_statistics',
         params: [],
       })
       expect(res).toEqual({
         mean: '0xe79d',
         median: '0x14a8',
       })
+    })
+
+    it('get fee fate statistics of null', async () => {
+      axiosMock.mockResolvedValue({
+        data: {
+          jsonrpc: '2.0',
+          result: null,
+          id,
+        },
+      })
+      const res = await rpc.getFeeRateStats()
+      expect(axiosMock.mock.calls[0][0].data).toEqual({
+        id,
+        jsonrpc: '2.0',
+        method: 'get_fee_rate_statistics',
+        params: [],
+      })
+      expect(res).toEqual(null)
     })
 
     it('local node info', async () => {
