@@ -90,7 +90,7 @@ class CKB {
   /**
    * @memberof Core
    * @description The method used to load cells from lumos indexer as shown in the tutorial
-   * @tutorial https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
+   * @tutorial https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-core/examples/sendTransactionWithLumosCollector.js
    */
   public loadCells = async (
     params: LoadCellsParams.FromIndexer & {

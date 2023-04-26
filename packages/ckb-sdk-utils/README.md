@@ -2,7 +2,7 @@
 
 `@nervosnetwork/ckb-sdk-utils` is the utils module of `@nervosnetwork/ckb-sdk-core`, which provides necessary methods for the sdk, including encryption, key-pair generation, address generation and so on.
 
-See [Full Doc](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/README.md)
+See [Full Doc](https://github.com/ckb-js/ckb-sdk-js/blob/develop/README.md)
 
 ## Most Used Utilities
 
@@ -214,4 +214,4 @@ utils.scriptToHash({
 
 ### System Scripts
 
-[System Scripts](https://github.com/nervosnetwork/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/src/systemScripts.ts)
+[System Scripts](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/src/systemScripts.ts)
