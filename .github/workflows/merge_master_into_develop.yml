@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Request
-        uses: repo-sync/pull-request@v3
+        uses: repo-sync/pull-request@v2
         with:
           source_branch: master
           destination_branch: develop
