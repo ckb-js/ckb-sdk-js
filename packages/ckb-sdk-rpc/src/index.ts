@@ -101,6 +101,10 @@ class CKBRPC extends Base {
             }
           })
 
+          if (!payload.length) {
+            return []
+          }
+
           const batchRes = await axios({
             method: 'POST',
             headers: { 'content-type': 'application/json' },
