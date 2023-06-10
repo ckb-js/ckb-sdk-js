@@ -1728,6 +1728,11 @@ describe('Test with mock', () => {
           },
         ])
       })
+
+      it('should return empty array as response if request is an empty array', async () => {
+        const emptyBatch = rpc.createBatchRequest([])
+        expect(await emptyBatch.exec()).toEqual([])
+      })
     })
   })
 
