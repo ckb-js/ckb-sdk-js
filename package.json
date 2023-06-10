@@ -5,7 +5,6 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
     "tsc": "npx lerna run tsc",
     "cm": "git-cz",
     "build:lib": "npx lerna run tsc",

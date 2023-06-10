@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Deps
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
-        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        run: npm install
 
       - name: Compile
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
