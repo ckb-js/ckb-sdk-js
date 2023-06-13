@@ -14,7 +14,7 @@ playground.ts
 #docs
 /docs
 # ignore for deploy docs
-package-lock.json
+yarn.lock
 
 # coverage
 coverage
