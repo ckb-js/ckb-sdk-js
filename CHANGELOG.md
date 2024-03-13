@@ -3,9 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [0.109.1](https://github.com/nervosnetwork/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
+## [0.109.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
 
-* add data2 to script.hashType ([#629](https://github.com/ckb-js/ckb-sdk-js/pull/629))
+
+### Bug Fixes
+
+* return empty array if payload of batch request is an empty array ([#616](https://github.com/ckb-js/ckb-sdk-js/issues/616)) ([f649fa6](https://github.com/ckb-js/ckb-sdk-js/commit/f649fa618b20b8dfe70b4547a7356726eee60443))
+
+
+### Features
+
+* add data2 to script hash_type ([e887c7a](https://github.com/ckb-js/ckb-sdk-js/commit/e887c7a84f61957c3dfa19e4653e302f38daaba4))
+* support data2 in address transform ([4c61674](https://github.com/ckb-js/ckb-sdk-js/commit/4c61674c12a96d921a274c922c9490569742dc1d))
+
 
 
 
