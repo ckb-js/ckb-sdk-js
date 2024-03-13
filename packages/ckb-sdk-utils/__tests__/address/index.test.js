@@ -31,9 +31,9 @@ describe('Test address module', () => {
   })
 
   describe('fullPayloadToAddress', () => {
-    const fixtureTable = Object.entries(
-      fixtures.fullPayloadToAddress,
-    ).map(([title, { params, expected, exception }]) => [title, params, expected, exception])
+    const fixtureTable = Object.entries(fixtures.fullPayloadToAddress).map(
+      ([title, { params, expected, exception }]) => [title, params, expected, exception],
+    )
     test.each(fixtureTable)(`%s`, (_title, params, expected, exception) => {
       expect.assertions(1)
       try {

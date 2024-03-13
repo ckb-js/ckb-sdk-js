@@ -57,6 +57,7 @@ const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Ui
     data = '00',
     type = '01',
     data1 = '02',
+    data2 = '04',
   }
 
   if (!HashType[hashType]) {
@@ -258,7 +259,7 @@ const isPayloadValid = (payload: Uint8Array, bech32Type: Bech32Type) => {
       }
 
       const hashType = parseInt(data[32].toString(), 16)
-      if (hashType > 2) {
+      if (![0, 1, 2, 4].includes(hashType)) {
         throw new HashTypeException(`0x${hashType.toString(16)}`)
       }
 
@@ -319,6 +320,7 @@ export const addressToScript = (address: string): CKBComponents.Script => {
         '00': 'data',
         '01': 'type',
         '02': 'data1',
+        '04': 'data2',
       }
       const p = bytesToHex(payload)
 

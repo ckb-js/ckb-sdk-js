@@ -30,7 +30,7 @@
     },
     "neither data nor type should throw an error": {
       "hashType": "unknown",
-      "exception": "Hash type must be either of 'data' or 'type'"
+      "exception": "Hash type must be either of 'data', 'type', 'data1' or 'data2'"
     }
   },
   "serializeScript": {
