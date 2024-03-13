@@ -42,6 +42,14 @@
       },
       "expected": "0x4900000010000000300000003100000068d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e8801140000003954acece65096bfa81258983ddb83915fc56bd8"
     },
+    "serialize ckb2023 script and the data is from lumos": {
+      "script": {
+        "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+        "args": "0xaabbccdd44332211",
+        "hashType": "data2"
+      },
+      "expected": "0x3d0000001000000030000000310000009bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce80408000000aabbccdd44332211"
+    },
     "default args should be an empty arary": {
       "script": {
         "codeHash": "0x68d5438ac952d2f584abf879527946a537e82c7f3c1cbf6d8ebf9767437d8e88",
