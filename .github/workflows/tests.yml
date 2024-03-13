@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Deps
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
-        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        run: npm install
 
       - name: Compile
         if: ${{ steps.is_skip.outputs.IS_SKIP != 'true' }}
@@ -51,7 +51,6 @@ jobs:
 
       - name: Upload codecov
         if: matrix.os == 'macos-latest' && matrix.node == '18'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true

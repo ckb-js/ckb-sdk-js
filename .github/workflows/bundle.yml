@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Deps
-        run: npx lerna bootstrap --mutex file:/tmp/.yarn-mutex --concurrency=1;
+        run: npm install
 
       - name: Compile
         run: |

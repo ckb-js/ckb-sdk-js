@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
+
+
+### Features
+
+* add data2 to script hash_type ([e887c7a](https://github.com/ckb-js/ckb-sdk-js/commit/e887c7a84f61957c3dfa19e4653e302f38daaba4))
+* support data2 in address transform ([4c61674](https://github.com/ckb-js/ckb-sdk-js/commit/4c61674c12a96d921a274c922c9490569742dc1d))
+
+
+
+
+
 # [0.109.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.107.0...v0.109.0) (2023-04-26)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-utils

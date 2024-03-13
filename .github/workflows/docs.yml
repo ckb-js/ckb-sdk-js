@@ -13,8 +13,7 @@ jobs:
           persist-credentials: false
       - name: Install and build
         run: |
-          npm install -g lerna
-          lerna bootstrap
+          npm install
           yarn run docs
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1

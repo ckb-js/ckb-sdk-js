@@ -1,3 +1,7 @@
+⚠️  **This SDK is obsolete and maintained passively. Please check [Lumos](https://github.com/ckb-js/lumos/) which is updated actively.**
+
+---
+
 # CKB SDK JavaScript
 
 | Service  | Master                                                                                                                                                   | Develop                                                                                                                                                    |

@@ -13,7 +13,8 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   if (hashType === 'data') return '0x00'
   if (hashType === 'type') return '0x01'
   if (hashType === 'data1') return '0x02'
-  throw new TypeError("Hash type must be either of 'data' or 'type'")
+  if (hashType === 'data2') return '0x04'
+  throw new TypeError("Hash type must be either of 'data', 'type', 'data1' or 'data2'")
 }
 
 /**
