@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.2-alpha.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.2-alpha.0) (2024-07-16)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-types
+
+
+
+
+
+## [0.109.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
+
+
+### Features
+
+* add data2 to script hash_type ([e887c7a](https://github.com/ckb-js/ckb-sdk-js/commit/e887c7a84f61957c3dfa19e4653e302f38daaba4))
+
+
+
+
+
 # [0.109.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.107.0...v0.109.0) (2023-04-26)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-types

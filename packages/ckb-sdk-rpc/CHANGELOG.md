@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.2-alpha.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.1...v0.109.2-alpha.0) (2024-07-16)
+
+
+### Features
+
+* enable es module ([#635](https://github.com/ckb-js/ckb-sdk-js/pull/635) & [be3e757](https://github.com/ckb-js/ckb-sdk-js/commit/be3e757ba71a545e061074e03637778493943445))
+
+
+
+
+
+## [0.109.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
+
+
+### Bug Fixes
+
+* return empty array if payload of batch request is an empty array ([#616](https://github.com/ckb-js/ckb-sdk-js/issues/616)) ([f649fa6](https://github.com/ckb-js/ckb-sdk-js/commit/f649fa618b20b8dfe70b4547a7356726eee60443))
+
+
+
+
+
 # [0.109.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.107.0...v0.109.0) (2023-04-26)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc
