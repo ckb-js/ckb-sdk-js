@@ -1,11 +1,11 @@
-import { blake160, bech32, bech32m } from '..'
+import { blake160, bech32, bech32m } from '../index.js'
 import {
   SECP256K1_BLAKE160,
   SECP256K1_MULTISIG,
   ANYONE_CAN_PAY_MAINNET,
   ANYONE_CAN_PAY_TESTNET,
-} from '../systemScripts'
-import { hexToBytes, bytesToHex } from '../convertors'
+} from '../systemScripts.js'
+import { hexToBytes, bytesToHex } from '../convertors/index.js'
 import {
   HexStringWithout0xException,
   AddressException,
@@ -15,7 +15,7 @@ import {
   ParameterRequiredException,
   AddressFormatTypeException,
   AddressFormatTypeAndEncodeMethodNotMatchException,
-} from '../exceptions'
+} from '../exceptions/index.js'
 
 const MAX_BECH32_LIMIT = 1023
 

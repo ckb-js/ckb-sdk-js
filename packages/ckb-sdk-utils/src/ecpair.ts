@@ -1,21 +1,21 @@
-import { ec as EC } from 'elliptic'
+import elliptic from 'elliptic'
 
-import { hexToBytes } from './convertors'
+import { hexToBytes } from './convertors/index.js'
 import {
   HexStringWithout0xException,
   ParameterRequiredException,
   PrivateKeyLenException,
   SignMessageException,
-} from './exceptions'
+} from './exceptions/index.js'
 
-const ec = new EC('secp256k1')
+const ec = new elliptic.ec('secp256k1')
 
 export interface Options {
   compressed?: boolean
 }
 
 class ECPair {
-  protected key: EC.KeyPair
+  protected key: elliptic.ec.KeyPair
 
   public compressed: boolean = false
 

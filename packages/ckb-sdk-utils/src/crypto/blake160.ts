@@ -1,6 +1,6 @@
-import blake2b from './blake2b'
-import { hexToBytes } from '../convertors'
-import { PERSONAL } from '../const'
+import blake2b from './blake2b.js'
+import { hexToBytes } from '../convertors/index.js'
+import { PERSONAL } from '../const.js'
 
 export declare interface Blake160 {
   (data: Uint8Array | string): Uint8Array

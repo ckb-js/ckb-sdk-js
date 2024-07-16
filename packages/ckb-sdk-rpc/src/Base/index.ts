@@ -1,8 +1,8 @@
-import chainRpc from './chain'
-import experimentalRpc from './experimental'
-import netRpc from './net'
-import poolRpc from './pool'
-import statsRpc from './stats'
+import chainRpc from './chain.js'
+import experimentalRpc from './experimental.js'
+import netRpc from './net.js'
+import poolRpc from './pool.js'
+import statsRpc from './stats.js'
 
 export interface RpcPropertes {
   [name: string]: Omit<CKBComponents.Method, 'name'>

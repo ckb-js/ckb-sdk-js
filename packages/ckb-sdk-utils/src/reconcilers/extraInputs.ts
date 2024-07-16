@@ -1,7 +1,7 @@
 import JSBI from 'jsbi'
-import calculateTransactionFee from '../calculateTransactionFee'
-import { getTransactionSize } from '../sizes'
-import { ReconciliationException } from '../exceptions'
+import calculateTransactionFee from '../calculateTransactionFee.js'
+import { getTransactionSize } from '../sizes.js'
+import { ReconciliationException } from '../exceptions/index.js'
 
 declare namespace Reconciliation {
   type Cell = { capacity: string; outPoint: CKBComponents.OutPoint }

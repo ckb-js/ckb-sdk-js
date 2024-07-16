@@ -7,6 +7,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",

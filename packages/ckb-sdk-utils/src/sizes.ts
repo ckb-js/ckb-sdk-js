@@ -1,4 +1,4 @@
-import { serializeWitnessArgs, serializeTransaction } from './serialization/transaction'
+import { serializeWitnessArgs, serializeTransaction } from './serialization/transaction.js'
 
 /**
  * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/common_scripts.html#gettransactionsize @ckb-lumos/common-script/common.getTransactionSize} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#gettransactionsize example}

@@ -1,5 +1,5 @@
-import { serializeArray, serializeTable, serializeFixVec } from './basic'
-import { ParameterRequiredException } from '../exceptions'
+import { serializeArray, serializeTable, serializeFixVec } from './basic.js'
+import { ParameterRequiredException } from '../exceptions/index.js'
 
 /**
  * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializecodehash example}

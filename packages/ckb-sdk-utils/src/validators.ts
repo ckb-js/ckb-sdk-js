@@ -1,4 +1,4 @@
-import { HexStringException, HexStringWithout0xException } from './exceptions'
+import { HexStringException, HexStringWithout0xException } from './exceptions/index.js'
 
 export const assertToBeHexString = (value: string) => {
   if (typeof value !== 'string' || !value.startsWith('0x') || Number.isNaN(+value)) {

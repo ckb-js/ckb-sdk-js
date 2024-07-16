@@ -8,6 +8,7 @@
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
   "types": "lib/index.d.ts",
+  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",

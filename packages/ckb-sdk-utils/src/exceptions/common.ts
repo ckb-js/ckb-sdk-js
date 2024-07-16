@@ -1,4 +1,4 @@
-import ErrorCode from './ErrorCode'
+import ErrorCode from './ErrorCode.js'
 
 export class ParameterRequiredException extends Error {
   code = ErrorCode.ParameterRequired

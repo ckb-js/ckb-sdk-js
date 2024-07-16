@@ -1,5 +1,5 @@
 import JSBI from 'jsbi'
-import { assertToBeHexString } from './validators'
+import { assertToBeHexString } from './validators.js'
 
 export interface EpochInfo {
   length: string
