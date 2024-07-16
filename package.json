@@ -9,7 +9,7 @@
     "cm": "git-cz",
     "build:lib": "npx lerna run tsc",
     "build:umd": "./scripts/bundle-umd.sh",
-    "clean:lib": "rimraf **/packages/*/lib",
+    "clean:lib": "rimraf **/packages/*/lib && rimraf **/packages/*/dist",
     "docs": "typedoc --out docs --entryPointStrategy packages 'packages/*' --name CKB-SDK.js --excludeExternals --theme default --readme README.md",
     "publish": "npx lerna run tsc && npx lerna publish --from-package",
     "test": "jest --coverage"
