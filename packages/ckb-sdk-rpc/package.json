@@ -9,10 +9,12 @@
   "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
     "lib",
+    "dist",
     "types"
   ],
   "publishConfig": {

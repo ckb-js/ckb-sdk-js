@@ -6,15 +6,25 @@
   "homepage": "https://github.com/ckb-js/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "dist/index.js",
   "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
     "lib",
+    "dist",
     "types"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
