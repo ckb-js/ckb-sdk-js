@@ -9,19 +9,19 @@
   "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
-    "dist": "dist",
+    "lib-esm": "lib-esm",
     "umd": "umd",
     "test": "__tests__"
   },
   "files": [
     "lib",
-    "dist",
+    "lib-esm",
     "umd",
     "types"
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./lib-esm/index.js",
       "require": "./lib/index.js",
       "types": "./lib/index.d.ts"
     }
