@@ -57,6 +57,7 @@ const scriptToPayload = ({ codeHash, hashType, args }: CKBComponents.Script): Ui
     data = '00',
     type = '01',
     data1 = '02',
+    data2 = '04'
   }
 
   if (!HashType[hashType]) {
@@ -319,6 +320,7 @@ export const addressToScript = (address: string): CKBComponents.Script => {
         '00': 'data',
         '01': 'type',
         '02': 'data1',
+        '04': 'data2'
       }
       const p = bytesToHex(payload)
 

@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "lib-esm",
+    "module": "ES2015",
+    "target": "ES2015",
+    "moduleResolution": "Node",
+    "lib": ["es6"],
+    "esModuleInterop": true,
+    "typeRoots": ["@nervosnetwork/ckb-types", "nervosnetwork/ckb-sdk-utils", "types"]
+  },
+  "include": ["src"]
+}
