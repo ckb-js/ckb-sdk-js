@@ -2,6 +2,7 @@
 node_modules/
 *.log
 packages/*/lib
+packages/*/dist
 .idea
 */**/package-lock.json
 */**/debug.ts

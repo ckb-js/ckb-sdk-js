@@ -24,7 +24,7 @@
     "url": "git+https://github.com/ckb-js/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json",
     "test": "../../node_modules/.bin/jest",
     "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default",
     "test:watch": "../../node_modules/.bin/jest --watch"
