@@ -25,6 +25,11 @@
       "import": "./lib-esm/index.js",
       "require": "./lib/index.js",
       "types": "./lib/index.d.ts"
+    },
+    "./lib/signWitnesses": {
+      "import": "./lib-esm/signWitnesses.js",
+      "require": "./lib/signWitnesses.js",
+      "types": "./lib/signWitnesses.d.ts"
     }
   },
   "publishConfig": {

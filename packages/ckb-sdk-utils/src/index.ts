@@ -18,6 +18,7 @@ export * from './validators.js'
 export * from './epochs.js'
 export * from './sizes.js'
 export * from './occupiedCapacity.js'
+export * from './calculateTransactionFee.js'
 export { ECPair }
 export * as systemScripts from './systemScripts.js'
 export * as reconcilers from './reconcilers/index.js'
