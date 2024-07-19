@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IdNotMatchException, ResponseException } from './exceptions'
+import { IdNotMatchException, ResponseException } from './exceptions/index.js'
 
 class Method {
   #name: string
@@ -24,7 +24,7 @@ class Method {
     Object.defineProperty(this.call, 'name', { value: options.name, configurable: false, writable: false })
   }
 
-  public call = (...params: (string | number | object)[]) => {
+  public call = (...params: (string | number | boolean | object)[]) => {
     const payload = this.getPayload(...params)
     return axios({
       method: 'POST',
@@ -46,7 +46,7 @@ class Method {
     })
   }
 
-  public getPayload = (...params: (string | number | object)[]) => {
+  public getPayload = (...params: (string | number | boolean | object)[]) => {
     const data = params.map((p, i) => (this.#options.paramsFormatters[i] && this.#options.paramsFormatters[i](p)) || p)
     const id = Math.round(Math.random() * 10000)
     const payload = {

@@ -1,4 +1,4 @@
-import ErrorCode from './ErrorCode'
+import ErrorCode from './ErrorCode.js'
 
 export class OutLenTooSmallException extends Error {
   code = ErrorCode.ParameterInvalid

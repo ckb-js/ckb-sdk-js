@@ -1,4 +1,4 @@
-import resultFmts from '../resultFormatter'
+import resultFmts from '../resultFormatter.js'
 
 export default {
   getBlockchainInfo: {

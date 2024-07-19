@@ -1,4 +1,4 @@
-import { hexToBytes, bytesToHex, toUint32Le } from '../convertors'
+import { hexToBytes, bytesToHex, toUint32Le } from '../convertors/index.js'
 
 export const offsetSize = 4 // 4 bytes
 

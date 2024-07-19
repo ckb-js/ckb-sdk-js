@@ -1,4 +1,4 @@
-import { ErrorCode } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ErrorCode } from '@nervosnetwork/ckb-sdk-utils'
 
 export class PageSizeTooLargeException extends RangeError {
   code = ErrorCode.ParameterInvalid

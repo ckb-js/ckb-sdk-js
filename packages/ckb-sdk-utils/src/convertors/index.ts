@@ -1,5 +1,5 @@
-import { assertToBeHexStringOrBigint, assertToBeHexString } from '../validators'
-import { HexStringWithout0xException } from '../exceptions'
+import { assertToBeHexStringOrBigint, assertToBeHexString } from '../validators.js'
+import { HexStringWithout0xException } from '../exceptions/index.js'
 
 /**
  * Converts an uint16 into a hex string in little endian

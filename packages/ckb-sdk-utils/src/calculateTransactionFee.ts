@@ -1,5 +1,5 @@
 import JSBI from 'jsbi'
-import { assertToBeHexStringOrBigint } from './validators'
+import { assertToBeHexStringOrBigint } from './validators.js'
 
 /**
  * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/common_scripts.html#calculatefee-2 @ckb-lumos/common-script/common.calculatefee}

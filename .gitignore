@@ -2,6 +2,7 @@
 node_modules/
 *.log
 packages/*/lib
+packages/*/lib-esm
 .idea
 */**/package-lock.json
 */**/debug.ts
@@ -14,7 +15,7 @@ playground.ts
 #docs
 /docs
 # ignore for deploy docs
-package-lock.json
+yarn.lock
 
 # coverage
 coverage

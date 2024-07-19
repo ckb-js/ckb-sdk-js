@@ -1,5 +1,5 @@
-import { serializeArray, serializeTable, serializeFixVec } from './basic'
-import { ParameterRequiredException } from '../exceptions'
+import { serializeArray, serializeTable, serializeFixVec } from './basic.js'
+import { ParameterRequiredException } from '../exceptions/index.js'
 
 /**
  * @deprecated please migrate to {@link https://lumos-website.vercel.app/api/modules/base.html @ckb-lumos/base/blockchain} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializecodehash example}
@@ -13,6 +13,7 @@ export const serializeHashType = (hashType: CKBComponents.ScriptHashType) => {
   if (hashType === 'data') return '0x00'
   if (hashType === 'type') return '0x01'
   if (hashType === 'data1') return '0x02'
+  if (hashType === 'data2') return '0x04'
   throw new TypeError("Hash type must be either of 'data' or 'type'")
 }
 

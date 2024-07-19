@@ -1,6 +1,5 @@
-import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs } from '@nervosnetwork/ckb-sdk-utils'
-import ECPair from '@nervosnetwork/ckb-sdk-utils/lib/ecpair'
-import { serializeMultisigConfig, MultisigConfig } from './multisig'
+import { blake2b, hexToBytes, PERSONAL, toUint64Le, serializeWitnessArgs, ECPair } from '@nervosnetwork/ckb-sdk-utils'
+import { serializeMultisigConfig, MultisigConfig } from './multisig.js'
 
 export type SignatureProvider = string | ((message: string | Uint8Array) => string)
 type TransactionHash = string
@@ -9,20 +8,20 @@ function signWitnessGroup(
   sk: SignatureProvider,
   transactionHash: TransactionHash,
   witnessGroup: StructuredWitness[],
-  multisigConfig?: MultisigConfig
+  multisigConfig?: MultisigConfig,
 ): StructuredWitness[]
 function signWitnessGroup(
   sk: (message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>,
   transactionHash: TransactionHash,
   witnessGroup: StructuredWitness[],
-  multisigConfig?: MultisigConfig
+  multisigConfig?: MultisigConfig,
 ): Promise<StructuredWitness[]>
 
 function signWitnessGroup(
   sk: SignatureProvider | ((message: string | Uint8Array, witness: StructuredWitness[]) => Promise<string>),
   transactionHash: TransactionHash,
   witnessGroup: StructuredWitness[],
-  multisigConfig?: MultisigConfig
+  multisigConfig?: MultisigConfig,
 ) {
   if (!witnessGroup.length) {
     throw new Error('WitnessGroup cannot be empty')

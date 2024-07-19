@@ -5,12 +5,11 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
     "tsc": "npx lerna run tsc",
     "cm": "git-cz",
     "build:lib": "npx lerna run tsc",
     "build:umd": "./scripts/bundle-umd.sh",
-    "clean:lib": "rimraf **/packages/*/lib",
+    "clean:lib": "rimraf **/packages/*/lib && rimraf **/packages/*/lib-esm",
     "docs": "typedoc --out docs --entryPointStrategy packages 'packages/*' --name CKB-SDK.js --excludeExternals --theme default --readme README.md",
     "publish": "npx lerna run tsc && npx lerna publish --from-package",
     "test": "jest --coverage"
@@ -31,7 +30,7 @@
     "@types/node": "16.10.2",
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
-    "commitizen": "4.2.4",
+    "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.32.0",
     "eslint-config-airbnb-base": "14.2.1",
@@ -44,13 +43,12 @@
     "lint-staged": "11.1.2",
     "prettier": "2.4.1",
     "rimraf": "3.0.2",
-    "typedoc": "0.22.4",
+    "typedoc": "0.22.18",
     "typescript": "4.4.3"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {}
+  }
 }

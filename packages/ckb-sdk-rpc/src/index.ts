@@ -1,12 +1,16 @@
 /// <reference types="../types/rpc" />
 
 import axios from 'axios'
-import Base from './Base'
-import Method from './method'
+import Base from './Base/index.js'
+import Method from './method.js'
 
-import paramsFormatter from './paramsFormatter'
-import resultFormatter from './resultFormatter'
-import { MethodInBatchNotFoundException, PayloadInBatchException, IdNotMatchedInBatchException } from './exceptions'
+import paramsFormatter from './paramsFormatter.js'
+import resultFormatter from './resultFormatter.js'
+import {
+  MethodInBatchNotFoundException,
+  PayloadInBatchException,
+  IdNotMatchedInBatchException,
+} from './exceptions/index.js'
 
 class CKBRPC extends Base {
   #node: CKBComponents.Node = {
@@ -59,7 +63,7 @@ class CKBRPC extends Base {
   }
 
   /* eslint-disable prettier/prettier */
-  public createBatchRequest = <N extends keyof Base, P extends (string | number | object)[], R = any[]>(
+  public createBatchRequest = <N extends keyof Base, P extends (string | number | boolean | object)[], R = any[]>(
     params: [method: N, ...rest: P][] = [],
   ) => {
     const ctx = this
@@ -100,6 +104,10 @@ class CKBRPC extends Base {
               throw new PayloadInBatchException(i, err.message)
             }
           })
+
+          if (!payload.length) {
+            return []
+          }
 
           const batchRes = await axios({
             method: 'POST',

@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.2](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.1...v0.109.2) (2024-07-19)
+
+
+### Features
+
+* enable es module ([be3e757](https://github.com/ckb-js/ckb-sdk-js/commit/be3e757ba71a545e061074e03637778493943445))
+* export signWitnesses and calculateTransactionFee ([13c6b3d](https://github.com/ckb-js/ckb-sdk-js/commit/13c6b3def265a6dea39bc735b7267e3eb0355068))
+
+
+
+
+
+## [0.109.2-alpha.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.2-alpha.0...v0.109.2-alpha.1) (2024-07-18)
+
+
+### Features
+
+* export signWitnesses and calculateTransactionFee ([13c6b3d](https://github.com/ckb-js/ckb-sdk-js/commit/13c6b3def265a6dea39bc735b7267e3eb0355068))
+
+
+
+
+
+## [0.109.2-alpha.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.1...v0.109.1-alpha.0) (2024-07-16)
+
+
+### Features
+
+* enable es module ([#635](https://github.com/ckb-js/ckb-sdk-js/pull/635) & [be3e757](https://github.com/ckb-js/ckb-sdk-js/commit/be3e757ba71a545e061074e03637778493943445))
+
+
+
+
+
+## [0.109.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.0...v0.109.1) (2024-03-13)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
+
+
+
+
+
 # [0.109.0](https://github.com/ckb-js/ckb-sdk-js/compare/v0.107.0...v0.109.0) (2023-04-26)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core

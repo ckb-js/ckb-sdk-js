@@ -1,4 +1,4 @@
-import ErrorCode from './ErrorCode'
+import ErrorCode from './ErrorCode.js'
 
 export class PrivateKeyLenException extends Error {
   code = ErrorCode.ParameterInvalid

@@ -1,5 +1,5 @@
-import ErrorCode from './ErrorCode'
-import { IdNotMatchException } from './rpc'
+import ErrorCode from './ErrorCode.js'
+import { IdNotMatchException } from './rpc.js'
 
 const ERROR_LABEL = 'Batch Request'
 
