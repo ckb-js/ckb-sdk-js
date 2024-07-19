@@ -1,6 +1,4 @@
-import { scriptToHash, JSBI } from '@nervosnetwork/ckb-sdk-utils'
-import { EMPTY_WITNESS_ARGS } from '@nervosnetwork/ckb-sdk-utils/lib/const'
-import { assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils/lib/validators'
+import { scriptToHash, JSBI, EMPTY_WITNESS_ARGS, assertToBeHexStringOrBigint } from '@nervosnetwork/ckb-sdk-utils'
 
 const EMPTY_DATA = '0x'
 const MIN_CELL_CAPACITY = `0x${(61_00_000_000).toString(16)}`

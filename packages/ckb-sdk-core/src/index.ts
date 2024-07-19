@@ -1,14 +1,14 @@
 /// <reference types="../types/global" />
 
 import RPC from '@nervosnetwork/ckb-sdk-rpc'
-import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils/lib/exceptions'
+import { ParameterRequiredException } from '@nervosnetwork/ckb-sdk-utils'
 import * as utils from '@nervosnetwork/ckb-sdk-utils'
 
-import generateRawTransaction from './generateRawTransaction'
+import generateRawTransaction from './generateRawTransaction.js'
 
-import loadCellsFromIndexer from './loadCellsFromIndexer'
-import signWitnesses, { isMap } from './signWitnesses'
-import { filterCellsByInputs } from './utils'
+import loadCellsFromIndexer from './loadCellsFromIndexer.js'
+import signWitnesses, { isMap } from './signWitnesses.js'
+import { filterCellsByInputs } from './utils.js'
 
 type Key = string
 type Address = string
@@ -107,28 +107,30 @@ class CKB {
 
   public signWitnesses = signWitnesses
 
-  public signTransaction = (key: Key | Map<LockHash, Key>) => (
-    transaction: CKBComponents.RawTransactionToSign,
-    cells: Array<{ outPoint: CKBComponents.OutPoint; lock: CKBComponents.Script }> = [],
-  ) => {
-    if (!key) throw new ParameterRequiredException('Private key or address object')
-    this.#validateTransactionToSign(transaction)
+  public signTransaction =
+    (key: Key | Map<LockHash, Key>) =>
+    (
+      transaction: CKBComponents.RawTransactionToSign,
+      cells: Array<{ outPoint: CKBComponents.OutPoint; lock: CKBComponents.Script }> = [],
+    ) => {
+      if (!key) throw new ParameterRequiredException('Private key or address object')
+      this.#validateTransactionToSign(transaction)
 
-    const transactionHash = this.utils.rawTransactionToHash(transaction)
-    const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
+      const transactionHash = this.utils.rawTransactionToHash(transaction)
+      const inputCells = isMap(key) ? filterCellsByInputs(cells, transaction.inputs) : undefined
 
-    const signedWitnesses = this.signWitnesses(key)({
-      transactionHash,
-      witnesses: transaction.witnesses,
-      inputCells,
-    })
-    return {
-      ...transaction,
-      witnesses: signedWitnesses.map(witness =>
-        typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness),
-      ),
+      const signedWitnesses = this.signWitnesses(key)({
+        transactionHash,
+        witnesses: transaction.witnesses,
+        inputCells,
+      })
+      return {
+        ...transaction,
+        witnesses: signedWitnesses.map(witness =>
+          typeof witness === 'string' ? witness : this.utils.serializeWitnessArgs(witness),
+        ),
+      }
     }
-  }
 
   /**
    * @description Generate a raw transaction object to sign
@@ -140,38 +142,38 @@ class CKB {
    *            fromAddress:          Address, specify the address of inputs
    *            toAddress:            Address, specify the address included in outputs
    *            capacity:             Capacity, specify the value to transfer in this tx
-   * 
+   *
    *            cells?:               Array<RawTransactionParams.Cell>, provide
    *                                  live cells to generate input cells in this tx
-   * 
+   *
    *            fee?:                 Fee, specify the fee or fee reconciler
    *                                  along with this tx, fee reconciler allows
    *                                  fee calculation on the fly
-   * 
+   *
    *            safeMode:             boolean, specify whether to skip cell
    *                                  containing data or type script or not,
    *                                  default to be true
-   * 
+   *
    *            deps:                 DepCellInfo | Array<DepCellInfo>
    *                                  specify deps included in this tx, filling
    *                                  in the `cellDeps` field of a raw tx
-   * 
+   *
    *            capacityThreshold?:   Capacity, specify the minimal capacity of
    *                                  each outputs, default to be 6_100_000_000
    *                                  shannon(61 CKB) for a bare cell
-   * 
+   *
    *            changeThreshold?:     Capacity, specify the minimal capacity of
    *                                  the change cell, default to be 6_100_000_000
    *                                  shannon(61 CKB) for a bare cell, useful on
    *                                  sending a tx without change by setting it 0
-   * 
+   *
    *            changeLockScript?:    CKBComponents.Script, specify the change
    *                                  receiver of this tx, default to be the owner
    *                                  of the first input
-   * 
+   *
    *            witnesses?:           Array<CKBComponents.WitnessArgs | CKBComponents.Witness>
    *                                  specify the witness list of this tx
-   * 
+   *
    *            outputsData?:         Array<string>, specify the output data list
    *                                  of this tx
    *          }
@@ -180,19 +182,19 @@ class CKB {
    * ```
    *          {
    *            fromAddresses:        Address[], specify the address of inputs
-   * 
-   *            receivePairs:         Array<{ 
+   *
+   *            receivePairs:         Array<{
    *                                    address: Address;
    *                                    capacity: Capacity;
    *                                    type?: CKBComponents.Script | null
    *                                  }>
-   *                                  specify address, capacity and type lock 
+   *                                  specify address, capacity and type lock
    *                                  of outputs
-   * 
+   *
    *            cells:                Map<LockHash, RawTransactionParams.Cell[]>
    *                                  provide live cells to generate input cells
    *                                  in this tx
-   * 
+   *
    *            fee?:                 same as that in 1-1 tx
    *            safeMode:             same as that in 1-1 tx
    *            deps:                 same as that in 1-1 tx
@@ -421,8 +423,8 @@ class CKB {
   }
 
   public calculateDaoMaximumWithdraw = async (
-      depositOutPoint: CKBComponents.OutPoint,
-      withdraw: CKBComponents.Hash | CKBComponents.OutPoint
+    depositOutPoint: CKBComponents.OutPoint,
+    withdraw: CKBComponents.Hash | CKBComponents.OutPoint,
   ): Promise<string> => {
     let tx = await this.rpc.getTransaction(depositOutPoint.txHash)
     if (tx.txStatus.status !== 'committed') throw new Error('Transaction is not committed yet')
@@ -441,14 +443,9 @@ class CKB {
     }
     const [depositHeader, withDrawHeader] = await Promise.all([
       this.rpc.getHeader(depositBlockHash),
-      this.rpc.getHeader(withdrawBlockHash)
+      this.rpc.getHeader(withdrawBlockHash),
     ])
-    return utils.calculateMaximumWithdraw(
-      celloutput,
-      celloutputData,
-      depositHeader.dao,
-      withDrawHeader.dao
-    )
+    return utils.calculateMaximumWithdraw(celloutput, celloutputData, depositHeader.dao, withDrawHeader.dao)
   }
 
   #secp256k1DepsShouldBeReady = () => {

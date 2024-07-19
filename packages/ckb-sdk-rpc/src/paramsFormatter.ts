@@ -6,7 +6,7 @@ import {
   BigintOrHexStringTypeException,
   StringHashTypeException,
   HexStringWithout0xException,
-} from './exceptions'
+} from './exceptions/index.js'
 
 /* eslint-disable camelcase */
 const formatter = {

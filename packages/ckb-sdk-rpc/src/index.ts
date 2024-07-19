@@ -1,12 +1,16 @@
 /// <reference types="../types/rpc" />
 
 import axios from 'axios'
-import Base from './Base'
-import Method from './method'
+import Base from './Base/index.js'
+import Method from './method.js'
 
-import paramsFormatter from './paramsFormatter'
-import resultFormatter from './resultFormatter'
-import { MethodInBatchNotFoundException, PayloadInBatchException, IdNotMatchedInBatchException } from './exceptions'
+import paramsFormatter from './paramsFormatter.js'
+import resultFormatter from './resultFormatter.js'
+import {
+  MethodInBatchNotFoundException,
+  PayloadInBatchException,
+  IdNotMatchedInBatchException,
+} from './exceptions/index.js'
 
 class CKBRPC extends Base {
   #node: CKBComponents.Node = {

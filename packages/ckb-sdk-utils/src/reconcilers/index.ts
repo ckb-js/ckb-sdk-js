@@ -1,1 +1,1 @@
-export * from './extraInputs'
+export * from './extraInputs.js'

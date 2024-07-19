@@ -1,12 +1,13 @@
 {
   "name": "@nervosnetwork/ckb-sdk-rpc",
-  "version": "0.109.1",
+  "version": "0.109.2",
   "description": "RPC module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/ckb-js/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",
@@ -42,12 +43,12 @@
     "url": "https://github.com/ckb-js/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-utils": "0.109.1",
+    "@nervosnetwork/ckb-sdk-utils": "0.109.2",
     "axios": "1.6.7",
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@nervosnetwork/ckb-types": "0.109.1"
+    "@nervosnetwork/ckb-types": "0.109.2"
   },
-  "gitHead": "10530318adf792f033abf7e449eaea956c4aea1d"
+  "gitHead": "ef6e8c929554a1d601a44b1562ffa585a707cc4d"
 }

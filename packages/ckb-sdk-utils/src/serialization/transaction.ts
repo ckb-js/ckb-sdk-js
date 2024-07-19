@@ -1,5 +1,5 @@
-import { serializeScript } from './script'
-import { toUint32Le, toUint64Le } from '../convertors'
+import { serializeScript } from './script.js'
+import { toUint32Le, toUint64Le } from '../convertors/index.js'
 import {
   serializeArray,
   serializeStruct,
@@ -7,7 +7,7 @@ import {
   serializeDynVec,
   serializeFixVec,
   serializeOption,
-} from './basic'
+} from './basic.js'
 
 /**
  * @deprecated please migrate to {@link  https://lumos-website.vercel.app/api/modules/codec.html#uint32le-2 @ckb-lumos/codec/Uint32LE} {@link https://lumos-website.vercel.app/migrations/migrate-form-ckb-sdk-utils#serializeversion example}

@@ -1,12 +1,13 @@
 {
   "name": "@nervosnetwork/ckb-sdk-core",
-  "version": "0.109.1",
+  "version": "0.109.2",
   "description": "JavaScript SDK for Nervos Network CKB Project",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/ckb-js/ckb-sdk-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",
@@ -24,6 +25,11 @@
       "import": "./lib-esm/index.js",
       "require": "./lib/index.js",
       "types": "./lib/index.d.ts"
+    },
+    "./lib/signWitnesses": {
+      "import": "./lib-esm/signWitnesses.js",
+      "require": "./lib/signWitnesses.js",
+      "types": "./lib/signWitnesses.d.ts"
     }
   },
   "publishConfig": {
@@ -42,10 +48,10 @@
     "url": "https://github.com/ckb-js/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-rpc": "0.109.1",
-    "@nervosnetwork/ckb-sdk-utils": "0.109.1",
-    "@nervosnetwork/ckb-types": "0.109.1",
+    "@nervosnetwork/ckb-sdk-rpc": "0.109.2",
+    "@nervosnetwork/ckb-sdk-utils": "0.109.2",
+    "@nervosnetwork/ckb-types": "0.109.2",
     "tslib": "2.3.1"
   },
-  "gitHead": "10530318adf792f033abf7e449eaea956c4aea1d"
+  "gitHead": "ef6e8c929554a1d601a44b1562ffa585a707cc4d"
 }

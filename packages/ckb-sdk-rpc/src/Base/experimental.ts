@@ -1,4 +1,4 @@
-import paramsFmts from '../paramsFormatter'
+import paramsFmts from '../paramsFormatter.js'
 
 export default {
   dryRunTransaction: {

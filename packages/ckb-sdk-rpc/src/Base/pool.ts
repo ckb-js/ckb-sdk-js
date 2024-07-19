@@ -1,5 +1,5 @@
-import paramsFmts from '../paramsFormatter'
-import resultFmts from '../resultFormatter'
+import paramsFmts from '../paramsFormatter.js'
+import resultFmts from '../resultFormatter.js'
 
 export default {
   sendTransaction: {

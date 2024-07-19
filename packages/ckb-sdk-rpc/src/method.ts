@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IdNotMatchException, ResponseException } from './exceptions'
+import { IdNotMatchException, ResponseException } from './exceptions/index.js'
 
 class Method {
   #name: string
