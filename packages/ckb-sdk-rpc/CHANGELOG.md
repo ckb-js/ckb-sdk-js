@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.2](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.1...v0.109.2) (2024-07-19)
+
+
+### Features
+
+* enable es module ([be3e757](https://github.com/ckb-js/ckb-sdk-js/commit/be3e757ba71a545e061074e03637778493943445))
+
+
+
+
+
 ## [0.109.2-alpha.1](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.2-alpha.0...v0.109.2-alpha.1) (2024-07-18)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-rpc
