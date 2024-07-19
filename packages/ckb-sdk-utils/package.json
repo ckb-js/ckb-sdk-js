@@ -52,5 +52,5 @@
     "@types/bitcoinjs-lib": "5.0.0",
     "@types/elliptic": "6.4.12"
   },
-  "gitHead": "c6b521b474579f9dd4161f1be9c3313c8dc242df"
+  "gitHead": "ef6e8c929554a1d601a44b1562ffa585a707cc4d"
 }
