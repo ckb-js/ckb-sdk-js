@@ -1,13 +1,13 @@
 {
   "name": "@nervosnetwork/ckb-sdk-rpc",
-  "version": "0.109.2",
+  "version": "0.109.3",
   "description": "RPC module of @nervosnetwork/ckb-sdk-core",
   "author": "Nervos <dev@nervos.org>",
   "homepage": "https://github.com/ckb-js/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "lib-esm/index.js",
   "typings": "lib/index.d.ts",
-  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",
@@ -34,7 +34,7 @@
     "url": "git+https://github.com/ckb-js/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json",
+    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json && npx copyfiles -u 2 misc/basedirs/**/* .",
     "test": "../../node_modules/.bin/jest",
     "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default",
     "test:watch": "../../node_modules/.bin/jest --watch"
@@ -43,12 +43,12 @@
     "url": "https://github.com/ckb-js/ckb-sdk-js/issues"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-utils": "0.109.2",
+    "@nervosnetwork/ckb-sdk-utils": "0.109.3",
     "axios": "1.6.7",
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@nervosnetwork/ckb-types": "0.109.2"
+    "@nervosnetwork/ckb-types": "0.109.3"
   },
-  "gitHead": "ef6e8c929554a1d601a44b1562ffa585a707cc4d"
+  "gitHead": "bb703e9a16b9f467a88d6a1067162d296808fbc1"
 }

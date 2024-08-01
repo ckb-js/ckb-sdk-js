@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.3](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.2...v0.109.3) (2024-08-01)
+
+
+### Bug Fixes
+
+* commonjs support ([#639](https://github.com/ckb-js/ckb-sdk-js/issues/639)) ([b229d4e](https://github.com/ckb-js/ckb-sdk-js/commit/b229d4ede84e34820d236ccf22af9e24dd518c19))
+
+
+
+
+
 ## [0.109.2](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.1...v0.109.2) (2024-07-19)
 
 
