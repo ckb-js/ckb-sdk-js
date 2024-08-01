@@ -6,8 +6,8 @@
   "homepage": "https://github.com/ckb-js/ckb-sdk-js/packages/ckb-rpc#readme",
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "lib-esm/index.js",
   "typings": "lib/index.d.ts",
-  "type": "module",
   "directories": {
     "lib": "lib",
     "lib-esm": "lib-esm",
@@ -34,7 +34,7 @@
     "url": "git+https://github.com/ckb-js/ckb-sdk-js.git"
   },
   "scripts": {
-    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json",
+    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json && npx copyfiles -u 2 misc/basedirs/**/* .",
     "test": "../../node_modules/.bin/jest",
     "doc": "../../node_modules/.bin/typedoc --out docs --mode modules --includeDeclarations --excludeExternals --ignoreCompilerErrors --theme default",
     "test:watch": "../../node_modules/.bin/jest --watch"
