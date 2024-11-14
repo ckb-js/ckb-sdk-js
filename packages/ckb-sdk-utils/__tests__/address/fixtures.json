@@ -257,6 +257,14 @@
         "hashType": "data1",
         "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
       }
+    },
+    "full version address identifies hash_type = data2": {
+      "params": ["ckt1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvp9nnw7qkdnnclfkg59uzn8umtfd2kwxceqskl3c2"],
+      "expected": {
+        "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176",
+        "hashType": "data2",
+        "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
+      }
     }
   },
   "scriptToAddress": {
@@ -301,6 +309,17 @@
         false
       ],
       "expected": "ckt1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvq4nnw7qkdnnclfkg59uzn8umtfd2kwxceq225jvu"
+    },
+    "full version testnet address identifies hash_type = data2": {
+      "params": [
+        {
+          "codeHash": "0xa656f172b6b45c245307aeb5a7a37a176f002f6f22e92582c58bf7ba362e4176",
+          "hashType": "data2",
+          "args": "0xb39bbc0b3673c7d36450bc14cfcdad2d559c6c64"
+        },
+        false
+      ],
+      "expected": "ckt1qzn9dutjk669cfznq7httfar0gtk7qp0du3wjfvzck9l0w3k9eqhvp9nnw7qkdnnclfkg59uzn8umtfd2kwxceqskl3c2"
     },
     "should throw an error when args doesn't start with 0x": {
       "params": [
