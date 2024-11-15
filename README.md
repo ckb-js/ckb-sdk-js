@@ -1,4 +1,10 @@
-⚠️  **This SDK is obsolete and maintained passively. Please check [Lumos](https://github.com/ckb-js/lumos/) which is updated actively.**
+⚠️  **This SDK is obsolete and maintained passively.**
+
+## Recommended SDK: CCC
+
+It’s highly recommended to use the [CCC SDK](https://github.com/ckb-ecofund/ccc) as your primary development tool within the CKB ecosystem. [CCC](https://github.com/ckb-ecofund/ccc) is the latest and most robust JavaScript SDK designed to streamline and enhance your development process. By choosing [CCC](https://github.com/ckb-ecofund/ccc), you'll be leveraging the best practices and most up-to-date features available for CKB development.
+
+To get started with [CCC](https://github.com/ckb-ecofund/ccc), follow the [installation guide](https://github.com/ckb-ecofund/ccc#installing) and explore the [documentation](https://docs.ckbccc.com/) to integrate it seamlessly into your projects.
 
 ---
 
