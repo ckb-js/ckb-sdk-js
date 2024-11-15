@@ -259,7 +259,12 @@ const isPayloadValid = (payload: Uint8Array, bech32Type: Bech32Type) => {
       }
 
       const hashType = parseInt(data[32].toString(), 16)
-      if (hashType > 2) {
+
+      if (
+        !Object.values(AddressType)
+          .map(i => +i)
+          .includes(hashType)
+      ) {
         throw new HashTypeException(`0x${hashType.toString(16)}`)
       }
 
