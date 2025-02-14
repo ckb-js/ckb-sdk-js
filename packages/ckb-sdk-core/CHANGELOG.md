@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.5](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.4...v0.109.5) (2025-02-14)
+
+**Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
+
+
+
+
+
 ## [0.109.4](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.3...v0.109.4) (2024-11-15)
 
 **Note:** Version bump only for package @nervosnetwork/ckb-sdk-core
