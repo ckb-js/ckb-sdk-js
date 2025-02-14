@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.109.5](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.4...v0.109.5) (2025-02-14)
+
+
+### Bug Fixes
+
+* commonjs support ([#639](https://github.com/ckb-js/ckb-sdk-js/issues/639)) ([b229d4e](https://github.com/ckb-js/ckb-sdk-js/commit/b229d4ede84e34820d236ccf22af9e24dd518c19))
+* fix data2 validation in 'isPayloadValid' method ([#648](https://github.com/ckb-js/ckb-sdk-js/issues/648)) ([8b7dcb6](https://github.com/ckb-js/ckb-sdk-js/commit/8b7dcb6bb42124989284f66ab9fa4a96cce3d0b2))
+
+
+
+
+
 ## [0.109.4](https://github.com/ckb-js/ckb-sdk-js/compare/v0.109.3...v0.109.4) (2024-11-15)
 
 
