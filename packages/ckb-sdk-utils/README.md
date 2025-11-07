@@ -215,3 +215,16 @@ utils.scriptToHash({
 ### System Scripts
 
 [System Scripts](https://github.com/ckb-js/ckb-sdk-js/blob/develop/packages/ckb-sdk-utils/src/systemScripts.ts)
+
+
+### Example: Convert Address to Script
+
+```js
+const { addressToScript } = require('@nervosnetwork/ckb-sdk-utils')
+
+// replace with any testnet (ckt) or mainnet (ckb) address
+const address = "ckt1qyqrdsefa43ywsyl7z2ct7jv05xv8v7t2jfy8rxr8k"
+
+const script = addressToScript(address)
+
+console.log("Lock Script:", script)
